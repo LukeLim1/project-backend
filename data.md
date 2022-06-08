@@ -4,7 +4,11 @@
 ```
 
 {
-    
+    'channelId': 12,
+    'channelName': 'Crunchie',
+    'isPublic': true,
+    'numOfPeople': 5,
+    'channelOwner': 'John Doe',
 }
 
 
