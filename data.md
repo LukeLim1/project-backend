@@ -4,12 +4,11 @@
 ```
 
 {
-    'uID': 1;
-    'nameFirst': 'Rui',
-    'nameLast': 'Guo', 
-    'email': '123456@unsw.edu.au',
-    'password': 'abcdefg',
-    'handleStr': 'ruiguo',
+    'channelId': 12,
+    'channelName': 'Crunchie',
+    'isPublic': true,
+    'numOfPeople': 5,
+    'channelOwner': 'John Doe',
 }
 
 
