@@ -1,6 +1,6 @@
 function channelsListV1 (authUserId) {
     
-    return authUserI;
+    return authUserId;
 
 }
 
