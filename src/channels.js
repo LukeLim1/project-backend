@@ -1,5 +1,5 @@
-function channelsCreateV1 (authUserId, name, isPublic) {
+function channelsListV1 (authUserId) {
     
-    return 'authUserId' + 'name' + 'isPublic';
-    
+    return 'authUserId';
+
 }
