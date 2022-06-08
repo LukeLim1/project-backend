@@ -1,5 +1,5 @@
-function channelsCreateV1 (email, password, nameFirst, nameLast) {
+function channelsListV1 (authUserId) {
     
-    return 'email' + 'password' + 'nameFirst' + 'nameLast';
+    return authUserId;
 
 }
