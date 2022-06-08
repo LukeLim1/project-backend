@@ -1,4 +1,4 @@
-function channelMessagesV1 (authUserId, channelId, start) {
-    return 'authUserId' + 'channelId' + 'start';
+function channelInviteV1 (authUserId, channelId, uId) {
+    return 'authUserId' + 'channelId' + 'uId';
 }
 
