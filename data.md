@@ -11,4 +11,11 @@
     'channelOwner': 'John Doe',
 }
 
-
+{
+    'uId': 1
+    'firstName': 'Rui',
+    'lastName': 'Guo',
+    'email': '123456@unsw.edu.au',
+    'password': 'abcdefg',
+    'handleStr': 'ruiguo',
+}
