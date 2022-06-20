@@ -10,7 +10,7 @@ test('Testing successful channelDetailsV1', () => {
     const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', true);
     channelJoinV1(user1.authUserId, channel1.channelId);
     const result = channelDetailsV1(owner.authUserId, channel1.channelId);
-    expect(result).toEqual('channel#1', true,
+    expect(result).toMatchObject('channel#1', true,
     // ownerMembers
     [
         {
