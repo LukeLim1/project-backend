@@ -12,29 +12,22 @@ function channelMessagesV1 (authUserId, channelId) {
 
 function channelDetailsV1 (authUserId, channelId) {
     const data = getData();
+    const channel = data.channels.find(channel => channel.channelId === channelId);
 
-    if (!data.channels.find(channel => channel.channelId === channelId)) {
+    if (!channel) {
         return { error: 'error' };
     }
 
-    const channel = data.channels.find(channel => channel.channelId === channelId);
-    
     //check if user with authUserId belongs to channel with channelId
     if (!channel.allMembers.includes(authUserId)) {
         return { error: 'error' };
     }
 
-    const {name, isPublic, ownerMembers, allMembers} = channel; // Do I need this line?
-
-    
-
     return {
-        channel: {
-            name: channel.name,
-            isPublic: channel.isPublic,
-            ownerMembers: [],   // needs modification
-            allMembers: [],     // needs modification
-        }
+        name: channel.name,
+        isPublic: channel.isPublic,
+        ownerMembers: [],   // needs modification
+        allMembers: [],     // needs modification
     }
 
     /*
