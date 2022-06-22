@@ -68,6 +68,7 @@ function authRegisterV1 ( email, password, nameFirst, nameLast ) {
         password: password,
         name: `${nameFirst} ${nameLast}`,
         handle: `${userHandle}`,
+        permissions: 2,
     });
     setData(data);
     return {
