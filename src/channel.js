@@ -24,9 +24,10 @@ function channelDetailsV1 (authUserId, channelId) {
         return { error: 'error' };
     }
 
-    const {name, isPublic, ownerMembers, allMembers} = channel;
+    const {name, isPublic, ownerMembers, allMembers} = channel; // Do I need this line?
 
     
+
     return {
         channel: {
             name: channel.name,
