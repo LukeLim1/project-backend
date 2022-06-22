@@ -1,6 +1,4 @@
 import {getData, setData} from './dataStore';
-import {channelsListV1, channelsListallV1} from './channels';
-import {userProfileV1} from './users';
 
 function channelInviteV1 (authUserId, channelId, uId) {
     return 'authUserId' + 'channelId' + 'uId';
@@ -13,6 +11,9 @@ function channelMessagesV1 (authUserId, channelId) {
 export function channelDetailsV1 (authUserId, channelId) {
     const data = getData();
     const channel = data.channels.find(channel => channel.channelId === channelId);
+    const ownerMembers = [];
+    const allMembers = [];
+    const owner = data.users.find(o => o.userId === channel.ownerMembers[0]);
 
     if (!channel) {
         return { error: 'error' };
@@ -23,10 +24,15 @@ export function channelDetailsV1 (authUserId, channelId) {
         return { error: 'error' };
     }
 
+    for (const member of channel.allMembers) {
+
+    }
+    
+
     return {
         name: channel.name,
         isPublic: channel.isPublic,
-        ownerMembers: channel.ownerMembers,
+        ownerMembers: owner,
         allMembers: channel.allMembers,
     }
 

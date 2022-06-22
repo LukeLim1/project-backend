@@ -9,8 +9,9 @@ test('Testing successful channelDetailsV1', () => {
     const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
     const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
     const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', true);
-    channelJoinV1(user1.authUserId, channel1.channelId);
+    //channelJoinV1(user1.authUserId, channel1.channelId);
     const result = channelDetailsV1(owner.authUserId, channel1.channelId);
+    console.log(result);
     expect(result).toMatchObject(
     {
         name: 'channel#1', 
@@ -82,8 +83,3 @@ test('channelId valid, but the user is not a member', () => {
     const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', false);
     expect(channelDetailsV1(user1.authUserId, channel1.channelId)).toMatchObject({ error: 'error' });
 });
-
-clearV1();
-channelsCreateV1(owner.authUserId, 'channel#1', true);
-const data = getData();
-console.log(data);
