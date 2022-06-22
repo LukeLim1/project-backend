@@ -1,6 +1,8 @@
 import {channelDetailsV1, channelJoinV1} from './channel';
-import {authRegisterV1, authLoginV1} from './auth';
+import { channelsCreateV1 } from './channels';
+import {authRegisterV1} from './auth';
 import {clearV1} from './other';
+import { getData } from './dataStore';
 
 test('Testing successful channelDetailsV1', () => {
     clearV1();
@@ -80,3 +82,8 @@ test('channelId valid, but the user is not a member', () => {
     const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', false);
     expect(channelDetailsV1(user1.authUserId, channel1.channelId)).toMatchObject({ error: 'error' });
 });
+
+clearV1();
+channelsCreateV1(owner.authUserId, 'channel#1', true);
+const data = getData();
+console.log(data);

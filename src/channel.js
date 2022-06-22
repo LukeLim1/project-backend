@@ -10,7 +10,7 @@ function channelMessagesV1 (authUserId, channelId) {
     return 'authUserId' + 'channelId' + 'start';
 }
 
-function channelDetailsV1 (authUserId, channelId) {
+export function channelDetailsV1 (authUserId, channelId) {
     const data = getData();
     const channel = data.channels.find(channel => channel.channelId === channelId);
 
@@ -26,8 +26,8 @@ function channelDetailsV1 (authUserId, channelId) {
     return {
         name: channel.name,
         isPublic: channel.isPublic,
-        ownerMembers: [],   // needs modification
-        allMembers: [],     // needs modification
+        ownerMembers: channel.ownerMembers,
+        allMembers: channel.allMembers,
     }
 
     /*
@@ -42,10 +42,10 @@ function channelDetailsV1 (authUserId, channelId) {
     */
 }
 
-function channelJoinV1 (authUserId, channelId) {
+export function channelJoinV1 (authUserId, channelId) {
     const data = getData();
     const channel = data.channels.find(channel => channel.channelId === channelId);
-    const userDetails = userProfileV1(authUserId, authUserId);  // needs modification
+    const user = data.users.find(user => user.userId === authUserId);
 
     if (!channel) {
         return { error: 'error' };
@@ -57,6 +57,6 @@ function channelJoinV1 (authUserId, channelId) {
         return { error: 'error' };
     }
 
-    channel.allMembers.push(userDetails);
+    channel.allMembers.push(user);
     setData(data);
 }
