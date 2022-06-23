@@ -13,9 +13,9 @@ function channelsListallV1 (authUserId) {
 
 function channelsCreateV1 ( authUserId, name, isPublic ) {
     const data = getData();
-    let randomNumber = 1;
+    let randomNumber = Math.floor(Math.random() * 1000);
     if (data.usedNums.length !== 0) {
-        randomNumber += data.usedNums[data.usedNums.length - 1]
+        randomNumber += data.usedNums[data.usedNums.length - 1];
     }
     data.usedNums.push(randomNumber);
 
@@ -26,7 +26,7 @@ function channelsCreateV1 ( authUserId, name, isPublic ) {
     
     data.channels.push({
         name: `${name}`,
-        isPublic: `${isPublic}`, 
+        isPublic: isPublic, 
         ownerMembers: [authUserId],
         allMembers: [authUserId],
         channelId: randomNumber,

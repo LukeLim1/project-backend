@@ -48,7 +48,7 @@ export function channelDetailsV1 (authUserId, channelId) {
 
     return {
         name: channel.name,
-        isPublic: (channel.isPublic === "true"),
+        isPublic: channel.isPublic,
         ownerMembers: ownerArr,
         allMembers: userArr,
     }
@@ -63,7 +63,7 @@ export function channelJoinV1 (authUserId, channelId) {
         return { error: 'error' };
     }   
     
-    if (channel.isPublic === 'false') {
+    if (channel.isPublic === false) {
         return { error: 'error' };
     } else if (channel.allMembers.includes(authUserId)) {
         return { error: 'error' };
