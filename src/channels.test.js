@@ -41,7 +41,7 @@ describe('ChannelsCreateV1 returns correct data information', () => {
 
 describe('Functionality tests of channelsListV1', () => {
     
-    test('test if new user', () => {
+    test('test if it lists all authorised users that is part of', () => {
         clearV1();
         const data = getData();
 
@@ -65,7 +65,7 @@ describe('Functionality tests of channelsListV1', () => {
 
 describe('Functionality tests of channelsListallV1', () => {
 
-    test('test if list all', () => {
+    test('test if it lists all channels', () => {
         clearV1();
         const data = getData();
 
