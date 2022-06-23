@@ -12,6 +12,11 @@ function channelMessagesV1 (authUserId, channelId) {
 export function channelDetailsV1 (authUserId, channelId) {
     const data = getData();
     const channel = data.channels.find(channel => channel.channelId === channelId);
+
+    if (!channel) {
+        return { error: 'error' };
+    }
+
     const owner = data.users.find(o => o.userId === channel.ownerMembers[0]);
     const ownerArr = [{
         uId: owner.userId,
@@ -22,9 +27,6 @@ export function channelDetailsV1 (authUserId, channelId) {
     }];
     const userArr = [];
 
-    if (!channel) {
-        return { error: 'error' };
-    }
 
     //check if user with authUserId belongs to channel with channelId
     if (!channel.allMembers.includes(authUserId)) {
@@ -71,10 +73,10 @@ export function channelJoinV1 (authUserId, channelId) {
     if (!channel) {
         return { error: 'error' };
     }   
-
-    if (channel.allMembers.includes(authUserId)) {
+    
+    if (channel.isPublic === 'false') {
         return { error: 'error' };
-    } else if (channel.isPublic === false) {
+    } else if (channel.allMembers.includes(authUserId)) {
         return { error: 'error' };
     }
 
