@@ -37,3 +37,54 @@ describe('ChannelsCreateV1 returns correct data information', () => {
         })
     });
 });    
+
+
+describe('Functionality tests of channelsListV1', () => {
+    
+    test('test if new user', () => {
+        clearV1();
+        const data = getData();
+
+        const user1 = authRegisterV1('user@email.com', '123456', 'Ada', 'Bob');
+        const user2 = authRegisterV1('user2@email.com', '123456', 'Canthy', 'David');
+        
+        const channel1 = channelsCreateV1(user1, 'channel#1', true);
+        const channel2 = channelsCreateV1(user2, 'channel#2', true);
+
+        expect(channelsListV1(user1)).toMatchObject([
+        {
+            channelId: channel1.channelId,
+            name: 'channel#1',
+        }
+        ]);
+    });
+  
+});
+// new users => return emtpy array. (check the length of the array to be 0)
+
+
+describe('Functionality tests of channelsListallV1', () => {
+
+    test('test if list all', () => {
+        clearV1();
+        const data = getData();
+
+        const user1 = authRegisterV1('user1@email.com', '123456', 'Ada', 'Bob');
+        const user2 = authRegisterV1('user2@email.com', '123456', 'Canthy', 'David');
+
+        const channel1 = channelsCreateV1(user1, 'channel#1', true);
+        const channel2 = channelsCreateV1(user2, 'channel#2', true);
+
+        expect(channelsListallV1(user1)).toMatchObject([
+        {
+            channelId: channel1.channelId,
+            name: 'channel#1',
+            
+        },
+        {
+            channelId: channel2.channelId,
+            name: 'channel#2',
+        }
+        ]);
+    });
+});
