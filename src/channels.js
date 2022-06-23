@@ -1,15 +1,4 @@
 import { getData, setData} from './dataStore';
-function channelsListV1 (authUserId) {
-    
-    return authUserId;
-
-}
-
-function channelsListallV1 (authUserId) {
-
-    return authUserId;
-
-}
 
 function channelsCreateV1 ( authUserId, name, isPublic ) {
     const data = getData();
@@ -34,5 +23,58 @@ function channelsCreateV1 ( authUserId, name, isPublic ) {
     setData(data);
     return {channelId: randomNumber};
 }
+
+
+
+function channelsListV1 (authUserId) {
+    
+    const data = getData();
+
+    const obj_arr = [];
+
+    for (const channel of data.channels) {
+        if (channel.allMembers.includes(authUserId)) {
+            const channels_obj = {
+                channelId: channel.channelId,
+                name: channel.name,
+            }
+        
+            obj_arr.push(channels_obj);
+        
+        }
+
+    }
+
+//   const channels = {
+//        channels: obj_arr,
+//   }
+
+    return obj_arr;
+
+}
+
+function channelsListallV1 (authUserId) {
+
+    const data = getData();
+
+    const obj_arr = [];
+
+    for (const element of data.channels) {
+
+        const channels_obj = {
+            channelId: element.channelId,
+            name: element.name,
+        }
+        
+        obj_arr.push(channels_obj);
+    
+    }
+
+
+    return obj_arr;
+
+}
+
+
 
 export { channelsListV1, channelsListallV1, channelsCreateV1 };
