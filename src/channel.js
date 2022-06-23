@@ -12,9 +12,14 @@ function channelMessagesV1 (authUserId, channelId) {
 export function channelDetailsV1 (authUserId, channelId) {
     const data = getData();
     const channel = data.channels.find(channel => channel.channelId === channelId);
-    const ownerMembers = [];
-    const allMembers = [];
     const owner = data.users.find(o => o.userId === channel.ownerMembers[0]);
+    const ownerArr = [{
+        uId: owner.userId,
+        email: owner.emailAddress,
+        nameFirst: owner.name.split(' ')[0],
+        nameLast: owner.name.split(' ')[1],
+        handleStr: owner.handle,
+    }];
     const userArr = [];
 
     if (!channel) {
@@ -27,17 +32,22 @@ export function channelDetailsV1 (authUserId, channelId) {
     }
 
     for (const member of channel.allMembers) {
-        const user = userProfileV1(member.userId, member.userId);
-        userArr.push(user);
+        const user = data.users.find(u => u.userId === member)
+        const userObj = {
+            uId: user.userId,
+            email: user.emailAddress,
+            nameFirst: user.name.split(' ')[0],
+            nameLast: user.name.split(' ')[1],
+            handleStr: user.handle,
+        }
+        userArr.push(userObj);
     }
-    
-    console.log(owner);
-    console.log(userArr);
+
 
     return {
         name: channel.name,
-        isPublic: channel.isPublic,
-        ownerMembers: owner,
+        isPublic: (channel.isPublic === "true"),
+        ownerMembers: ownerArr,
         allMembers: userArr,
     }
 
@@ -56,7 +66,7 @@ export function channelDetailsV1 (authUserId, channelId) {
 export function channelJoinV1 (authUserId, channelId) {
     const data = getData();
     const channel = data.channels.find(channel => channel.channelId === channelId);
-    const user = data.users.find(user => user.userId === authUserId);
+    const user = userProfileV1(authUserId, authUserId);
 
     if (!channel) {
         return { error: 'error' };
@@ -68,6 +78,6 @@ export function channelJoinV1 (authUserId, channelId) {
         return { error: 'error' };
     }
 
-    channel.allMembers.push(user);
+    channel.allMembers.push(user.uId);
     setData(data);
 }
