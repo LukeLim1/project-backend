@@ -23,14 +23,10 @@ function channelsCreateV1 ( authUserId, name, isPublic ) {
     if (name.length < 1 || name.length > 20) {
         return {error: 'error'};
     }
-    let isPublicreturn;
-    if (isPublic === 'true') {
-        isPublicreturn = true;
-    }
     
     data.channels.push({
         name: `${name}`,
-        isPublic: isPublic, 
+        isPublic: `${isPublic}`, 
         ownerMembers: [authUserId],
         allMembers: [authUserId],
         channelId: randomNumber,
