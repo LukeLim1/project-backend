@@ -52,17 +52,6 @@ export function channelDetailsV1 (authUserId, channelId) {
         ownerMembers: ownerArr,
         allMembers: userArr,
     }
-
-    /*
-    for (const channel of channelsList) {
-        if (channel.channelId === channelId) {
-            details.name = channel.name;
-            details.isPublic = true; // needs modification
-            details.ownerMembers = [];
-            details.allMembers = [];
-        }
-    }
-    */
 }
 
 export function channelJoinV1 (authUserId, channelId) {
