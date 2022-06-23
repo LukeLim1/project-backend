@@ -44,7 +44,7 @@ function authRegisterV1 ( email, password, nameFirst, nameLast ) {
         const sliced = userHandle.slice(0, 20);
         userHandle = sliced;
     }
-    // case 3 : concatenation has someonebody with the same handle
+    // case 3 : concatenation has someone with the same handle
     const arrayOfHandles = [];
     const arrayToCount = [];
     // moving all handles in the list into arrayOfHandles
@@ -61,7 +61,12 @@ function authRegisterV1 ( email, password, nameFirst, nameLast ) {
     if (arrayToCount.length > 1) userHandle += arrayToCount.length - 1;
     if (arrayToCount.length === 1) userHandle += 0;
 
-    let randomNumber = Math.floor(Math.random() * 100);
+    // ensuring id's that will never repeat
+    let randomNumber = 1;
+    if (data.usedNums.length !== 0) {
+        randomNumber += data.usedNums[data.usedNums.length - 1]
+    }
+    data.usedNums.push(randomNumber);
     data.users.push({
         emailAddress: email,
         userId: randomNumber, 
