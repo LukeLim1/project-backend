@@ -3,3 +3,4 @@
 3. Details of private channels are only visible to members of that channel.
 4. Function calls will be given the correct data types in the correct order in the functions arguments
 5. Both userId and channelId will never repeat
+6. Users email and authorised user id will never repeat
