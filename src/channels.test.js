@@ -30,7 +30,7 @@ describe('ChannelsCreateV1 returns correct data information', () => {
         const namedChannel = channelsCreateV1(regTest, 'Snickers', true );
         expect(data.channels[0]).toMatchObject({
             name: 'Snickers',
-            isPublic: 'true', 
+            isPublic: true, 
             ownerMembers: [regTest],
             allMembers: [regTest],
             channelId: expect.any(Number),
