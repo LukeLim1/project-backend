@@ -31,6 +31,8 @@ export function channelDetailsV1 (authUserId, channelId) {
         userArr.push(user);
     }
     
+    console.log(owner);
+    console.log(userArr);
 
     return {
         name: channel.name,
