@@ -13,7 +13,12 @@ function channelsListallV1 (authUserId) {
 
 function channelsCreateV1 ( authUserId, name, isPublic ) {
     const data = getData();
-    let randomNumber = Math.floor(Math.random() * 1000);
+    let randomNumber = 1;
+    if (data.usedNums.length !== 0) {
+        randomNumber += data.usedNums[data.usedNums.length - 1]
+    }
+    data.usedNums.push(randomNumber);
+
     // error case
     if (name.length < 1 || name.length > 20) {
         return {error: 'error'};
