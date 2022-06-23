@@ -4,3 +4,4 @@
 4. Function calls will be given the correct data types in the correct order in the functions arguments
 5. Both userId and channelId will never repeat
 6. Users email and authorised user id will never repeat
+7. For channelListallV1, if authUserId is invalid, return error or null since unauthorized user shouldn't have access to channels.
