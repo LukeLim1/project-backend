@@ -45,10 +45,6 @@ function channelsListV1 (authUserId) {
 
     }
 
-//   const channels = {
-//        channels: obj_arr,
-//   }
-
     return obj_arr;
 
 }
