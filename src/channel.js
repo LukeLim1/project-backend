@@ -1,4 +1,5 @@
 import {getData, setData} from './dataStore';
+import { userProfileV1 } from './users';
 
 function channelInviteV1 (authUserId, channelId, uId) {
     return 'authUserId' + 'channelId' + 'uId';
@@ -14,6 +15,7 @@ export function channelDetailsV1 (authUserId, channelId) {
     const ownerMembers = [];
     const allMembers = [];
     const owner = data.users.find(o => o.userId === channel.ownerMembers[0]);
+    const userArr = [];
 
     if (!channel) {
         return { error: 'error' };
@@ -25,7 +27,8 @@ export function channelDetailsV1 (authUserId, channelId) {
     }
 
     for (const member of channel.allMembers) {
-
+        const user = userProfileV1(member.userId, member.userId);
+        userArr.push(user);
     }
     
 
@@ -33,7 +36,7 @@ export function channelDetailsV1 (authUserId, channelId) {
         name: channel.name,
         isPublic: channel.isPublic,
         ownerMembers: owner,
-        allMembers: channel.allMembers,
+        allMembers: userArr,
     }
 
     /*
