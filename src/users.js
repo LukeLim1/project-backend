@@ -3,6 +3,7 @@ import { getData, setData } from "./dataStore";
 function userProfileV1(authUserId, uId) {
   const data = getData();
   const user = data.users.find(u => u.userId === uId);
+  if (!user) { return { error: 'error' }};
 
   return {
     uId: uId, 
@@ -12,5 +13,7 @@ function userProfileV1(authUserId, uId) {
     handleStr: user.handle,
   }
 }
+const data = getData();
+console.log(data);
 
 export { userProfileV1 }
