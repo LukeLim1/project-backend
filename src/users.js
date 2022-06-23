@@ -13,7 +13,5 @@ function userProfileV1(authUserId, uId) {
     handleStr: user.handle,
   }
 }
-const data = getData();
-console.log(data);
 
 export { userProfileV1 }
