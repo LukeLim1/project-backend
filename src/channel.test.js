@@ -12,7 +12,6 @@ test('Testing successful channelDetailsV1 and channelJoinV1', () => {
     const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', true);
     channelJoinV1(user1.authUserId, channel1.channelId);
 
-    //const result = channelDetailsV1(owner.authUserId, channel1.channelId);
     expect(channelDetailsV1(owner.authUserId, channel1.channelId)).toMatchObject(
     {
         name: 'channel#1', 
