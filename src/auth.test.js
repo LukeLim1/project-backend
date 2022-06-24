@@ -4,9 +4,7 @@ import { getData} from './dataStore';
 
 describe('authRegisterV1', () => {
     beforeEach ( () => {
-        clearV1();
-        const data = getData();
-        
+        clearV1();  
     });
     describe('Error cases', () => {
         test('Invalid email', () => {   
@@ -86,7 +84,6 @@ describe('authLoginV1', () => {
         const data = getData();
         const regTest = authRegisterV1('zachary-chan@gmail.com', 'z5312386', 'zachary', 'chan');
         const loginTest = authLoginV1('zachary-chan@gmail.com', 'z5312386');
-        //console.log(data)
         expect(loginTest).toMatchObject(regTest); 
     });
     

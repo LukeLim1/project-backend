@@ -1,6 +1,27 @@
 import { getData, setData } from './dataStore';
 import validator from 'validator';
 
+
+// Given user information from parameters, create a new account for them (as an object inside an array) 
+// and return a new unique 'authUserId'
+// Generate a handle as past of the object that will be the concatenation of nameFirst and nameLast
+// The concatenation must be cut off at 20 chars if it exceeds this length
+// If handle already exists append the handle with the smallest number (from 0) to create a new handle
+// Appending this incremental number can exceed the 20 char limit
+
+// Parameters: email: string - used to create the account, email can only be used once
+//             password: string - along with email, will be used to log in for the next function
+//             nameFirst: string - used to create userHandle 
+//             nameLast: string - used to create userHandle
+
+// Return type: { authUserId },
+//              {error: 'error'} when any of the following:
+//              - email is invalid
+//              - email already been used to register
+//              - password.length < 6
+//              - nameFirst.length not between 1 - 50
+//              - nameLast.length not between 1 - 50
+
 function authRegisterV1 ( email, password, nameFirst, nameLast ) {
     const data = getData();
     const hasNumber = /\d/;
@@ -81,6 +102,18 @@ function authRegisterV1 ( email, password, nameFirst, nameLast ) {
         
     }
 }
+
+// Give as users email and password, return their authUserId if they have been used to 
+// register/create an account
+
+// Parameters: email: string - used to identify a user
+//             password: string - used to login to a verified users account
+
+// Return type: { authUserId },
+//              {error: 'error'} when any of the following:
+//              - email doesnt belong to a user
+//              - password is incorrect for the corresponding email
+
 function authLoginV1 (email, password) {
     const data = getData();
     // put every email into an array to check against
