@@ -39,11 +39,12 @@ export function channelInviteV1 (authUserId, channelId, uId) {
     return {};
 }
 /**
- * Invite a user with Given ID uId to join a channel with ID channelId
+ * Given a channel with ID channelId that the authorised user is a member of, return up to 50 messages between index "start" and "start + 50"(as end). 
+ * Message with index 0 is the most recent message in the channel. 
  * @param {*} authUserId 
  * @param {*} channelId 
- * @param {*} uId 
- * @returns {} unless it is error case, in which case it will return { error: 'error' }
+ * @param {*} start 
+ * @returns {messages, start, end} unless it is error case, in which case it will return { error: 'error' }
  */
 export function channelMessagesV1 (authUserId, channelId, start) {
     const data = getData();
