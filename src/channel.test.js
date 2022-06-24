@@ -127,29 +127,6 @@ describe('channelMessagesV1', () => {
         uID = authRegisterV1('uniquepeterrabbit@gmail.com', 'qgi6dt', 'Peter', 'Rabbit').authUserId;
         authUserID = authRegisterV1('uniqueBobLovel@gmail.com', 'qgi6dt', 'Bob', 'Lovel').authUserId;
         channelID = channelsCreateV1(authUserID, 'animal_kingdom', true).channelId;
-        //let data = getData();
-        // message = [
-        //     {
-        //         messageId: 0,
-        //         uId: authUserID,
-        //         message: 'hola',
-        //         timeSnet: 1656040868
-        //     }, 
-        //     {
-        //         messageId: 1,
-        //         uId: authUserID,
-        //         message: 'hola u',
-        //         timeSnet: 1656040870
-        //     },
-        //     {
-        //         messageId: 2,
-        //         uId: authUserID,
-        //         message: 'holahola',
-        //         timeSnet: 1656040888
-        //     },
-        // ];
-        // data.channels[0].messages = message;
-        // setData(data);
     });
 
     describe('Error cases', () => {
@@ -175,8 +152,6 @@ describe('channelMessagesV1', () => {
         test('Messages retrieval successful!', () => {
             const start = 0;
             let resultActual = channelMessagesV1(authUserID, channelID, start);
-            // let resultWanted = message.slice(0, 2);
-            // resultWanted.reverse();
             expect(resultActual).toMatchObject({ 
                 messages: [],
                 start: 0,
