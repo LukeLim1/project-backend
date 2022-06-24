@@ -65,7 +65,7 @@ export function channelMessagesV1 (authUserId, channelId, start) {
         return { error: 'error' };
     }
     // Case 3: The authorised user is not a member of the valid channel
-    if (start > messagesCopy.length) {
+    if (!(channel.allMembers.includes(authUserId))) {
         return { error: 'error' };
     }
 
