@@ -1,4 +1,4 @@
-import { getData, setData } from "./dataStore";
+import { getData, setData } from "./dataStore.js";
 
 // Resets the internal data of the dataStore to it its inital state (empty)
 

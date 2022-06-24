@@ -1,5 +1,5 @@
-import {getData, setData} from './dataStore';
-import { userProfileV1 } from './users';
+import {getData, setData} from './dataStore.js';
+import { userProfileV1 } from './users.js';
 
 function channelInviteV1 (authUserId, channelId, uId) {
     return 'authUserId' + 'channelId' + 'uId';
@@ -97,4 +97,5 @@ export function channelJoinV1 (authUserId, channelId) {
 
     channel.allMembers.push(user.uId);
     setData(data);
+    return {};
 }
