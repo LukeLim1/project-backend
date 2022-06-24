@@ -1,12 +1,75 @@
 import {getData, setData} from './dataStore.js';
 import { userProfileV1 } from './users.js';
 
-function channelInviteV1 (authUserId, channelId, uId) {
-    return 'authUserId' + 'channelId' + 'uId';
+
+export function channelInviteV1 (authUserId, channelId, uId) {
+    const data = getData();
+    //let channel, user;
+    const user = data.users.find(user => user.userId === uId);
+    const channel = data.channels.find(channel => channel.channelId === channelId);
+
+
+    // Checking for invalid cases
+    // Case 1: Not a valid user as indicated by invalid uID
+    if (!user) {
+        return { error: 'error' };
+    }
+    // Case 2: Not a valid channel as indicated by invalid channelID
+    if (!channel) {
+        return { error: 'error' };
+    }
+    // Case 3: Inviting a user who is already a channel member
+    if (channel.allMembers.includes(uId)) {
+        return { error: 'error' };
+    }
+    // Case 4: The authorised user is not a member of the valid channel
+    if (!channel.allMembers.includes(authUserId)) {
+        return { error: 'error' };
+    }    
+    
+
+    // Otherwise, the invited member is added to the channel immediately
+    channel.allMembers.push(uId);
+    return {};
 }
 
-function channelMessagesV1 (authUserId, channelId) {
-    return 'authUserId' + 'channelId' + 'start';
+export function channelMessagesV1 (authUserId, channelId, start) {
+    const data = getData();
+    const channel = data.channels.find(channel => channel.channelId === channelId);
+    // Setting a new index "end" to be the value of "start + 50"
+    // and a new array to store the restructured messages
+    let end = start + 50;
+    let messagesRestructured;
+
+    // Checking for invalid case
+    // Case 1: Invalid channelId
+    if (!channel) {
+        return { error: 'error' };
+    }
+    let messagesCopy = channel.messages;
+
+    // Case 2: Start is greater than the total number of messages in the channel
+    if (start > messagesCopy.length) {
+        return { error: 'error' };
+    }
+    // Case 3: The authorised user is not a member of the valid channel
+    if (start > messagesCopy.length) {
+        return { error: 'error' };
+    }
+
+    // Otherwise, it should be a "normal" case
+    // If the end index belongs to the most recent message
+    // returns -1 in "end"
+    if (end >= messagesCopy.length - 1) {
+        end = -1;   
+        messagesRestructured = messagesCopy.slice(0, messagesCopy.length - start);  // We want the older messages
+    } else {
+        messagesRestructured = messagesCopy.slice(messagesCopy.length - end - 1, messagesCopy.length - start);  // We want the older messages       
+    }
+    
+    // Now flip the messages back so index 0 would be the most recent message when we retrive the selected messages
+    messagesRestructured.reverse();
+    return { messages: messagesRestructured, start, end }; 
 }
 
 // channelDetailsV1
