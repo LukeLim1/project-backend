@@ -5,3 +5,4 @@
 5. Both userId and channelId will never repeat
 6. Users email and authorised user id will never repeat
 7. For channelListallV1, if authUserId is invalid, return error or null since unauthorized user shouldn't have access to channels.
+8. A user joined by channelJoinV1 is classified as member so they join in allMembers, not ownerMembers
