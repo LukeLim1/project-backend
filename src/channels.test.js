@@ -8,26 +8,28 @@ beforeEach(() => {
 });
 describe('ChannelsCreateV1 returns correct data information', () => {
     test('Channel is created', () => {
-        //const data = getData();
         const regTest = authRegisterV1('zachary@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
         const namedChannel = channelsCreateV1(regTest, 'Snickers', true );
+        const data = getData();
         expect(namedChannel).toMatchObject({channelId: expect.any(Number)});
     });
     test('Channel name length is less than 1', () => {
         const regTest = authRegisterV1('zachary@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
         const namedChannel = channelsCreateV1(regTest, '', true );
+        const data = getData();
         expect(namedChannel).toMatchObject({error: 'error'})
     });
     test('Channel name length is longer than 20', () => {
         
         const regTest = authRegisterV1('zachary@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
         const namedChannel = channelsCreateV1(regTest, 'thisisanamethatwillbelongerthan20chars', true );
+        const data = getData();
         expect(namedChannel).toMatchObject({error: 'error'})
     });
     test('Ensuring the whole channels object is created with the correct parameters', () => {
-        const data = getData();
         const regTest = authRegisterV1('zachary@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
         const namedChannel = channelsCreateV1(regTest, 'Snickers', true );
+        const data = getData();
         expect(data.channels[0]).toMatchObject({
             name: 'Snickers',
             isPublic: true, 
