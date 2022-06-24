@@ -1,4 +1,4 @@
-import { getData, setData} from './dataStore';
+import { getData, setData} from './dataStore.js';
 
 
 // Given a name create a channel that can either be public or private
