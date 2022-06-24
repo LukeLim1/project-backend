@@ -19,6 +19,7 @@ function channelsCreateV1 ( authUserId, name, isPublic ) {
         ownerMembers: [authUserId],
         allMembers: [authUserId],
         channelId: randomNumber,
+        messages: [],
     });
     setData(data);
     return {channelId: randomNumber};

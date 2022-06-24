@@ -119,41 +119,42 @@ describe('channelInviteV1', () => {
         
         test('Invitation successful!', () => {
             channelInviteV1(authUserID, channelID, uID);   
-            expect(channelInviteV1(authUserID, channelID, uID + 1)).toEqual({ error: 'error' });
+            expect(getData().channels[0].allMembers).toEqual([authUserID, uID]);
         });
-        expect(getData().channels[0].allMembers).toEqual([authUserID, uID]);
     });
 });
 
 // Tests for channelMessageV1
 describe('channelMessagesV1', () => {
     let channelID, uID, authUserID, start, message;
+  
     beforeEach ( () => {
         clearV1();
         uID = authRegisterV1('uniquepeterrabbit@gmail.com', 'qgi6dt', 'Peter', 'Rabbit').authUserId;
         authUserID = authRegisterV1('uniqueBobLovel@gmail.com', 'qgi6dt', 'Bob', 'Lovel').authUserId;
         channelID = channelsCreateV1(authUserID, 'animal_kingdom', true).channelId;
+        let data = getData();
         message = [
             {
                 messageId: 0,
-                uId: authUserId,
+                uId: authUserID,
                 message: 'hola',
                 timeSnet: 1656040868
             }, 
             {
                 messageId: 1,
-                uId: authUserId,
+                uId: authUserID,
                 message: 'hola u',
                 timeSnet: 1656040870
             },
             {
                 messageId: 2,
-                uId: authUserId,
+                uId: authUserID,
                 message: 'holahola',
                 timeSnet: 1656040888
             },
         ];
-        let data = getData();
+        
         data.channels[0].messages = message;
         setData(data);
     });
@@ -180,7 +181,7 @@ describe('channelMessagesV1', () => {
         
         test('Messages retrieval successful!', () => {
             start = 1;
-            let resultActual = channelMessagesV1(authUserId, channelId, start);
+            let resultActual = channelMessagesV1(authUserID, channelID, start);
             console.log(resultActual);
             let resultWanted = message.slice(0, 2);
             resultWanted.reverse();   
