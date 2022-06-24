@@ -2,11 +2,9 @@ import {channelDetailsV1, channelJoinV1} from './channel.js';
 import { channelsCreateV1 } from './channels.js';
 import {authRegisterV1} from './auth.js';
 import {clearV1} from './other.js';
-import { getData } from './dataStore.js';
 
 test('Testing successful channelDetailsV1 and channelJoinV1', () => {
     clearV1();
-    const data = getData();
     const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
     const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
     const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', true);
@@ -71,7 +69,6 @@ test('channelId refers to private channel and the user is not channel member nor
     const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
     const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
     const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', false);
-    const data = getData();
     expect(channelJoinV1(user1.authUserId, channel1.channelId)).toMatchObject({ error: 'error' });
 });
 
