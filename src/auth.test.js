@@ -1,6 +1,7 @@
 import { authLoginV1, authRegisterV1 } from './auth.js';
 import { clearV1 } from './other.js';
 import { getData} from './dataStore.js';
+import { userProfileV1 } from './users.js';
 
 describe('authRegisterV1', () => {
     beforeEach ( () => {
@@ -38,18 +39,18 @@ describe('authRegisterV1', () => {
             
         });
         test('simple lower case concatenation of new handle not taken yet', () => {   
+            const regTest2 = authRegisterV1('the-rock@gmail.com', 'z5312386', 'Dwayne', 'johnson'); 
             const regTest = authRegisterV1('zachary-chan@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
-            const data = getData();
-            const checker = Object.values(data.users)[0].handle;
-            expect(checker).toEqual('zacharychan');
+    
+            const data = userProfileV1(regTest2.authUserId, regTest.authUserId);
+            expect(data.handleStr).toEqual('zacharychan');
             
         });
         test('handle has already been taken by one other person', () => {  
             const regTest = authRegisterV1('zachary-chan@gmail.com', 'z5312386', 'Zachary', 'Chan');
             const regTaken = authRegisterV1('zacharytest@gmail.com', 'z5312312', 'Zachary', 'Chan');
-            const data = getData();
-            const checker = Object.values(data.users)[1].handle;
-            expect(checker).toEqual('zacharychan0');
+            const data = userProfileV1(regTest.authUserId, regTaken.authUserId);
+            expect(data.handleStr).toEqual('zacharychan0');
         });
         test('handle has already been taken by 5 other people', () => {   
             const regTest1 = authRegisterV1('zachary-chan@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
@@ -59,9 +60,8 @@ describe('authRegisterV1', () => {
             const regTest5 = authRegisterV1('zach@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
             const regTest6 = authRegisterV1('different@gmail.com', 'z544532', 'Harry', 'Potter');  
             const regTaken = authRegisterV1('zachar@gmail.com', 'z5312386', 'Zachary', 'Chan');
-            const data = getData();
-            const checker = Object.values(data.users)[6].handle;
-            expect(checker).toEqual('zacharychan4');
+            const data = userProfileV1(regTest2.authUserId, regTaken.authUserId);
+            expect(data.handleStr).toEqual('zacharychan4');
         });
         test('handle longer than 20 characters but handle already taken by 5 other people', () => {
             const regTest1 = authRegisterV1('c@gmail.com', 'password', 'Christopher', 'Constantine');
@@ -71,9 +71,8 @@ describe('authRegisterV1', () => {
             const regTest5 = authRegisterV1('chris@gmail.com', 'password', 'Christopher', 'Constantine');
             const regTest6 = authRegisterV1('harry@gmail.com', 'potter', 'Harry', 'Potter');
             const regTaken = authRegisterV1('christopher@gmail.com', 'password', 'Christopher', 'Constantine');
-            const data = getData();
-            const checker = Object.values(data.users)[6].handle;
-            expect(checker).toEqual('christopherconstanti4');
+            const data = userProfileV1(regTest2.authUserId, regTaken.authUserId);
+            expect(data.handleStr).toEqual('christopherconstanti4');
         });
     });    
 });

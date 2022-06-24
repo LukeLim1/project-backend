@@ -28,8 +28,6 @@ describe('authRegisterV1', () => {
 
     describe('Error cases', () => {
         test('invalid user', () => {
-            console.log(uId);
-            console.log(authUserId);
             expect(userProfileV1(authUserId, uId + 100)).toMatchObject({ error: 'error' });
         });
     });
