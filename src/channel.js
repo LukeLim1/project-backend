@@ -1,7 +1,13 @@
 import {getData, setData} from './dataStore.js';
 import { userProfileV1 } from './users.js';
 
-
+/**
+ * Invite a user with ID uId to join a channel with ID channelId
+ * @param {*} authUserId 
+ * @param {*} channelId 
+ * @param {*} uId 
+ * @returns {} unless it is error case, in which case it will return { error: 'error' }
+ */
 export function channelInviteV1 (authUserId, channelId, uId) {
     const data = getData();
     //let channel, user;
@@ -32,7 +38,13 @@ export function channelInviteV1 (authUserId, channelId, uId) {
     channel.allMembers.push(uId);
     return {};
 }
-
+/**
+ * Invite a user with Given ID uId to join a channel with ID channelId
+ * @param {*} authUserId 
+ * @param {*} channelId 
+ * @param {*} uId 
+ * @returns {} unless it is error case, in which case it will return { error: 'error' }
+ */
 export function channelMessagesV1 (authUserId, channelId, start) {
     const data = getData();
     const channel = data.channels.find(channel => channel.channelId === channelId);
