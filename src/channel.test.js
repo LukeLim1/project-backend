@@ -72,7 +72,6 @@ test('channelId refers to private channel and the user is not channel member nor
     const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
     const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', false);
     const data = getData();
-    console.log(data.channels);
     expect(channelJoinV1(user1.authUserId, channel1.channelId)).toMatchObject({ error: 'error' });
 });
 
