@@ -1,5 +1,17 @@
 import { getData, setData} from './dataStore';
 
+
+// Given a name create a channel that can either be public or private
+// User who created a channel is automatically a memeber of the channel and the owner
+
+// Parameters : authUserId: integer - used to identify which account will be used to create channel
+//              name: string - names the channels
+//              isPublic: boolean - indicates whether a channel is public or private
+
+// Return type : { channelId },
+//               {error: 'error'} when
+//               - name.length is not between 1 and 20 chars
+
 function channelsCreateV1 ( authUserId, name, isPublic ) {
     const data = getData();
     let randomNumber = Math.floor(Math.random() * 1000);
@@ -26,6 +38,14 @@ function channelsCreateV1 ( authUserId, name, isPublic ) {
 }
 
 
+// Given an authorised user id and create an array of all channels including channels ids and names
+// that the authorised user is a member of
+
+// Parameters : authUserId: integer - used to identify which account will be used to create relative channels
+
+// Return type : { channelId },
+
+
 
 function channelsListV1 (authUserId) {
     
@@ -49,6 +69,15 @@ function channelsListV1 (authUserId) {
     return obj_arr;
 
 }
+
+
+// Given an authorised user id and create an array of all channels including channels ids and names
+// that includs private channels
+
+// Parameters : authUserId: integer - used to identify which account will be used 
+
+// Return type : { channelId },
+
 
 function channelsListallV1 (authUserId) {
 
