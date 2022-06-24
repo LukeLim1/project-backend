@@ -1,6 +1,6 @@
-import { authLoginV1, authRegisterV1 } from './auth';
-import { clearV1 } from './other';
-import { getData} from './dataStore';
+import { authLoginV1, authRegisterV1 } from './auth.js';
+import { clearV1 } from './other.js';
+import { getData} from './dataStore.js';
 
 describe('authRegisterV1', () => {
     beforeEach ( () => {
