@@ -76,7 +76,6 @@ describe('authRegisterV1', () => {
             const regTaken = authRegisterV1('christopher@gmail.com', 'password', 'Christopher', 'Constantine');
             const data = getData();
             const checker = Object.values(data.users)[6].handle;
-            console.log(data.user);
             expect(checker).toEqual('christopherconstanti4');
         });
     });    
