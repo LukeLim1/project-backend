@@ -42,6 +42,7 @@ describe('authRegisterV1', () => {
         test('simple lower case concatenation of new handle not taken yet', () => {   
             const regTest = authRegisterV1('zachary-chan@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
             const data = getData();
+
             const checker = Object.values(data.users)[0].handle;
             expect(checker).toEqual('zacharychan');
             

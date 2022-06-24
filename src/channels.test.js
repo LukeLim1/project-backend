@@ -8,7 +8,7 @@ beforeEach(() => {
 });
 describe('ChannelsCreateV1 returns correct data information', () => {
     test('Channel is created', () => {
-        //const data = getData();
+        const data = getData();
         const regTest = authRegisterV1('zachary@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
         const namedChannel = channelsCreateV1(regTest, 'Snickers', true );
         expect(namedChannel).toMatchObject({channelId: expect.any(Number)});
@@ -30,7 +30,7 @@ describe('ChannelsCreateV1 returns correct data information', () => {
         const namedChannel = channelsCreateV1(regTest, 'Snickers', true );
         expect(data.channels[0]).toMatchObject({
             name: 'Snickers',
-            isPublic: 'true', 
+            isPublic: true, 
             ownerMembers: [regTest],
             allMembers: [regTest],
             channelId: expect.any(Number),
