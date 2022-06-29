@@ -1,4 +1,4 @@
-import { getData, setData} from './dataStore.';
+import { getData, setData} from './dataStore';
 
 
 // Given a name create a channel that can either be public or private
@@ -51,7 +51,7 @@ function channelsListV1 (authUserId) {
     const data = getData();
 
     if (data.channels.length === 0) {
-        return [];
+        return {channels: []};
     }
 
     const obj_arr = [];
@@ -69,7 +69,7 @@ function channelsListV1 (authUserId) {
 
     }
 
-    return obj_arr;
+    return {channels: obj_arr};
 
 }
 
@@ -87,7 +87,7 @@ function channelsListallV1 (authUserId) {
     const data = getData();
 
     if (data.channels.length === 0) {
-        return [];
+        return {channels: []};
     }
 
     const obj_arr = [];
@@ -103,8 +103,7 @@ function channelsListallV1 (authUserId) {
     
     }
 
-
-    return obj_arr;
+    return {channels: obj_arr};
 
 }
 
