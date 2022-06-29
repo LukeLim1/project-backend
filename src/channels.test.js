@@ -43,7 +43,6 @@ describe('Functionality tests of channelsListV1', () => {
     
     test('test if it lists all authorised users that is part of', () => {
         clearV1();
-        const data = getData();
 
         const user1 = authRegisterV1('user@email.com', '123456', 'Ada', 'Bob');
         const user2 = authRegisterV1('user2@email.com', '123456', 'Canthy', 'David');
@@ -67,7 +66,6 @@ describe('Functionality tests of channelsListallV1', () => {
 
     test('test if it lists all channels', () => {
         clearV1();
-        const data = getData();
 
         const user1 = authRegisterV1('user1@email.com', '123456', 'Ada', 'Bob');
         const user2 = authRegisterV1('user2@email.com', '123456', 'Canthy', 'David');
@@ -86,5 +84,12 @@ describe('Functionality tests of channelsListallV1', () => {
             name: 'channel#2',
         }
         ]);
+    });
+
+    test('test if when no channels', () => {
+        clearV1();
+
+
+
     });
 });
