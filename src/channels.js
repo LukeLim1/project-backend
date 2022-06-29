@@ -51,6 +51,10 @@ function channelsListV1 (authUserId) {
     
     const data = getData();
 
+    if (data.channels.length === 0) {
+        return {channels: []};
+    }
+
     const obj_arr = [];
 
     for (const channel of data.channels) {
@@ -66,7 +70,7 @@ function channelsListV1 (authUserId) {
 
     }
 
-    return obj_arr;
+    return {channels: obj_arr};
 
 }
 
@@ -83,6 +87,10 @@ function channelsListallV1 (authUserId) {
 
     const data = getData();
 
+    if (data.channels.length === 0) {
+        return {channels: []};
+    }
+
     const obj_arr = [];
 
     for (const element of data.channels) {
@@ -96,8 +104,7 @@ function channelsListallV1 (authUserId) {
     
     }
 
-
-    return obj_arr;
+    return {channels: obj_arr};
 
 }
 
