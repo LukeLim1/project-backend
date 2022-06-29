@@ -50,12 +50,21 @@ describe('Functionality tests of channelsListV1', () => {
         const channel1 = channelsCreateV1(user1, 'channel#1', true);
         const channel2 = channelsCreateV1(user2, 'channel#2', true);
 
-        expect(channelsListV1(user1)).toMatchObject([
-        {
-            channelId: channel1.channelId,
-            name: 'channel#1',
-        }
-        ]);
+        expect(channelsListV1(user1)).toStrictEqual({
+            channels: [
+                {
+                    channelId: channel1.channelId,
+                    name: 'channel#1',
+                }
+            ]
+        });
+    });
+
+    test('test if when no channels', () => {
+        clearV1();
+
+        expect(channelsListV1(1)).toEqual({channels: []});
+
     });
   
 });
@@ -73,16 +82,25 @@ describe('Functionality tests of channelsListallV1', () => {
         const channel1 = channelsCreateV1(user1, 'channel#1', true);
         const channel2 = channelsCreateV1(user2, 'channel#2', true);
 
-        expect(channelsListallV1(user1)).toMatchObject([
+        expect(channelsListallV1(user1)).toStrictEqual(
         {
-            channelId: channel1.channelId,
-            name: 'channel#1',
+            channels: [
+                {channelId: channel1.channelId,
+                name: 'channel#1',
+                },  
             
-        },
-        {
-            channelId: channel2.channelId,
-            name: 'channel#2',
-        }
-        ]);
+                {channelId: channel2.channelId,
+                name: 'channel#2',
+                }
+            ]
+        });
     });
+
+    test('test if when no channels', () => {
+        clearV1();
+
+        expect(channelsListallV1(1)).toEqual({channels: []});
+
+    });
+    
 });
