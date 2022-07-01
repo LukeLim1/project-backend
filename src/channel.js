@@ -15,6 +15,18 @@ export function channelInviteV1 (authUserId, channelId, uId) {
     const channel = data.channels.find(channel => channel.channelId === channelId);
 
 
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+        
+        Good attempt at documenting, however, they seem to be stating the same
+        thing as the code.
+
+        Your code seems clean and well-structured to me, so avoid making these
+        comments :)
+
+    ============================================================================= */
+
     // Checking for invalid cases
     // Case 1: Not a valid user as indicated by invalid uID
     if (!user) {
@@ -51,6 +63,16 @@ export function channelMessagesV1 (authUserId, channelId, start) {
     const channel = data.channels.find(channel => channel.channelId === channelId);
     // Setting a new index "end" to be the value of "start + 50"
     // and a new array to store the restructured messages
+
+
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+        
+        Always use `const` until you need to reassign the variable!
+
+    ============================================================================= */
+
     let end = start + 50;
     let messagesRestructured;
 
@@ -121,6 +143,17 @@ export function channelDetailsV1 (authUserId, channelId) {
         return { error: 'error' };
     }
 
+
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+        
+        Not really a fault of this function, but you may want to consider
+        storiing both nameFirst and nameLast as opposed to concatenating
+        them and then having to split. This will break if the first or
+        last name contain spaces :).
+
+    ============================================================================= */
     for (const member of channel.allMembers) {
         const user = data.users.find(u => u.userId === member)
         const userObj = {
@@ -165,6 +198,15 @@ export function channelJoinV1 (authUserId, channelId) {
         return { error: 'error' };
     }   
     
+
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+
+        Don't forget to handle global owners joining private channels!
+
+    ============================================================================= */
+
     if (channel.isPublic === false) {
         return { error: 'error' };
     } else if (channel.allMembers.includes(authUserId)) {

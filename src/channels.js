@@ -25,6 +25,19 @@ function channelsCreateV1 ( authUserId, name, isPublic ) {
         return {error: 'error'};
     }
     
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+        data.channels.push({
+            name,
+            isPublic, 
+            ownerMembers: [authUserId],
+            allMembers: [authUserId],
+            channelId: randomNumber,
+            messages: [],
+        });
+
+    ============================================================================= */
     data.channels.push({
         name: `${name}`,
         isPublic: isPublic, 
@@ -66,6 +79,13 @@ function channelsListV1 (authUserId) {
 
     }
 
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+        
+        Return type should be an object :)
+
+    ============================================================================= */
     return obj_arr;
 
 }
@@ -96,6 +116,13 @@ function channelsListallV1 (authUserId) {
     
     }
 
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+        
+        Return type should be an object :)
+
+    ============================================================================= */
 
     return obj_arr;
 

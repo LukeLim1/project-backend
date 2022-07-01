@@ -1,6 +1,14 @@
 import { getData, setData } from './dataStore.js';
 import validator from 'validator';
 
+/* =============================================================================
+== TAM'S COMMENT ==
+===================
+    
+    2 spaces for indentation!
+
+============================================================================= */
+
 
 // Given user information from parameters, create a new account for them (as an object inside an array) 
 // and return a new unique 'authUserId'
@@ -31,6 +39,26 @@ function authRegisterV1 ( email, password, nameFirst, nameLast ) {
     if (!(validator.isEmail(email))) {
         return {error: 'error'};
     }
+
+
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+        
+        Why not loop through all the users and check against their email?
+        e.g.
+        
+        ```
+        for (const user of users) {
+            if (user.emailAddress === email) {
+                return { error: 'error' };
+            }
+        }
+        ```
+    
+        There are also useful array methods such as `find` and `filter` :).
+
+    ============================================================================= */
     // case 2 : email used already
     const arrayOfEmails = [];
     Object.values(data.users).forEach(element => {
@@ -74,6 +102,7 @@ function authRegisterV1 ( email, password, nameFirst, nameLast ) {
         let toPush = element.handle.replace(/[^a-z]/gi, '');
         arrayOfHandles.push(toPush);
     });
+
     for (const i in arrayOfHandles) {
         if (arrayOfHandles[i] == userHandle) {
             arrayToCount.push(arrayOfHandles[i]);
@@ -132,6 +161,14 @@ function authLoginV1 (email, password) {
         return {error: 'error'};
     }
     
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+
+        Does this check if the password and email matches as a pair?
+
+    ============================================================================= */
+
     else {  
         if (arrayOfPasswords.indexOf(password) === -1) {
             return {error: 'error'};

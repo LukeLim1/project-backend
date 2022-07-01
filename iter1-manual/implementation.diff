@@ -1,0 +1,216 @@
+diff --git a/src/auth.js b/src/auth.js
+index ce43f5a..0b1411a 100644
+--- a/src/auth.js
++++ b/src/auth.js
+@@ -1,6 +1,14 @@
+ import { getData, setData } from './dataStore.js';
+ import validator from 'validator';
+ 
++/* =============================================================================
++== TAM'S COMMENT ==
++===================
++    
++    2 spaces for indentation!
++
++============================================================================= */
++
+ 
+ // Given user information from parameters, create a new account for them (as an object inside an array) 
+ // and return a new unique 'authUserId'
+@@ -31,6 +39,26 @@ function authRegisterV1 ( email, password, nameFirst, nameLast ) {
+     if (!(validator.isEmail(email))) {
+         return {error: 'error'};
+     }
++
++
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++        
++        Why not loop through all the users and check against their email?
++        e.g.
++        
++        ```
++        for (const user of users) {
++            if (user.emailAddress === email) {
++                return { error: 'error' };
++            }
++        }
++        ```
++    
++        There are also useful array methods such as `find` and `filter` :).
++
++    ============================================================================= */
+     // case 2 : email used already
+     const arrayOfEmails = [];
+     Object.values(data.users).forEach(element => {
+@@ -74,6 +102,15 @@ function authRegisterV1 ( email, password, nameFirst, nameLast ) {
+         let toPush = element.handle.replace(/[^a-z]/gi, '');
+         arrayOfHandles.push(toPush);
+     });
+
+     for (const i in arrayOfHandles) {
+         if (arrayOfHandles[i] == userHandle) {
+             arrayToCount.push(arrayOfHandles[i]);
+@@ -132,6 +169,14 @@ function authLoginV1 (email, password) {
+         return {error: 'error'};
+     }
+     
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++
++        Does this check if the password and email matches as a pair?
++
++    ============================================================================= */
++
+     else {  
+         if (arrayOfPasswords.indexOf(password) === -1) {
+             return {error: 'error'};
+diff --git a/src/channel.js b/src/channel.js
+index 740f5f0..7fe9a81 100644
+--- a/src/channel.js
++++ b/src/channel.js
+@@ -15,6 +15,18 @@ export function channelInviteV1 (authUserId, channelId, uId) {
+     const channel = data.channels.find(channel => channel.channelId === channelId);
+ 
+ 
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++        
++        Good attempt at documenting, however, they seem to be stating the same
++        thing as the code.
++
++        Your code seems clean and well-structured to me, so avoid making these
++        comments :)
++
++    ============================================================================= */
++
+     // Checking for invalid cases
+     // Case 1: Not a valid user as indicated by invalid uID
+     if (!user) {
+@@ -51,6 +63,16 @@ export function channelMessagesV1 (authUserId, channelId, start) {
+     const channel = data.channels.find(channel => channel.channelId === channelId);
+     // Setting a new index "end" to be the value of "start + 50"
+     // and a new array to store the restructured messages
++
++
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++        
++        Always use `const` until you need to reassign the variable!
++
++    ============================================================================= */
++
+     let end = start + 50;
+     let messagesRestructured;
+ 
+@@ -121,6 +143,17 @@ export function channelDetailsV1 (authUserId, channelId) {
+         return { error: 'error' };
+     }
+ 
++
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++        
++        Not really a fault of this function, but you may want to consider
++        storiing both nameFirst and nameLast as opposed to concatenating
++        them and then having to split. This will break if the first or
++        last name contain spaces :).
++
++    ============================================================================= */
+     for (const member of channel.allMembers) {
+         const user = data.users.find(u => u.userId === member)
+         const userObj = {
+@@ -165,6 +198,15 @@ export function channelJoinV1 (authUserId, channelId) {
+         return { error: 'error' };
+     }   
+     
++
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++
++        Don't forget to handle global owners joining private channels!
++
++    ============================================================================= */
++
+     if (channel.isPublic === false) {
+         return { error: 'error' };
+     } else if (channel.allMembers.includes(authUserId)) {
+diff --git a/src/channels.js b/src/channels.js
+index 5c40cea..f22f8bd 100644
+--- a/src/channels.js
++++ b/src/channels.js
+@@ -25,6 +25,19 @@ function channelsCreateV1 ( authUserId, name, isPublic ) {
+         return {error: 'error'};
+     }
+     
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++        data.channels.push({
++            name,
++            isPublic, 
++            ownerMembers: [authUserId],
++            allMembers: [authUserId],
++            channelId: randomNumber,
++            messages: [],
++        });
++
++    ============================================================================= */
+     data.channels.push({
+         name: `${name}`,
+         isPublic: isPublic, 
+@@ -66,6 +79,13 @@ function channelsListV1 (authUserId) {
+ 
+     }
+ 
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++        
++        Return type should be an object :)
++
++    ============================================================================= */
+     return obj_arr;
+ 
+ }
+@@ -96,6 +116,13 @@ function channelsListallV1 (authUserId) {
+     
+     }
+ 
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++        
++        Return type should be an object :)
++
++    ============================================================================= */
+ 
+     return obj_arr;
+ 
+diff --git a/src/users.js b/src/users.js
+index 7a50df9..b85c1ae 100644
+--- a/src/users.js
++++ b/src/users.js
+@@ -15,6 +15,16 @@ function userProfileV1(authUserId, uId) {
+   if (!user) { 
+     return { error: 'error' };
+   } else {
++
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++
++      Same comment as the channelDetails function - consider storing the names
++      separately as they may contain spaces themselves :).
++
++    ============================================================================= */
++
+     return {
+       uId: uId, 
+       email: user.emailAddress,
