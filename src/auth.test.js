@@ -7,6 +7,16 @@ describe('authRegisterV1', () => {
     beforeEach ( () => {
         clearV1();  
     });
+
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+        
+        For some of these error cases, as they have similar structures, you should
+        consider `test.each()` :). See lab03_password for an example.
+
+    ============================================================================= */
+
     describe('Error cases', () => {
         test('Invalid email', () => {   
             const regTest = authRegisterV1('zachary.co', 'z5312386', 'Zachary', 'Chan'); 
@@ -83,6 +93,14 @@ describe('authLoginV1', () => {
         const data = getData();
         const regTest = authRegisterV1('zachary-chan@gmail.com', 'z5312386', 'zachary', 'chan');
         const loginTest = authLoginV1('zachary-chan@gmail.com', 'z5312386');
+
+        /* =============================================================================
+        == TAM'S COMMENT ==
+        ===================
+            
+            use toStrictEqual instead of toMatchObject! See the API for differences
+
+        ============================================================================= */
         expect(loginTest).toMatchObject(regTest); 
     });
     
@@ -92,6 +110,16 @@ describe('authLoginV1', () => {
         loginFail = authLoginV1('failing-test@gmail.com', 'shouldntWork'); 
     });
     
+
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+        
+        to Strict Equal! Also, what's the differnence between the tests below,
+        other than their names?
+
+    ============================================================================= */
+
     test("Returns error object when loginUserId doesnt match a registered userId", () => {
         expect(loginFail).toMatchObject({error: 'error'});
     });

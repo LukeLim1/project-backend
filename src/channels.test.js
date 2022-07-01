@@ -6,6 +6,17 @@ beforeEach(() => {
     clearV1();
     const data = getData();  
 });
+
+
+/* =============================================================================
+== TAM'S COMMENT ==
+===================
+
+    - Use set-up and teardown, e.g. beforeEach :).
+    - Also, toStrictEqual
+
+============================================================================= */
+
 describe('ChannelsCreateV1 returns correct data information', () => {
     test('Channel is created', () => {
         //const data = getData();
@@ -21,6 +32,16 @@ describe('ChannelsCreateV1 returns correct data information', () => {
     test('Channel name length is longer than 20', () => {
         
         const regTest = authRegisterV1('zachary@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
+
+        /* =============================================================================
+        == TAM'S COMMENT ==
+        ===================
+
+            clearer might be 
+            ```
+            'a'.repeat(20 + 1)
+            ```
+        ============================================================================= */
         const namedChannel = channelsCreateV1(regTest, 'thisisanamethatwillbelongerthan20chars', true );
         expect(namedChannel).toMatchObject({error: 'error'})
     });

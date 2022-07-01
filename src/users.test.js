@@ -34,6 +34,14 @@ describe('authRegisterV1', () => {
 
     describe('No errors', () => {
         test('profile success', () => {
+
+            /* =============================================================================
+            == TAM'S COMMENT ==
+            ===================
+                
+                const :)
+
+            ============================================================================= */
             let returnUser = {
                 uId: uId,
                 email: 'yoloemail@gmail.com',
