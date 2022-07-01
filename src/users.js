@@ -15,6 +15,16 @@ function userProfileV1(authUserId, uId) {
   if (!user) { 
     return { error: 'error' };
   } else {
+
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+
+      Same comment as the channelDetails function - consider storing the names
+      separately as they may contain spaces themselves :).
+
+    ============================================================================= */
+
     return {
       uId: uId, 
       email: user.emailAddress,
