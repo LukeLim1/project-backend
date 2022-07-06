@@ -1,7 +1,7 @@
-import { authLoginV1, authRegisterV1 } from './auth.js';
-import { clearV1 } from './other.js';
-import { getData} from './dataStore.js';
-import { userProfileV1 } from './users.js';
+import { authLoginV1, authRegisterV1 } from './auth';
+import { clearV1 } from './other';
+import { getData} from './dataStore';
+import { userProfileV1 } from './users';
 
 describe('authRegisterV1', () => {
     beforeEach ( () => {
@@ -86,7 +86,7 @@ describe('authLoginV1', () => {
         expect(loginTest).toMatchObject(regTest); 
     });
     
-    let loginFail;
+    let loginFail: {};
     beforeEach(() => {
         clearV1();    
         loginFail = authLoginV1('failing-test@gmail.com', 'shouldntWork'); 
