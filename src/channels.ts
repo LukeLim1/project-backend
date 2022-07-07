@@ -1,4 +1,4 @@
-import { getData, setData} from './dataStore.js';
+import { getData, setData} from './dataStore';
 
 
 // Given a name create a channel that can either be public or private
@@ -12,7 +12,7 @@ import { getData, setData} from './dataStore.js';
 //               {error: 'error'} when
 //               - name.length is not between 1 and 20 chars
 
-function channelsCreateV1 ( authUserId, name, isPublic ) {
+function channelsCreateV1 ( authUserId: number, name: string, isPublic: boolean ) {
     const data = getData();
     let randomNumber = Math.floor(Math.random() * 1000);
     if (data.usedNums.length !== 0) {
@@ -47,7 +47,7 @@ function channelsCreateV1 ( authUserId, name, isPublic ) {
 
 
 
-function channelsListV1 (authUserId) {
+function channelsListV1 (authUserId: number) {
     
     const data = getData();
 
@@ -83,7 +83,7 @@ function channelsListV1 (authUserId) {
 // Return type : { channelId },
 
 
-function channelsListallV1 (authUserId) {
+function channelsListallV1 (authUserId: number) {
 
     const data = getData();
 

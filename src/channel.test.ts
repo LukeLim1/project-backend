@@ -1,7 +1,7 @@
-import {channelDetailsV1, channelJoinV1, channelMessagesV1, channelInviteV1} from './channel.js';
-import { channelsCreateV1 } from './channels.js';
-import {authRegisterV1} from './auth.js';
-import {clearV1} from './other.js';
+import {channelDetailsV1, channelJoinV1, channelMessagesV1, channelInviteV1} from './channel';
+import { channelsCreateV1 } from './channels';
+import {authRegisterV1} from './auth';
+import {clearV1} from './other';
 
 test('Testing successful channelDetailsV1 and channelJoinV1', () => {
     clearV1();
@@ -82,7 +82,7 @@ test('channelId valid, but the user is not a member', () => {
 
 // Tests for channelInviteV1
 describe('channelInviteV1', () => {
-    let channelID, uID, authUserID;
+    let channelID: number, uID: number, authUserID: number;
     beforeEach ( () => {
         clearV1();
         uID = authRegisterV1('uniquepeterrabbit@gmail.com', 'qgi6dt', 'Peter', 'Rabbit').authUserId;
@@ -121,7 +121,7 @@ describe('channelInviteV1', () => {
 
 // Tests for channelMessageV1
 describe('channelMessagesV1', () => {
-    let channelID, uID, authUserID, start, message;
+    let channelID: number, uID: number, authUserID: number, start: number;
     beforeEach ( () => {
         clearV1();
         uID = authRegisterV1('uniquepeterrabbit@gmail.com', 'qgi6dt', 'Peter', 'Rabbit').authUserId;
