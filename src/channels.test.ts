@@ -28,7 +28,6 @@ describe('ChannelsCreateV1 returns correct data information', () => {
         const data = getData();
         const regTest = authRegisterV1('zachary@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
         const namedChannel = channelsCreateV1(regTest.authUserId, 'Snickers', true );
-        console.log(data.channels[0]);
         expect(data.channels[0]).toMatchObject({
             name: 'Snickers',
             isPublic: true, 
