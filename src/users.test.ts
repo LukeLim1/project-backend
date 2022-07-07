@@ -1,6 +1,6 @@
-import { clearV1 } from './other.js';
-import {authRegisterV1} from './auth.js';
-import { userProfileV1 } from './users.js';
+import { clearV1 } from './other';
+import { authRegisterV1 } from './auth';
+import { userProfileV1 } from './users';
 
 test('Test successful userProfileV1', () => {
   clearV1();
@@ -19,7 +19,7 @@ test('Test successful userProfileV1', () => {
 
 
 describe('authRegisterV1', () => {
-    let uId, authUserId;
+    let uId: number, authUserId: number;
     beforeEach(() => {
         clearV1();
         uId = authRegisterV1('yoloemail@gmail.com', 'drtfg1', 'Heron', 'Yolo').authUserId;

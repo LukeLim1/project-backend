@@ -1,4 +1,4 @@
-import { getData } from "./dataStore.js";
+import { getData } from "./dataStore";
 
 // userProfileV1
 // There are 2 parameters, authUserId and uId. userProfileV1 prints the details of a user with uId if found in datastore.
@@ -9,7 +9,7 @@ import { getData } from "./dataStore.js";
 //              { error: 'error' } when any of the following:
 //                  a user with uId is not found
 
-function userProfileV1(authUserId, uId) {
+function userProfileV1(authUserId: number, uId: number) {
   const data = getData();
   const user = data.users.find(u => u.userId === uId);
   if (!user) { 

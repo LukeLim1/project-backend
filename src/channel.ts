@@ -1,5 +1,14 @@
-import {getData, setData} from './dataStore.js';
-import { userProfileV1 } from './users.js';
+import {getData, setData} from './dataStore';
+import { userProfileV1 } from './users';
+
+export interface userTemplate {
+    emailAddress: string;
+    userId: number;
+    password: string;
+    name: string;
+    handle: string;
+    permissions: number;
+}
 
 /**
  * Invite a user with ID uId to join a channel with ID channelId
@@ -8,10 +17,10 @@ import { userProfileV1 } from './users.js';
  * @param {*} uId 
  * @returns {} unless it is error case, in which case it will return { error: 'error' }
  */
-export function channelInviteV1 (authUserId, channelId, uId) {
+export function channelInviteV1 (authUserId: number, channelId: number, uId: number) {
     const data = getData();
     //let channel, user;
-    const user = data.users.find(user => user.userId === uId);
+    const user: userTemplate = data.users.find(user => user.userId === uId);
     const channel = data.channels.find(channel => channel.channelId === channelId);
 
 
@@ -46,7 +55,7 @@ export function channelInviteV1 (authUserId, channelId, uId) {
  * @param {*} start 
  * @returns {messages, start, end} unless it is error case, in which case it will return { error: 'error' }
  */
-export function channelMessagesV1 (authUserId, channelId, start) {
+export function channelMessagesV1 (authUserId: number, channelId: number, start: number) {
     const data = getData();
     const channel = data.channels.find(channel => channel.channelId === channelId);
     // Setting a new index "end" to be the value of "start + 50"
@@ -97,7 +106,7 @@ export function channelMessagesV1 (authUserId, channelId, start) {
 //                  channelId is not referring to a channel existing in datastore
 //                  channelId is valid, but the authorised user is not a member of the channel (i.e. authUserId not in ownerMembers nor allMembers)
 
-export function channelDetailsV1 (authUserId, channelId) {
+export function channelDetailsV1 (authUserId: number, channelId: number) {
     const data = getData();
     const channel = data.channels.find(channel => channel.channelId === channelId);
 
@@ -156,7 +165,7 @@ export function channelDetailsV1 (authUserId, channelId) {
 //                                                                      In our case it's in allMembers array)
 //                  channelId refers to a private channel, and the authrized user is not a channel member and not a global owner
 
-export function channelJoinV1 (authUserId, channelId) {
+export function channelJoinV1 (authUserId: number, channelId: number) {
     const data = getData();
     const channel = data.channels.find(channel => channel.channelId === channelId);
     const user = userProfileV1(authUserId, authUserId);
