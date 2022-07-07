@@ -1,4 +1,4 @@
-import { getData, setData } from './dataStore.js';
+import { getData, setData } from './dataStore';
 import validator from 'validator';
 
 
@@ -22,7 +22,7 @@ import validator from 'validator';
 //              - nameFirst.length not between 1 - 50
 //              - nameLast.length not between 1 - 50
 
-function authRegisterV1 ( email, password, nameFirst, nameLast ) {
+function authRegisterV1 ( email: string, password: string, nameFirst: string, nameLast: string ) {
     const data = getData();
     const hasNumber = /\d/;
     // error cases //
@@ -32,7 +32,7 @@ function authRegisterV1 ( email, password, nameFirst, nameLast ) {
         return {error: 'error'};
     }
     // case 2 : email used already
-    const arrayOfEmails = [];
+    const arrayOfEmails: string[] = [];
     Object.values(data.users).forEach(element => {
         let toPush = element.emailAddress;
         arrayOfEmails.push(toPush);
@@ -47,11 +47,11 @@ function authRegisterV1 ( email, password, nameFirst, nameLast ) {
         return {error: 'error'};
     }
     // case 4 : length of nameFirst not between 1 - 50 inclusive
-    else if (nameFirst <= 1 || nameFirst >= 50) {
+    else if (nameFirst.length <= 1 || nameFirst.length >= 50) {
         return {error: 'error'};
     }
     // case 5 : length of nameLast not between 1 - 50 inclusive
-    else if (nameLast <= 1 || nameLast >= 50) {
+    else if (nameLast.length <= 1 || nameLast.length >= 50) {
         return {error: 'error'};
     }
     // End of error cases
@@ -66,8 +66,8 @@ function authRegisterV1 ( email, password, nameFirst, nameLast ) {
         userHandle = sliced;
     }
     // case 3 : concatenation has someone with the same handle
-    const arrayOfHandles = [];
-    const arrayToCount = [];
+    const arrayOfHandles: string[] = [];
+    const arrayToCount: string[] = [];
     // moving all handles in the list into arrayOfHandles
     // moving duplicate handles (and removing numbers) into arrayToCount
     Object.values(data.users).forEach(element => {
@@ -99,7 +99,6 @@ function authRegisterV1 ( email, password, nameFirst, nameLast ) {
     setData(data);
     return {
         authUserId: randomNumber
-        
     }
 }
 
@@ -114,16 +113,16 @@ function authRegisterV1 ( email, password, nameFirst, nameLast ) {
 //              - email doesnt belong to a user
 //              - password is incorrect for the corresponding email
 
-function authLoginV1 (email, password) {
+function authLoginV1 (email: string, password: string) {
     const data = getData();
     // put every email into an array to check against
-    const arrayOfEmails = [];
+    const arrayOfEmails: string[] = [];
     Object.values(data.users).forEach(element => {
         let toPush = element.emailAddress;
         arrayOfEmails.push(toPush);
     });
     // put every password into an array to check against
-    const arrayOfPasswords = [];
+    const arrayOfPasswords: string[] = [];
     Object.values(data.users).forEach(element => {
         let toPush = element.password;
         arrayOfPasswords.push(toPush);

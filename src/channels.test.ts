@@ -1,7 +1,7 @@
-import { channelsListV1, channelsListallV1, channelsCreateV1 } from './channels.js';
-import { clearV1 } from './other.js';
-import { getData} from './dataStore.js';
-import { authRegisterV1 } from './auth.js';
+import { channelsListV1, channelsListallV1, channelsCreateV1 } from './channels';
+import { clearV1 } from './other';
+import { getData } from './dataStore';
+import { authRegisterV1 } from './auth';
 beforeEach(() => {
     clearV1();
     const data = getData();  
@@ -10,30 +10,31 @@ describe('ChannelsCreateV1 returns correct data information', () => {
     test('Channel is created', () => {
         //const data = getData();
         const regTest = authRegisterV1('zachary@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
-        const namedChannel = channelsCreateV1(regTest, 'Snickers', true );
+        const namedChannel = channelsCreateV1(regTest.authUserId, 'Snickers', true );
         expect(namedChannel).toMatchObject({channelId: expect.any(Number)});
     });
     test('Channel name length is less than 1', () => {
         const regTest = authRegisterV1('zachary@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
-        const namedChannel = channelsCreateV1(regTest, '', true );
+        const namedChannel = channelsCreateV1(regTest.authUserId, '', true );
         expect(namedChannel).toMatchObject({error: 'error'})
     });
     test('Channel name length is longer than 20', () => {
         
         const regTest = authRegisterV1('zachary@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
-        const namedChannel = channelsCreateV1(regTest, 'thisisanamethatwillbelongerthan20chars', true );
+        const namedChannel = channelsCreateV1(regTest.authUserId, 'thisisanamethatwillbelongerthan20chars', true );
         expect(namedChannel).toMatchObject({error: 'error'})
     });
     test('Ensuring the whole channels object is created with the correct parameters', () => {
         const data = getData();
         const regTest = authRegisterV1('zachary@gmail.com', 'z5312386', 'Zachary', 'Chan'); 
-        const namedChannel = channelsCreateV1(regTest, 'Snickers', true );
+        const namedChannel = channelsCreateV1(regTest.authUserId, 'Snickers', true );
         expect(data.channels[0]).toMatchObject({
             name: 'Snickers',
             isPublic: true, 
-            ownerMembers: [regTest],
-            allMembers: [regTest],
+            ownerMembers: [regTest.authUserId],
+            allMembers: [regTest.authUserId],
             channelId: expect.any(Number),
+            messages: [],
         })
     });
 });    
@@ -47,10 +48,10 @@ describe('Functionality tests of channelsListV1', () => {
         const user1 = authRegisterV1('user@email.com', '123456', 'Ada', 'Bob');
         const user2 = authRegisterV1('user2@email.com', '123456', 'Canthy', 'David');
         
-        const channel1 = channelsCreateV1(user1, 'channel#1', true);
-        const channel2 = channelsCreateV1(user2, 'channel#2', true);
+        const channel1 = channelsCreateV1(user1.authUserId, 'channel#1', true);
+        const channel2 = channelsCreateV1(user2.authUserId, 'channel#2', true);
 
-        expect(channelsListV1(user1)).toStrictEqual({
+        expect(channelsListV1(user1.authUserId)).toStrictEqual({
             channels: [
                 {
                     channelId: channel1.channelId,
@@ -79,10 +80,10 @@ describe('Functionality tests of channelsListallV1', () => {
         const user1 = authRegisterV1('user1@email.com', '123456', 'Ada', 'Bob');
         const user2 = authRegisterV1('user2@email.com', '123456', 'Canthy', 'David');
 
-        const channel1 = channelsCreateV1(user1, 'channel#1', true);
-        const channel2 = channelsCreateV1(user2, 'channel#2', true);
+        const channel1 = channelsCreateV1(user1.authUserId, 'channel#1', true);
+        const channel2 = channelsCreateV1(user2.authUserId, 'channel#2', true);
 
-        expect(channelsListallV1(user1)).toStrictEqual(
+        expect(channelsListallV1(user1.authUserId)).toStrictEqual(
         {
             channels: [
                 {channelId: channel1.channelId,
