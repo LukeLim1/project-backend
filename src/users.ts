@@ -1,4 +1,4 @@
-import { getData } from "./dataStore";
+import { getData } from './dataStore';
 
 // userProfileV1
 // There are 2 parameters, authUserId and uId. userProfileV1 prints the details of a user with uId if found in datastore.
@@ -12,18 +12,17 @@ import { getData } from "./dataStore";
 function userProfileV1(authUserId: number, uId: number) {
   const data = getData();
   const user = data.users.find(u => u.userId === uId);
-  if (!user) { 
+  if (!user) {
     return { error: 'error' };
   } else {
     return {
-      uId: uId, 
+      uId: uId,
       email: user.emailAddress,
-      nameFirst: user.name.split(' ')[0], 
-      nameLast: user.name.split(' ')[1], 
+      nameFirst: user.name.split(' ')[0],
+      nameLast: user.name.split(' ')[1],
       handleStr: user.handle,
-    }
+    };
   }
-
 }
 
-export { userProfileV1 }
+export { userProfileV1 };
