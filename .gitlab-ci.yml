@@ -28,4 +28,4 @@ typecheck:
 linting:
   stage: checks
   script:
-    -npm run lint
+    - npm run lint
