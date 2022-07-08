@@ -96,7 +96,7 @@ describe('authLoginV1', () => {
     expect(loginTest).toMatchObject(regTest);
   });
 
-  let loginFail;
+  let loginFail: object;
   beforeEach(() => {
     clearV1();
     loginFail = authLoginV1('failing-test@gmail.com', 'shouldntWork');
