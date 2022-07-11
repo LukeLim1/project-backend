@@ -1,4 +1,4 @@
-import { channelDetailsV1, channelJoinV1, channelMessagesV1, channelInviteV1 } from './channel';
+import { channelDetailsV1, channelJoinV1, channelMessagesV1, channelInviteV1, channelLeaveV1 } from './channel';
 import { channelsCreateV1 } from './channels';
 import { authRegisterV1 } from './auth';
 import { clearV1 } from './other';
@@ -153,5 +153,45 @@ describe('channelMessagesV1', () => {
         end: -1
       });
     });
+  });
+});
+
+// tests for channel/leave
+describe('channelLeaveV1 tests', () => {
+  test('Channel successfully left', () => {
+    const owner = authRegisterV1('owner@gmail.com', 'qgi6dt', 'Spongebob', 'Square');
+    const user1 = authRegisterV1('user1@gmail.com', 'qgi6dt', 'Patrick', 'Star');
+    const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', true);
+
+    expect(channelJoinV1(user1.authUserId, channel1.channelId)).toMatchObject({});
+
+    expect(channelLeaveV1(user1.authUserId, channel1.channelId)).toMatchObject({});
+
+    expect(channelDetailsV1(owner.authUserId, channel1.channelId)).toMatchObject(
+      {
+        name: 'channel#1',
+        isPublic: true,
+        ownerMembers: [
+          {
+            uId: owner.authUserId,
+            email: 'owner@gmail.com',
+            nameFirst: 'Spongebob',
+            nameLast: 'Square',
+            handleStr: 'spongebobsquare',
+          },
+        ],
+        allMembers: [
+          {
+            uId: owner.authUserId,
+            email: 'owner@gmail.com',
+            nameFirst: 'Spongebob',
+            nameLast: 'Square',
+            handleStr: 'spongebobsquare',
+          },
+        ]
+      });
+    // testing trying to leave from a channel user1 isnt apart of
+    expect(channelLeaveV1(user1.authUserId, channel1.channelId)).toMatchObject({ error: 'error' });
+    expect(channelLeaveV1(user1.authUserId, -999999)).toMatchObject({ error: 'error' });
   });
 });
