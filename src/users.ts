@@ -1,4 +1,5 @@
-import { getData } from './dataStore';
+import { getData, setData } from './dataStore';
+import validator from 'validator';
 
 // userProfileV1
 // There are 2 parameters, authUserId and uId. userProfileV1 prints the details of a user with uId if found in datastore.
@@ -18,11 +19,69 @@ function userProfileV1(authUserId: number, uId: number) {
     return {
       uId: uId,
       email: user.emailAddress,
-      nameFirst: user.name.split(' ')[0],
-      nameLast: user.name.split(' ')[1],
+      nameFirst: user.firstName,
+      nameLast: user.lastname,
       handleStr: user.handle,
+      token: user.token
     };
   }
 }
 
-export { userProfileV1 };
+function setNameV1(token: number, nameFirst: string, nameLast: string): object {
+  const data = getData();
+  const user = data.users.find(u => u.userId === token);
+  // Error Cases
+  if (nameFirst.length <= 1 || nameFirst.length >= 50) {
+    return { error: 'error' };
+  }
+  if (nameLast.length <= 1 || nameLast.length >= 50) {
+    return { error: 'error' };
+  }
+  if (!user) {
+    return { error: 'error' };
+  } else {
+  // main code
+    user.firstName = nameFirst;
+    user.lastname = nameLast;
+    setData(data);
+  }
+  return {};
+}
+function setEmailV1(token: number, email: string): object {
+  const data = getData();
+  const user = data.users.find(u => u.userId === token);
+  // error cases
+  if (!(validator.isEmail(email))) {
+    return { error: 'error' };
+  }
+
+  if (!user) {
+    return { error: 'error' };
+  } else {
+  // main code
+    user.emailAddress = email;
+    setData(data);
+  }
+  return {};
+}
+function setHandleV1(token: number, handleStr: string): object {
+  // error cases
+  if (handleStr.length <= 3 || handleStr.length >= 20) {
+    return { error: 'error' };
+  }
+  const Exp = /^[0-9a-z]+$/;
+  if (!handleStr.match(Exp)) {
+    return { error: 'error' };
+  }
+  const data = getData();
+  const user = data.users.find(u => u.userId === token);
+  if (!user) {
+    return { error: 'error' };
+  } else {
+    user.handle = handleStr;
+    setData(data);
+  }
+  return {};
+}
+
+export { userProfileV1, setNameV1, setEmailV1, setHandleV1 };
