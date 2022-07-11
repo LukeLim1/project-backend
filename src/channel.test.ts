@@ -155,7 +155,6 @@ describe('channelMessagesV1', () => {
     });
   });
 });
- 
 
 // tests for channel/leave
 describe('channelLeaveV1 tests', () => {
@@ -163,11 +162,11 @@ describe('channelLeaveV1 tests', () => {
     const owner = authRegisterV1('owner@gmail.com', 'qgi6dt', 'Spongebob', 'Square');
     const user1 = authRegisterV1('user1@gmail.com', 'qgi6dt', 'Patrick', 'Star');
     const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', true);
-    
+
     expect(channelJoinV1(user1.authUserId, channel1.channelId)).toMatchObject({});
 
     expect(channelLeaveV1(user1.authUserId, channel1.channelId)).toMatchObject({});
-    
+
     expect(channelDetailsV1(owner.authUserId, channel1.channelId)).toMatchObject(
       {
         name: 'channel#1',
@@ -191,9 +190,8 @@ describe('channelLeaveV1 tests', () => {
           },
         ]
       });
-      // testing trying to leave from a channel user1 isnt apart of
-      expect(channelLeaveV1(user1.authUserId, channel1.channelId)).toMatchObject({ error: 'error' });
-      expect(channelLeaveV1(user1.authUserId, -999999)).toMatchObject({ error: 'error' });
+    // testing trying to leave from a channel user1 isnt apart of
+    expect(channelLeaveV1(user1.authUserId, channel1.channelId)).toMatchObject({ error: 'error' });
+    expect(channelLeaveV1(user1.authUserId, -999999)).toMatchObject({ error: 'error' });
   });
-
 });

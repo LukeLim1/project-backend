@@ -193,13 +193,13 @@ export function channelLeaveV1 (token: number, channelId: number): object {
 
   if (!channel.allMembers.includes(getUser.userId)) {
     return { error: 'error' };
-  } 
+  }
 
   const indexAll = channel.allMembers.indexOf(getUser.userId);
   channel.allMembers.splice(indexAll, 1);
   if (channel.ownerMembers.includes(getUser.userId)) {
     const indexOwner = channel.ownerMembers.indexOf(getUser.userId);
-    channel.allMembers.splice(indexOwner, 1)
+    channel.allMembers.splice(indexOwner, 1);
   }
 
   return {};
