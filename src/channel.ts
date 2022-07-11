@@ -5,9 +5,11 @@ export interface userTemplate {
     emailAddress: string;
     userId: number;
     password: string;
-    name: string;
+    firstName: string;
+    lastname: string;
     handle: string;
     permissions: number;
+    token: number,
 }
 
 /**
@@ -116,8 +118,8 @@ export function channelDetailsV1 (authUserId: number, channelId: number) {
   const ownerArr = [{
     uId: owner.userId,
     email: owner.emailAddress,
-    nameFirst: owner.name.split(' ')[0],
-    nameLast: owner.name.split(' ')[1],
+    nameFirst: owner.firstName,
+    nameLast: owner.lastname,
     handleStr: owner.handle,
   }];
   const userArr = [];
@@ -132,8 +134,8 @@ export function channelDetailsV1 (authUserId: number, channelId: number) {
     const userObj = {
       uId: user.userId,
       email: user.emailAddress,
-      nameFirst: user.name.split(' ')[0],
-      nameLast: user.name.split(' ')[1],
+      nameFirst: user.firstName,
+      nameLast: user.lastname,
       handleStr: user.handle,
     };
     userArr.push(userObj);
@@ -177,5 +179,9 @@ export function channelJoinV1 (authUserId: number, channelId: number) {
 
   channel.allMembers.push(user.uId);
   setData(data);
+  return {};
+}
+
+export function channelLeaveV1 (token: number, channelId: number): object {
   return {};
 }
