@@ -87,13 +87,13 @@ describe('authLoginV1', () => {
   test('loginUserId matches a userID that has been registered', () => {
     clearV1();
 
-    const data = getData();
-    const array = [data];
-    array.slice(0);
-
+    
     const regTest = authRegisterV1('zachary-chan@gmail.com', 'z5312386', 'zachary', 'chan');
     const loginTest = authLoginV1('zachary-chan@gmail.com', 'z5312386');
-    expect(loginTest).toMatchObject(regTest);
+    expect(loginTest).toMatchObject({
+      authUserId: regTest.authUserId,
+      token: expect.any(Number),
+    });
   });
 
   let loginFail: object;

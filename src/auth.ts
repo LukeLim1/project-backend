@@ -43,7 +43,7 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
   // case 3 : password less than 6 chars
   if (password.length < 6) {
     return { error: 'error' };
-    // case 4 : length of nameFirst not between 1 - 50 inclusive
+  // case 4 : length of nameFirst not between 1 - 50 inclusive
   } else if (nameFirst.length <= 1 || nameFirst.length >= 50) {
     return { error: 'error' };
     // case 5 : length of nameLast not between 1 - 50 inclusive
@@ -83,17 +83,25 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
   if (data.usedNums.length !== 0) {
     randomNumber += data.usedNums[data.usedNums.length - 1];
   }
+  let token = 1;
+  if (data.usedTokenNums.length !== 0) {
+    token += data.usedTokenNums[data.usedTokenNums.length - 1];
+  }
   data.usedNums.push(randomNumber);
+  data.usedTokenNums.push(token);
   data.users.push({
     emailAddress: email,
     userId: randomNumber,
     password: password,
-    name: `${nameFirst} ${nameLast}`,
+    firstName: nameFirst,
+    lastname: nameLast,
     handle: `${userHandle}`,
     permissions: 2,
+    token: token,
   });
   setData(data);
   return {
+    token: token,
     authUserId: randomNumber
   };
 }
@@ -130,6 +138,16 @@ function authLoginV1 (email: string, password: string) {
       return { error: 'error' };
     }
   }
-  return { authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
+  
+  // setting new token
+  const user = data.users.find(u => u.password === password);
+  // main code
+  let token = 1;
+  if (data.usedTokenNums.length !== 0) {
+    token += data.usedTokenNums[data.usedTokenNums.length - 1];
+  }
+  user.token = token;
+  setData(data);
+  return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
 }
 export { authLoginV1, authRegisterV1 };
