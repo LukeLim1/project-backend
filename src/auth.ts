@@ -138,7 +138,7 @@ function authLoginV1 (email: string, password: string) {
       return { error: 'error' };
     }
   }
-  
+
   // setting new token
   const user = data.users.find(u => u.password === password);
   // main code

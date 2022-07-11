@@ -1,6 +1,5 @@
 import { authLoginV1, authRegisterV1 } from './auth';
 import { clearV1 } from './other';
-import { getData } from './dataStore';
 import { userProfileV1 } from './users';
 
 describe('authRegisterV1', () => {
@@ -87,7 +86,6 @@ describe('authLoginV1', () => {
   test('loginUserId matches a userID that has been registered', () => {
     clearV1();
 
-    
     const regTest = authRegisterV1('zachary-chan@gmail.com', 'z5312386', 'zachary', 'chan');
     const loginTest = authLoginV1('zachary-chan@gmail.com', 'z5312386');
     expect(loginTest).toMatchObject({
