@@ -2,6 +2,9 @@ import { authLoginV1, authRegisterV1 } from './auth';
 import { clearV1 } from './other';
 import { userProfileV1 } from './users';
 
+import request from 'sync-request';
+import { url, port } from './config.json';
+
 describe('authRegisterV1', () => {
   beforeEach(() => {
     clearV1();

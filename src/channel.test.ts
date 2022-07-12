@@ -5,6 +5,7 @@ import { clearV1 } from './other';
 
 import request from 'sync-request';
 import { url, port } from './config.json';
+import { clear } from 'console';
 
 const OK = 200;
 
@@ -231,31 +232,150 @@ describe('channelLeaveV1 tests', () => {
 
 describe('HTTP tests using Jest', () => {
   test('Test successful channelDetails', () => {
+    clearV1();
     const res = request(
       'GET',
       `${url}:${port}/channel/details/v2`,
       {
         qs: {
-          echo: 'Hello',
+          name: expect.any(String),
+          isPublic: expect.any(Boolean),
+          ownerMembers: expect.any(Array),
+          allMembers: expect.any(Array),
         }
       }
     );
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toEqual('Hello');
+    expect(bodyObj).toMatchObject({
+      name: expect.any(String),
+      isPublic: expect.any(Boolean),
+      ownerMembers: expect.any(Array),
+      allMembers: expect.any(Array),
+    });
   });
-  test('Test invalid echo', () => {
+
+  test('channelDetails: channelId does not refer to valid channel', () => {
+    clearV1();
     const res = request(
       'GET',
-            `${url}:${port}/echo`,
-            {
-              qs: {
-                echo: 'echo',
-              }
-            }
+      `${url}:${port}/channel/details/v2`,
+      {
+        qs: {
+          name: expect.any(String),
+          isPublic: expect.any(Boolean),
+          ownerMembers: expect.any(Array),
+          allMembers: expect.any(Array),
+        }
+      }
     );
+    
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toStrictEqual({ error: 'error' });
+    expect(bodyObj).toMatchObject({ error: 'error' });
+  });
+
+  test('channelDetails: channelId valid, but user is not a member', () => {
+    clearV1();
+    const res = request(
+      'GET',
+      `${url}:${port}/channel/details/v2`,
+      {
+        qs: {
+          name: expect.any(String),
+          isPublic: expect.any(Boolean),
+          ownerMembers: expect.any(Array),
+          allMembers: expect.any(Array),
+        }
+      }
+    );
+    
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: 'error' });
+  });
+
+  test('Test successful channelJoin', () => {
+    clearV1();
+    const res = request(
+      'POST',
+      `${url}:${port}/channel/join/v2`,
+      {
+        body: JSON.stringify({
+          token: expect.any(String),
+          channelId: expect.any(Number),
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    console.log(bodyObj);
+  });
+
+  test('channelJoin: channelId does not refer to a valid channel', () => {
+    clearV1();
+    const res = request(
+      'POST',
+      `${url}:${port}/channel/join/v2`,
+      {
+        body: JSON.stringify({
+          token: expect.any(String),
+          channelId: expect.any(Number),
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: 'error' });
+  });
+
+  test('channelJoin: authorised user is already a member', () => {
+    clearV1();
+    const res = request(
+      'POST',
+      `${url}:${port}/channel/join/v2`,
+      {
+        body: JSON.stringify({
+          token: expect.any(String),
+          channelId: expect.any(Number),
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: 'error' });
+  });
+
+  test('channelJoin: channelId refers to private channel and authorised user is not channel member and not global owner', () => {
+    clearV1();
+    const res = request(
+      'POST',
+      `${url}:${port}/channel/join/v2`,
+      {
+        body: JSON.stringify({
+          token: expect.any(String),
+          channelId: expect.any(Number),
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: 'error' });
   });
 });
