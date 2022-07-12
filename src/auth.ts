@@ -97,7 +97,7 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
     lastname: nameLast,
     handle: `${userHandle}`,
     permissions: 2,
-    token: token,
+    token: [token],
   });
   setData(data);
   return {
@@ -146,7 +146,7 @@ function authLoginV1 (email: string, password: string) {
   if (data.usedTokenNums.length !== 0) {
     token += data.usedTokenNums[data.usedTokenNums.length - 1];
   }
-  user.token = token;
+  user.token.push(token);
   setData(data);
   return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
 }
