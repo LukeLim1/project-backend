@@ -26,7 +26,7 @@ export function dmCreateV1 (token: number, uIds: number[]) {
   const data = getData();
   // create an array with everybodies userIds
   const arrayUserId: number[] = [];
-  let element: number;
+
   Object.values(data.users).forEach(element => {
     const toPush = element.userId;
     arrayUserId.push(toPush);
