@@ -1,6 +1,6 @@
 import { clearV1 } from './other';
 import { authRegisterV1 } from './auth';
-import { userProfileV1 } from './users';
+import { userProfileV1, setNameV1, setEmailV1, setHandleV1 } from './users';
 
 test('Test successful userProfileV1', () => {
   clearV1();
@@ -41,6 +41,71 @@ describe('authRegisterV1', () => {
         handleStr: 'heronyolo',
       };
       expect(userProfileV1(authUserId, uId)).toMatchObject(returnUser);
+    });
+  });
+});
+
+// zachs tests for setname, setemail and sethandle
+describe('update: name, email and handle', () => {
+  test('Changing name', () => {
+    clearV1();
+    const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
+    const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
+
+    const nameChange = setNameV1(owner.token, 'Name', 'Change');
+
+    const array = [user1, nameChange];
+    array.slice(1);
+
+    const updatedNames = userProfileV1(owner.authUserId, owner.authUserId);
+
+    expect(updatedNames).toMatchObject({
+      uId: owner.authUserId,
+      email: 'owner@email.com',
+      nameFirst: 'Name',
+      nameLast: 'Change',
+      handleStr: 'adabob',
+      token: expect.any(Number),
+    });
+  });
+  test('Changing email', () => {
+    clearV1();
+    const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
+    const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
+
+    const emailChange = setEmailV1(owner.token, 'newEmail@gmail.com');
+    const updatedEmail = userProfileV1(owner.authUserId, owner.authUserId);
+
+    const array = [user1, emailChange];
+    array.slice(1);
+
+    expect(updatedEmail).toMatchObject({
+      uId: owner.authUserId,
+      email: 'newEmail@gmail.com',
+      nameFirst: 'Ada',
+      nameLast: 'Bob',
+      handleStr: 'adabob',
+      token: expect.any(Number),
+    });
+  });
+  test('Changing handle', () => {
+    clearV1();
+    const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
+    const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
+
+    const handleChange = setHandleV1(owner.token, 'newhandlehahaha');
+    const updatedHandle = userProfileV1(owner.authUserId, owner.authUserId);
+
+    const array = [user1, handleChange];
+    array.slice(1);
+
+    expect(updatedHandle).toMatchObject({
+      uId: owner.authUserId,
+      email: 'owner@email.com',
+      nameFirst: 'Ada',
+      nameLast: 'Bob',
+      handleStr: 'newhandlehahaha',
+      token: expect.any(Number),
     });
   });
 });

@@ -6,12 +6,15 @@ interface dataTemplate {
   users: userTemplate[];
   channels: any[];
   usedNums: number[];
+  usedTokenNums: number[];
 }
 
 let data: dataTemplate = {
   users: [],
   channels: [],
   usedNums: [],
+  usedTokenNums: [],
+
 };
 
 // YOU SHOULDNT NEED TO MODIFY THE FUNCTIONS BELOW IN ITERATION 1
