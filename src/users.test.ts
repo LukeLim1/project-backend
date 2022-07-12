@@ -65,7 +65,7 @@ describe('update: name, email and handle', () => {
       nameFirst: 'Name',
       nameLast: 'Change',
       handleStr: 'adabob',
-      token: expect.any(Number),
+      token: [expect.any(Number)],
     });
   });
   test('Changing email', () => {
@@ -85,7 +85,7 @@ describe('update: name, email and handle', () => {
       nameFirst: 'Ada',
       nameLast: 'Bob',
       handleStr: 'adabob',
-      token: expect.any(Number),
+      token: [expect.any(Number)],
     });
   });
   test('Changing handle', () => {
@@ -105,7 +105,7 @@ describe('update: name, email and handle', () => {
       nameFirst: 'Ada',
       nameLast: 'Bob',
       handleStr: 'newhandlehahaha',
-      token: expect.any(Number),
+      token: [expect.any(Number)],
     });
   });
 });
