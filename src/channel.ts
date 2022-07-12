@@ -9,7 +9,7 @@ export interface userTemplate {
     lastname: string;
     handle: string;
     permissions: number;
-    token: number,
+    token: number[];
 }
 
 /**
