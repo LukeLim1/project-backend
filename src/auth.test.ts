@@ -90,7 +90,7 @@ describe('authLoginV1', () => {
     const loginTest = authLoginV1('zachary-chan@gmail.com', 'z5312386');
     expect(loginTest).toMatchObject({
       authUserId: regTest.authUserId,
-      token: expect.any(Number),
+      token: [expect.any(Number), expect.any(Number)],
     });
   });
 
