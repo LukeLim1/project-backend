@@ -5,6 +5,8 @@ import { userProfileV1 } from './users';
 import request from 'sync-request';
 import { url, port } from './config.json';
 
+const OK = 200;
+
 describe('authRegisterV1', () => {
   beforeEach(() => {
     clearV1();
@@ -112,4 +114,27 @@ describe('authLoginV1', () => {
   test('Returns error object when password is correct for an invalid email', () => {
     expect(loginFail).toMatchObject({ error: 'error' });
   });
+});
+
+
+describe('HTTP tests using Jest', () => {
+    test('Test successful authLogout', () => {
+        clearV1();
+        const res = request(
+        'POST',
+        `${url}:${port}/auth/logout/v1`,
+        {
+            body: JSON.stringify({
+                token: expect.any(String),
+            }),
+            headers: {
+                'Content-type': 'application/json',
+            },
+        }
+        );
+        
+        const bodyObj = JSON.parse(res.body as string);
+        expect(res.statusCode).toBe(OK);
+        expect(bodyObj).toEqual(expect.any(String));
+    });
 });

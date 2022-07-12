@@ -2,6 +2,11 @@ import { clearV1 } from './other';
 import { authRegisterV1 } from './auth';
 import { userProfileV1, setNameV1, setEmailV1, setHandleV1 } from './users';
 
+import request from 'sync-request';
+import { url, port } from './config.json';
+
+const OK = 200;
+
 test('Test successful userProfileV1', () => {
   clearV1();
   const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
@@ -108,4 +113,23 @@ describe('update: name, email and handle', () => {
       token: [expect.any(Number)],
     });
   });
+});
+
+describe('HTTP tests using Jest', () => {
+    test('Test successful usersAll', () => {
+        clearV1();
+        const res = request(
+            'GET',
+            `${url}:${port}/users/all/v1`,
+            {
+                qs: {
+                    token: expect.any(String),
+                }
+            }
+        );
+        
+        const bodyObj = JSON.parse(res.body as string);
+        expect(res.statusCode).toBe(OK);
+        expect(bodyObj).toEqual(expect.any(String));
+    });
 });
