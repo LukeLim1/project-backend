@@ -3,6 +3,39 @@ import { channelsCreateV1 } from './channels';
 import { authRegisterV1 } from './auth';
 import { clearV1 } from './other';
 
+import request from 'sync-request';
+import { url, port } from './config.json';
+
+const OK = 200;
+
+function getBodyObj (url: string, qs: object) {
+  const res = request(
+    'GET',
+    `${url}`,
+    {
+      qs: qs,
+    }
+  );
+  const bodyObj = JSON.parse(String(res.getBody()));
+  return bodyObj;
+};
+
+
+function postBodyObj (url: string, body: object) {
+  const res = request(
+    'POST',
+    `${url}`,
+    {
+      body: JSON.stringify(body),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  const bodyObj = JSON.parse(String(res.getBody()));
+  return bodyObj;
+};
+
 test('Testing successful channelDetailsV1 and channelJoinV1', () => {
   clearV1();
   const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
@@ -193,5 +226,36 @@ describe('channelLeaveV1 tests', () => {
     // testing trying to leave from a channel user1 isnt apart of
     expect(channelLeaveV1(user1.authUserId, channel1.channelId)).toMatchObject({ error: 'error' });
     expect(channelLeaveV1(user1.authUserId, -999999)).toMatchObject({ error: 'error' });
+  });
+});
+
+describe('HTTP tests using Jest', () => {
+  test('Test successful channelDetails', () => {
+    const res = request(
+      'GET',
+      `${url}:${port}/channel/details/v2`,
+      {
+        qs: {
+          echo: 'Hello',
+        }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toEqual('Hello');
+  });
+  test('Test invalid echo', () => {
+    const res = request(
+      'GET',
+            `${url}:${port}/echo`,
+            {
+              qs: {
+                echo: 'echo',
+              }
+            }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toStrictEqual({ error: 'error' });
   });
 });
