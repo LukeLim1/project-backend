@@ -7,7 +7,7 @@ export interface dmTemplate {
     messages: any[];
 
 }
-function containsDuplicates(array) {
+function containsDuplicates(array: number[]) {
   const result = array.some(element => {
     if (array.indexOf(element) !== array.lastIndexOf(element)) {
       return true;
@@ -26,6 +26,7 @@ export function dmCreateV1 (token: number, uIds: number[]) {
   const data = getData();
   // create an array with everybodies userIds
   const arrayUserId: number[] = [];
+  let element: number;
   Object.values(data.users).forEach(element => {
     const toPush = element.userId;
     arrayUserId.push(toPush);
