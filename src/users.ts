@@ -1,4 +1,5 @@
 import { getData, setData } from './dataStore';
+import { userTemplate } from './channel';
 import validator from 'validator';
 
 // userProfileV1
@@ -84,4 +85,21 @@ function setHandleV1(token: number, handleStr: string): object {
   return {};
 }
 
-export { userProfileV1, setNameV1, setEmailV1, setHandleV1 };
+function usersAll (token: string) {
+  const usersArray = [];
+  const data = getData();
+  for (const user of data.users) {
+    const obj = {
+      uId: user.userId,
+      email: user.emailAddress,
+      nameFirst: user.firstName,
+      nameLast: user.lastname,
+      handleStr: user.handle,
+    }
+    usersArray.push(obj);
+  }
+
+  return { usersArray };
+}
+
+export { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll };

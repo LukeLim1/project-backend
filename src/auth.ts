@@ -151,4 +151,15 @@ function authLoginV1 (email: string, password: string) {
   setData(data);
   return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
 }
-export { authLoginV1, authRegisterV1 };
+
+function authLogOut (token: string) {
+
+    const data = getData();
+    const user = data.users.find(u => u.token.includes(token));
+    const index = user.token.indexOf(token);
+    user.token.splice(index, 1);
+
+    return {};
+}
+
+export { authLoginV1, authRegisterV1, authLogOut };

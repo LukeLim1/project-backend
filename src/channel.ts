@@ -149,6 +149,50 @@ export function channelDetailsV1 (authUserId: number, channelId: number) {
   };
 }
 
+export function channelDetails (token: string, channelId: number) {
+  const data = getData();
+  const channel = data.channels.find(channel => channel.channelId === channelId);
+  const user = data.users.find(u => u.token.includes(token));
+
+  if (!channel) {
+    return { error: 'error' };
+  }
+
+  const owner = data.users.find(o => o.userId === channel.ownerMembers[0]);
+  const ownerArr = [{
+    uId: owner.userId,
+    email: owner.emailAddress,
+    nameFirst: owner.firstName,
+    nameLast: owner.lastname,
+    handleStr: owner.handle,
+  }];
+  const userArr = [];
+
+  // check if user with authUserId belongs to channel with channelId
+  if (!channel.allMembers.includes(user.userId)) {
+    return { error: 'error' };
+  }
+
+  for (const member of channel.allMembers) {
+    const u = data.users.find(u => u.userId === member);
+    const userObj = {
+      uId: u.userId,
+      email: u.emailAddress,
+      nameFirst: u.firstName,
+      nameLast: u.lastname,
+      handleStr: u.handle,
+    };
+    userArr.push(userObj);
+  }
+
+  return {
+    name: channel.name,
+    isPublic: channel.isPublic,
+    ownerMembers: ownerArr,
+    allMembers: userArr,
+  };
+}
+
 // channelJoinV1
 // Given 2 parameters, authUserId and channelId, joins a user with authUserId to the channel with channelId (in allMembers array)
 
@@ -178,6 +222,26 @@ export function channelJoinV1 (authUserId: number, channelId: number) {
   }
 
   channel.allMembers.push(user.uId);
+  setData(data);
+  return {};
+}
+
+export function channelJoin (token: string, channelId: number) {
+  const data = getData();
+  const channel = data.channels.find(channel => channel.channelId === channelId);
+  const user = data.users.find(u => u.token.includes(token));
+
+  if (!channel) {
+    return { error: 'error' };
+  }
+
+  if (channel.isPublic === false) {
+    return { error: 'error' };
+  } else if (channel.allMembers.includes(user.userId)) {
+    return { error: 'error' };
+  }
+
+  channel.allMembers.push(user.userId);
   setData(data);
   return {};
 }
