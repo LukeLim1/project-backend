@@ -122,16 +122,16 @@ describe('HTTP tests using Jest', () => {
     test('Test successful authLogout', () => {
         clearV1();
         const res = request(
-        'POST',
-        `${url}:${port}/auth/logout/v1`,
-        {
-            body: JSON.stringify({
-                token: expect.any(String),
-            }),
-            headers: {
-                'Content-type': 'application/json',
-            },
-        }
+            'POST',
+            `${url}:${port}/auth/logout/v1`,
+            {
+                body: JSON.stringify({
+                    token: expect.any(String),
+                }),
+                headers: {
+                    'Content-type': 'application/json',
+                },
+            }
         );
         
         const bodyObj = JSON.parse(res.body as string);
