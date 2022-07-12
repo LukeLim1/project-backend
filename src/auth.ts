@@ -119,6 +119,7 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
 
 function authLoginV1 (email: string, password: string) {
   const data = getData();
+
   // put every email into an array to check against
   const arrayOfEmails: string[] = [];
   Object.values(data.users).forEach(element => {
