@@ -1,7 +1,9 @@
-import express from 'express';
+import express, { json, Request, Response }  from 'express';
 import { echo } from './echo';
 import morgan from 'morgan';
 import config from './config.json';
+
+import { messageSend, dmList, dmRemove, dmDetails } from './Rick';
 
 // Set up web app, use JSON
 const app = express();
@@ -19,6 +21,14 @@ app.get('/echo', (req, res, next) => {
     next(err);
   }
 });
+
+app.post('message/send/v1', (req: Request, res: Response) => {
+  const { token, channelId, message } = req.body;
+
+  res.json(messageSend( token, channelId, message ));
+});
+
+
 
 // for logging errors
 app.use(morgan('dev'));
