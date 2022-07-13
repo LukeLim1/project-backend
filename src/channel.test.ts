@@ -8,33 +8,6 @@ import { url, port } from './config.json';
 
 const OK = 200;
 
-function getBodyObj (url: string, qs: object) {
-  const res = request(
-    'GET',
-    `${url}`,
-    {
-      qs: qs,
-    }
-  );
-  const bodyObj = JSON.parse(String(res.getBody()));
-  return bodyObj;
-}
-
-function postBodyObj (url: string, body: object) {
-  const res = request(
-    'POST',
-    `${url}`,
-    {
-      body: JSON.stringify(body),
-      headers: {
-        'Content-type': 'application/json',
-      },
-    }
-  );
-  const bodyObj = JSON.parse(String(res.getBody()));
-  return bodyObj;
-}
-
 function requestHelper(method: HttpVerb, path: string, payload: object) {
   let qs = {};
   let json = {};
@@ -45,6 +18,14 @@ function requestHelper(method: HttpVerb, path: string, payload: object) {
   }
   const res = request(method, `${url}:${port}/` + path, { qs, json });
   return JSON.parse(res.getBody() as string);
+}
+
+function authRegister (email: string, password: string, nameFirst: string, nameLast: string) {
+  return requestHelper('POST', 'auth/register/v2', { email, password, nameFirst, nameLast });
+}
+
+function channelsCreate (token: string, name: string, isPublic: boolean) {
+  return requestHelper('POST', 'channels/create/v2', { token, name, isPublic });
 }
 
 function channelDetails (token: string, channelId: number) {
@@ -251,149 +232,98 @@ describe('channelLeaveV1 tests', () => {
 describe('HTTP tests using Jest', () => {
   test('Test successful channelDetails', () => {
     clearV1();
-    const res = request(
-      'GET',
-      `${url}:${port}/channel/details/v2`,
-      {
-        qs: {
-          name: expect.any(String),
-          isPublic: expect.any(Boolean),
-          ownerMembers: expect.any(Array),
-          allMembers: expect.any(Array),
-        }
-      }
-    );
-    const bodyObj = JSON.parse(res.body as string);
+    const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
+    const newChannel = channelsCreate(newUser.token, 'channel1', true);
+    const res = channelDetails(newUser.token, newChannel);
+
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({
-      name: expect.any(String),
-      isPublic: expect.any(Boolean),
-      ownerMembers: expect.any(Array),
-      allMembers: expect.any(Array),
-    });
+    expect(res).toStrictEqual({
+      name: 'channel1',
+      isPublic: true,
+      ownerMembers: [
+        {
+          uId: newUser.authUserId,
+          email: 'adabob@email.com',
+          nameFirst: 'Ada',
+          nameLast: 'Bob',
+          handleStr: 'adabob',
+        },
+      ],
+      allMembers: [
+        {
+          uId: newUser.authUserId,
+          email: 'adabob@email.com',
+          nameFirst: 'Ada',
+          nameLast: 'Bob',
+          handleStr: 'adabob',
+        }
+      ]
+    })
   });
 
   test('channelDetails: channelId does not refer to valid channel', () => {
     clearV1();
-    const res = request(
-      'GET',
-      `${url}:${port}/channel/details/v2`,
-      {
-        qs: {
-          name: expect.any(String),
-          isPublic: expect.any(Boolean),
-          ownerMembers: expect.any(Array),
-          allMembers: expect.any(Array),
-        }
-      }
-    );
+    const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
+    const newChannel = channelsCreate(newUser.token, 'channel1', true);
+    const res = channelDetails(newUser.token, newChannel + 5);
 
-    const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: 'error' });
+    expect(res).toMatchObject({ error: 'error' });
   });
 
   test('channelDetails: channelId valid, but user is not a member', () => {
     clearV1();
-    const res = request(
-      'GET',
-      `${url}:${port}/channel/details/v2`,
-      {
-        qs: {
-          name: expect.any(String),
-          isPublic: expect.any(Boolean),
-          ownerMembers: expect.any(Array),
-          allMembers: expect.any(Array),
-        }
-      }
-    );
+    const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
+    const newChannel = channelsCreate(newUser.token, 'channel1', true);
+    const res = channelDetails(newUser.token.concat('abcd'), newChannel);
 
-    const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: 'error' });
+    expect(res).toMatchObject({ error: 'error' });
   });
 
   test('Test successful channelJoin', () => {
     clearV1();
-    const res = request(
-      'POST',
-      `${url}:${port}/channel/join/v2`,
-      {
-        body: JSON.stringify({
-          token: expect.any(String),
-          channelId: expect.any(Number),
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
+    const newChannel = channelsCreate(newUser.token, 'channel1', true);
+    const newUser2 = authRegister('oceanhall@email.com', '234567', 'Ocean', 'Hall');
+    const res = channelJoin(newUser2.token, newChannel);
+    const channelDetail = channelDetails(newUser2.token, newChannel);
 
-    const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    console.log(bodyObj);
+    expect(channelDetail.allMembers.length).toEqual(2);
   });
 
   test('channelJoin: channelId does not refer to a valid channel', () => {
     clearV1();
-    const res = request(
-      'POST',
-      `${url}:${port}/channel/join/v2`,
-      {
-        body: JSON.stringify({
-          token: expect.any(String),
-          channelId: expect.any(Number),
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
+    const newChannel = channelsCreate(newUser.token, 'channel1', true);
+    const newUser2 = authRegister('oceanhall@email.com', '234567', 'Ocean', 'Hall');
+    const res = channelJoin(newUser2.token, newChannel + 5);
 
-    const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: 'error' });
+    expect(res).toMatchObject({ error: 'error' });
   });
 
   test('channelJoin: authorised user is already a member', () => {
     clearV1();
-    const res = request(
-      'POST',
-      `${url}:${port}/channel/join/v2`,
-      {
-        body: JSON.stringify({
-          token: expect.any(String),
-          channelId: expect.any(Number),
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
+    const newChannel = channelsCreate(newUser.token, 'channel1', true);
+    const newUser2 = authRegister('oceanhall@email.com', '234567', 'Ocean', 'Hall');
+    channelJoin(newUser2.token, newChannel);
+    const res = channelJoin(newUser2.token, newChannel);
 
-    const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: 'error' });
+    expect(res).toMatchObject({ error: 'error' });
   });
 
   test('channelJoin: channelId refers to private channel and authorised user is not channel member and not global owner', () => {
     clearV1();
-    const res = request(
-      'POST',
-      `${url}:${port}/channel/join/v2`,
-      {
-        body: JSON.stringify({
-          token: expect.any(String),
-          channelId: expect.any(Number),
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
+    const newChannel = channelsCreate(newUser.token, 'channel1', false);
+    const newUser2 = authRegister('oceanhall@email.com', '234567', 'Ocean', 'Hall');
+    const res = channelJoin(newUser2.token, newChannel);
 
-    const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: 'error' });
+    expect(res).toMatchObject({ error: 'error' });
   });
 });
