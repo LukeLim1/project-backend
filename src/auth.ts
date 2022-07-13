@@ -97,7 +97,7 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
     lastname: nameLast,
     handle: `${userHandle}`,
     permissions: 2,
-    token: token,
+    token: [token],
   });
   setData(data);
   return {
@@ -119,6 +119,7 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
 
 function authLoginV1 (email: string, password: string) {
   const data = getData();
+
   // put every email into an array to check against
   const arrayOfEmails: string[] = [];
   Object.values(data.users).forEach(element => {
@@ -146,7 +147,7 @@ function authLoginV1 (email: string, password: string) {
   if (data.usedTokenNums.length !== 0) {
     token += data.usedTokenNums[data.usedTokenNums.length - 1];
   }
-  user.token = token;
+  user.token.push(token);
   setData(data);
   return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
 }

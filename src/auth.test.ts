@@ -58,6 +58,7 @@ describe('authRegisterV1', () => {
       const regTest6 = authRegisterV1('different@gmail.com', 'z544532', 'Harry', 'Potter');
       const regTaken = authRegisterV1('zachar@gmail.com', 'z5312386', 'Zachary', 'Chan');
       const data = userProfileV1(regTest2.authUserId, regTaken.authUserId);
+
       // removing linting errors of unused variables
       const array = [regTest1, regTest2, regTest3, regTest4, regTest5, regTest6];
       array.slice(2);
@@ -90,7 +91,7 @@ describe('authLoginV1', () => {
     const loginTest = authLoginV1('zachary-chan@gmail.com', 'z5312386');
     expect(loginTest).toMatchObject({
       authUserId: regTest.authUserId,
-      token: expect.any(Number),
+      token: [expect.any(Number), expect.any(Number)],
     });
   });
 

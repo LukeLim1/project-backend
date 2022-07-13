@@ -1,12 +1,14 @@
 // YOU SHOULD MODIFY THIS OBJECT BELOW
 
 import { userTemplate } from './channel';
+import { dmTemplate } from './dm';
 
 interface dataTemplate {
   users: userTemplate[];
   channels: any[];
   usedNums: number[];
   usedTokenNums: number[];
+  DMs: dmTemplate[];
 }
 
 let data: dataTemplate = {
@@ -14,6 +16,7 @@ let data: dataTemplate = {
   channels: [],
   usedNums: [],
   usedTokenNums: [],
+  DMs: [],
 
 };
 
