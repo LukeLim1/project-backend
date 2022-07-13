@@ -1,15 +1,6 @@
 // YOU SHOULD MODIFY THIS OBJECT BELOW
 
-import { userTemplate } from './channel';
-import { dmTemplate } from './dm';
-
-interface dataTemplate {
-  users: userTemplate[];
-  channels: any[];
-  usedNums: number[];
-  usedTokenNums: number[];
-  DMs: dmTemplate[];
-}
+import { dataTemplate } from './interface';
 
 let data: dataTemplate = {
   users: [],
