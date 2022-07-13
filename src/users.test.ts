@@ -52,7 +52,7 @@ describe('update: name, email and handle', () => {
     const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
     const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
 
-    const nameChange = setNameV1(owner.token, 'Name', 'Change');
+    const nameChange = setNameV1(owner.token[0], 'Name', 'Change');
 
     const array = [user1, nameChange];
     array.slice(1);
@@ -65,7 +65,7 @@ describe('update: name, email and handle', () => {
       nameFirst: 'Name',
       nameLast: 'Change',
       handleStr: 'adabob',
-      token: [expect.any(Number)],
+      token: [expect.any(String)],
     });
   });
   test('Changing email', () => {
@@ -73,7 +73,7 @@ describe('update: name, email and handle', () => {
     const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
     const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
 
-    const emailChange = setEmailV1(owner.token, 'newEmail@gmail.com');
+    const emailChange = setEmailV1(owner.token[0], 'newEmail@gmail.com');
     const updatedEmail = userProfileV1(owner.authUserId, owner.authUserId);
 
     const array = [user1, emailChange];
@@ -85,7 +85,7 @@ describe('update: name, email and handle', () => {
       nameFirst: 'Ada',
       nameLast: 'Bob',
       handleStr: 'adabob',
-      token: [expect.any(Number)],
+      token: [expect.any(String)],
     });
   });
   test('Changing handle', () => {
@@ -105,7 +105,7 @@ describe('update: name, email and handle', () => {
       nameFirst: 'Ada',
       nameLast: 'Bob',
       handleStr: 'newhandlehahaha',
-      token: [expect.any(Number)],
+      token: [expect.any(String)],
     });
   });
 });
