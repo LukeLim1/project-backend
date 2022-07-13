@@ -51,7 +51,11 @@ export function dmCreateV1 (token: string, uIds: number[]) {
   return { identifier };
 }
 
-export function dmLeave (token: string, dmId: number) {
+export function dmLeave (token: string, dmId: number) : object {
+  if (!checkToken(token)) {
+    return { error: 'error' };
+  }
+
   const data = getData();
   const user = data.users.find(u => u.token.includes(token));
   const dm = data.DMs.find(d => d.dmId === dmId);
@@ -61,7 +65,7 @@ export function dmLeave (token: string, dmId: number) {
   } else if (!dm.name.includes(user.handle)) {
     return { error: 'error' };
   }
-  
+
   for (const name of dm.name) {
     if (user.handle === name) {
       const index = dm.name.indexOf(name);
@@ -72,7 +76,11 @@ export function dmLeave (token: string, dmId: number) {
   return {};
 }
 
-export function dmMessages (token: string, dmId: number, start: number) {
+export function dmMessages (token: string, dmId: number, start: number): object {
+  if (!checkToken(token)) {
+    return { error: 'error' };
+  }
+
   const data = getData();
   const dm = data.DMs.find(d => d.dmId === dmId);
   const user = data.users.find(u => u.token.includes(token));

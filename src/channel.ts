@@ -1,6 +1,7 @@
 import { getData, setData } from './dataStore';
 import { userProfileV1 } from './users';
 import { userTemplate } from './interface';
+import { checkToken } from './helperFunctions';
 
 /**
  * Invite a user with ID uId to join a channel with ID channelId
@@ -139,7 +140,11 @@ export function channelDetailsV1 (authUserId: number, channelId: number) {
   };
 }
 
-export function channelDetails (token: string, channelId: number) {
+export function channelDetails (token: string, channelId: number) : object {
+  if (!checkToken(token)) {
+    return { error: 'error' };
+  }
+
   const data = getData();
   const channel = data.channels.find(channel => channel.channelId === channelId);
   const user = data.users.find(u => u.token.includes(token));
@@ -199,7 +204,7 @@ export function channelDetails (token: string, channelId: number) {
 export function channelJoinV1 (authUserId: number, channelId: number) {
   const data = getData();
   const channel = data.channels.find(channel => channel.channelId === channelId);
-  const user = userProfileV1(authUserId, authUserId);
+  const user = userProfileV1(authUserId.toString(), authUserId);
 
   if (!channel) {
     return { error: 'error' };
@@ -216,7 +221,11 @@ export function channelJoinV1 (authUserId: number, channelId: number) {
   return {};
 }
 
-export function channelJoin (token: string, channelId: number) {
+export function channelJoin (token: string, channelId: number) : object {
+  if (!checkToken(token)) {
+    return { error: 'error' };
+  }
+
   const data = getData();
   const channel = data.channels.find(channel => channel.channelId === channelId);
   const user = data.users.find(u => u.token.includes(token));

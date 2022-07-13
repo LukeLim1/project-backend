@@ -3,7 +3,7 @@ import { channelsCreateV1 } from './channels';
 import { authRegisterV1 } from './auth';
 import { clearV1 } from './other';
 
-import request from 'sync-request';
+import request, { HttpVerb } from 'sync-request';
 import { url, port } from './config.json';
 
 const OK = 200;
@@ -18,8 +18,7 @@ function getBodyObj (url: string, qs: object) {
   );
   const bodyObj = JSON.parse(String(res.getBody()));
   return bodyObj;
-};
-
+}
 
 function postBodyObj (url: string, body: object) {
   const res = request(
@@ -34,7 +33,27 @@ function postBodyObj (url: string, body: object) {
   );
   const bodyObj = JSON.parse(String(res.getBody()));
   return bodyObj;
-};
+}
+
+function requestHelper(method: HttpVerb, path: string, payload: object) {
+  let qs = {};
+  let json = {};
+  if (['GET', 'DELETE'].includes(method)) {
+    qs = payload;
+  } else {
+    json = payload;
+  }
+  const res = request(method, `${url}:${port}/` + path, { qs, json });
+  return JSON.parse(res.getBody() as string);
+}
+
+function channelDetails (token: string, channelId: number) {
+  return requestHelper('GET', 'channel/details/v2', { token, channelId });
+}
+
+function channelJoin (token: string, channelId: number) {
+  return requestHelper('POST', 'channel/join/v2', { token, channelId });
+}
 
 test('Testing successful channelDetailsV1 and channelJoinV1', () => {
   clearV1();
@@ -268,7 +287,7 @@ describe('HTTP tests using Jest', () => {
         }
       }
     );
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: 'error' });
@@ -288,7 +307,7 @@ describe('HTTP tests using Jest', () => {
         }
       }
     );
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: 'error' });
@@ -309,7 +328,7 @@ describe('HTTP tests using Jest', () => {
         },
       }
     );
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     console.log(bodyObj);
@@ -330,7 +349,7 @@ describe('HTTP tests using Jest', () => {
         },
       }
     );
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: 'error' });
@@ -351,7 +370,7 @@ describe('HTTP tests using Jest', () => {
         },
       }
     );
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: 'error' });
@@ -372,7 +391,7 @@ describe('HTTP tests using Jest', () => {
         },
       }
     );
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: 'error' });

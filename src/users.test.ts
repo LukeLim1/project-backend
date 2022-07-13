@@ -2,16 +2,32 @@ import { clearV1 } from './other';
 import { authRegisterV1 } from './auth';
 import { userProfileV1, setNameV1, setEmailV1, setHandleV1 } from './users';
 
-import request from 'sync-request';
+import request, { HttpVerb } from 'sync-request';
 import { url, port } from './config.json';
 
 const OK = 200;
+
+function requestHelper(method: HttpVerb, path: string, payload: object) {
+  let qs = {};
+  let json = {};
+  if (['GET', 'DELETE'].includes(method)) {
+    qs = payload;
+  } else {
+    json = payload;
+  }
+  const res = request(method, `${url}:${port}/` + path, { qs, json });
+  return JSON.parse(res.getBody() as string);
+}
+
+function usersAll (token: string) {
+  return requestHelper('GET', 'users/all/v1', { token });
+}
 
 test('Test successful userProfileV1', () => {
   clearV1();
   const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
   const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
-  const result = userProfileV1(owner.authUserId, user1.authUserId);
+  const result = userProfileV1(owner.authUserId.toString(), user1.authUserId);
 
   expect(result).toMatchObject({
     uId: user1.authUserId,
@@ -32,7 +48,7 @@ describe('authRegisterV1', () => {
 
   describe('Error cases', () => {
     test('invalid user', () => {
-      expect(userProfileV1(authUserId, uId + 100)).toMatchObject({ error: 'error' });
+      expect(userProfileV1(authUserId.toString(), uId + 100)).toMatchObject({ error: 'error' });
     });
   });
 
@@ -45,7 +61,7 @@ describe('authRegisterV1', () => {
         nameLast: 'Yolo',
         handleStr: 'heronyolo',
       };
-      expect(userProfileV1(authUserId, uId)).toMatchObject(returnUser);
+      expect(userProfileV1(authUserId.toString(), uId)).toMatchObject(returnUser);
     });
   });
 });
@@ -62,7 +78,7 @@ describe('update: name, email and handle', () => {
     const array = [user1, nameChange];
     array.slice(1);
 
-    const updatedNames = userProfileV1(owner.authUserId, owner.authUserId);
+    const updatedNames = userProfileV1(owner.authUserId.toString(), owner.authUserId);
 
     expect(updatedNames).toMatchObject({
       uId: owner.authUserId,
@@ -79,7 +95,7 @@ describe('update: name, email and handle', () => {
     const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
 
     const emailChange = setEmailV1(owner.token[0], 'newEmail@gmail.com');
-    const updatedEmail = userProfileV1(owner.authUserId, owner.authUserId);
+    const updatedEmail = userProfileV1(owner.authUserId.toString(), owner.authUserId);
 
     const array = [user1, emailChange];
     array.slice(1);
@@ -99,7 +115,7 @@ describe('update: name, email and handle', () => {
     const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
 
     const handleChange = setHandleV1(owner.token, 'newhandlehahaha');
-    const updatedHandle = userProfileV1(owner.authUserId, owner.authUserId);
+    const updatedHandle = userProfileV1(owner.authUserId.toString(), owner.authUserId);
 
     const array = [user1, handleChange];
     array.slice(1);
@@ -116,20 +132,20 @@ describe('update: name, email and handle', () => {
 });
 
 describe('HTTP tests using Jest', () => {
-    test('Test successful usersAll', () => {
-        clearV1();
-        const res = request(
-            'GET',
+  test('Test successful usersAll', () => {
+    clearV1();
+    const res = request(
+      'GET',
             `${url}:${port}/users/all/v1`,
             {
-                qs: {
-                    token: expect.any(String),
-                }
+              qs: {
+                token: expect.any(String),
+              }
             }
-        );
-        
-        const bodyObj = JSON.parse(res.body as string);
-        expect(res.statusCode).toBe(OK);
-        expect(bodyObj).toEqual(expect.any(String));
-    });
+    );
+
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toEqual(expect.any(String));
+  });
 });

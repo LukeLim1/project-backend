@@ -2,7 +2,7 @@ import express from 'express';
 import { echo } from './echo';
 import morgan from 'morgan';
 import config from './config.json';
-import { authLoginV1, authRegisterV1, authLogOut } from './auth';
+import { authLoginV1, authRegisterV1, authLogout } from './auth';
 import { channelsCreateV1 } from './channels';
 import { channelDetails, channelJoin } from './channel';
 import { dmLeave, dmMessages } from './dm';
@@ -40,7 +40,7 @@ app.post('/auth/login/v2', (req, res) => {
 
 app.post('/auth/logout/v1', (req, res) => {
   const { token } = req.body;
-  res.json(authLogOut(token));
+  res.json(authLogout(token));
 });
 
 app.post('/channels/create/v2', (req, res) => {

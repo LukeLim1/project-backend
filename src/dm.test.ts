@@ -2,10 +2,30 @@ import { dmCreateV1 } from './dm';
 import { authRegisterV1 } from './auth';
 import { clearV1 } from './other';
 
-import request from 'sync-request';
+import request, { HttpVerb } from 'sync-request';
 import { url, port } from './config.json';
 
 const OK = 200;
+
+function requestHelper(method: HttpVerb, path: string, payload: object) {
+  let qs = {};
+  let json = {};
+  if (['GET', 'DELETE'].includes(method)) {
+    qs = payload;
+  } else {
+    json = payload;
+  }
+  const res = request(method, `${url}:${port}/` + path, { qs, json });
+  return JSON.parse(res.getBody() as string);
+}
+
+function dmLeave (token: string, dmId: number) {
+  return requestHelper('POST', 'dm/leave/v1', { token, dmId });
+}
+
+function dmMessages (token: string, dmId: number, start: number) {
+  return requestHelper('GET', 'dm/messages/v1', { token, dmId, start });
+}
 
 describe('Dm return values', () => {
   beforeEach(() => {
@@ -49,82 +69,82 @@ describe('Dm return values', () => {
 
 describe('HTTP tests using Jest', () => {
   test('Test successful dmLeave', () => {
-      clearV1();
-      const res = request(
-          'POST',
+    clearV1();
+    const res = request(
+      'POST',
           `${url}:${port}/dm/leave/v1`,
           {
             body: JSON.stringify({
-                token: expect.any(String),
-                dmId: expect.any(Number),
+              token: expect.any(String),
+              dmId: expect.any(Number),
             }),
             headers: {
-                'Content-type': 'application/json',
+              'Content-type': 'application/json',
             },
           }
-      );
-      
-      const bodyObj = JSON.parse(res.body as string);
-      expect(res.statusCode).toBe(OK);
-      expect(bodyObj).toEqual(expect.any(String));
+    );
+
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toEqual(expect.any(String));
   });
 
   test('dmLeave: dmId does not refer to valid DM', () => {
     clearV1();
     const res = request(
-        'POST',
+      'POST',
         `${url}:${port}/dm/leave/v1`,
         {
           body: JSON.stringify({
-              token: expect.any(String),
-              dmId: expect.any(Number),
+            token: expect.any(String),
+            dmId: expect.any(Number),
           }),
           headers: {
-              'Content-type': 'application/json',
+            'Content-type': 'application/json',
           },
         }
     );
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: 'error'});
+    expect(bodyObj).toMatchObject({ error: 'error' });
   });
 
   test('dmLeave: dmId valid, but user is not a member of DM', () => {
     clearV1();
     const res = request(
-        'POST',
+      'POST',
         `${url}:${port}/dm/leave/v1`,
         {
           body: JSON.stringify({
-              token: expect.any(String),
-              dmId: expect.any(Number),
+            token: expect.any(String),
+            dmId: expect.any(Number),
           }),
           headers: {
-              'Content-type': 'application/json',
+            'Content-type': 'application/json',
           },
         }
     );
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: 'error'});
+    expect(bodyObj).toMatchObject({ error: 'error' });
   });
 
   test('Test successful dmMessages', () => {
     clearV1();
     const res = request(
-        'GET',
+      'GET',
         `${url}:${port}/dm/messages/v1`,
         {
-            qs: {
-                token: expect.any(String),
-                dmId: expect.any(Number),
-                start: expect.any(Number),
-            }
+          qs: {
+            token: expect.any(String),
+            dmId: expect.any(Number),
+            start: expect.any(Number),
+          }
         }
     );
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({
@@ -137,57 +157,57 @@ describe('HTTP tests using Jest', () => {
   test('dmMessages: dmId does not refer to valid DM', () => {
     clearV1();
     const res = request(
-        'GET',
+      'GET',
         `${url}:${port}/dm/messages/v1`,
         {
-            qs: {
-                token: expect.any(String),
-                dmId: expect.any(Number),
-                start: expect.any(Number),
-            }
+          qs: {
+            token: expect.any(String),
+            dmId: expect.any(Number),
+            start: expect.any(Number),
+          }
         }
     );
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: 'error'});
+    expect(bodyObj).toMatchObject({ error: 'error' });
   });
 
   test('dmMessages: start greater than total messages in channel', () => {
     clearV1();
     const res = request(
-        'GET',
+      'GET',
         `${url}:${port}/dm/messages/v1`,
         {
-            qs: {
-                token: expect.any(String),
-                dmId: expect.any(Number),
-                start: expect.any(Number),
-            }
+          qs: {
+            token: expect.any(String),
+            dmId: expect.any(Number),
+            start: expect.any(Number),
+          }
         }
     );
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: 'error'});
+    expect(bodyObj).toMatchObject({ error: 'error' });
   });
 
   test('dmMessages: dmId valid, authorised user is not a member of DM', () => {
     clearV1();
     const res = request(
-        'GET',
+      'GET',
         `${url}:${port}/dm/messages/v1`,
         {
-            qs: {
-                token: expect.any(String),
-                dmId: expect.any(Number),
-                start: expect.any(Number),
-            }
+          qs: {
+            token: expect.any(String),
+            dmId: expect.any(Number),
+            start: expect.any(Number),
+          }
         }
     );
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: 'error'});
+    expect(bodyObj).toMatchObject({ error: 'error' });
   });
 });
