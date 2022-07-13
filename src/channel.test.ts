@@ -5,7 +5,6 @@ import { clearV1 } from './other';
 
 import request from 'sync-request';
 import { url, port } from './config.json';
-import { clear } from 'console';
 
 const OK = 200;
 
