@@ -37,10 +37,11 @@ interface error {
 
 export function messageSend (token: string, channelId: number, message: string): messageId | error{
 	const data = getData();
-	const channel = data.channels.find(c => c.channelId === channelId)
-	//const user = 
+	const channel = data.channels.find(c => c.channelId === channelId);
+	const user = data.users.find (u => u.userId === channelId);
+
 	// Check if token is valid
-	let trigger = 0;
+	/*let trigger = 0;
 
 	for (const tokens of usedTokenNums) {
 		if (token === tokens){
@@ -51,7 +52,7 @@ export function messageSend (token: string, channelId: number, message: string):
 	if (trigger === 0) {
 		return {error: 'error'};
 	}
-
+*/
 	// Case 1: if length of message is less than 1 or greater than 1000
 	if (message.length < 1 || message.length > 1000) {
 		return {error: 'error'};
@@ -60,9 +61,9 @@ export function messageSend (token: string, channelId: number, message: string):
 	if (!channel) {
 		return {error: 'error'};
 	}
-	// Case 3: if channelId is valid and the user is not a member of channel
-	if () {
-
+	// Case 3: if the user is not a member of channel
+	if (!user) {
+		return {error: 'error'};
 	}
 
 	
@@ -75,7 +76,7 @@ export function messageSend (token: string, channelId: number, message: string):
 
 
 
-export function dmList (token: string) {
+export function dmList (token: string): dmData | error {
 
 	// Check if token is valid
 
@@ -113,6 +114,10 @@ export function dmDetails (token: string, dmId: number) {
 	// Check if token is valid
 
 
+	// Case 1: dmId does not refer to a valid DM
+
+
+	// Case 2: authorised user is not a member of the DM
 
 
 
