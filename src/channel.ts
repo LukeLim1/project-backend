@@ -1,16 +1,6 @@
 import { getData, setData } from './dataStore';
 import { userProfileV1 } from './users';
-
-export interface userTemplate {
-    emailAddress: string;
-    userId: number;
-    password: string;
-    firstName: string;
-    lastname: string;
-    handle: string;
-    permissions: number;
-    token: number[];
-}
+import { userTemplate } from './interface';
 
 /**
  * Invite a user with ID uId to join a channel with ID channelId

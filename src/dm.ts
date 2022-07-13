@@ -1,29 +1,17 @@
 import { getData } from './dataStore';
-export interface dmTemplate {
+import { containsDuplicates, checkToken } from './helperFunctions';
 
-    dmId: number;
-    dmOwner: number;
-    name: string[];
-    messages: any[];
-
-}
-function containsDuplicates(array: number[]) {
-  const result = array.some(element => {
-    if (array.indexOf(element) !== array.lastIndexOf(element)) {
-      return true;
-    }
-
-    return false;
-  });
-
-  return result;
-}
-
-export function dmCreateV1 (token: number, uIds: number[]) {
+export function dmCreateV1 (token: string, uIds: number[]) {
   if (containsDuplicates(uIds) === true) {
     return { error: 'error' };
   }
   const data = getData();
+  // test for a valid token
+  checkToken(token);
+  if (checkToken(token) === false) {
+    return { error: 'error' };
+  }
+
   // create an array with everybodies userIds
   const arrayUserId: number[] = [];
 
@@ -38,7 +26,7 @@ export function dmCreateV1 (token: number, uIds: number[]) {
     return { error: 'error' };
   }
   // find owner
-  const user = data.users.find(u => u.userId === token);
+  const user = data.users.find(u => u.token.includes(token) === true);
 
   // create an array of alphanumerically sorted handles of all users
   const handleArray: string[] = [];

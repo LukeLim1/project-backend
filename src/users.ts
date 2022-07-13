@@ -28,9 +28,9 @@ function userProfileV1(authUserId: number, uId: number) {
   }
 }
 
-function setNameV1(token: number, nameFirst: string, nameLast: string): object {
+function setNameV1(token: string, nameFirst: string, nameLast: string): object {
   const data = getData();
-  const user = data.users.find(u => u.userId === token);
+  const user = data.users.find(u => u.token.includes(token) === true);
   // Error Cases
   if (nameFirst.length <= 1 || nameFirst.length >= 50) {
     return { error: 'error' };
@@ -48,9 +48,9 @@ function setNameV1(token: number, nameFirst: string, nameLast: string): object {
   }
   return {};
 }
-function setEmailV1(token: number, email: string): object {
+function setEmailV1(token: string, email: string): object {
   const data = getData();
-  const user = data.users.find(u => u.userId === token);
+  const user = data.users.find(u => u.token.includes(token) === true);
   // error cases
   if (!(validator.isEmail(email))) {
     return { error: 'error' };
@@ -65,7 +65,7 @@ function setEmailV1(token: number, email: string): object {
   }
   return {};
 }
-function setHandleV1(token: number, handleStr: string): object {
+function setHandleV1(token: string, handleStr: string): object {
   // error cases
   if (handleStr.length <= 3 || handleStr.length >= 20) {
     return { error: 'error' };
@@ -75,7 +75,7 @@ function setHandleV1(token: number, handleStr: string): object {
     return { error: 'error' };
   }
   const data = getData();
-  const user = data.users.find(u => u.userId === token);
+  const user = data.users.find(u => u.token.includes(token) === true);
   if (!user) {
     return { error: 'error' };
   } else {

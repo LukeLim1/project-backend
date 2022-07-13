@@ -39,7 +39,10 @@ describe('authRegisterV1', () => {
   describe('No errors in input', () => {
     test('Ensuring a unique number between 1-1000 is returned', () => {
       const regTest = authRegisterV1('zachary-chan@gmail.com', 'z5312386', 'Zachary', 'Chan');
-      expect(regTest).toMatchObject({ authUserId: expect.any(Number) });
+      expect(regTest).toMatchObject({
+        authUserId: expect.any(Number),
+        token: expect.any(String)
+      });
     });
     test('simple lower case concatenation of new handle not taken yet', () => {
       const regTest2 = authRegisterV1('the-rock@gmail.com', 'z5312386', 'Dwayne', 'johnson');
@@ -96,7 +99,7 @@ describe('authLoginV1', () => {
     const loginTest = authLoginV1('zachary-chan@gmail.com', 'z5312386');
     expect(loginTest).toMatchObject({
       authUserId: regTest.authUserId,
-      token: [expect.any(Number), expect.any(Number)],
+      token: [expect.any(String), expect.any(String)],
     });
   });
 
