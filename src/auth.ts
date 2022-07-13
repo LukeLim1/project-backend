@@ -156,6 +156,11 @@ function authLogOut (token: string) {
 
     const data = getData();
     const user = data.users.find(u => u.token.includes(token));
+
+    if (!user) {
+        return { error: 'error' };
+    }
+
     const index = user.token.indexOf(token);
     user.token.splice(index, 1);
 
