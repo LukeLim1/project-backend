@@ -12,7 +12,7 @@ export function containsDuplicates(array: number[]) {
 }
 
 // test for a valid token
-export function checkToken(token: string): boolean {
+export function checkToken(token: string): boolean | undefined {
   const data = getData();
   const tokenArray: string[] = [];
   Object.values(data.users).forEach(element => {
