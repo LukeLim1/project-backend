@@ -1,7 +1,8 @@
 import { getData, setData } from './dataStore';
 import { userProfileV1 } from './users';
-import { userTemplate } from './interface';
+import { IChannelDetails, userTemplate } from './interface';
 import { checkToken } from './helperFunctions';
+import { Error, Empty } from './interface';
 
 /**
  * Invite a user with ID uId to join a channel with ID channelId
@@ -140,7 +141,7 @@ export function channelDetailsV1 (authUserId: number, channelId: number) {
   };
 }
 
-export function channelDetails (token: string, channelId: number) : object {
+export function channelDetails (token: string, channelId: number) : IChannelDetails | Error {
   if (checkToken(token) === false) {
     return { error: 'error' };
   }
@@ -221,7 +222,7 @@ export function channelJoinV1 (authUserId: number, channelId: number) {
   return {};
 }
 
-export function channelJoin (token: string, channelId: number) : object {
+export function channelJoin (token: string, channelId: number) : Empty | Error {
   if (checkToken(token) === false) {
     return { error: 'error' };
   }

@@ -1,6 +1,7 @@
 import { getData, setData } from './dataStore';
 import validator from 'validator';
 import { checkToken } from './helperFunctions';
+import { Empty, Error } from './interface';
 
 // Given user information from parameters, create a new account for them (as an object inside an array)
 // and return a new unique 'authUserId'
@@ -155,7 +156,7 @@ function authLoginV1 (email: string, password: string) {
   return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
 }
 
-function authLogout (token: string): object {
+function authLogout (token: string): Empty | Error {
     if (checkToken(token) === false) {
         return { error: 'error' };
     }

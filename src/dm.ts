@@ -1,5 +1,6 @@
 import { getData } from './dataStore';
 import { containsDuplicates, checkToken } from './helperFunctions';
+import { Error, Empty, IDmMessages, IMessages } from './interface';
 
 export function dmCreateV1 (token: string, uIds: number[]) {
   if (containsDuplicates(uIds) === true) {
@@ -51,7 +52,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
   return { identifier };
 }
 
-export function dmLeave (token: string, dmId: number) : object {
+export function dmLeave (token: string, dmId: number) : Empty | Error {
   if (checkToken(token) === false) {
     return { error: 'error' };
   }
@@ -76,7 +77,7 @@ export function dmLeave (token: string, dmId: number) : object {
   return {};
 }
 
-export function dmMessages (token: string, dmId: number, start: number): object {
+export function dmMessages (token: string, dmId: number, start: number): IDmMessages | Error {
   if (checkToken(token) === false) {
     return { error: 'error' };
   }
@@ -85,7 +86,7 @@ export function dmMessages (token: string, dmId: number, start: number): object 
   const dm = data.DMs.find(d => d.dmId === dmId);
   const user = data.users.find(u => u.token.includes(token));
   let end = start + 50;
-  let messagesRestructured: string[];
+  let messagesRestructured: IMessages[];
 
   if (!dm) {
     return { error: 'error' };
@@ -99,13 +100,29 @@ export function dmMessages (token: string, dmId: number, start: number): object 
     return { error: 'error' };
   }
 
+  /*
   if (end >= messagesCopy.length - 1) {
     end = -1;
     messagesRestructured = messagesCopy.slice(0, messagesCopy.length - start);
   } else {
     messagesRestructured = messagesCopy.slice(messagesCopy.length - end - 1, messagesCopy.length - start);
   }
+  */
+
+  for (const msg of dm.messages) {
+    let i = 0;
+    messagesRestructured.push({
+      messageId: i,
+      uId: user.userId,
+      message: msg,
+      timeSent: 3,
+    })
+    i++;
+  }
 
   messagesRestructured.reverse();
-  return { messages: messagesRestructured, start, end };
+  return { messages: messagesRestructured, 
+    start: start,
+    end: end,
+  };
 }
