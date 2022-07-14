@@ -87,6 +87,7 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
   if (data.usedTokenNums.length !== 0) {
     token += data.usedTokenNums[data.usedTokenNums.length - 1];
   }
+  const tokenStr = token.toString();
   data.usedNums.push(randomNumber);
   data.usedTokenNums.push(token);
   data.users.push({
@@ -97,11 +98,11 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
     lastname: nameLast,
     handle: `${userHandle}`,
     permissions: 2,
-    token: [token],
+    token: [tokenStr],
   });
   setData(data);
   return {
-    token: token,
+    token: tokenStr,
     authUserId: randomNumber
   };
 }
@@ -147,7 +148,8 @@ function authLoginV1 (email: string, password: string) {
   if (data.usedTokenNums.length !== 0) {
     token += data.usedTokenNums[data.usedTokenNums.length - 1];
   }
-  user.token.push(token);
+  const tokenStr = token.toString();
+  user.token.push(tokenStr);
   setData(data);
   return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
 }

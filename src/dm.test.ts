@@ -19,7 +19,7 @@ describe('Dm return values', () => {
 
     const array = [regTest1.authUserId, regTest2.authUserId, regTest5.authUserId, regTest6.authUserId];
 
-    expect(dmCreateV1(regTest5.authUserId, array)).toMatchObject({ identifier: expect.any(Number) });
+    expect(dmCreateV1(regTest5.token, array)).toMatchObject({ identifier: expect.any(Number) });
   });
   test('invalid creation of a dm', () => {
     const regTest1 = authRegisterV1('c@gmail.com', 'password', 'Cc', 'Cc');
@@ -33,9 +33,11 @@ describe('Dm return values', () => {
 
     // uIds array isnt a subset of all registered users
     const array1 = [regTest1.authUserId, regTest2.authUserId, regTest5.authUserId, 2999990];
-    expect(dmCreateV1(regTest5.authUserId, array1)).toMatchObject({ error: 'error' });
+    expect(dmCreateV1(regTest5.token, array1)).toMatchObject({ error: 'error' });
     // duplicates in uIds array
     const array2 = [regTest1.authUserId, regTest5.authUserId, regTest5.authUserId];
-    expect(dmCreateV1(regTest5.authUserId, array2)).toMatchObject({ error: 'error' });
+    expect(dmCreateV1(regTest5.token, array2)).toMatchObject({ error: 'error' });
+    // valid token
+    expect(dmCreateV1('helllllooooooo', array2)).toMatchObject({ error: 'error' });
   });
 });
