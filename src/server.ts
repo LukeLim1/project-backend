@@ -6,6 +6,7 @@ import { authLoginV1, authRegisterV1 } from './auth';
 import { channelsCreateV1 } from './channels';
 
 import { messageSend, dmList, dmRemove, dmDetails } from './Rick';
+import { dmTemplate } from './dm';
 
 // Set up web app, use JSON
 const app = express();
@@ -24,16 +25,6 @@ app.get('/echo', (req, res, next) => {
   }
 });
 
-<<<<<<< HEAD
-app.post('message/send/v1', (req: Request, res: Response) => {
-  const { token, channelId, message } = req.body;
-
-  res.json(messageSend( token, channelId, message ));
-});
-
-
-
-=======
 app.post('/auth/register/v2', (req, res) => {
   console.log('auth/register/V2');
   const { email, password, nameFirst, nameLast } = req.body;
@@ -53,7 +44,29 @@ app.post('/channels/create/v2', (req, res) => {
   res.json(channelsCreateV1(token, name, isPublic));
 });
 
->>>>>>> 001dccc3e3d7127e980aab9a66bee9ec6508774f
+app.post('message/send/v1', (req, res) => {
+  const { token, channelId, message } = req.body;
+  res.json(messageSend(token, channelId, message));
+});
+
+app.get('dm/list/v1', (req: Request, res: Response) => {
+  const token = req.query.token as string;
+  res.json(dmList(token));
+});
+
+app.get('dm/details/v1', (req: Request, res: Response) => {
+  const token = req.query.token as string;
+  const dmId = req.query.dmId as string;
+  res.json(dmDetails(token as string, parseInt(dmId)));
+});
+
+app.delete('/dm/remove/v1', (req: Request, res: Response) => {
+  
+  
+  res.json({});
+});
+
+
 // for logging errors
 app.use(morgan('dev'));
 

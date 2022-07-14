@@ -1,8 +1,6 @@
-import { getData, setData } from './dataStore';
-interface dm {
-	dmId: number,
-	name: string,
-}
+import { getData, setData, dataTemplate } from './dataStore';
+import { dmTemplate } from './dm';
+import { userTemplate } from './channel';
 
 interface user {
 	uId: number,
@@ -20,19 +18,11 @@ let userStore: userData = {
 	users: [],
 }
 
-interface dmData {
-	dms: dm[],
-}
-
-let dmStore: dmData = {
-	dms: [],
-}
-
 interface messageId {
 	messageId: number,
 }
 interface error {
-	error: 'error',
+	error: string,
 }
 
 export function messageSend (token: string, channelId: number, message: string): messageId | error{
@@ -41,16 +31,9 @@ export function messageSend (token: string, channelId: number, message: string):
 	const user = data.users.find (u => u.userId === channelId);
 
 	// Check if token is valid
-	/*let trigger = 0;
-
-	for (const tokens of usedTokenNums) {
-		if (token === tokens){
-			trigger = 1;
-		}
-	}
-
-	if (trigger === 0) {
-		return {error: 'error'};
+	/*checkToken(token);
+	if (checkToken(token) === false) {
+		return { error: 'error' };
 	}
 */
 	// Case 1: if length of message is less than 1 or greater than 1000
@@ -68,7 +51,7 @@ export function messageSend (token: string, channelId: number, message: string):
 
 	
 
-	let messageId: number = Math.floor(Math.random() * 1000);
+	let messageId: number = message.length * 2 + 1531;
 
 	return {messageId: messageId};
 }
@@ -76,7 +59,7 @@ export function messageSend (token: string, channelId: number, message: string):
 
 
 
-export function dmList (token: string): dmData | error {
+export function dmList (token: string) {
 
 	// Check if token is valid
 
