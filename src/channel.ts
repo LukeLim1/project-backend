@@ -141,7 +141,7 @@ export function channelDetailsV1 (authUserId: number, channelId: number) {
 }
 
 export function channelDetails (token: string, channelId: number) : object {
-  if (!checkToken(token)) {
+  if (checkToken(token) === false) {
     return { error: 'error' };
   }
 
@@ -222,7 +222,7 @@ export function channelJoinV1 (authUserId: number, channelId: number) {
 }
 
 export function channelJoin (token: string, channelId: number) : object {
-  if (!checkToken(token)) {
+  if (checkToken(token) === false) {
     return { error: 'error' };
   }
 

@@ -155,22 +155,23 @@ function authLoginV1 (email: string, password: string) {
   return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
 }
 
-function authLogOut (token: string): object {
-  if (!checkToken(token)) {
-    return { error: 'error' };
-  }
+function authLogout (token: string): object {
+    if (checkToken(token) === false) {
+        return { error: 'error' };
+    }
 
-  const data = getData();
-  const user = data.users.find(u => u.token.includes(token));
+    const data = getData();
+    const user = data.users.find(u => u.token.includes(token));
 
-  if (!user) {
-    return { error: 'error' };
-  }
+    if (!user) {
+        return { error: 'error' };
+    }
 
-  const index = user.token.indexOf(token);
-  user.token.splice(index, 1);
+    const index = user.token.indexOf(token);
+    user.token.splice(index, 1);
+    setData(data);
 
-  return {};
+    return {};
 }
 
-export { authLoginV1, authRegisterV1, authLogOut };
+export { authLoginV1, authRegisterV1, authLogout };

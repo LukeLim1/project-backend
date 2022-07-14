@@ -19,6 +19,10 @@ function requestHelper(method: HttpVerb, path: string, payload: object) {
   return JSON.parse(res.getBody() as string);
 }
 
+function authRegister (email: string, password: string, nameFirst: string, nameLast: string) {
+    return requestHelper('POST', 'auth/register/v2', { email, password, nameFirst, nameLast });
+}
+
 function usersAll (token: string) {
   return requestHelper('GET', 'users/all/v1', { token });
 }
@@ -134,18 +138,26 @@ describe('update: name, email and handle', () => {
 describe('HTTP tests using Jest', () => {
   test('Test successful usersAll', () => {
     clearV1();
-    const res = request(
-      'GET',
-            `${url}:${port}/users/all/v1`,
-            {
-              qs: {
-                token: expect.any(String),
-              }
-            }
-    );
+    const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
+    const newUser2 = authRegister('oceanhall@email.com', '234567', 'Ocean', 'Hall');
+    const res = usersAll(newUser.token);
 
-    const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toEqual(expect.any(String));
+    expect(res).toStrictEqual({
+        users: [{
+            uId: newUser.authUserId,
+            email: 'adabob@email.com',
+            nameFirst: 'Ada',
+            nameLast: 'Bob',
+            handleStr: 'adabob',
+        },
+        {
+            uId: newUser2.authUserId,
+            email: 'oceanhall@email.com',
+            nameFirst: 'Ocean',
+            nameLast: 'Hall',
+            handleStr: 'oceanhall',
+        }]
+    });
   });
 });

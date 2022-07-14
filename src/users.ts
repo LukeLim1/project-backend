@@ -87,7 +87,7 @@ function setHandleV1(token: string, handleStr: string): object {
 }
 
 function usersAll (token: string) {
-  if (!checkToken(token)) {
+  if (checkToken(token) === false) {
     return { error: 'error' };
   }
 

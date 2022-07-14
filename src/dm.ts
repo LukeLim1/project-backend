@@ -52,7 +52,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
 }
 
 export function dmLeave (token: string, dmId: number) : object {
-  if (!checkToken(token)) {
+  if (checkToken(token) === false) {
     return { error: 'error' };
   }
 
@@ -77,7 +77,7 @@ export function dmLeave (token: string, dmId: number) : object {
 }
 
 export function dmMessages (token: string, dmId: number, start: number): object {
-  if (!checkToken(token)) {
+  if (checkToken(token) === false) {
     return { error: 'error' };
   }
 
