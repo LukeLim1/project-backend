@@ -27,6 +27,14 @@ function usersAll (token: string) {
   return requestHelper('GET', 'users/all/v1', { token });
 }
 
+function clear () {
+    return requestHelper('DELETE', 'clear/v1', {});
+}
+
+beforeEach(() => {
+    clear();
+});
+
 test('Test successful userProfileV1', () => {
   clearV1();
   const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
@@ -137,7 +145,6 @@ describe('update: name, email and handle', () => {
 
 describe('HTTP tests using Jest', () => {
   test('Test successful usersAll', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newUser2 = authRegister('oceanhall@email.com', '234567', 'Ocean', 'Hall');
     const res = usersAll(newUser.token);

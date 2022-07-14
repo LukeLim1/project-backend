@@ -5,6 +5,7 @@ import { clearV1 } from './other';
 
 import request, { HttpVerb } from 'sync-request';
 import { url, port } from './config.json';
+import { assert } from 'console';
 
 const OK = 200;
 
@@ -17,6 +18,7 @@ function requestHelper(method: HttpVerb, path: string, payload: object) {
     json = payload;
   }
   const res = request(method, `${url}:${port}/` + path, { qs, json });
+  assert(res.statusCode === OK);
   return JSON.parse(res.getBody() as string);
 }
 
@@ -35,6 +37,14 @@ function channelDetails (token: string, channelId: number) {
 function channelJoin (token: string, channelId: number) {
   return requestHelper('POST', 'channel/join/v2', { token, channelId });
 }
+
+function clear () {
+  return requestHelper('DELETE', 'clear/v1', {});
+}
+
+beforeEach(() => {
+  clear();
+});
 
 test('Testing successful channelDetailsV1 and channelJoinV1', () => {
   clearV1();
@@ -231,12 +241,10 @@ describe('channelLeaveV1 tests', () => {
 
 describe('HTTP tests using Jest', () => {
   test('Test successful channelDetails', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newChannel = channelsCreate(newUser.token, 'channel1', true);
-    const res = channelDetails(newUser.token, newChannel);
+    const res = channelDetails(newUser.token, newChannel.channelId);
 
-    expect(res.statusCode).toBe(OK);
     expect(res).toStrictEqual({
       name: 'channel1',
       isPublic: true,
@@ -262,68 +270,56 @@ describe('HTTP tests using Jest', () => {
   });
 
   test('channelDetails: channelId does not refer to valid channel', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newChannel = channelsCreate(newUser.token, 'channel1', true);
     const res = channelDetails(newUser.token, newChannel + 5);
 
-    expect(res.statusCode).toBe(OK);
     expect(res).toMatchObject({ error: 'error' });
   });
 
   test('channelDetails: channelId valid, but user is not a member', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newChannel = channelsCreate(newUser.token, 'channel1', true);
     const res = channelDetails(newUser.token.concat('abcd'), newChannel);
 
-    expect(res.statusCode).toBe(OK);
     expect(res).toMatchObject({ error: 'error' });
   });
 
   test('Test successful channelJoin', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newChannel = channelsCreate(newUser.token, 'channel1', true);
     const newUser2 = authRegister('oceanhall@email.com', '234567', 'Ocean', 'Hall');
     const res = channelJoin(newUser2.token, newChannel);
     const channelDetail = channelDetails(newUser2.token, newChannel);
 
-    expect(res.statusCode).toBe(OK);
     expect(channelDetail.allMembers.length).toEqual(2);
   });
 
   test('channelJoin: channelId does not refer to a valid channel', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newChannel = channelsCreate(newUser.token, 'channel1', true);
     const newUser2 = authRegister('oceanhall@email.com', '234567', 'Ocean', 'Hall');
     const res = channelJoin(newUser2.token, newChannel + 5);
 
-    expect(res.statusCode).toBe(OK);
     expect(res).toMatchObject({ error: 'error' });
   });
 
   test('channelJoin: authorised user is already a member', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newChannel = channelsCreate(newUser.token, 'channel1', true);
     const newUser2 = authRegister('oceanhall@email.com', '234567', 'Ocean', 'Hall');
     channelJoin(newUser2.token, newChannel);
     const res = channelJoin(newUser2.token, newChannel);
 
-    expect(res.statusCode).toBe(OK);
     expect(res).toMatchObject({ error: 'error' });
   });
 
   test('channelJoin: channelId refers to private channel and authorised user is not channel member and not global owner', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newChannel = channelsCreate(newUser.token, 'channel1', false);
     const newUser2 = authRegister('oceanhall@email.com', '234567', 'Ocean', 'Hall');
     const res = channelJoin(newUser2.token, newChannel);
 
-    expect(res.statusCode).toBe(OK);
     expect(res).toMatchObject({ error: 'error' });
   });
 });

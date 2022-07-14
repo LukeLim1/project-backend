@@ -39,6 +39,14 @@ function messageSenddm (token: string, dmId: number, message: string) {
   return requestHelper('POST', 'message/senddm/v1', { token, dmId, message });
 }
 
+function clear () {
+  return requestHelper('DELETE', 'clear/v1', {});
+}
+
+beforeEach(() => {
+  clear();
+});
+
 describe('Dm return values', () => {
   beforeEach(() => {
     clearV1();
@@ -81,7 +89,6 @@ describe('Dm return values', () => {
 
 describe('HTTP tests using Jest', () => {
   test('Test successful dmLeave', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newDm = dmCreate(newUser.token, [newUser.authUserId]);
     const res = dmLeave(newUser.token, newDm);
@@ -92,7 +99,6 @@ describe('HTTP tests using Jest', () => {
   });
 
   test('dmLeave: dmId does not refer to valid DM', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newDm = dmCreate(newUser.token, newUser.authUserId);
     const res = dmLeave(newUser.token, newDm + 5);
@@ -102,7 +108,6 @@ describe('HTTP tests using Jest', () => {
   });
 
   test('dmLeave: dmId valid, but user is not a member of DM', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newDm = dmCreate(newUser.token, newUser.authUserId);
     const newUser2 = authRegister('oceanhall@email.com', '234567', 'Ocean', 'Hall');
@@ -113,7 +118,6 @@ describe('HTTP tests using Jest', () => {
   });
 
   test('Test successful dmMessages', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newDm = dmCreate(newUser.token, newUser.authUserId);
     const newMessage = messageSenddm(newUser.token, newDm, 'Hi');
@@ -142,7 +146,6 @@ describe('HTTP tests using Jest', () => {
   });
 
   test('dmMessages: dmId does not refer to valid DM', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newDm = dmCreate(newUser.token, newUser.authUserId);
     messageSenddm(newUser.token, newDm, 'Hi');
@@ -153,7 +156,6 @@ describe('HTTP tests using Jest', () => {
   });
 
   test('dmMessages: start greater than total messages in channel', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newDm = dmCreate(newUser.token, newUser.authUserId);
     messageSenddm(newUser.token, newDm, 'Hi');
@@ -164,7 +166,6 @@ describe('HTTP tests using Jest', () => {
   });
 
   test('dmMessages: dmId valid, authorised user is not a member of DM', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const newUser2 = authRegister('oceanhall@email.com', '234567', 'Ocean', 'Hall');
     const newDm = dmCreate(newUser.token, newUser.authUserId);

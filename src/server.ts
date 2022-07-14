@@ -7,6 +7,7 @@ import { channelsCreateV1 } from './channels';
 import { channelDetails, channelJoin } from './channel';
 import { dmLeave, dmMessages } from './dm';
 import { usersAll } from './users';
+import { clearV1 } from './other';
 
 // Set up web app, use JSON
 const app = express();
@@ -77,6 +78,11 @@ app.get('/users/all/v1', (req, res) => {
   const token = req.query.token as string;
   res.json(usersAll(token));
 });
+
+app.delete('/clear/v1', (req, res) => {
+  res.json(clearV1());
+});
+
 
 // for logging errors
 app.use(morgan('dev'));

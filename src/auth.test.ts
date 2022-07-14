@@ -27,6 +27,14 @@ function authLogout (token: string) {
   return requestHelper('POST', 'auth/logout/v1', { token });
 }
 
+function clear () {
+    return requestHelper('DELETE', 'clear/v1', {});
+}
+
+beforeEach(() => {
+    clear();
+});
+
 describe('authRegisterV1', () => {
   beforeEach(() => {
     clearV1();
@@ -142,7 +150,6 @@ describe('authLoginV1', () => {
 
 describe('HTTP tests using Jest', () => {
   test('Test successful authLogout', () => {
-    clearV1();
     const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
     const res = authLogout(newUser.token)
 
