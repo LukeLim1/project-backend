@@ -157,22 +157,22 @@ function authLoginV1 (email: string, password: string) {
 }
 
 function authLogout (token: string): Empty | Error {
-    if (checkToken(token) === false) {
-        return { error: 'error' };
-    }
+  if (checkToken(token) === false) {
+    return { error: 'error' };
+  }
 
-    const data = getData();
-    const user = data.users.find(u => u.token.includes(token));
+  const data = getData();
+  const user = data.users.find(u => u.token.includes(token));
 
-    if (!user) {
-        return { error: 'error' };
-    }
+  if (!user) {
+    return { error: 'error' };
+  }
 
-    const index = user.token.indexOf(token);
-    user.token.splice(index, 1);
-    setData(data);
+  const index = user.token.indexOf(token);
+  user.token.splice(index, 1);
+  setData(data);
 
-    return {};
+  return {};
 }
 
 export { authLoginV1, authRegisterV1, authLogout };

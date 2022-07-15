@@ -32,7 +32,7 @@ function getData() {
 }
 
 // Use set(newData) to pass in the entire data object, with modifications made
-function setData(newData: dataTemplate) {
+function setData(newData) {
   data = newData;
 }
 

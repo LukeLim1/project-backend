@@ -1,7 +1,8 @@
 import { getData, setData } from './dataStore';
-import { userTemplate } from './interface';
+import { IUser } from './interface';
 import validator from 'validator';
 import { checkToken } from './helperFunctions';
+import { Error } from './interface';
 
 // userProfileV1
 // There are 2 parameters, authUserId and uId. userProfileV1 prints the details of a user with uId if found in datastore.
@@ -12,7 +13,10 @@ import { checkToken } from './helperFunctions';
 //              { error: 'error' } when any of the following:
 //                  a user with uId is not found
 
-function userProfileV1(token: string, uId: number) {
+function userProfileV1(token: string, uId: number): IUser | Error {
+  if (checkToken(token) === false) {
+    return { error: 'error' };
+  }
   const data = getData();
   const user = data.users.find(u => u.userId === uId);
   if (!user) {
@@ -24,7 +28,6 @@ function userProfileV1(token: string, uId: number) {
       nameFirst: user.firstName,
       nameLast: user.lastname,
       handleStr: user.handle,
-      token: user.token
     };
   }
 }
@@ -91,7 +94,7 @@ function usersAll (token: string) {
     return { error: 'error' };
   }
 
-  const usersArray = [];
+  const users = [];
   const data = getData();
   for (const user of data.users) {
     const obj = {
@@ -101,10 +104,10 @@ function usersAll (token: string) {
       nameLast: user.lastname,
       handleStr: user.handle,
     };
-    usersArray.push(obj);
+    users.push(obj);
   }
 
-  return { usersArray };
+  return { users };
 }
 
 export { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll };

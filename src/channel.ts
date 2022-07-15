@@ -1,8 +1,7 @@
 import { getData, setData } from './dataStore';
-import { userProfileV1 } from './users';
 import { IChannelDetails, userTemplate } from './interface';
 import { checkToken } from './helperFunctions';
-import { Error, Empty } from './interface';
+import { Error } from './interface';
 
 /**
  * Invite a user with ID uId to join a channel with ID channelId
@@ -148,13 +147,13 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
 
   const data = getData();
   const channel = data.channels.find(channel => channel.channelId === channelId);
-  const user = data.users.find(u => u.token.includes(token));
 
   if (!channel) {
     return { error: 'error' };
   }
 
-  const owner = data.users.find(o => o.userId === channel.ownerMembers[0]);
+  const owner = data.users.find(o => o.userId.toString() === channel.ownerMembers[0]);
+
   const ownerArr = [{
     uId: owner.userId,
     email: owner.emailAddress,
@@ -165,12 +164,12 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
   const userArr = [];
 
   // check if user with authUserId belongs to channel with channelId
-  if (!channel.allMembers.includes(user.userId)) {
+  if (!channel.allMembers.includes(token)) {
     return { error: 'error' };
   }
 
   for (const member of channel.allMembers) {
-    const u = data.users.find(u => u.userId === member);
+    const u = data.users.find(u => u.userId.toString() === member);
     const userObj = {
       uId: u.userId,
       email: u.emailAddress,
@@ -202,27 +201,7 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
 //                                                                      In our case it's in allMembers array)
 //                  channelId refers to a private channel, and the authrized user is not a channel member and not a global owner
 
-export function channelJoinV1 (authUserId: number, channelId: number) {
-  const data = getData();
-  const channel = data.channels.find(channel => channel.channelId === channelId);
-  const user = userProfileV1(authUserId.toString(), authUserId);
-
-  if (!channel) {
-    return { error: 'error' };
-  }
-
-  if (channel.isPublic === false) {
-    return { error: 'error' };
-  } else if (channel.allMembers.includes(authUserId)) {
-    return { error: 'error' };
-  }
-
-  channel.allMembers.push(user.uId);
-  setData(data);
-  return {};
-}
-
-export function channelJoin (token: string, channelId: number) : Empty | Error {
+export function channelJoin (token: string, channelId: number) : object | Error {
   if (checkToken(token) === false) {
     return { error: 'error' };
   }

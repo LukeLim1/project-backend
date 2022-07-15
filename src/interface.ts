@@ -28,14 +28,8 @@ export interface Error {
     error: 'error';
 }
 
+/* eslint-disable @typescript-eslint/no-empty-interface */
 export interface Empty {}
-    
-export interface IChannelDetails {
-    name: string;
-    isPublic: boolean;
-    ownerMembers: IUser[];
-    allMembers: IUser[];
-}
 
 export interface IUser {
     uId: number;
@@ -45,15 +39,22 @@ export interface IUser {
     handleStr: string;
 }
 
-export interface IDmMessages {
-    messages: IMessages[];
-    start: number;
-    end: number;
-}
-
 export interface IMessages {
     messageId: number;
     uId: number;
     message: string;
     timeSent: number;
+}
+
+export interface IChannelDetails {
+    name: string;
+    isPublic: boolean;
+    ownerMembers: any;
+    allMembers: IUser[];
+}
+
+export interface IDmMessages {
+    messages: IMessages[];
+    start: number;
+    end: number;
 }

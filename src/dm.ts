@@ -1,6 +1,6 @@
 import { getData } from './dataStore';
 import { containsDuplicates, checkToken } from './helperFunctions';
-import { Error, Empty, IDmMessages, IMessages } from './interface';
+import { Error, IDmMessages, IMessages } from './interface';
 
 export function dmCreateV1 (token: string, uIds: number[]) {
   if (containsDuplicates(uIds) === true) {
@@ -52,7 +52,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
   return { identifier };
 }
 
-export function dmLeave (token: string, dmId: number) : Empty | Error {
+export function dmLeave (token: string, dmId: number) : object | Error {
   if (checkToken(token) === false) {
     return { error: 'error' };
   }
@@ -85,7 +85,7 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
   const data = getData();
   const dm = data.DMs.find(d => d.dmId === dmId);
   const user = data.users.find(u => u.token.includes(token));
-  let end = start + 50;
+  const end = start + 50;
   let messagesRestructured: IMessages[];
 
   if (!dm) {
@@ -100,28 +100,20 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
     return { error: 'error' };
   }
 
-  /*
-  if (end >= messagesCopy.length - 1) {
-    end = -1;
-    messagesRestructured = messagesCopy.slice(0, messagesCopy.length - start);
-  } else {
-    messagesRestructured = messagesCopy.slice(messagesCopy.length - end - 1, messagesCopy.length - start);
-  }
-  */
-
   for (const msg of dm.messages) {
     let i = 0;
     messagesRestructured.push({
       messageId: i,
       uId: user.userId,
       message: msg,
-      timeSent: 3,
-    })
+      timeSent: Math.floor((new Date()).getTime() / 1000),
+    });
     i++;
   }
 
   messagesRestructured.reverse();
-  return { messages: messagesRestructured, 
+  return {
+    messages: messagesRestructured,
     start: start,
     end: end,
   };

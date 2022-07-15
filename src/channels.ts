@@ -11,7 +11,7 @@ import { getData, setData } from './dataStore';
 //               {error: 'error'} when
 //               - name.length is not between 1 and 20 chars
 
-function channelsCreateV1 (authUserId: number, name: string, isPublic: boolean) {
+function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
   const data = getData();
   let randomNumber = Math.floor(Math.random() * 1000);
   if (data.usedNums.length !== 0) {
@@ -27,8 +27,8 @@ function channelsCreateV1 (authUserId: number, name: string, isPublic: boolean) 
   data.channels.push({
     name: `${name}`,
     isPublic: isPublic,
-    ownerMembers: [authUserId],
-    allMembers: [authUserId],
+    ownerMembers: [token],
+    allMembers: [token],
     channelId: randomNumber,
     messages: [],
   });
