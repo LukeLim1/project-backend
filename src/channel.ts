@@ -155,6 +155,7 @@ export function channelDetailsV1 (authUserId: number, channelId: number) {
 export function channelJoinV1 (authUserId: number, channelId: number) {
   const data = getData();
   const channel = data.channels.find(channel => channel.channelId === channelId);
+
   const user = userProfileV1(authUserId, authUserId);
 
   if (!channel) {

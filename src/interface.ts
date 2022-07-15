@@ -1,7 +1,7 @@
 export interface dmTemplate {
     dmId: number;
     dmOwner: number;
-    name: string[];
+    name: any;
     messages: any[];
 }
 
