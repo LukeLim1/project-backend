@@ -18,8 +18,9 @@ describe('Dm return values', () => {
     lintArray.slice(0);
 
     const array = [regTest1.authUserId, regTest2.authUserId, regTest5.authUserId, regTest6.authUserId];
+    const test = dmCreateV1(regTest5.token, array);
 
-    expect(dmCreateV1(regTest5.token, array)).toMatchObject({ identifier: expect.any(Number) });
+    expect(test).toMatchObject({ identifier: expect.any(Number) });
   });
   test('invalid creation of a dm', () => {
     const regTest1 = authRegisterV1('c@gmail.com', 'password', 'Cc', 'Cc');
@@ -36,7 +37,9 @@ describe('Dm return values', () => {
     expect(dmCreateV1(regTest5.token, array1)).toMatchObject({ error: 'error' });
     // duplicates in uIds array
     const array2 = [regTest1.authUserId, regTest5.authUserId, regTest5.authUserId];
+
     expect(dmCreateV1(regTest5.token, array2)).toMatchObject({ error: 'error' });
+
     // valid token
     expect(dmCreateV1('helllllooooooo', array2)).toMatchObject({ error: 'error' });
   });

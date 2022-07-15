@@ -10,6 +10,9 @@ function clearV1() {
   const data = getData();
   data.users = [];
   data.channels = [];
+  data.usedNums = [];
+  data.usedTokenNums = [];
+  data.DMs = [];
   setData(data);
   return {};
 }

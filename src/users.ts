@@ -75,6 +75,7 @@ function setHandleV1(token: string, handleStr: string): object {
   }
   const data = getData();
   const user = data.users.find(u => u.token.includes(token) === true);
+
   if (!user) {
     return { error: 'error' };
   } else {

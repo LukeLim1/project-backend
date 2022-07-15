@@ -45,7 +45,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
   data.DMs.push({
     dmId: identifier,
     dmOwner: user.userId,
-    name: handleArray,
+    name: [...handleArray],
     messages: [],
   });
   return { identifier };
