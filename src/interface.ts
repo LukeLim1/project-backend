@@ -1,7 +1,7 @@
 export interface dmTemplate {
     dmId: number;
     dmOwner: number;
-    name: string[];
+    name: any;
     messages: any[];
 }
 
@@ -21,6 +21,7 @@ export interface dataTemplate {
     channels: any[];
     usedNums: number[];
     usedTokenNums: number[];
+    usedChannelNums: number[];
     DMs: dmTemplate[];
 }
 

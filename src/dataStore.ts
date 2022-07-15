@@ -7,6 +7,7 @@ let data: dataTemplate = {
   channels: [],
   usedNums: [],
   usedTokenNums: [],
+  usedChannelNums: [],
   DMs: [],
 };
 
