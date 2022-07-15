@@ -27,9 +27,9 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
 
   // case 1 : invalid email
   if (!(validator.isEmail(email))) {
-    return { error: 'error' };
+    return { error: 'error invalid email' };
   }
-  // case 2 : email used already
+  // case 2 : email used alreadyaaaaa
   const arrayOfEmails: string[] = [];
   Object.values(data.users).forEach(element => {
     const toPush = element.emailAddress;
@@ -37,18 +37,18 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
   });
   for (const i in arrayOfEmails) {
     if (arrayOfEmails[i] === email) {
-      return { error: 'error' };
+      return { error: 'error email in use' };
     }
   }
   // case 3 : password less than 6 chars
   if (password.length < 6) {
-    return { error: 'error' };
+    return { error: 'error bad password' };
   // case 4 : length of nameFirst not between 1 - 50 inclusive
   } else if (nameFirst.length <= 1 || nameFirst.length >= 50) {
-    return { error: 'error' };
+    return { error: 'error nameFirst invalid' };
     // case 5 : length of nameLast not between 1 - 50 inclusive
   } else if (nameLast.length <= 1 || nameLast.length >= 50) {
-    return { error: 'error' };
+    return { error: 'error nameLast invalid' };
   }
   // End of error cases
 
@@ -134,10 +134,10 @@ function authLoginV1 (email: string, password: string) {
     arrayOfPasswords.push(toPush);
   });
   if (arrayOfEmails.indexOf(email) === -1) {
-    return { error: 'error' };
+    return { error: 'error invalid email' };
   } else {
     if (arrayOfPasswords.indexOf(password) === -1) {
-      return { error: 'error' };
+      return { error: 'error invalid password' };
     }
   }
 
