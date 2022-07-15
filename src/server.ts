@@ -3,15 +3,13 @@ import { echo } from './echo';
 import morgan from 'morgan';
 import config from './config.json';
 import { authLoginV1, authRegisterV1 /* authLogout */ } from './auth';
-import { channelsCreateV1 } from './channels';
+import { channelsListV1, channelsListallV1, channelsCreateV1 } from './channels';
 import { clearV1 } from './other';
 import { getData } from './dataStore';
 import { channelLeaveV1 } from './channel';
 import { dmCreateV1 } from './dm';
 import { setNameV1 } from './users';
-// import { channelDetails, channelJoin } from './channel';
-// import { dmLeave, dmMessages } from '`./dm';
-// import { usersAll } from './users';
+// import fs from 'fs';
 
 // Set up web app, use JSON
 const app = express();
@@ -40,22 +38,18 @@ app.get('/apple', (req, res) => {
 
 app.get('/data', (req, res) => {
   const data = getData();
+  const users = data.channels;
   res.send({
-    data
+    users
   });
 });
 
 app.post('/auth/register/v2', (req, res) => {
   console.log('auth/register/V2');
   const { email, password, nameFirst, nameLast } = req.body;
-  // returns { token, authUserid }aaaa
-
-  /* res.send({
-    email: `${email}`,
-    password: `password is ${password}`
-  }) */
-
   res.json(authRegisterV1(email, password, nameFirst, nameLast));
+  // const data = getData();
+  // fs.writeFileSync(__dirname + "/express.json".JSON.stringify(data,null,2))
 });
 app.post('/auth/login/v2', (req, res) => {
   console.log('auth/login/V2');
@@ -70,11 +64,35 @@ app.post('/auth/login/v2', (req, res) => {
 // });
 
 app.post('/channels/create/v2', (req, res) => {
-  console.log('channels/create/V2');
+  // console.log('channels/create/V2');
   const { token, name, isPublic } = req.body;
   // returns channelId
   res.json(channelsCreateV1(token, name, isPublic));
 });
+
+app.get('/channels/list/v2', (req, res) => {
+  // console.log('channels/create/V2');
+  const token = req.query.token as string;
+  // returns channelId
+  res.json(channelsListV1(token));
+});
+app.get('/channels/listall/v2', (req, res) => {
+  // console.log('channels/create/V2');
+  const token = req.query.token as string;
+  // returns channelId
+  res.json(channelsListallV1(token));
+});
+
+// app.get('/channel/details/v2', (req, res) => {
+//   const token = req.query.token as string;
+//   const channelId = parseInt(req.query.channelId as string);
+//   res.json(channelDetailsV1(token, channelId));
+// });
+
+// app.post('/channel/join/v2', (req, res) => {
+//   const { token, channelId } = req.body;
+//   res.json(channelJoinV1(token, channelId));
+// });
 
 app.post('channel/leave/v1', (req, res) => {
   const { token, channelId } = req.body;
@@ -87,7 +105,8 @@ app.post('dm/create/v1', (req, res) => {
 });
 
 app.put('user/profile/setname/v1', (req, res) => {
-  const { token, nameFirst, nameLast } = req.body;
+  const token = String(req.body.token);
+  const { nameFirst, nameLast } = req.body;
   res.json(setNameV1(token, nameFirst, nameLast));
 });
 
