@@ -1,12 +1,13 @@
-import express, { json, Request, Response }  from 'express';
+import express, { json, Request, Response } from 'express';
 import { echo } from './echo';
 import morgan from 'morgan';
 import config from './config.json';
 import { authLoginV1, authRegisterV1 } from './auth';
-import { channelsCreateV1 } from './channels';
+import { channelsCreateV1, channelsListallV1, channelsListV1 } from './channels';
 
-import { messageSend, dmList, dmRemove, dmDetails } from './Rick';
-import { dmTemplate } from './dm';
+import { senddm, dmList, dmRemove, dmDetails } from './Rick';
+import { dmTemplate } from './interface';
+import { dataTemplate } from './interface'; 
 
 // Set up web app, use JSON
 const app = express();
@@ -44,9 +45,19 @@ app.post('/channels/create/v2', (req, res) => {
   res.json(channelsCreateV1(token, name, isPublic));
 });
 
-app.post('message/send/v1', (req, res) => {
-  const { token, channelId, message } = req.body;
-  res.json(messageSend(token, channelId, message));
+app.get('channels/list/v2', (req: Request, res: Response) => {
+  const token = req.query.token as string;
+  res.json(channelsListV1(token));
+});
+
+app.get('channels/listall/v2', (req: Request, res: Response) => {
+  const token = req.query.token as string;
+  res.json(channelsListallV1(token));
+});
+
+app.post('message/senddm/v1', (req, res) => {
+  const { token, dmId, message } = req.body;
+  res.json(senddm(token, dmId, message));
 });
 
 app.get('dm/list/v1', (req: Request, res: Response) => {
@@ -61,12 +72,10 @@ app.get('dm/details/v1', (req: Request, res: Response) => {
 });
 
 app.delete('/dm/remove/v1', (req: Request, res: Response) => {
-  
-  
-  res.json({});
+  const token = req.query.token as string;
+  const dmId = req.query.dmId as string;
+  res.json(dmRemove(token, parseInt(dmId)));
 });
-
-
 // for logging errors
 app.use(morgan('dev'));
 

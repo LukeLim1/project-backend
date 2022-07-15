@@ -1,4 +1,5 @@
 import { getData, setData } from './dataStore';
+import { checkToken } from './helperFunctions'
 
 // Given a name create a channel that can either be public or private
 // User who created a channel is automatically a memeber of the channel and the owner
@@ -10,6 +11,11 @@ import { getData, setData } from './dataStore';
 // Return type : { channelId },
 //               {error: 'error'} when
 //               - name.length is not between 1 and 20 chars
+
+interface channelsObject {
+  channelId: number,
+  name: string,
+}
 
 function channelsCreateV1 (authUserId: number, name: string, isPublic: boolean) {
   const data = getData();
@@ -43,18 +49,31 @@ function channelsCreateV1 (authUserId: number, name: string, isPublic: boolean) 
 
 // Return type : { channelId },
 
-function channelsListV1 (authUserId: number) {
+function channelsListV1 (token: string) { //authUserId: number) {
+
   const data = getData();
+
+  let trigger = 0;
+
+  for (const user of data.users) {
+    if (user.token.includes(token)) {
+      trigger = 1;
+    } 
+  }
+
+  if (trigger = 0) {
+    return {error: 'error'};
+  }
 
   if (data.channels.length === 0) {
     return { channels: [] };
   }
 
-  const objectArray = [];
+  const objectArray: channelsObject[] = [];
 
   for (const channel of data.channels) {
-    if (channel.allMembers.includes(authUserId)) {
-      const channelsObject = {
+    if (channel.allMembers.includes(token)) {
+      const channelsObject: channelsObject = {
         channelId: channel.channelId,
         name: channel.name,
       };
@@ -63,6 +82,7 @@ function channelsListV1 (authUserId: number) {
     }
   }
 
+  setData(data);
   return { channels: objectArray };
 }
 
@@ -73,14 +93,28 @@ function channelsListV1 (authUserId: number) {
 
 // Return type : { channelId },
 
-function channelsListallV1 (authUserId: number) {
+function channelsListallV1 (token: string){
+
   const data = getData();
+
+  let trigger = 0;
+
+  for (const user in data.users) {
+    if (user.token.includes(token)) {
+      trigger = 1;
+    } 
+  }
+
+  if (trigger = 0) {
+    return {error: 'error'};
+  }
+
 
   if (data.channels.length === 0) {
     return { channels: [] };
   }
 
-  const objectArray = [];
+  const objectArray: channelsObject[] = [];
 
   for (const element of data.channels) {
     const channelsObject = {
@@ -91,7 +125,12 @@ function channelsListallV1 (authUserId: number) {
     objectArray.push(channelsObject);
   }
 
+  setData(data);
   return { channels: objectArray };
 }
 
-export { channelsListV1, channelsListallV1, channelsCreateV1 };
+export { 
+  channelsListV1, 
+  channelsListallV1, 
+  channelsCreateV1,
+};
