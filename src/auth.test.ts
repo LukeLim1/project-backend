@@ -5,7 +5,7 @@ const OK = 200;
 const port = config.port;
 const url = config.url;
 
-function clear() {
+export function clear() {
   const res = request(
     'DELETE',
     `${url}:${port}/clear/v1`
@@ -13,7 +13,7 @@ function clear() {
   const array = [res];
   array.slice(0);
 }
-function createBasicAccount() {
+export function createBasicAccount() {
   const res = request(
     'POST',
     `${url}:${port}/auth/register/v2`,

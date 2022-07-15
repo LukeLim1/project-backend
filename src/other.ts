@@ -12,6 +12,7 @@ function clearV1() {
   data.channels = [];
   data.usedNums = [];
   data.usedTokenNums = [];
+  data.usedChannelNums = [];
   data.DMs = [];
   setData(data);
   return {};
