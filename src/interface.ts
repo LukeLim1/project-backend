@@ -21,5 +21,6 @@ export interface dataTemplate {
     channels: any[];
     usedNums: number[];
     usedTokenNums: number[];
+    usedChannelNums: number[];
     DMs: dmTemplate[];
 }
