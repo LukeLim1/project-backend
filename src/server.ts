@@ -45,14 +45,14 @@ app.get('/data', (req, res) => {
 });
 
 app.post('/auth/register/v2', (req, res) => {
-  console.log('auth/register/V2');
+  // console.log('auth/register/V2');
   const { email, password, nameFirst, nameLast } = req.body;
   res.json(authRegisterV1(email, password, nameFirst, nameLast));
   // const data = getData();
   // fs.writeFileSync(__dirname + "/express.json".JSON.stringify(data,null,2))
 });
 app.post('/auth/login/v2', (req, res) => {
-  console.log('auth/login/V2');
+  // console.log('auth/login/V2');
   const { email, password } = req.body;
   // returns { token, authUserid }
   res.json(authLoginV1(email, password));

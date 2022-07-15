@@ -13,11 +13,14 @@ import { checkToken } from './helperFunctions';
 //               - name.length is not between 1 and 20 chars
 
 function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
+<<<<<<< HEAD
+=======
   // checkToken(token);
   // if (checkToken(token) === false) {
   //   return { error: 'error bad token' };
   // }
 
+>>>>>>> 65935e3b749403ad744c70f64738dd2ded3cd44a
   const data = getData();
   let randomNumber = 1;
   if (data.usedChannelNums.length !== 0) {
@@ -34,8 +37,13 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
   data.channels.push({
     name: `${name}`,
     isPublic: isPublic,
+<<<<<<< HEAD
+    ownerMembers: [token],
+    allMembers: [token],
+=======
     ownerMembers: [user.userId],
     allMembers: [user.userId],
+>>>>>>> 65935e3b749403ad744c70f64738dd2ded3cd44a
     channelId: randomNumber,
     messages: [],
   });

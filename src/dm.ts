@@ -1,5 +1,6 @@
 import { getData } from './dataStore';
 import { containsDuplicates, checkToken } from './helperFunctions';
+import { Error, IDmMessages, IMessages } from './interface';
 
 export function dmCreateV1 (token: string, uIds: number[]) {
   if (containsDuplicates(uIds) === true) {
@@ -49,4 +50,71 @@ export function dmCreateV1 (token: string, uIds: number[]) {
     messages: [],
   });
   return { identifier };
+}
+
+export function dmLeave (token: string, dmId: number) : object | Error {
+  if (checkToken(token) === false) {
+    return { error: 'error' };
+  }
+
+  const data = getData();
+  const user = data.users.find(u => u.token.includes(token));
+  const dm = data.DMs.find(d => d.dmId === dmId);
+
+  if (!dm) {
+    return { error: 'error' };
+  } else if (!dm.name.includes(user.handle)) {
+    return { error: 'error' };
+  }
+
+  for (const name of dm.name) {
+    if (user.handle === name) {
+      const index = dm.name.indexOf(name);
+      dm.name.splice(index, 1);
+    }
+  }
+
+  return {};
+}
+
+export function dmMessages (token: string, dmId: number, start: number): IDmMessages | Error {
+  if (checkToken(token) === false) {
+    return { error: 'error' };
+  }
+
+  const data = getData();
+  const dm = data.DMs.find(d => d.dmId === dmId);
+  const user = data.users.find(u => u.token.includes(token));
+  const end = start + 50;
+  let messagesRestructured: IMessages[];
+
+  if (!dm) {
+    return { error: 'error' };
+  }
+  const messagesCopy = dm.messages;
+
+  if (start > messagesCopy.length) {
+    return { error: 'error' };
+  }
+  if (!(dm.name.includes(user.handle))) {
+    return { error: 'error' };
+  }
+
+  for (const msg of dm.messages) {
+    let i = 0;
+    messagesRestructured.push({
+      messageId: i,
+      uId: user.userId,
+      message: msg,
+      timeSent: Math.floor((new Date()).getTime() / 1000),
+    });
+    i++;
+  }
+
+  messagesRestructured.reverse();
+  return {
+    messages: messagesRestructured,
+    start: start,
+    end: end,
+  };
 }

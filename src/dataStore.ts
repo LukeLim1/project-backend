@@ -9,7 +9,6 @@ let data: dataTemplate = {
   usedTokenNums: [],
   usedChannelNums: [],
   DMs: [],
-
 };
 
 // YOU SHOULDNT NEED TO MODIFY THE FUNCTIONS BELOW IN ITERATION 1
@@ -34,7 +33,7 @@ function getData() {
 }
 
 // Use set(newData) to pass in the entire data object, with modifications made
-function setData(newData: dataTemplate) {
+function setData(newData) {
   data = newData;
 }
 
