@@ -1,5 +1,15 @@
 // YOU SHOULD MODIFY THIS OBJECT BELOW
-let data = {};
+
+import { dataTemplate } from './interface';
+
+let data: dataTemplate = {
+  users: [],
+  channels: [],
+  usedNums: [],
+  usedTokenNums: [],
+  DMs: [],
+
+};
 
 // YOU SHOULDNT NEED TO MODIFY THE FUNCTIONS BELOW IN ITERATION 1
 
@@ -23,7 +33,7 @@ function getData() {
 }
 
 // Use set(newData) to pass in the entire data object, with modifications made
-function setData(newData) {
+function setData(newData: dataTemplate) {
   data = newData;
 }
 
