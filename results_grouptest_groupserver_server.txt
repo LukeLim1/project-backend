@@ -1,0 +1,22 @@
+
+> start
+> ts-node src/server.ts
+
+⚡️ Server listening on port 48237 at localhost
+auth/register/V2
+auth/register/V2
+auth/register/V2
+auth/login/V2
+auth/register/V2
+auth/login/V2
+auth/register/V2
+auth/register/V2
+auth/register/V2
+auth/login/V2
+auth/register/V2
+auth/login/V2
+auth/register/V2
+auth/register/V2
+auth/register/V2
+auth/register/V2
+auth/register/V2

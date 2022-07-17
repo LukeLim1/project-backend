@@ -1,0 +1,697 @@
+
+> start
+> ts-node src/server.ts
+
+⚡️ Server listening on port 48237 at localhost
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 6.140 ms - 154[0m
+auth/login/V2
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 1.183 ms - 154[0m
+auth/login/V2
+[0mGET /user/profile/v2?token=1&token=2&uId=1 [33m404[0m 1.130 ms - 154[0m
+auth/login/V2
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.687 ms - 154[0m
+auth/login/V2
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.909 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.418 ms - 154[0m
+auth/register/V2
+auth/register/V2
+auth/register/V2
+auth/register/V2
+auth/register/V2
+auth/register/V2
+auth/register/V2
+auth/register/V2
+auth/register/V2
+auth/register/V2
+auth/register/V2
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.679 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.678 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 1.057 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 1.042 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.747 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.668 ms - 154[0m
+auth/register/V2
+auth/register/V2
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 1.179 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.763 ms - 154[0m
+auth/register/V2
+auth/register/V2
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.702 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.651 ms - 154[0m
+auth/register/V2
+auth/register/V2
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.968 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.669 ms - 154[0m
+auth/register/V2
+auth/register/V2
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.660 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.627 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.868 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.432 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.589 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.573 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.379 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.559 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.560 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.352 ms - 159[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.575 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.556 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.371 ms - 159[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.563 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.579 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.362 ms - 159[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.590 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.587 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.412 ms - 159[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.618 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.598 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.364 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.566 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.367 ms - 159[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.610 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.440 ms - 159[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.583 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.568 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.364 ms - 159[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.560 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 1.915 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.501 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.570 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.617 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.345 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.541 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.546 ms - 154[0m
+[0mGET /channel/details/v2?token=2&channelId=1 [33m404[0m 0.591 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.590 ms - 154[0m
+[0mGET /channel/details/v2?token=1&channelId=-1 [33m404[0m 0.685 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.538 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.349 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.543 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.587 ms - 154[0m
+[0mPOST /channel/invite/v2 [33m404[0m 0.348 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.533 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.535 ms - 154[0m
+[0mPOST /channel/invite/v2 [33m404[0m 0.356 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.572 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.534 ms - 154[0m
+[0mPOST /channel/invite/v2 [33m404[0m 0.372 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.518 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.490 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.516 ms - 154[0m
+[0mPOST /channel/invite/v2 [33m404[0m 0.352 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.493 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.541 ms - 154[0m
+[0mPOST /channel/invite/v2 [33m404[0m 0.350 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.546 ms - 154[0m
+[0mPOST /channel/invite/v2 [33m404[0m 0.340 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.506 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.489 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.347 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.490 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.483 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.337 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.491 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.486 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.352 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.479 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.489 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.326 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.505 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.483 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.355 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.486 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.337 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.535 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.334 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.497 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.348 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.474 ms - 154[0m
+[0mPOST /channel/leave/v1 [33m404[0m 0.326 ms - 156[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.502 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.464 ms - 154[0m
+[0mPOST /channel/leave/v1 [33m404[0m 0.339 ms - 156[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.458 ms - 154[0m
+[0mPOST /channel/leave/v1 [33m404[0m 0.330 ms - 156[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.470 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.334 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.478 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.372 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.395 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.267 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.468 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.266 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.486 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.331 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.483 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.325 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.454 ms - 154[0m
+[0mGET /channel/messages/v2?token=1&channelId=1&start=21389429 [33m404[0m 0.502 ms - 158[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.567 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 1.630 ms - 154[0m
+[0mGET /channel/messages/v2?token=2&channelId=1&start=0 [33m404[0m 0.500 ms - 158[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.445 ms - 154[0m
+[0mGET /channel/messages/v2?token=1&channelId=-1&start=0 [33m404[0m 0.437 ms - 158[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.445 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.331 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.446 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.452 ms - 154[0m
+[0mPOST /channel/invite/v2 [33m404[0m 0.352 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.468 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.486 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.823 ms - 154[0m
+[0mPOST /channel/invite/v2 [33m404[0m 0.304 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.469 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.454 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.495 ms - 154[0m
+[0mPOST /channel/invite/v2 [33m404[0m 0.320 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.531 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.470 ms - 154[0m
+[0mPOST /channel/removeowner/v1 [33m404[0m 0.327 ms - 162[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.536 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.470 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.325 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.503 ms - 154[0m
+[0mPOST /channel/removeowner/v1 [33m404[0m 0.346 ms - 162[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.495 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.556 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.343 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.479 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.461 ms - 154[0m
+[0mPOST /channel/removeowner/v1 [33m404[0m 0.320 ms - 162[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.450 ms - 154[0m
+[0mPOST /channel/removeowner/v1 [33m404[0m 0.342 ms - 162[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.448 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.449 ms - 154[0m
+[0mPOST /channel/removeowner/v1 [33m404[0m 0.323 ms - 162[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.481 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.490 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.316 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.455 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.444 ms - 154[0m
+[0mGET /channel/details/v2?token=1&channelId=1 [33m404[0m 0.452 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.483 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.445 ms - 154[0m
+[0mGET /channel/details/v2?token=1&channelId=1 [33m404[0m 0.435 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.525 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.469 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.510 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.451 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.448 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.318 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.480 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.506 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.538 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.492 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.465 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.488 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.471 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.474 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.512 ms - 154[0m
+[0mPOST /channel/invite/v2 [33m404[0m 0.342 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.479 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.353 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.465 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.491 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.460 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.467 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.474 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.482 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.492 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.474 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.474 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.339 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.527 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.495 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.355 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.420 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.412 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.278 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.419 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.293 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.413 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.423 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.324 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.474 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.449 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.332 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.488 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.312 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.491 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.463 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.339 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.477 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.518 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.315 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.495 ms - 154[0m
+[0mGET /dm/details/v1?token=1&dmId=-1 [33m404[0m 0.455 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.462 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.453 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.317 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.552 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.440 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.327 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.519 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.478 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.474 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.345 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.483 ms - 154[0m
+[0mPOST /dm/leave/v1 [33m404[0m 0.277 ms - 151[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.433 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.434 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 1.446 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.410 ms - 154[0m
+[0mGET /dm/list/v1?token=1 [33m404[0m 0.413 ms - 149[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.639 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.429 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.296 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.433 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.327 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.475 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.590 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.309 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.437 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.279 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.447 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.391 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.320 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.477 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.479 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.308 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.445 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.431 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.349 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.423 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.409 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.306 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.476 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.467 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.343 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.466 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.447 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.445 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.322 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.437 ms - 154[0m
+[0mGET /dm/messages/v1?token=1&dmId=-1&start=0 [33m404[0m 0.456 ms - 153[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.486 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.491 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.345 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.534 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.489 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.319 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.439 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.442 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.325 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.466 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.321 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.232 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.336 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.319 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.232 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.493 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.465 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.340 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 1.139 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.234 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.350 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.326 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.220 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.517 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.480 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.327 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.497 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.320 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.407 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.297 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.452 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.353 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.394 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.423 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.331 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.483 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.333 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.489 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.458 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.462 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.331 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.458 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.319 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.527 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.467 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.311 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.434 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.323 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 1.109 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.427 ms - 154[0m
+[0mPOST /channel/join/v2 [33m404[0m 0.297 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.436 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.299 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.446 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.300 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.435 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.442 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.301 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.446 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.297 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.445 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.299 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.485 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.300 ms - 155[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.443 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.296 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.434 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.430 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.369 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.434 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.430 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.478 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.305 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.449 ms - 154[0m
+[0mPOST /message/senddm/v1 [33m404[0m 0.313 ms - 157[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.458 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.448 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.307 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.510 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.444 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.342 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.450 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.504 ms - 154[0m
+[0mPOST /dm/create/v1 [33m404[0m 0.334 ms - 152[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.462 ms - 154[0m
+[0mGET /users/all/v1?token=1 [33m404[0m 0.475 ms - 151[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.459 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.436 ms - 154[0m
+[0mGET /users/all/v1?token=1 [33m404[0m 0.492 ms - 151[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.465 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.324 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.446 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.437 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.455 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=-1 [33m404[0m 0.434 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.443 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.305 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.439 ms - 154[0m
+[0mPUT /user/profile/setemail/v1 [33m404[0m 0.370 ms - 163[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.442 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.450 ms - 154[0m
+[0mPUT /user/profile/setemail/v1 [33m404[0m 0.302 ms - 163[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.430 ms - 154[0m
+[0mPUT /user/profile/setemail/v1 [33m404[0m 0.297 ms - 163[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.468 ms - 154[0m
+[0mPUT /user/profile/setemail/v1 [33m404[0m 0.360 ms - 163[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.433 ms - 154[0m
+[0mPUT /user/profile/setemail/v1 [33m404[0m 0.300 ms - 163[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.455 ms - 154[0m
+[0mPUT /user/profile/setemail/v1 [33m404[0m 0.302 ms - 163[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.441 ms - 154[0m
+[0mPUT /user/profile/setemail/v1 [33m404[0m 0.316 ms - 163[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.423 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.311 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.443 ms - 154[0m
+[0mPUT /user/profile/sethandle/v1 [33m404[0m 0.293 ms - 164[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.419 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.415 ms - 154[0m
+[0mPUT /user/profile/sethandle/v1 [33m404[0m 0.292 ms - 164[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.508 ms - 154[0m
+[0mPUT /user/profile/sethandle/v1 [33m404[0m 0.305 ms - 164[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.417 ms - 154[0m
+[0mPUT /user/profile/sethandle/v1 [33m404[0m 0.310 ms - 164[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.427 ms - 154[0m
+[0mPUT /user/profile/sethandle/v1 [33m404[0m 0.291 ms - 164[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.489 ms - 154[0m
+[0mPUT /user/profile/sethandle/v1 [33m404[0m 0.294 ms - 164[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.454 ms - 154[0m
+[0mPUT /user/profile/sethandle/v1 [33m404[0m 0.292 ms - 164[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.425 ms - 154[0m
+[0mPUT /user/profile/sethandle/v1 [33m404[0m 0.296 ms - 164[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.421 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.293 ms - 154[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.420 ms - 154[0m
+[0mPUT /user/profile/setname/v1 [33m404[0m 0.291 ms - 162[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.438 ms - 154[0m
+[0mPUT /user/profile/setname/v1 [33m404[0m 0.293 ms - 162[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.421 ms - 154[0m
+[0mPUT /user/profile/setname/v1 [33m404[0m 0.290 ms - 162[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.419 ms - 154[0m
+[0mPUT /user/profile/setname/v1 [33m404[0m 0.291 ms - 162[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.479 ms - 154[0m
+[0mPUT /user/profile/setname/v1 [33m404[0m 0.346 ms - 162[0m
+auth/register/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.419 ms - 154[0m
+[0mPOST /auth/logout/v1 [33m404[0m 0.299 ms - 154[0m
