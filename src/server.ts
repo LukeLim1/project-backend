@@ -38,7 +38,7 @@ app.get('/apple', (req, res) => {
 
 app.get('/data', (req, res) => {
   const data = getData();
-  const users = data.channels;
+  const users = data;
   res.send({
     users
   });
@@ -89,17 +89,17 @@ app.get('/channel/details/v2', (req, res) => {
   res.json(channelDetails(token, channelId));
 });
 
-app.post('channel/leave/v1', (req, res) => {
+app.post('/channel/leave/v1', (req, res) => {
   const { token, channelId } = req.body;
   res.json(channelLeaveV1(token, channelId));
 });
 
-app.post('dm/create/v1', (req, res) => {
+app.post('/dm/create/v1', (req, res) => {
   const { token, uIds } = req.body;
   res.json(dmCreateV1(token, uIds));
 });
 
-app.put('user/profile/setname/v1', (req, res) => {
+app.put('/user/profile/setname/v1', (req, res) => {
   const token = String(req.body.token);
   const { nameFirst, nameLast } = req.body;
   res.json(setNameV1(token, nameFirst, nameLast));

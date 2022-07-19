@@ -1,31 +1,8 @@
-import request, { HttpVerb } from 'sync-request';
+import request from 'sync-request';
 import { url, port } from './config.json';
-import { assert } from 'console';
 import { createBasicAccount, createBasicAccount2, clear } from './auth.test';
 
 const OK = 200;
-
-function requestHelper(method: HttpVerb, path: string, payload: object) {
-  let qs = {};
-  let json = {};
-  if (['GET', 'DELETE'].includes(method)) {
-    qs = payload;
-  } else {
-    json = payload;
-  }
-  const res = request(method, `${url}:${port}/` + path, { qs, json });
-  assert(res.statusCode === OK);
-
-  return JSON.parse(res.getBody() as string);
-}
-
-function authRegister (email: string, password: string, nameFirst: string, nameLast: string) {
-  return requestHelper('POST', 'auth/register/v2', { email, password, nameFirst, nameLast });
-}
-
-function usersAll (token: string) {
-  return requestHelper('GET', 'users/all/v1', { token });
-}
 
 beforeEach(() => {
   clear();

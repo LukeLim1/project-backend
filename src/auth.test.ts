@@ -154,7 +154,7 @@ describe('authLogout', () => {
         },
       }
     );
- 
+
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({});

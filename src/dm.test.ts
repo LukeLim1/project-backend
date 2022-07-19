@@ -1,34 +1,8 @@
-import request, { HttpVerb } from 'sync-request';
+import request from 'sync-request';
 import { url, port } from './config.json';
-import { assert } from 'console';
 import { createBasicAccount, createBasicAccount2, clear } from './auth.test';
 
 const OK = 200;
-
-function requestHelper(method: HttpVerb, path: string, payload: object) {
-  let qs = {};
-  let json = {};
-  if (['GET', 'DELETE'].includes(method)) {
-    qs = payload;
-  } else {
-    json = payload;
-  }
-  const res = request(method, `${url}:${port}/` + path, { qs, json });
-  assert(res.statusCode === OK);
-  return JSON.parse(res.getBody() as string);
-}
-
-function authRegister (email: string, password: string, nameFirst: string, nameLast: string) {
-  return requestHelper('POST', 'auth/register/v2', { email, password, nameFirst, nameLast });
-}
-
-function dmCreate (token: string, uIds: number[]) {
-  return requestHelper('POST', 'dm/create/v1', { token, uIds });
-}
-
-function dmLeave (token: string, dmId: number) {
-  return requestHelper('POST', 'dm/leave/v1', { token, dmId });
-}
 
 /*
 function dmMessages (token: string, dmId: number, start: number) {
@@ -136,7 +110,7 @@ describe('HTTP tests using Jest', () => {
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: 'error' });
   });
-
+  /*
   test('Testing successful dmMessages', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
@@ -182,7 +156,7 @@ describe('HTTP tests using Jest', () => {
       end: -1,
     });
   });
-
+*/
   test('dmMessages: dmId does not refer to valid DM', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
