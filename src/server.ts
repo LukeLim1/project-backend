@@ -7,7 +7,7 @@ import { channelsListV1, channelsListallV1, channelsCreateV1 } from './channels'
 import { clearV1 } from './other';
 import { getData } from './dataStore';
 import { channelLeaveV1, channelDetails, channelJoin } from './channel';
-import { dmCreateV1, dmLeave, dmMessages } from './dm';
+import { dmCreateV1, dmLeave, dmMessages, senddm } from './dm';
 import { setNameV1, usersAll } from './users';
 // import fs from 'fs';
 
@@ -89,11 +89,6 @@ app.get('/channel/details/v2', (req, res) => {
   res.json(channelDetails(token, channelId));
 });
 
-// app.post('/channel/join/v2', (req, res) => {
-//   const { token, channelId } = req.body;
-//   res.json(channelJoinV1(token, channelId));
-// });
-
 app.post('channel/leave/v1', (req, res) => {
   const { token, channelId } = req.body;
   res.json(channelLeaveV1(token, channelId));
@@ -135,6 +130,11 @@ app.get('/dm/messages/v1', (req, res) => {
   const dmId = parseInt(req.query.dmId as string);
   const start = parseInt(req.query.start as string);
   res.json(dmMessages(token, dmId, start));
+});
+
+app.post('/message/senddm/v1', (req, res) => {
+  const { token, dmId, message } = req.body;
+  res.json(senddm(token, dmId, message));
 });
 
 app.get('/users/all/v1', (req, res) => {

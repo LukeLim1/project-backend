@@ -163,7 +163,7 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
   }];
   const userArr = [];
 
-  // check if user with authUserId belongs to channel with channelId
+  // check if user with token belongs to channel with channelId
   if (!channel.allMembers.includes(token)) {
     return { error: 'error' };
   }
