@@ -1,5 +1,5 @@
 import { getData, setData } from './dataStore';
-import { checkToken } from './helperFunctions'
+import { checkToken } from './helperFunctions';
 
 // Given a name create a channel that can either be public or private
 // User who created a channel is automatically a memeber of the channel and the owner
@@ -12,29 +12,30 @@ import { checkToken } from './helperFunctions'
 //               {error: 'error'} when
 //               - name.length is not between 1 and 20 chars
 
-interface channelsObject {
-  channelId: number,
-  name: string,
-}
+function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
+  // checkToken(token);
+  // if (checkToken(token) === false) {
+  //   return { error: 'error bad token' };
+  // }
 
-function channelsCreateV1 (authUserId: number, name: string, isPublic: boolean) {
   const data = getData();
-  let randomNumber = Math.floor(Math.random() * 1000);
-  if (data.usedNums.length !== 0) {
-    randomNumber += data.usedNums[data.usedNums.length - 1];
+  let randomNumber = 1;
+  if (data.usedChannelNums.length !== 0) {
+    randomNumber += data.usedChannelNums[data.usedChannelNums.length - 1];
   }
-  data.usedNums.push(randomNumber);
+  data.usedChannelNums.push(randomNumber);
 
   // error case
   if (name.length < 1 || name.length > 20) {
     return { error: 'error' };
   }
+  const user = data.users.find(u => u.token.includes(token) === true);
 
   data.channels.push({
     name: `${name}`,
     isPublic: isPublic,
-    ownerMembers: [authUserId],
-    allMembers: [authUserId],
+    ownerMembers: [user.userId],
+    allMembers: [user.userId],
     channelId: randomNumber,
     messages: [],
   });
@@ -49,7 +50,11 @@ function channelsCreateV1 (authUserId: number, name: string, isPublic: boolean) 
 
 // Return type : { channelId },
 
-function channelsListV1 (token: string) { //authUserId: number) {
+function channelsListV1 (token: string) {
+  checkToken(token);
+  // if (checkToken(token) === false) {
+  //   return { error: 'error bad token' };
+  // }
 
   const data = getData();
 
@@ -69,11 +74,11 @@ function channelsListV1 (token: string) { //authUserId: number) {
     return { channels: [] };
   }
 
-  const objectArray: channelsObject[] = [];
-
+  const objectArray = [];
+  const user = data.users.find(u => u.token.includes(token) === true);
   for (const channel of data.channels) {
-    if (channel.allMembers.includes(token)) {
-      const channelsObject: channelsObject = {
+    if (channel.allMembers.includes(user.userId)) {
+      const channelsObject = {
         channelId: channel.channelId,
         name: channel.name,
       };
@@ -93,8 +98,11 @@ function channelsListV1 (token: string) { //authUserId: number) {
 
 // Return type : { channelId },
 
-function channelsListallV1 (token: string){
-
+function channelsListallV1 (token: string) {
+  // checkToken(token);
+  // if (checkToken(token) === false) {
+  //   return { error: 'error' };
+  // }
   const data = getData();
 
   let trigger = 0;
