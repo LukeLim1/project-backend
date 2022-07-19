@@ -1,0 +1,100 @@
+diff --git a/src/auth.test.ts b/src/auth.test.ts
+index 9ce9224..e62e177 100644
+--- a/src/auth.test.ts
++++ b/src/auth.test.ts
+@@ -1,4 +1,19 @@
+ import request from 'sync-request';
++
++/* =============================================================================
++== TAM'S COMMENT ==
++===================
++
++consider either using config.port and config.url, defining PORT/URL/OK in another
++file and export them, or
++
++```
++import { port, url } from './config.json';
++```
++
++to avoid code repetition.
++
++============================================================================= */
+ import config from './config.json';
+ 
+ const OK = 200;
+@@ -36,6 +51,13 @@ describe('authRegisterV2', () => {
+   test('Ensuring a unique number is returned', () => {
+     clear();
+ 
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++
++    Consider using jest setup/teardown, e.g. beforeEach, to avoid code repetition.
++
++    ============================================================================= */
+     const res = createBasicAccount();
+     const bodyObj = JSON.parse(String(res.getBody()));
+     expect(res.statusCode).toBe(OK);
+@@ -84,6 +106,18 @@ describe('authLoginV2', () => {
+         },
+       }
+     );
++
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++    
++    Not quite clear what you are doing here. For example, what isexpectedNum used
++    for? why not expectedStr = ['1', '2']?
++    
++    Also, if you're making assumptions about how tokens are generated, then it is
++    no longer black boxed (i.e. won't work on another group's implementation)
++
++    ============================================================================= */
+     const expectedNum = [1, 2];
+     const expectedStr = expectedNum.map(num => {
+       return String(num);
+diff --git a/src/channels.test.ts b/src/channels.test.ts
+index a5781bc..fade46b 100644
+--- a/src/channels.test.ts
++++ b/src/channels.test.ts
+@@ -182,3 +182,19 @@ describe('Functionality tests of channelsListallV1', () => {
+   // });
+   });
+ });
++
++
++/* =============================================================================
++== TAM'S COMMENT ==
++===================
++
++Consider writing wrapper functions to send HTTP requests and abstract the
++logic away from your test - this will improve readability, reduce code
++repetition and save a lot of time!
++
++Also, consider using jest set-up/teardown to also register accounts or create
++channels (see lab03_academics solution for an example).
++  
++Finally, use toStrictEqual instead of toMatchObject
++
++============================================================================= */
+\ No newline at end of file
+diff --git a/src/dm.test.ts b/src/dm.test.ts
+index b6e65e7..b44c16d 100644
+--- a/src/dm.test.ts
++++ b/src/dm.test.ts
+@@ -44,3 +44,12 @@ describe('Dm return values', () => {
+     expect(dmCreateV1('helllllooooooo', array2)).toMatchObject({ error: 'error' });
+   });
+ });
++
++
++/* =============================================================================
++== TAM'S COMMENT ==
++===================
++
++There are more cases to test in DMs! For example, 
++
++============================================================================= */
+\ No newline at end of file

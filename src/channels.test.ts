@@ -182,3 +182,19 @@ describe('Functionality tests of channelsListallV1', () => {
   // });
   });
 });
+
+
+/* =============================================================================
+== TAM'S COMMENT ==
+===================
+
+Consider writing wrapper functions to send HTTP requests and abstract the
+logic away from your test - this will improve readability, reduce code
+repetition and save a lot of time!
+
+Also, consider using jest set-up/teardown to also register accounts or create
+channels (see lab03_academics solution for an example).
+  
+Finally, use toStrictEqual instead of toMatchObject
+
+============================================================================= */

@@ -44,3 +44,12 @@ describe('Dm return values', () => {
     expect(dmCreateV1('helllllooooooo', array2)).toMatchObject({ error: 'error' });
   });
 });
+
+
+/* =============================================================================
+== TAM'S COMMENT ==
+===================
+
+There are more cases to test in DMs! For example, 
+
+============================================================================= */

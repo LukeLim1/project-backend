@@ -1,4 +1,19 @@
 import request from 'sync-request';
+
+/* =============================================================================
+== TAM'S COMMENT ==
+===================
+
+consider either using config.port and config.url, defining PORT/URL/OK in another
+file and export them, or
+
+```
+import { port, url } from './config.json';
+```
+
+to avoid code repetition.
+
+============================================================================= */
 import config from './config.json';
 
 const OK = 200;
@@ -36,6 +51,13 @@ describe('authRegisterV2', () => {
   test('Ensuring a unique number is returned', () => {
     clear();
 
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+
+    Consider using jest setup/teardown, e.g. beforeEach, to avoid code repetition.
+
+    ============================================================================= */
     const res = createBasicAccount();
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
@@ -84,6 +106,18 @@ describe('authLoginV2', () => {
         },
       }
     );
+
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+    
+    Not quite clear what you are doing here. For example, what isexpectedNum used
+    for? why not expectedStr = ['1', '2']?
+    
+    Also, if you're making assumptions about how tokens are generated, then it is
+    no longer black boxed (i.e. won't work on another group's implementation)
+
+    ============================================================================= */
     const expectedNum = [1, 2];
     const expectedStr = expectedNum.map(num => {
       return String(num);
