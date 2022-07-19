@@ -32,6 +32,25 @@ export function createBasicAccount() {
   return res;
 }
 
+export function createBasicAccount2() {
+  const res = request(
+    'POST',
+    `${url}:${port}/auth/register/v2`,
+    {
+      body: JSON.stringify({
+        email: 'zachary-chan2@gmail.com',
+        password: 'z5312387',
+        nameFirst: 'Zachary2',
+        nameLast: 'Chan2'
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
 describe('authRegisterV2', () => {
   test('Ensuring a unique number is returned', () => {
     clear();
@@ -114,5 +133,30 @@ describe('authLoginV2', () => {
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+});
+
+describe('authLogout', () => {
+  test('Testing successful authLogout', () => {
+    clear();
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/logout/v1`,
+      {
+        body: JSON.stringify({
+          token: newUser.token[0],
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({});
   });
 });
