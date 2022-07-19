@@ -30,7 +30,7 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
     return { error: 'error' };
   }
   const user = data.users.find(u => u.token.includes(token) === true);
-
+/*
   data.channels.push({
     name: `${name}`,
     isPublic: isPublic,
@@ -39,6 +39,7 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
     channelId: randomNumber,
     messages: [],
   });
+  */
   setData(data);
   return { channelId: randomNumber };
 }
@@ -76,7 +77,7 @@ function channelsListV1 (token: string) {
 
   const objectArray = [];
   const user = data.users.find(u => u.token.includes(token) === true);
-  for (const channel of data.channels) {
+/*  for (const channel of data.channels) {
     if (channel.allMembers.includes(user.userId)) {
       const channelsObject = {
         channelId: channel.channelId,
@@ -86,7 +87,7 @@ function channelsListV1 (token: string) {
       objectArray.push(channelsObject);
     }
   }
-
+*/
   setData(data);
   return { channels: objectArray };
 }
@@ -106,7 +107,7 @@ function channelsListallV1 (token: string) {
   const data = getData();
 
   let trigger = 0;
-
+/*
   for (const user in data.users) {
     if (user.token.includes(token)) {
       trigger = 1;
@@ -132,9 +133,10 @@ function channelsListallV1 (token: string) {
 
     objectArray.push(channelsObject);
   }
-
+*/
   setData(data);
-  return { channels: objectArray };
+//  return { channels: objectArray };
+  return {};
 }
 
 export { 
@@ -142,3 +144,5 @@ export {
   channelsListallV1, 
   channelsCreateV1,
 };
+
+

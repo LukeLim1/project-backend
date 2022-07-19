@@ -2,7 +2,6 @@ import { getData, setData } from './dataStore';
 // import { dmTemplate, dataTemplate, userTemplate } from './interface';
 import { checkToken } from './helperFunctions'
 
-
 interface members {
 	uId: number,
 	email: string,
