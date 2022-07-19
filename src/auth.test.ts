@@ -1,43 +1,9 @@
-import request, { HttpVerb } from 'sync-request';
-import { url, port } from './config.json';
-import { assert } from 'console';
+import request from 'sync-request';
+import config from './config.json';
 
 const OK = 200;
-
-function requestHelper(method: HttpVerb, path: string, payload: object) {
-  let qs = {};
-  let json = {};
-  if (['GET', 'DELETE'].includes(method)) {
-    qs = payload;
-  } else {
-    json = payload;
-  }
-  const res = request(method, `${url}:${port}/` + path, { qs, json });
-  assert(res.statusCode === OK);
-  return JSON.parse(res.getBody() as string);
-}
-
-function authRegister (email: string, password: string, nameFirst: string, nameLast: string) {
-  return requestHelper('POST', 'auth/register/v2', { email, password, nameFirst, nameLast });
-}
-
-function authLogout (token: string) {
-  return requestHelper('POST', 'auth/logout/v1', { token });
-}
-
-beforeEach(() => {
-  clear();
-});
-
-describe('HTTP tests using Jest', () => {
-  test('Test successful authLogout', () => {
-    const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
-    const res = authLogout(newUser.token);
-
-    expect(newUser.token.length).toEqual(1);
-    expect(res).toStrictEqual({});
-  })
-});
+const port = config.port;
+const url = config.url;
 
 export function clear() {
   const res = request(
@@ -148,5 +114,34 @@ describe('authLoginV2', () => {
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+});
+
+describe('authLoginV2', () => {
+  test('Ensuring a unique number is returned login', () => {
+    clear();
+    createBasicAccount();
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/login/v2`,
+      {
+        body: JSON.stringify({
+          email: 'zachary-chan@gmail.com',
+          password: 'z5312386',
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const expectedNum = [1, 2];
+    const expectedStr = expectedNum.map(num => {
+      return String(num);
+    });
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({
+      token: expectedStr
+    });
   });
 });
