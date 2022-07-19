@@ -111,3 +111,11 @@ function channelsListallV1 (token: string) {
 }
 
 export { channelsListV1, channelsListallV1, channelsCreateV1 };
+
+/* =============================================================================
+== TAM'S COMMENT ==
+===================
+
+Same feedback as iter1-manual
+
+============================================================================= */

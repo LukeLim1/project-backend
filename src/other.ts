@@ -4,6 +4,15 @@ import { getData, setData } from './dataStore';
 
 // Parameters : none
 
+
+/* =============================================================================
+== TAM'S COMMENT ==
+===================
+
+The return type is an empty object.
+
+============================================================================= */
+
 // return type : none
 
 function clearV1() {

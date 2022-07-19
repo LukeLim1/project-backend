@@ -195,3 +195,11 @@ export function channelLeaveV1 (token: number, channelId: number): object {
 
   return {};
 }
+
+/* =============================================================================
+== TAM'S COMMENT ==
+===================
+
+Same feedback as iter1-manual.
+
+============================================================================= */

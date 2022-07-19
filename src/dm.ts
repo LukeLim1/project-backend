@@ -25,6 +25,16 @@ export function dmCreateV1 (token: string, uIds: number[]) {
   if (allFounded === false) {
     return { error: 'error' };
   }
+
+
+  /* =============================================================================
+  == TAM'S COMMENT ==
+  ===================
+  
+  Seems like a useful function that should be abstracted away for other parts
+  of your code to use.
+
+  ============================================================================= */
   // find owner
   const user = data.users.find(u => u.token.includes(token) === true);
 
@@ -45,6 +55,20 @@ export function dmCreateV1 (token: string, uIds: number[]) {
   data.DMs.push({
     dmId: identifier,
     dmOwner: user.userId,
+
+    /* =============================================================================
+    == TAM'S COMMENT ==
+    ===================
+    
+    Why not
+    
+    ```
+    name: handleArray
+    ```
+    
+    ?
+
+    ============================================================================= */
     name: [...handleArray],
     messages: [],
   });

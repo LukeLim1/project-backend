@@ -1,0 +1,217 @@
+diff --git a/src/auth.ts b/src/auth.ts
+index 597daba..dbb98eb 100644
+--- a/src/auth.ts
++++ b/src/auth.ts
+@@ -154,3 +154,11 @@ function authLoginV1 (email: string, password: string) {
+   return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
+ }
+ export { authLoginV1, authRegisterV1 };
++
++  /* =============================================================================
++  == TAM'S COMMENT ==
++  ===================
++  
++  Same feedback as iter1-manual
++
++  ============================================================================= */
+\ No newline at end of file
+diff --git a/src/channel.ts b/src/channel.ts
+index ee5c64e..0f1ac1e 100644
+--- a/src/channel.ts
++++ b/src/channel.ts
+@@ -195,3 +195,11 @@ export function channelLeaveV1 (token: number, channelId: number): object {
+ 
+   return {};
+ }
++
++/* =============================================================================
++== TAM'S COMMENT ==
++===================
++
++Same feedback as iter1-manual.
++
++============================================================================= */
+\ No newline at end of file
+diff --git a/src/channels.ts b/src/channels.ts
+index 7a68a82..ff43d0f 100644
+--- a/src/channels.ts
++++ b/src/channels.ts
+@@ -111,3 +111,11 @@ function channelsListallV1 (token: string) {
+ }
+ 
+ export { channelsListV1, channelsListallV1, channelsCreateV1 };
++
++/* =============================================================================
++== TAM'S COMMENT ==
++===================
++
++Same feedback as iter1-manual
++
++============================================================================= */
+\ No newline at end of file
+diff --git a/src/dataStore.ts b/src/dataStore.ts
+index 0e2b43e..af07b5c 100644
+--- a/src/dataStore.ts
++++ b/src/dataStore.ts
+@@ -2,6 +2,15 @@
+ 
+ import { dataTemplate } from './interface';
+ 
++/* =============================================================================
++== TAM'S COMMENT ==
++===================
++
++Consider `DataTemplate` instead of `dataTemplate`. Also, `dms` instead of `DMs`.
++This is trivial though, and you don't need to make the change if it proves too
++difficult - just keep them in mind.
++
++============================================================================= */
+ let data: dataTemplate = {
+   users: [],
+   channels: [],
+diff --git a/src/dm.ts b/src/dm.ts
+index ca55cb5..d5b202e 100644
+--- a/src/dm.ts
++++ b/src/dm.ts
+@@ -25,6 +25,16 @@ export function dmCreateV1 (token: string, uIds: number[]) {
+   if (allFounded === false) {
+     return { error: 'error' };
+   }
++
++
++  /* =============================================================================
++  == TAM'S COMMENT ==
++  ===================
++  
++  Seems like a useful function that should be abstracted away for other parts
++  of your code to use.
++
++  ============================================================================= */
+   // find owner
+   const user = data.users.find(u => u.token.includes(token) === true);
+ 
+@@ -45,6 +55,20 @@ export function dmCreateV1 (token: string, uIds: number[]) {
+   data.DMs.push({
+     dmId: identifier,
+     dmOwner: user.userId,
++
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++    
++    Why not
++    
++    ```
++    name: handleArray
++    ```
++    
++    ?
++
++    ============================================================================= */
+     name: [...handleArray],
+     messages: [],
+   });
+diff --git a/src/helperFunctions.ts b/src/helperFunctions.ts
+index fe7e7f7..7ecbf61 100644
+--- a/src/helperFunctions.ts
++++ b/src/helperFunctions.ts
+@@ -3,12 +3,47 @@ import { getData } from './dataStore';
+ // checks for duplicates in arrays
+ export function containsDuplicates(array: number[]) {
+   const result = array.some(element => {
++
++    /* =============================================================================
++    == TAM'S COMMENT ==
++    ===================
++    
++    rather than
++    
++    ```
++    if (condition) {
++      return true;
++    }
++    return false;
++    ```
++    
++    consider:
++    
++    ```
++    return condition;
++    ```
++
++    ============================================================================= */
+     if (array.indexOf(element) !== array.lastIndexOf(element)) {
+       return true;
+     }
+     return false;
+   });
+   return result;
++
++  /* =============================================================================
++  == TAM'S COMMENT ==
++  ===================
++  
++  A cool alternative implementation for this function, in one line, is
++  
++  ```
++  return array.length !== new Set(array).size
++  ```
++  
++  :).
++
++  ============================================================================= */
+ }
+ 
+ // test for a valid token
+@@ -26,6 +61,15 @@ export function checkToken(token: string): boolean {
+       return true;
+     }
+   }
++
++  /* =============================================================================
++  == TAM'S COMMENT ==
++  ===================
++  
++  Is this if-statement necessary? I don't think you need the trigger variable
++  at all and simply return false here.
++
++  ============================================================================= */
+   if (trigger === 0) {
+     return false;
+   }
+diff --git a/src/interface.ts b/src/interface.ts
+index 4161e1e..921e625 100644
+--- a/src/interface.ts
++++ b/src/interface.ts
+@@ -1,3 +1,11 @@
++/* =============================================================================
++== TAM'S COMMENT ==
++===================
++
++Good idea to have these in another file. Try naming them with a captital lteter
++at the start though, e.g. UserTemplate.
++
++============================================================================= */
+ export interface dmTemplate {
+     dmId: number;
+     dmOwner: number;
+diff --git a/src/other.ts b/src/other.ts
+index 6c4d3b6..88f4872 100644
+--- a/src/other.ts
++++ b/src/other.ts
+@@ -4,6 +4,15 @@ import { getData, setData } from './dataStore';
+ 
+ // Parameters : none
+ 
++
++/* =============================================================================
++== TAM'S COMMENT ==
++===================
++
++The return type is an empty object.
++
++============================================================================= */
++
+ // return type : none
+ 
+ function clearV1() {

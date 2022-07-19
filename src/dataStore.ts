@@ -2,6 +2,15 @@
 
 import { dataTemplate } from './interface';
 
+/* =============================================================================
+== TAM'S COMMENT ==
+===================
+
+Consider `DataTemplate` instead of `dataTemplate`. Also, `dms` instead of `DMs`.
+This is trivial though, and you don't need to make the change if it proves too
+difficult - just keep them in mind.
+
+============================================================================= */
 let data: dataTemplate = {
   users: [],
   channels: [],

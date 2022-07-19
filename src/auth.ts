@@ -154,3 +154,11 @@ function authLoginV1 (email: string, password: string) {
   return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
 }
 export { authLoginV1, authRegisterV1 };
+
+  /* =============================================================================
+  == TAM'S COMMENT ==
+  ===================
+  
+  Same feedback as iter1-manual
+
+  ============================================================================= */

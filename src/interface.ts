@@ -1,3 +1,11 @@
+/* =============================================================================
+== TAM'S COMMENT ==
+===================
+
+Good idea to have these in another file. Try naming them with a captital lteter
+at the start though, e.g. UserTemplate.
+
+============================================================================= */
 export interface dmTemplate {
     dmId: number;
     dmOwner: number;
