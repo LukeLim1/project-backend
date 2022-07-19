@@ -117,31 +117,25 @@ describe('authLoginV2', () => {
   });
 });
 
-describe('authLoginV2', () => {
-  test('Ensuring a unique number is returned login', () => {
+describe('authLogout', () => {
+  test('Testing successful authLogout', () => {
     clear();
     createBasicAccount();
     const res = request(
       'POST',
-      `${url}:${port}/auth/login/v2`,
+      `${url}:${port}/auth/logout/v1`,
       {
         body: JSON.stringify({
-          email: 'zachary-chan@gmail.com',
-          password: 'z5312386',
+          token: 1,
         }),
         headers: {
           'Content-type': 'application/json',
         },
       }
     );
-    const expectedNum = [1, 2];
-    const expectedStr = expectedNum.map(num => {
-      return String(num);
-    });
+ 
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({
-      token: expectedStr
-    });
+    expect(bodyObj).toMatchObject({});
   });
 });
