@@ -6,9 +6,9 @@ import { authLoginV1, authRegisterV1, authLogout } from './auth';
 import { channelsListV1, channelsListallV1, channelsCreateV1 } from './channels';
 import { clearV1 } from './other';
 import { getData } from './dataStore';
-import { channelLeaveV1 } from './channel';
-import { dmCreateV1 } from './dm';
-import { setNameV1 } from './users';
+import { channelLeaveV1, channelDetails, channelJoin } from './channel';
+import { dmCreateV1, dmLeave, dmMessages } from './dm';
+import { setNameV1, usersAll } from './users';
 // import fs from 'fs';
 
 // Set up web app, use JSON
@@ -83,11 +83,11 @@ app.get('/channels/listall/v2', (req, res) => {
   res.json(channelsListallV1(token));
 });
 
-// app.get('/channel/details/v2', (req, res) => {
-//   const token = req.query.token as string;
-//   const channelId = parseInt(req.query.channelId as string);
-//   res.json(channelDetailsV1(token, channelId));
-// });
+app.get('/channel/details/v2', (req, res) => {
+  const token = req.query.token as string;
+  const channelId = parseInt(req.query.channelId as string);
+  res.json(channelDetails(token, channelId));
+});
 
 // app.post('/channel/join/v2', (req, res) => {
 //   const { token, channelId } = req.body;
@@ -114,7 +114,7 @@ app.delete('/clear/v1', (req, res) => {
   res.json(clearV1());
 });
 
-/* app.get('/channel/details/v2', (req, res) => {
+app.get('/channel/details/v2', (req, res) => {
   const token = req.query.token as string;
   const channelId = parseInt(req.query.channelId as string);
   res.json(channelDetails(token, channelId));
@@ -140,7 +140,7 @@ app.get('/dm/messages/v1', (req, res) => {
 app.get('/users/all/v1', (req, res) => {
   const token = req.query.token as string;
   res.json(usersAll(token));
-}); */
+});
 
 // for logging errors
 app.use(morgan('dev'));

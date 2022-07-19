@@ -1,6 +1,7 @@
 import request, { HttpVerb } from 'sync-request';
 import { url, port } from './config.json';
 import { assert } from 'console';
+import { createBasicAccount, createBasicAccount2, clear } from './auth.test';
 
 const OK = 200;
 
@@ -26,34 +27,43 @@ function usersAll (token: string) {
   return requestHelper('GET', 'users/all/v1', { token });
 }
 
-function clear () {
-  return requestHelper('DELETE', 'clear/v1', {});
-}
-
 beforeEach(() => {
   clear();
 });
 
 describe('HTTP tests using Jest', () => {
   test('Test successful usersAll', () => {
-    const newUser = authRegister('adabob@email.com', '123456', 'Ada', 'Bob');
-    const newUser2 = authRegister('oceanhall@email.com', '234567', 'Ocean', 'Hall');
-    const res = usersAll(newUser.token);
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicA2 = createBasicAccount2();
+    const newUser2 = JSON.parse(String(basicA2.getBody()));
 
-    expect(res).toStrictEqual({
+    const res = request(
+      'GET',
+      `${url}:${port}/users/all/v1`,
+      {
+        qs: {
+          token: newUser.token[0],
+        },
+      }
+    );
+
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toStrictEqual({
       users: [{
         uId: newUser.authUserId,
-        email: 'adabob@email.com',
-        nameFirst: 'Ada',
-        nameLast: 'Bob',
-        handleStr: 'adabob',
+        email: 'zachary-chan@gmail.com',
+        nameFirst: 'Zachary',
+        nameLast: 'Chan',
+        handleStr: 'zacharychan',
       },
       {
         uId: newUser2.authUserId,
-        email: 'oceanhall@email.com',
-        nameFirst: 'Ocean',
-        nameLast: 'Hall',
-        handleStr: 'oceanhall',
+        email: 'zachary-chan2@gmail.com',
+        nameFirst: 'Zachary2',
+        nameLast: 'Chan2',
+        handleStr: 'zachary2chan2',
       }]
     });
   });
