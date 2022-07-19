@@ -1,66 +1,34 @@
-import request, { HttpVerb } from 'sync-request';
+import request from 'sync-request';
 import { url, port } from './config.json';
-import { assert } from 'console';
 import { createBasicAccount, createBasicAccount2, clear } from './auth.test';
 import { createBasicChannel } from './channels.test';
 
 const OK = 200;
-
-function requestHelper(method: HttpVerb, path: string, payload: object) {
-  let qs = {};
-  let json = {};
-  if (['GET', 'DELETE'].includes(method)) {
-    qs = payload;
-  } else {
-    json = payload;
-  }
-  const res = request(method, `${url}:${port}/` + path, { qs, json });
-  assert(res.statusCode === OK);
-  return JSON.parse(res.getBody() as string);
-}
-
-function authRegister (email: string, password: string, nameFirst: string, nameLast: string) {
-  return requestHelper('POST', 'auth/register/v2', { email, password, nameFirst, nameLast });
-}
-
-function channelsCreate (token: string, name: string, isPublic: boolean) {
-  return requestHelper('POST', 'channels/create/v2', { token, name, isPublic });
-}
-
-function channelDetails (token: string, channelId: number) {
-  return requestHelper('GET', 'channel/details/v2', { token, channelId });
-}
-
-function channelJoin (token: string, channelId: number) {
-  return requestHelper('POST', 'channel/join/v2', { token, channelId });
-}
 
 beforeEach(() => {
   clear();
 });
 
 describe('HTTP tests using Jest', () => {
-  /*
-  test('Testing successful channel details', () => {
-    const basicA = createBasicAccount();
-    const newUser = JSON.parse(String(basicA.getBody()));
-    const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
-    const newChannel = JSON.parse(String(basicC.getBody()));
-    const res = request(
-      'GET',
-      `${url}:${port}/channel/details/v2`,
-      {
-        qs: {
-          token: '1',
-          channelId: 1,
-        },
-      }
-    );
-    console.log(res);
-    expect(res.statusCode).toBe(OK);
-    //expect(res).toMatchObject({ error: 'error' });
-  });
-  */
+  // test('Testing successful channel details', () => {
+  //   const basicA = createBasicAccount();
+  //   const newUser = JSON.parse(String(basicA.getBody()));
+  //   const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
+  //   const newChannel = JSON.parse(String(basicC.getBody()));
+  //   const res = request(
+  //     'GET',
+  //     `${url}:${port}/channel/details/v2`,
+  //     {
+  //       qs: {
+  //         token: '1',
+  //         channelId: 1,
+  //       },
+  //     }
+  //   );
+  //   console.log(res);
+  //   expect(res.statusCode).toBe(OK);
+  //   //expect(res).toMatchObject({ error: 'error' });
+  // });
 
   test('channelDetails: channelId does not refer to valid channel', () => {
     const basicA = createBasicAccount();

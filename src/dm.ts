@@ -1,6 +1,6 @@
 import { getData, setData } from './dataStore';
 import { containsDuplicates, checkToken } from './helperFunctions';
-import { Error, IDmMessages, IMessages } from './interface';
+import { Error, IDmMessages, IMessages, Empty } from './interface';
 
 export function dmCreateV1 (token: string, uIds: number[]) {
   if (containsDuplicates(uIds) === true) {
@@ -136,8 +136,6 @@ interface messageId {
   messageId: number,
 }
 
-interface empty {}
-
 interface dms {
   dmId: number,
   name: string[],
@@ -162,13 +160,6 @@ export function senddm (token: string, dmId: number, message: string): messageId
     return { error: 'error' };
   }
 
-  // Case 3: authorised user is not a member of DM
-  /*
-	const user = data.users.find(u => u.token.includes(token));
-	if (!(id.name.includes(user.handle))) {
-		return { error: 'error' };
-	}
-  */
   let random: number = Math.floor(Math.random() * 10000);
   if (data.usedNums.length !== 0) {
     random = random + data.usedNums[data.usedNums.length - 1];
@@ -217,7 +208,7 @@ export function dmList (token: string) {
   return { dms: array };
 }
 
-export function dmRemove (token: string, dmId: number): empty | Error {
+export function dmRemove (token: string, dmId: number): Empty | Error {
   // Check if token is valid
   checkToken(token);
   if (checkToken(token) === false) {
@@ -236,21 +227,6 @@ export function dmRemove (token: string, dmId: number): empty | Error {
   if (!data.users.find(u => u.token.includes(token) === true)) {
     return { error: 'error' };
   }
-
-  // Case 3: authorised user is no longer in the DM
-  /*
-	let trigger = 0;
-	for(const i in data.DMs){
-		for (const j in data.users) {
-			if (data.DMs[i].name.includes(data.users[j].handle)){
-			  trigger = 1;
-		    }
-	    }
-	}
-	if (trigger = 0) {
-		return { error: 'error' };
-	}
-*/
   // check if this is owner
   if (data.users.find(dm => dm.token.includes(token) === true)) {
     data.DMs = [];
