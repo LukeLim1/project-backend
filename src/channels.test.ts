@@ -10,6 +10,24 @@ beforeEach(() => {
   clear();
 });
 
+export function createBasicChannel(token: string, name: string, isPublic: boolean) {
+  const res = request(
+    'POST',
+    `${url}:${port}/channels/create/v2`,
+    {
+      body: JSON.stringify({
+        token: token,
+        name: name,
+        isPublic: isPublic,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
 describe('ChannelsCreateV1 returns correct data information', () => {
   test('Channel is created', () => {
     createBasicAccount();

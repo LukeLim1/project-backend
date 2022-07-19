@@ -24,3 +24,38 @@ export interface dataTemplate {
     usedChannelNums: number[];
     DMs: dmTemplate[];
 }
+
+export interface Error {
+    error: 'error';
+}
+
+/* eslint-disable @typescript-eslint/no-empty-interface */
+export interface Empty {}
+
+export interface IUser {
+    uId: number;
+    email: string;
+    nameFirst: string;
+    nameLast: string;
+    handleStr: string;
+}
+
+export interface IMessages {
+    messageId: number;
+    uId: number;
+    message: string;
+    timeSent: number;
+}
+
+export interface IChannelDetails {
+    name: string;
+    isPublic: boolean;
+    ownerMembers: any;
+    allMembers: IUser[];
+}
+
+export interface IDmMessages {
+    messages: IMessages[];
+    start: number;
+    end: number;
+}

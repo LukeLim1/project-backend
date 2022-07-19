@@ -1,18 +1,17 @@
 import { getData } from './dataStore';
 
 // checks for duplicates in arrays
-export function containsDuplicates(array: number[]) {
-  const result = array.some(element => {
-    if (array.indexOf(element) !== array.lastIndexOf(element)) {
-      return true;
-    }
+export function containsDuplicates(array: number[]): boolean {
+  const result = Array.from(new Set(array));
+  if (array.length === result.length) {
     return false;
-  });
-  return result;
+  } else {
+    return true;
+  }
 }
 
 // test for a valid token
-export function checkToken(token: string): boolean {
+export function checkToken(token: string): boolean | undefined {
   const data = getData();
   const tokenArray: string[] = [];
   Object.values(data.users).forEach(element => {
