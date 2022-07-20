@@ -197,4 +197,115 @@ describe('HTTP tests using Jest', () => {
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: expect.any(String) });
   });
+
+  // tests for channel/leave
+  // describe('channelLeaveV1 tests', () => {
+  //   test('Channel successfully left', () => {
+
+  //     const basicA = createBasicAccount();
+  //     const newUser = JSON.parse(String(basicA.getBody()));
+  //     const res3 = request(
+  //       'POST',
+  //       `${url}:${port}/channels/create/v2`,
+  //       {
+  //         body: JSON.stringify({
+  //           token: '1',
+  //           name: 'Snickers',
+  //           isPublic: true,
+  //         }),
+  //         headers: {
+  //           'Content-type': 'application/json',
+  //         },
+  //       }
+  //     );
+  //     const newChannel = JSON.parse(String(res3.getBody()));
+
+  //     const res = request(
+  //       'POST',
+  //       `${url}:${port}/channel/leave/v1`,
+  //       {
+  //         body: JSON.stringify({
+  //           token: newUser.token[0],
+  //           channelId: newChannel.channelId,
+  //         }),
+  //         headers: {
+  //           'Content-type': 'application/json',
+  //         },
+  //       }
+  //     );
+
+  //     const bodyObj = JSON.parse(String(res.getBody()));
+  //     expect(res.statusCode).toBe(OK);
+  //     expect(bodyObj).toMatchObject({});
+
+  // // account 1
+  // createBasicAccount();
+  // //  account 2
+  // const res2 = request(
+  //   'POST',
+  //   `${url}:${port}/auth/register/v2`,
+  //   {
+  //     body: JSON.stringify({
+  //       email: 'hello@gmail.com',
+  //       password: 'z5312386',
+  //       nameFirst: 'Taylor',
+  //       nameLast: 'Swift'
+  //     }),
+  //     headers: {
+  //       'Content-type': 'application/json',
+  //     },
+  //   }
+  // );
+
+  // // create channel
+  // const res3 = request(
+  //   'POST',
+  //   `${url}:${port}/channels/create/v2`,
+  //   {
+  //     body: JSON.stringify({
+  //       token: '1',
+  //       name: 'Snickers',
+  //       isPublic: true,
+  //     }),
+  //     headers: {
+  //       'Content-type': 'application/json',
+  //     },
+  //   }
+  // );
+  // const res4 = request(
+  //   'POST',
+  //   `${url}:${port}/channel/join/v2`,
+  //   {
+  //     body: JSON.stringify({
+  //       token: '1',
+  //       channelId: 1
+  //     }),
+  //     headers: {
+  //       'Content-type': 'application/json',
+  //     },
+  //   }
+  // );
+  // const bodyObj1 = JSON.parse(String(res4.getBody()));
+  // expect(res2.statusCode).toBe(OK);
+  // expect(res3.statusCode).toBe(OK);
+  // expect(res4.statusCode).toBe(OK);
+  // expect(bodyObj1).toMatchObject({});
+  // // channel leave test
+  // const res5 = request(
+  //   'POST',
+  //   `${url}:${port}/channel/leave/v1`,
+  //   {
+  //     body: JSON.stringify({
+  //       token: '1',
+  //       channelId: 1
+  //     }),
+  //     headers: {
+  //       'Content-type': 'application/json',
+  //     },
+  //   }
+  // );
+  // const bodyObj2 = JSON.parse(String(res5.getBody()));
+  // expect(res5.statusCode).toBe(OK);
+  // expect(bodyObj2).toMatchObject({});
+  // });
 });
