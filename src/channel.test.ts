@@ -1,197 +1,200 @@
-// import { channelDetailsV1, channelJoinV1, channelMessagesV1, channelInviteV1, channelLeaveV1 } from './channel';
-// import { channelsCreateV1 } from './channels';
-// import { authRegisterV1 } from './auth';
-// import { clearV1 } from './other';
+import request from 'sync-request';
+import { url, port } from './config.json';
+import { createBasicAccount, createBasicAccount2, clear } from './auth.test';
+import { createBasicChannel } from './channels.test';
 
-// test('Testing successful channelDetailsV1 and channelJoinV1', () => {
-//   clearV1();
-//   const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
-//   const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
-//   const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', true);
-//   expect(channelJoinV1(user1.authUserId, channel1.channelId)).toMatchObject({});
+const OK = 200;
 
-//   expect(channelDetailsV1(owner.authUserId, channel1.channelId)).toMatchObject(
-//     {
-//       name: 'channel#1',
-//       isPublic: true,
-//       ownerMembers: [
-//         {
-//           uId: owner.authUserId,
-//           email: 'owner@email.com',
-//           nameFirst: 'Ada',
-//           nameLast: 'Bob',
-//           handleStr: 'adabob',
-//         },
-//       ],
-//       allMembers: [
-//         {
-//           uId: owner.authUserId,
-//           email: 'owner@email.com',
-//           nameFirst: 'Ada',
-//           nameLast: 'Bob',
-//           handleStr: 'adabob',
-//         },
-//         {
-//           uId: user1.authUserId,
-//           email: 'user1@email.com',
-//           nameFirst: 'Ocean',
-//           nameLast: 'Hall',
-//           handleStr: 'oceanhall',
-//         }
-//       ]
-//     });
-// });
-
-// // Error cases
-
-test('channelId does not refer to valid channel', () => {
-  // clearV1();
-  // const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
-  // const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
-  // const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', true);
-  // expect(channelJoinV1(user1.authUserId, channel1.channelId + 5)).toMatchObject({ error: 'error' });
-
-  // Same test for channelDetailsV1
-  expect(5).toBe(5);
+beforeEach(() => {
+  clear();
 });
 
-// test('authorised user is already a member', () => {
-//   clearV1();
-//   const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
-//   const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
-//   const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', true);
-//   channelJoinV1(user1.authUserId, channel1.channelId);
-//   expect(channelJoinV1(user1.authUserId, channel1.channelId)).toMatchObject({ error: 'error' });
-// });
+describe('HTTP tests using Jest', () => {
+  // test('Testing successful channel details', () => {
+  //   const basicA = createBasicAccount();
+  //   const newUser = JSON.parse(String(basicA.getBody()));
+  //   const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
+  //   const newChannel = JSON.parse(String(basicC.getBody()));
+  //   const res = request(
+  //     'GET',
+  //     `${url}:${port}/channel/details/v2`,
+  //     {
+  //       qs: {
+  //         token: '1',
+  //         channelId: 1,
+  //       },
+  //     }
+  //   );
+  //   console.log(res);
+  //   expect(res.statusCode).toBe(OK);
+  //   //expect(res).toMatchObject({ error: 'error' });
+  // });
 
-// test('channelId refers to private channel and the user is not channel member nor global owner', () => {
-//   clearV1();
-//   const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
-//   const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
-//   const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', false);
-//   expect(channelJoinV1(user1.authUserId, channel1.channelId)).toMatchObject({ error: 'error' });
-// });
+  test('channelDetails: channelId does not refer to valid channel', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
+    const newChannel = JSON.parse(String(basicC.getBody()));
+    const res = request(
+      'GET',
+      `${url}:${port}/channel/details/v2`,
+      {
+        qs: {
+          token: newUser.token[0],
+          channelId: newChannel.channelId + 5,
+        },
+      }
+    );
 
-// test('channelId valid, but the user is not a member', () => {
-//   clearV1();
-//   const owner = authRegisterV1('owner@email.com', '123456', 'Ada', 'Bob');
-//   const user1 = authRegisterV1('user1@email.com', '987654', 'Ocean', 'Hall');
-//   const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', false);
-//   expect(channelDetailsV1(user1.authUserId, channel1.channelId)).toMatchObject({ error: 'error' });
-// });
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
 
-// // Tests for channelInviteV1
-// describe('channelInviteV1', () => {
-//   let channelID: number, uID: number, authUserID: number;
-//   beforeEach(() => {
-//     clearV1();
-//     uID = authRegisterV1('uniquepeterrabbit@gmail.com', 'qgi6dt', 'Peter', 'Rabbit').authUserId;
-//     authUserID = authRegisterV1('uniqueBobLovel@gmail.com', 'qgi6dt', 'Bob', 'Lovel').authUserId;
-//     channelID = channelsCreateV1(authUserID, 'animal_kingdom', true).channelId;
-//   });
+  test('channelDetails: channelId valid, but user is not a member', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
+    const newChannel = JSON.parse(String(basicC.getBody()));
+    const res = request(
+      'GET',
+      `${url}:${port}/channel/details/v2`,
+      {
+        qs: {
+          token: newUser.token[0].concat('abc'),
+          channelId: newChannel.channelId,
+        },
+      }
+    );
 
-//   describe('Error cases', () => {
-//     test('Invalid user', () => {
-//       expect(channelInviteV1(authUserID, channelID, uID + 1)).toEqual({ error: 'error' });
-//     });
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
 
-//     test('Invalid channel', () => {
-//       expect(channelInviteV1(authUserID, channelID + 1, uID)).toEqual({ error: 'error' });
-//     });
+  test('Testing successful channelJoin', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
+    const newChannel = JSON.parse(String(basicC.getBody()));
 
-//     test('User is already a member of this channel', () => {
-//       expect(channelInviteV1(authUserID, channelID, authUserID)).toEqual({ error: 'error' });
-//     });
+    const basicA2 = createBasicAccount2();
+    const newUser2 = JSON.parse(String(basicA2.getBody()));
 
-//     test('User is already authorised but membership of this channel is still not granted', () => {
-//       expect(channelInviteV1(uID, channelID, uID)).toEqual({ error: 'error' });
-//     });
-//   });
+    const res = request(
+      'POST',
+      `${url}:${port}/channel/join/v2`,
+      {
+        body: JSON.stringify({
+          token: newUser2.token[0],
+          channelId: newChannel.channelId,
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
 
-//   describe('No errors: expected ideal cases', () => {
-//     test('Invitation successful!', () => {
-//       channelInviteV1(authUserID, channelID, uID);
-//       expect(channelInviteV1(authUserID, channelID, uID)).toMatchObject({});
-//     });
-//   });
-// });
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({});
+  });
 
-// // Tests for channelMessageV1
-// describe('channelMessagesV1', () => {
-//   let channelID: number, uID: number, authUserID: number, start: number;
-//   beforeEach(() => {
-//     clearV1();
-//     uID = authRegisterV1('uniquepeterrabbit@gmail.com', 'qgi6dt', 'Peter', 'Rabbit').authUserId;
-//     authUserID = authRegisterV1('uniqueBobLovel@gmail.com', 'qgi6dt', 'Bob', 'Lovel').authUserId;
-//     channelID = channelsCreateV1(authUserID, 'animal_kingdom', true).channelId;
-//   });
+  test('channelJoin: channelId does not refer to a valid channel', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
+    const newChannel = JSON.parse(String(basicC.getBody()));
 
-//   describe('Error cases', () => {
-//     test('Invalid channel', () => {
-//       start = 0;
-//       expect(channelMessagesV1(authUserID, channelID + 1, start)).toEqual({ error: 'error' });
-//     });
+    const basicA2 = createBasicAccount2();
+    const newUser2 = JSON.parse(String(basicA2.getBody()));
 
-//     test('start is greater than the total no. of messages in the channel', () => {
-//       start = 100;
-//       expect(channelMessagesV1(authUserID, channelID, start)).toEqual({ error: 'error' });
-//     });
+    const res = request(
+      'POST',
+      `${url}:${port}/channel/join/v2`,
+      {
+        body: JSON.stringify({
+          token: newUser2.token[0],
+          channelId: newChannel.channelId + 5,
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
 
-//     test('User is already authorised but membership of this channel is still not granted', () => {
-//       start = 0;
-//       expect(channelMessagesV1(uID, channelID, start)).toEqual({ error: 'error' });
-//     });
-//   });
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
 
-//   describe('No errors: expected ideal cases', () => {
-//     test('Messages retrieval successful!', () => {
-//       const start = 0;
-//       const resultActual = channelMessagesV1(authUserID, channelID, start);
-//       expect(resultActual).toMatchObject({
-//         messages: [],
-//         start: 0,
-//         end: -1
-//       });
-//     });
-//   });
-// });
+  test('channelJoin: authorised user is already a member', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
+    const newChannel = JSON.parse(String(basicC.getBody()));
 
-// // tests for channel/leave
-// describe('channelLeaveV1 tests', () => {
-//   test('Channel successfully left', () => {
-//     const owner = authRegisterV1('owner@gmail.com', 'qgi6dt', 'Spongebob', 'Square');
-//     const user1 = authRegisterV1('user1@gmail.com', 'qgi6dt', 'Patrick', 'Star');
-//     const channel1 = channelsCreateV1(owner.authUserId, 'channel#1', true);
+    const basicA2 = createBasicAccount2();
+    const newUser2 = JSON.parse(String(basicA2.getBody()));
 
-//     expect(channelJoinV1(user1.authUserId, channel1.channelId)).toMatchObject({});
+    request(
+      'POST',
+      `${url}:${port}/channel/join/v2`,
+      {
+        body: JSON.stringify({
+          token: newUser2.token[0],
+          channelId: newChannel.channelId,
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
 
-//     expect(channelLeaveV1(user1.authUserId, channel1.channelId)).toMatchObject({});
+    const res = request(
+      'POST',
+      `${url}:${port}/channel/join/v2`,
+      {
+        body: JSON.stringify({
+          token: newUser2.token[0],
+          channelId: newChannel.channelId,
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
 
-//     expect(channelDetailsV1(owner.authUserId, channel1.channelId)).toMatchObject(
-//       {
-//         name: 'channel#1',
-//         isPublic: true,
-//         ownerMembers: [
-//           {
-//             uId: owner.authUserId,
-//             email: 'owner@gmail.com',
-//             nameFirst: 'Spongebob',
-//             nameLast: 'Square',
-//             handleStr: 'spongebobsquare',
-//           },
-//         ],
-//         allMembers: [
-//           {
-//             uId: owner.authUserId,
-//             email: 'owner@gmail.com',
-//             nameFirst: 'Spongebob',
-//             nameLast: 'Square',
-//             handleStr: 'spongebobsquare',
-//           },
-//         ]
-//       });
-//     // testing trying to leave from a channel user1 isnt apart of
-//     expect(channelLeaveV1(user1.authUserId, channel1.channelId)).toMatchObject({ error: 'error' });
-//     expect(channelLeaveV1(user1.authUserId, -999999)).toMatchObject({ error: 'error' });
-//   });
-// });
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+
+  test('channelJoin: channelId refers to private channel and authorised user is not channel member and not global owner', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicC = createBasicChannel(newUser.token[0], 'channel1', false);
+    const newChannel = JSON.parse(String(basicC.getBody()));
+
+    const basicA2 = createBasicAccount2();
+    const newUser2 = JSON.parse(String(basicA2.getBody()));
+
+    const res = request(
+      'POST',
+      `${url}:${port}/channel/join/v2`,
+      {
+        body: JSON.stringify({
+          token: newUser2.token[0],
+          channelId: newChannel.channelId,
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+});
