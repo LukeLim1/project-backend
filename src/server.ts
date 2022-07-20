@@ -1,4 +1,4 @@
-import express, { json, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import { echo } from './echo';
 import morgan from 'morgan';
 import config from './config.json';
@@ -9,7 +9,7 @@ import { getData } from './dataStore';
 import { channelLeaveV1, channelDetails, channelJoin } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } from './dm';
 import { setNameV1, usersAll } from './users';
-//import { senddm, dmList, dmRemove, dmDetails } from './Rick';
+// import { senddm, dmList, dmRemove, dmDetails } from './Rick';
 // import fs from 'fs';
 
 // Set up web app, use JSON
@@ -72,7 +72,7 @@ app.post('/channels/create/v2', (req, res) => {
 });
 
 ////////////////////////////////////////////////////////////////
-/*app.get('channels/list/v2', (req: Request, res: Response) => {
+/* app.get('channels/list/v2', (req: Request, res: Response) => {
   const token = req.query.token as string;
   res.json(channelsListV1(token));
 });
