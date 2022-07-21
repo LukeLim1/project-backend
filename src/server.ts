@@ -8,7 +8,7 @@ import { clearV1 } from './other';
 import { getData } from './dataStore';
 import { channelLeaveV1, channelDetails, channelJoin } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm } from './dm';
-import { setNameV1, usersAll } from './users';
+import { setNameV1, usersAll, setEmailV1, setHandleV1 } from './users';
 // import fs from 'fs';
 
 // Set up web app, use JSON
@@ -36,7 +36,21 @@ app.get('/apple', (req, res) => {
   }));
 });
 
-app.get('/data', (req, res) => {
+app.get('/data/channels', (req, res) => {
+  const data = getData();
+  const users = data.channels;
+  res.send({
+    users
+  });
+});
+app.get('/data/users', (req, res) => {
+  const data = getData();
+  const users = data.users;
+  res.send({
+    users
+  });
+});
+app.get('/data/all', (req, res) => {
   const data = getData();
   const users = data;
   res.send({
@@ -99,10 +113,28 @@ app.post('/dm/create/v1', (req, res) => {
   res.json(dmCreateV1(token, uIds));
 });
 
+app.get('/user/profile/v2', (req, res) => {
+  const token = String(req.query.token);
+  const uId = parseInt(req.query.uId as string);
+  res.json(channelDetails(token, uId));
+});
+
 app.put('/user/profile/setname/v1', (req, res) => {
   const token = String(req.body.token);
   const { nameFirst, nameLast } = req.body;
   res.json(setNameV1(token, nameFirst, nameLast));
+});
+
+app.put('/user/profile/setemail/v1', (req, res) => {
+  const token = String(req.body.token);
+  const email = req.body.email;
+  res.json(setEmailV1(token, email));
+});
+
+app.put('/user/profile/sethandle/v1', (req, res) => {
+  const token = String(req.body.token);
+  const handle = req.body.handle;
+  res.json(setHandleV1(token, handle));
 });
 
 app.delete('/clear/v1', (req, res) => {
