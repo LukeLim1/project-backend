@@ -6,7 +6,7 @@ import { authLoginV1, authRegisterV1, authLogout } from './auth';
 import { channelsListV1, channelsListallV1, channelsCreateV1 } from './channels';
 import { clearV1 } from './other';
 import { getData } from './dataStore';
-import { channelLeaveV1, channelDetails, channelJoin } from './channel';
+import { channelLeaveV1, channelDetails, channelJoin, channelInviteV2, channelMessageV2, channelAddownerV1, channelRemoveownerV1 } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm } from './dm';
 import { setNameV1, usersAll } from './users';
 // import fs from 'fs';
@@ -68,6 +68,34 @@ app.post('/channels/create/v2', (req, res) => {
   const { token, name, isPublic } = req.body;
   // returns channelId
   res.json(channelsCreateV1(token, name, isPublic));
+});
+
+app.post('/channel/invite/v2', (req, res) => {
+  console.log('channel/invite/v2');
+  const { token, channelId, uId } = req.body;
+  // returns {}
+  res.json(channelInviteV2(token, channelId, uId));
+});
+
+app.get('/channel/messages/v2', (req, res) => {
+  console.log('channel/messages/v2');
+  const { token, channelId, start } = req.body;
+  // returns {messages,start,end}
+  res.json(channelMessageV2(token, channelId, start));
+});
+
+app.post('/channel/addowner/v1', (req, res) => {
+  console.log('channel/addowner/v1');
+  const { token, channelId, uId } = req.body;
+  // returns {}
+  res.json(channelAddownerV1(token, channelId, uId));
+});
+
+app.post('/channel/removeowner/v1', (req, res) => {
+  console.log('channel/removeowner/v1');
+  const { token, channelId, uId } = req.body;
+  // returns {}
+  res.json(channelRemoveownerV1(token, channelId, uId));
 });
 
 app.get('/channels/list/v2', (req, res) => {
@@ -132,6 +160,8 @@ app.get('/dm/messages/v1', (req, res) => {
   res.json(dmMessages(token, dmId, start));
 });
 
+
+
 app.post('/message/senddm/v1', (req, res) => {
   const { token, dmId, message } = req.body;
   res.json(senddm(token, dmId, message));
@@ -142,6 +172,51 @@ app.get('/users/all/v1', (req, res) => {
   res.json(usersAll(token));
 });
 
+
+app.post('/message/send', (req, res) => {
+  console.log('message/send/v1');
+  const { token, channelId, message } = req.body;
+  // returns {}
+  res.json(messageSendV1(token, channelId, message));
+});
+
+app.put('/message/edit', (req, res) => {
+  console.log('message/edit/v1');
+  const { token, messageId, message } = req.body;
+  // returns {}
+  res.json(messageEditV1(token, messageId, message));
+});
+
+app.delete('/message/remove', (req, res) => {
+  console.log('message/remove/v1');
+  const { token, messageId } = req.body;
+  // returns {}
+  res.json(messageRemoveV1(token, messageId));
+});
+
+
+
+app.get('/channel/messages/v2', (req, res) => {
+  console.log('channel/messages/v2');
+  const { token, channelId, start } = req.body;
+  // returns {messages,start,end}
+  res.json(channelMessageV2(token, channelId, start));
+});
+
+app.post('/channel/addowner/v1', (req, res) => {
+  console.log('channel/addowner/v1');
+  const { token, channelId, uId } = req.body;
+  // returns {}
+  res.json(channelAddownerV1(token, channelId, uId));
+});
+
+app.post('/channel/removeowner/v1', (req, res) => {
+  console.log('channel/removeowner/v1');
+  const { token, channelId, uId } = req.body;
+  // returns {}
+  res.json(channelRemoveownerV1(token, channelId, uId));
+});
+
 // for logging errors
 app.use(morgan('dev'));
 
@@ -149,3 +224,4 @@ app.use(morgan('dev'));
 app.listen(PORT, HOST, () => {
   console.log(`⚡️ Server listening on port ${PORT} at ${HOST}`);
 });
+

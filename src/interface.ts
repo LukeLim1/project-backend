@@ -59,3 +59,10 @@ export interface IDmMessages {
     start: number;
     end: number;
 }
+
+export interface messageTemplate {
+    channelId: number;
+    messageId: number;
+    message: string;
+    token: string;
+}

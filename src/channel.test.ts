@@ -2,6 +2,11 @@ import request from 'sync-request';
 import { url, port } from './config.json';
 import { createBasicAccount, createBasicAccount2, clear } from './auth.test';
 import { createBasicChannel } from './channels.test';
+import { channelDetailsV1, channelMessagesV2,
+  channelLeaveV1, channelAddownerV1, channelRemoveownerV1 } from './channel';
+import { channelsCreateV1 } from './channels';
+import { authRegisterV1 } from './auth';
+import { clearV1 } from './other';
 
 const OK = 200;
 
@@ -197,4 +202,82 @@ describe('HTTP tests using Jest', () => {
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: expect.any(String) });
   });
+});
+
+
+
+
+// Tests for channelInviteV2
+describe('Test cases for channelInvite/v2', () => {
+  test('Testing successful channelInvite/v2', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
+    const newChannel = JSON.parse(String(basicC.getBody()));
+
+    const basicA2 = createBasicAccount2();
+    const newUser2 = JSON.parse(String(basicA2.getBody()));
+
+
+    const res = request(
+      'POST',
+      `${url}:${port}/channel/invite/v2`,
+      {
+        body: JSON.stringify({
+          token: newUser2.token[0],
+          channelId: newChannel.channelId,
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+
+    // const res = request(
+    //   'POST',
+    //   `${url}:${port}/channel/invite/v2`,
+    //   {
+    //     body: JSON.stringify({
+    //         token: newUser2.token[0],
+    //         channelId: newChannel.channelId,
+    //         uId: newUser2.authUserId
+    //     }),
+    //     headers: {
+    //       'Content-type': 'application/json',
+    //     }, 
+    //   } 
+    // );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(bodyObj).toMatchObject({});
+  }); 
+});
+
+
+describe('Test cases for channelInvite/v2', () => {
+  test('Testing successful channelInvite/v2', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
+    const newChannel = JSON.parse(String(basicC.getBody()));
+
+    const basicA2 = createBasicAccount2();
+    const newUser2 = JSON.parse(String(basicA2.getBody()));
+
+    const res = request(
+      'POST',
+      `${url}:${port}/channel/invite/v2`,
+      {
+        body: JSON.stringify({
+            token:  newUser2.token[0],
+            channelId: newChannel.channelId,
+            uId: newUser2.authUserId
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        }, 
+      } 
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(bodyObj).toMatchObject({});
+  }); 
 });
