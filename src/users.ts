@@ -18,6 +18,7 @@ function userProfileV1(token: string, uId: number): IUser | Error {
     return { error: 'error' };
   }
   const data = getData();
+  console.log(data);
   const user = data.users.find(u => u.userId === uId);
   if (!user) {
     return { error: 'error' };
@@ -63,7 +64,18 @@ function setEmailV1(token: string, email: string): object {
   if (!user) {
     return { error: 'error' };
   } else {
-  // main code
+  // email used already
+    const arrayOfEmails: string[] = [];
+    Object.values(data.users).forEach(element => {
+      const toPush = element.emailAddress;
+      arrayOfEmails.push(toPush);
+    });
+    for (const i in arrayOfEmails) {
+      if (arrayOfEmails[i] === email) {
+        return { error: 'error email in use' };
+      }
+    }
+    // main code
     user.emailAddress = email;
     setData(data);
   }

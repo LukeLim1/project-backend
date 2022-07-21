@@ -1,5 +1,5 @@
 import { channelsListV1 } from './channels';
-import { createBasicAccount, clear } from './auth.test';
+import { createBasicAccount, clear } from './helperFunctions';
 import request from 'sync-request';
 import config from './config.json';
 

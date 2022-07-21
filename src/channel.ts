@@ -225,10 +225,10 @@ export function channelJoin (token: string, channelId: number) : object | Error 
   return {};
 }
 
-export function channelLeaveV1 (token: number, channelId: number): object {
+export function channelLeaveV1 (token: string, channelId: number): object {
   const data = getData();
   const channel = data.channels.find(channel => channel.channelId === channelId);
-  const getUser = data.users.find(u => u.userId === token);
+  const getUser = data.users.find(u => u.token.includes(token));
 
   if (channel === undefined) {
     return { error: 'error' };
