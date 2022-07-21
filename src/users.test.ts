@@ -2,8 +2,6 @@ import request from 'sync-request';
 import { url, port } from './config.json';
 import { createBasicAccount, createBasicAccount2, clear, changeName, changeEmail, newReg, changeHandle } from './helperFunctions';
 
-export { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll } from './users';
-
 const OK = 200;
 
 beforeEach(() => {
