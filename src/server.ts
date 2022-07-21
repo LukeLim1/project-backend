@@ -52,7 +52,7 @@ app.get('/data/users', (req, res) => {
 });
 app.get('/data/all', (req, res) => {
   const data = getData();
-  const users = data;
+  const users = data.channels;
   res.send({
     users
   });
