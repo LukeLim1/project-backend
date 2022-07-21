@@ -1,4 +1,9 @@
 import { getData } from './dataStore';
+import request from 'sync-request';
+import config from './config.json';
+
+const port = config.port;
+const url = config.url;
 
 // checks for duplicates in arrays
 export function containsDuplicates(array: number[]): boolean {
@@ -28,4 +33,176 @@ export function checkToken(token: string): boolean | undefined {
   if (trigger === 0) {
     return false;
   }
+}
+
+// create new account
+export function newReg(email: string, password: string, nameFirst: string, nameLast: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/auth/register/v2`,
+    {
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        nameFirst: nameFirst,
+        nameLast: nameLast
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+// create the most basic account (no args)
+export function createBasicAccount() {
+  const res = request(
+    'POST',
+    `${url}:${port}/auth/register/v2`,
+    {
+      body: JSON.stringify({
+        email: 'zachary-chan@gmail.com',
+        password: 'z5312386',
+        nameFirst: 'Zachary',
+        nameLast: 'Chan'
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+// create the most basic account variation (no args)
+export function createBasicAccount2() {
+  const res = request(
+    'POST',
+    `${url}:${port}/auth/register/v2`,
+    {
+      body: JSON.stringify({
+        email: 'zachary-chan2@gmail.com',
+        password: 'z5312387',
+        nameFirst: 'Zachary2',
+        nameLast: 'Chan2'
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+// change name
+export function changeName(token: string, nameFirst: string, nameLast: string) {
+  const res = request(
+    'PUT',
+    `${url}:${port}/user/profile/setname/v1`,
+    {
+      body: JSON.stringify({
+        token: token,
+        nameFirst: nameFirst,
+        nameLast: nameLast
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+// change email
+export function changeEmail(token: string, email: string) {
+  const res = request(
+    'PUT',
+    `${url}:${port}/user/profile/setemail/v1`,
+    {
+      body: JSON.stringify({
+        token: token,
+        email: email,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+// change handle
+export function changeHandle(token: string, handle: string) {
+  const res = request(
+    'PUT',
+      `${url}:${port}/user/profile/sethandle/v1`,
+      {
+        body: JSON.stringify({
+          token: '2',
+          handle: 'newhandle',
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+  );
+  return res;
+}
+// create a dm
+export function createBasicDm(token: string, uIds: number[]) {
+  const res = request(
+    'POST',
+    `${url}:${port}/dm/create/v1`,
+    {
+      body: JSON.stringify({
+        token: token,
+        uIds: uIds,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+// leave a channel user is in
+export function leaveChannel(token: string, channelId: number) {
+  const res = request(
+    'POST',
+    `${url}:${port}/channel/leave/v1`,
+    {
+      body: JSON.stringify({
+        token: token,
+        channelId: channelId
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+// join a channel
+export function joinChannel(token: string, channelId: number) {
+  const res = request(
+    'POST',
+    `${url}:${port}/channel/join/v2`,
+    {
+      body: JSON.stringify({
+        token: token,
+        channelId: channelId,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+// clear everything
+export function clear() {
+  const res = request(
+    'DELETE',
+    `${url}:${port}/clear/v1`
+  );
+  const array = [res];
+  array.slice(0);
 }

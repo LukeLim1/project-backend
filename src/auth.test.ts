@@ -1,61 +1,16 @@
 import request from 'sync-request';
 import config from './config.json';
+import { newReg, clear, createBasicAccount } from './helperFunctions';
 
 const OK = 200;
 const port = config.port;
 const url = config.url;
 
-export function clear() {
-  const res = request(
-    'DELETE',
-    `${url}:${port}/clear/v1`
-  );
-  const array = [res];
-  array.slice(0);
-}
-export function createBasicAccount() {
-  const res = request(
-    'POST',
-    `${url}:${port}/auth/register/v2`,
-    {
-      body: JSON.stringify({
-        email: 'zachary-chan@gmail.com',
-        password: 'z5312386',
-        nameFirst: 'Zachary',
-        nameLast: 'Chan'
-      }),
-      headers: {
-        'Content-type': 'application/json',
-      },
-    }
-  );
-  return res;
-}
-
-export function createBasicAccount2() {
-  const res = request(
-    'POST',
-    `${url}:${port}/auth/register/v2`,
-    {
-      body: JSON.stringify({
-        email: 'zachary-chan2@gmail.com',
-        password: 'z5312387',
-        nameFirst: 'Zachary2',
-        nameLast: 'Chan2'
-      }),
-      headers: {
-        'Content-type': 'application/json',
-      },
-    }
-  );
-  return res;
-}
-
 describe('authRegisterV2', () => {
   test('Ensuring a unique number is returned', () => {
     clear();
 
-    const res = createBasicAccount();
+    const res = newReg('zachary-chan@gmail.com', 'z5312386', 'Zach', 'Chan');
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({
@@ -63,35 +18,49 @@ describe('authRegisterV2', () => {
       token: expect.any(String)
     });
   });
-  test('Error case', () => {
+  test('Length of either nameFirst or nameLast not between 1-50 chars', () => {
     clear();
-    const res = request(
-      'POST',
-      `${url}:${port}/auth/register/v2`,
-      {
-        body: JSON.stringify({
-          email: 'zachary-chan@gmail.com',
-          password: 'z5312386',
-          nameFirst: '',
-          nameLast: ''
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    const res = newReg('zachary-chan@gmail.com', 'z5312386', '', '');
+
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: expect.any(String) });
   });
-});
 
-describe('authLoginV2', () => {
-  test('Ensuring a unique number is returned login', () => {
+  test('invalid email', () => {
     clear();
-    createBasicAccount();
-    const res = request(
-      'POST',
+    const res = newReg('57', 'z5312386', 'zachary', 'chan');
+
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+  test('email already used', () => {
+    clear();
+    const res = newReg('zachary-chan@gmail.com', 'z5312386', 'zachary', 'chan');
+    const res2 = newReg('zachary-chan@gmail.com', 'z5312386', 'zachary', 'chan');
+
+    const bodyObj = JSON.parse(String(res2.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(res2.statusCode).toBe(OK);
+
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+  test('password length < 6', () => {
+    clear();
+
+    const res = newReg('zachary-chan@gmail.com', 'z5', 'Zach', 'Chan');
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+
+  describe('authLoginV2', () => {
+    test('Ensuring a unique number is returned login', () => {
+      clear();
+      newReg('zachary-chan@gmail.com', 'z5312386', 'Zach', 'Chan');
+      const res = request(
+        'POST',
       `${url}:${port}/auth/login/v2`,
       {
         body: JSON.stringify({
@@ -102,23 +71,23 @@ describe('authLoginV2', () => {
           'Content-type': 'application/json',
         },
       }
-    );
-    const expectedNum = [1, 2];
-    const expectedStr = expectedNum.map(num => {
-      return String(num);
+      );
+      const expectedNum = [1, 2];
+      const expectedStr = expectedNum.map(num => {
+        return String(num);
+      });
+      const bodyObj = JSON.parse(String(res.getBody()));
+      expect(res.statusCode).toBe(OK);
+      expect(bodyObj).toMatchObject({
+        token: expectedStr
+      });
     });
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({
-      token: expectedStr
-    });
-  });
 
-  test('Returns error when email is invalid', () => {
-    clear();
-    createBasicAccount();
-    const res = request(
-      'POST',
+    test('Returns error when email is invalid', () => {
+      clear();
+      newReg('zachary-chan@gmail.com', 'z5312386', 'Zach', 'Chan');
+      const res = request(
+        'POST',
       `${url}:${port}/auth/login/v2`,
       {
         body: JSON.stringify({
@@ -129,21 +98,42 @@ describe('authLoginV2', () => {
           'Content-type': 'application/json',
         },
       }
+      );
+      const bodyObj = JSON.parse(String(res.getBody()));
+      expect(res.statusCode).toBe(OK);
+      expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    });
+  });
+
+  test('incorrect password', () => {
+    clear();
+    newReg('zachary-chan@gmail.com', 'z5312386', 'Zach', 'Chan');
+    const res = request(
+      'POST',
+    `${url}:${port}/auth/login/v2`,
+    {
+      body: JSON.stringify({
+        email: 'zachary-chan@gmail.com',
+        password: 'z531',
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
     );
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: expect.any(String) });
   });
-});
 
-describe('authLogout', () => {
-  test('Testing successful authLogout', () => {
-    clear();
-    const basicA = createBasicAccount();
-    const newUser = JSON.parse(String(basicA.getBody()));
+  describe('authLogout', () => {
+    test('Testing successful authLogout', () => {
+      clear();
+      const basicA = createBasicAccount();
+      const newUser = JSON.parse(String(basicA.getBody()));
 
-    const res = request(
-      'POST',
+      const res = request(
+        'POST',
       `${url}:${port}/auth/logout/v1`,
       {
         body: JSON.stringify({
@@ -153,10 +143,11 @@ describe('authLogout', () => {
           'Content-type': 'application/json',
         },
       }
-    );
+      );
 
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({});
+      const bodyObj = JSON.parse(String(res.getBody()));
+      expect(res.statusCode).toBe(OK);
+      expect(bodyObj).toMatchObject({});
+    });
   });
 });

@@ -1,6 +1,6 @@
 import request from 'sync-request';
 import { url, port } from './config.json';
-import { createBasicAccount, createBasicAccount2, clear } from './auth.test';
+import { createBasicAccount, createBasicAccount2, clear, createBasicDm, newReg } from './helperFunctions';
 
 const OK = 200;
 
@@ -14,25 +14,41 @@ function messageSenddm (token: string, dmId: number, message: string) {
 }
 */
 
-export function createBasicDm(token: string, uIds: number[]) {
-  const res = request(
-    'POST',
-    `${url}:${port}/dm/create/v1`,
-    {
-      body: JSON.stringify({
-        token: token,
-        uIds: uIds,
-      }),
-      headers: {
-        'Content-type': 'application/json',
-      },
-    }
-  );
-  return res;
-}
-
 beforeEach(() => {
   clear();
+});
+describe('HTTP tests for dm/create/v1', () => {
+  test('valid creation of dm', () => {
+    const create1 = newReg('zachary@gmail.com', '123455gf', 'zachary', 'chan');
+    const newUser = JSON.parse(String(create1.getBody()));
+    // call the dm function
+    const res = createBasicDm(newUser.token[0], [newUser.authUserId]);
+
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ identifier: expect.any(Number) });
+  });
+
+  test('uid doesnt refer to a valid user', () => {
+    const create1 = newReg('zachary@gmail.com', '123455gf', 'zachary', 'chan');
+    const newUser = JSON.parse(String(create1.getBody()));
+    // call the dm function
+    const res = createBasicDm(newUser.token[0], [9999]);
+
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+  test('uid duplicates in arguement', () => {
+    const create1 = newReg('zachary@gmail.com', '123455gf', 'zachary', 'chan');
+    const newUser = JSON.parse(String(create1.getBody()));
+    // call the dm function
+    const res = createBasicDm(newUser.token[0], [newUser.authUserId, newUser.authUserId]);
+
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
 });
 
 describe('HTTP tests using Jest', () => {
