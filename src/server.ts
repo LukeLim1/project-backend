@@ -36,7 +36,21 @@ app.get('/apple', (req, res) => {
   }));
 });
 
-app.get('/data', (req, res) => {
+app.get('/data/channels', (req, res) => {
+  const data = getData();
+  const users = data.channels;
+  res.send({
+    users
+  });
+});
+app.get('/data/users', (req, res) => {
+  const data = getData();
+  const users = data.users;
+  res.send({
+    users
+  });
+});
+app.get('/data/all', (req, res) => {
   const data = getData();
   const users = data;
   res.send({
