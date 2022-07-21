@@ -10,14 +10,14 @@
     },
     "dependencies": {
         "cors": "^2.8.5",
+<<<<<<< HEAD
         "express": "^4.18.0",
         "http-errors": "^2.0.0",
         "middleware-http-errors": "^0.1.1",
+=======
+>>>>>>> origin/master
         "morgan": "^1.10.0",
         "rewire": "^6.0.0",
-        "sync-request": "^6.1.0",
-        "ts-node": "^10.7.0",
-        "typescript": "^4.6.3",
         "validator": "^13.7.0"
     },
     "devDependencies": {
@@ -33,7 +33,9 @@
         "@typescript-eslint/parser": "^5.21.0",
         "eslint": "^8.14.0",
         "eslint-plugin-jest": "^26.1.5",
+        "express": "^4.18.1",
         "jest": "^28.1.0",
+<<<<<<< HEAD
         "nyc": "^15.1.0",
         "ts-jest": "^28.0.2"
     },
@@ -41,5 +43,11 @@
         "exclude": [
             "echo.*"
         ]
+=======
+        "nodemon": "^2.0.19",
+        "sync-request": "^6.1.0",
+        "ts-jest": "^28.0.2",
+        "ts-node": "^10.8.2"
+>>>>>>> origin/master
     }
 }
