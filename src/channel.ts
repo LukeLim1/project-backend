@@ -2,6 +2,7 @@ import { getData, setData } from './dataStore';
 import { IChannelDetails, userTemplate } from './interface';
 import { checkToken } from './helperFunctions';
 import { Error } from './interface';
+import { userProfileV1 } from './users';
 
 /**
  * Invite a user with ID uId to join a channel with ID channelId
@@ -10,7 +11,7 @@ import { Error } from './interface';
  * @param {*} uId
  * @returns {} unless it is error case, in which case it will return { error: 'error' }
  */
-//export function channelInviteV1 (authUserId: number, channelId: number, uId: number) {
+// export function channelInviteV1 (authUserId: number, channelId: number, uId: number) {
 //  const data = getData();
 //  // let channel, user;
 //  const user: userTemplate = data.users.find(user => user.userId === uId);
@@ -37,8 +38,8 @@ import { Error } from './interface';
 //  // Otherwise, the invited member is added to the channel immediately
 //  channel.allMembers.push(uId);
 //  return {};
-//}
-///**
+// }
+/// **
 // * Given a channel with ID channelId that the authorised user is a member of, return up to 50 messages between index "start" and "start + 50"(as end).
 // * Message with index 0 is the most recent message in the channel.
 // * @param {*} authUserId
@@ -46,7 +47,7 @@ import { Error } from './interface';
 // * @param {*} start
 // * @returns {messages, start, end} unless it is error case, in which case it will return { error: 'error' }
 // */
-//export function channelMessagesV1 (authUserId: number, channelId: number, start: number) {
+// export function channelMessagesV1 (authUserId: number, channelId: number, start: number) {
 //  const data = getData();
 //  const channel = data.channels.find(channel => channel.channelId === channelId);
 //  // Setting a new index "end" to be the value of "start + 50"
@@ -83,7 +84,7 @@ import { Error } from './interface';
 //  // Now flip the messages back so index 0 would be the most recent message when we retrive the selected messages
 //  messagesRestructured.reverse();
 //  return { messages: messagesRestructured, start, end };
-//}
+// }
 //
 // channelDetailsV1
 // Given 2 parameters, authUserId and channelId, where the user with authUserId should be a member of the channel with channelId,
@@ -248,7 +249,6 @@ export function channelLeaveV1 (token: string, channelId: number): object {
   return {};
 }
 
-
 export function channelInviteV2 (token: string, channelId: number, uId: number) {
   const data = getData();
   // let channel, user;
@@ -305,7 +305,7 @@ export function channelMessagesV2 (token: string, channelId: number, start: numb
   }
 
   // Case 3: The user does not have a valid token
-  if (!user.token.includes(token)) {
+  if (!channel.user.token.includes(token)) {
     return { error: 'error' };
   }
 
@@ -327,7 +327,7 @@ export function channelMessagesV2 (token: string, channelId: number, start: numb
 export function channelAddownerV1 (token: string, channelId: number, authUserId: number) {
   const data = getData();
   const channel = data.channels.find(channel => channel.channelId === channelId);
-  const getUser = data.users.find(u => u.userId === Number(token));
+  const getUser = data.users.find(u => u.userId === authUserId);
   const user = userProfileV1(token, authUserId);
 
   if (!getUser || !user) {
@@ -344,15 +344,15 @@ export function channelAddownerV1 (token: string, channelId: number, authUserId:
     return { error: 'error' };
   }
 
-  channel.allMembers.push(user.uId);
+  channel.allMembers.push(authUserId);
   setData(data);
   return {};
 }
 
-export function channelRemoveownerV1 (token: number, channelId: number, uId:number): object {
+export function channelRemoveownerV1 (token: string, channelId: number, uId: number): object {
   const data = getData();
   const channel = data.channels.find(channel => channel.channelId === channelId);
-  const getUser = data.users.find(u => u.userId === token);
+  const getUser = data.users.find(u => u.userId === uId);
   const user = userProfileV1(token, uId);
 
   if (!getUser || !user) {
@@ -363,14 +363,14 @@ export function channelRemoveownerV1 (token: number, channelId: number, uId:numb
     return { error: 'error' };
   }
 
-  if (!channel.allMembers.includes(getUser.userId)) {
+  if (!channel.allMembers.includes(uId)) {
     return { error: 'error' };
   }
 
-  const indexAll = channel.allMembers.indexOf(getUser.userId);
+  const indexAll = channel.allMembers.indexOf(uId);
   channel.allMembers.splice(indexAll, 1);
-  if (channel.ownerMembers.includes(getUser.userId)) {
-    const indexOwner = channel.ownerMembers.indexOf(getUser.userId);
+  if (channel.ownerMembers.includes(uId)) {
+    const indexOwner = channel.ownerMembers.indexOf(uId);
     channel.allMembers.splice(indexOwner, 1);
   }
 
