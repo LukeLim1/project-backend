@@ -6,9 +6,10 @@ import { authLoginV1, authRegisterV1, authLogout } from './auth';
 import { channelsListV1, channelsListallV1, channelsCreateV1 } from './channels';
 import { clearV1 } from './other';
 import { getData } from './dataStore';
-import { channelLeaveV1, channelDetails, channelJoin } from './channel';
+import { channelLeaveV1, channelDetails, channelJoin, channelInviteV2, channelMessagesV2, channelAddownerV1, channelRemoveownerV1 } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm } from './dm';
 import { setNameV1, usersAll, setEmailV1, setHandleV1 } from './users';
+import { messageSendV1, messageEditV1, messageRemoveV1 } from './message';
 // import fs from 'fs';
 
 // Set up web app, use JSON
@@ -172,6 +173,48 @@ app.post('/message/senddm/v1', (req, res) => {
 app.get('/users/all/v1', (req, res) => {
   const token = req.query.token as string;
   res.json(usersAll(token));
+});
+
+app.post('/channel/invite/v2', (req, res) => {
+  console.log('channel/invite/V2');
+  const { token, channelId, uId } = req.body;
+  res.json(channelInviteV2(token, channelId, uId));
+});
+
+app.get('/channel/messages/v2', (req, res) => {
+  console.log('channel/messages/V2');
+  const { token, channelId, start } = req.body;
+  res.json(channelMessagesV2(token, channelId, start));
+});
+
+app.post('/channel/addowner/v1', (req, res) => {
+  console.log('channel/addowner/v1');
+  const { token, channelId, uId } = req.body;
+  res.json(channelAddownerV1(token, channelId, uId));
+});
+
+app.post('/channel/removeowner/v1', (req, res) => {
+  console.log('channel/removeowner/v1');
+  const { token, channelId, uId } = req.body;
+  res.json(channelRemoveownerV1(token, channelId, uId));
+});
+
+app.post('/message/send/v1', (req, res) => {
+  console.log('message/send/v1');
+  const { token, channelId, message } = req.body;
+  res.json(messageSendV1(token, channelId, message));
+});
+
+app.put('/message/edit/v1', (req, res) => {
+  console.log('message/edit/v1');
+  const { token, messageId, message } = req.body;
+  res.json(messageEditV1(token, messageId, message));
+});
+
+app.delete('/message/remove/v1', (req, res) => {
+  console.log('message/remove/v1');
+  const { token, messageId } = req.body;
+  res.json(messageRemoveV1(token, messageId));
 });
 
 // for logging errors

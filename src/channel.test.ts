@@ -257,3 +257,834 @@ describe('HTTP tests using Jest', () => {
     });
   });
 });
+
+// Tests for channelInviteV2
+describe('Test channel/invite/v2,successfully', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit5@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel005',
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res3 = request(
+      'POST',
+      `${url}:${port}/channel/invite/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          channelId: channelID,
+          uId: uID
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj3 = JSON.parse(String(res3.getBody()));
+    expect(bodyObj3).toMatchObject({});
+  });
+});
+
+// Tests for channelInviteV2
+describe('channelId does not refer to a valid channel, return {error:"error"} ', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit52@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel005',
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res4 = request(
+      'POST',
+      `${url}:${port}/channel/invite/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          channelId: channelID + 100,
+          uId: uID
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj4 = JSON.parse(String(res4.getBody()));
+    expect(bodyObj4).toMatchObject({ error: 'error' });
+  });
+});
+
+// Tests for channelInviteV2
+describe('uId does not refer to a valid user, return {error:"error"} ', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit53@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel005',
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res5 = request(
+      'POST',
+      `${url}:${port}/channel/invite/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          channelId: channelID,
+          uId: uID + 100
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj5 = JSON.parse(String(res5.getBody()));
+    expect(bodyObj5).toMatchObject({ error: 'error' });
+  });
+});
+
+// Tests for channelInviteV2
+describe('uId refers to a user who is already a member of the channel, return {error:"error"} ', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit55@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel005',
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res7 = request(
+      'POST',
+      `${url}:${port}/channel/invite/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          channelId: channelID,
+          uId: uID
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj7 = JSON.parse(String(res7.getBody()));
+    expect(bodyObj7).toMatchObject({ error: 'error' });
+  });
+});
+
+// Tests for channelInviteV2
+describe('channelId is valid and the authorised user is not a member of the channel, return {error:"error"} ', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit56@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel005',
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+    const res7 = request(
+      'POST',
+      `${url}:${port}/channel/invite/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          channelId: channelID,
+          uId: uID + 99
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj7 = JSON.parse(String(res7.getBody()));
+    expect(bodyObj7).toMatchObject({ error: 'error' });
+  });
+});
+
+// Tests for channelMessageV2
+describe('Test channel/messages/v2', () => {
+  test('If it returns {message:,start:,end:} successfully, otherwise {error:"error"}', () => {
+    const email = 'uniquepeter6' + Math.floor(Math.random() * 4444) + '@gmail.com';
+    const password = 'qgi6dt';
+    const res222 = request(
+      'POST',
+      `${url}:${port}/auth/login/v2`,
+      {
+        body: JSON.stringify({
+          email: email,
+          password: password
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj222 = JSON.parse(String(res222.getBody()));
+    const token222 = bodyObj222.token;
+
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: token222,
+          name: 'channel006' + Math.floor(Math.random() * 88888),
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res22 = request(
+      'GET',
+      'http://localhost:3200/channel/messages/v2',
+      {
+        qs: {
+          token: token222,
+          channelId: channelID,
+          start: 0
+        },
+      }
+    );
+    const bodyObj22 = JSON.parse(String(res22.getBody()));
+    expect(bodyObj22).toEqual({ error: 'error' });
+  });
+});
+
+// Tests for channelMessageV2
+describe('channelId does not refer to a valid channel', () => {
+  test('If it returns {message:,start:,end:} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit62@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel006',
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res3 = request(
+      'GET',
+      'http://localhost:3200/channel/messages/v2',
+      {
+        qs: {
+          token: String(uID),
+          channelId: channelID + 10,
+          start: 0
+        },
+      }
+    );
+    const bodyObj3 = JSON.parse(String(res3.getBody()));
+    expect(bodyObj3).toEqual({ error: 'error' });
+  });
+});
+
+// Tests for channelMessageV2
+describe('start is greater than the total number of messages in the channel,return {error:"error"}', () => {
+  test('If it returns {message:,start:,end:} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit62@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel006',
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res22 = request(
+      'GET',
+      'http://localhost:3200/channel/messages/v2',
+      {
+        qs: {
+          token: String(uID),
+          channelId: channelID,
+          start: 9999999
+        },
+      }
+    );
+    const bodyObj22 = JSON.parse(String(res22.getBody()));
+    expect(bodyObj22).toEqual({ error: 'error' });
+  });
+});
+
+// Tests for channelMessageV2
+describe('channelId is valid and the authorised user is not a member of the channel,return {error:"error"}', () => {
+  test('If it returns {message:,start:,end:} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit62@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel006',
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res22 = request(
+      'GET',
+      'http://localhost:3200/channel/messages/v2',
+      {
+        qs: {
+          token: String(uID + 999),
+          channelId: channelID,
+          start: 0
+        },
+      }
+    );
+    const bodyObj22 = JSON.parse(String(res22.getBody()));
+    expect(bodyObj22).toEqual({ error: 'error' });
+  });
+});
+
+// Tests for channelAddownerV1
+describe('Test channel/addowner/v1 successfully', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit' + Math.floor(Math.random() * 444) + '@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel007' + Math.floor(Math.random() * 88888),
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res3 = request(
+      'POST',
+      `${url}:${port}/channel/addowner/v1`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          channelId: channelID,
+          uId: uID
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj3 = JSON.parse(String(res3.getBody()));
+    expect(bodyObj3).toEqual({ });
+  });
+});
+
+// Tests for channelAddownerV1
+describe('channelId does not refer to a valid channel,return {error:"error"}', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit72@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel007',
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res4 = request(
+      'POST',
+      `${url}:${port}/channel/addowner/v1`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          channelId: channelID + 999,
+          uId: uID
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj4 = JSON.parse(String(res4.getBody()));
+    expect(bodyObj4).toEqual({ error: 'error' });
+  });
+});
+
+// Tests for channelAddownerV1
+describe('uId does not refer to a valid user,return {error:"error"}', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit73@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel007',
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res4 = request(
+      'POST',
+      `${url}:${port}/channel/addowner/v1`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          channelId: channelID,
+          uId: uID + Math.floor(Math.random() * 88888)
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj4 = JSON.parse(String(res4.getBody()));
+    expect(bodyObj4).toEqual({ error: 'error' });
+  });
+});
+
+// Tests for channelAddownerV1
+describe('channelId is valid and the authorised user is not a member of the channel,return {error:"error"}', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit75@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+
+    const uID11 = bodyObj.authUserId;
+
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel007',
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res4 = request(
+      'POST',
+      `${url}:${port}/channel/addowner/v1`,
+      {
+        body: JSON.stringify({
+          token: String(uID11),
+          channelId: channelID,
+          uId: uID11 + Math.floor(Math.random() * 88888)
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj4 = JSON.parse(String(res4.getBody()));
+    expect(bodyObj4).toEqual({ error: 'error' });
+  });
+});
+
+// Tests for channelRemoveownerV1
+describe('uId does not refer to a valid user,return {error:"error"}', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit82@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel008',
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res4 = request(
+      'POST',
+      `${url}:${port}/channel/removeowner/v1`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          channelId: channelID,
+          uId: uID + 666
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj4 = JSON.parse(String(res4.getBody()));
+    expect(bodyObj4).toEqual({ error: 'error' });
+  });
+});
+
+// Tests for channelRemoveownerV1
+describe('channelId does not refer to a valid channel,return {error:"error"}', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      `${url}:${port}/auth/register/v2`,
+      {
+        body: JSON.stringify({
+          email: 'uniquepeterrabbit83@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      `${url}:${port}/channels/create/v2`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          name: 'channel008',
+          isPublic: true
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res5 = request(
+      'POST',
+      `${url}:${port}/channel/removeowner/v1`,
+      {
+        body: JSON.stringify({
+          token: String(uID),
+          channelId: channelID + Math.floor(Math.random() * 1000),
+          uId: uID
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    const bodyObj5 = JSON.parse(String(res5.getBody()));
+    expect(bodyObj5).toEqual({ error: 'error' });
+  });
+});
