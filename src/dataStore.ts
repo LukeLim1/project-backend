@@ -9,6 +9,7 @@ let data: dataTemplate = {
   usedTokenNums: [],
   usedChannelNums: [],
   DMs: [],
+  messages: [],
 };
 
 // YOU SHOULDNT NEED TO MODIFY THE FUNCTIONS BELOW IN ITERATION 1

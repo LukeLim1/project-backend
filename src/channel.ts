@@ -281,7 +281,7 @@ export function channelInviteV2 (token: string, channelId: number, uId: number) 
 
 export function channelMessagesV2 (token: string, channelId: number, start: number) {
   const data = getData();
-  const user: userTemplate = data.users.find(user => user.userId === Number(token));
+  const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
   const channel = data.channels.find(channel => channel.channelId === channelId);
   // Setting a new index "end" to be the value of "start + 50"
   // and a new array to store the restructured messages
