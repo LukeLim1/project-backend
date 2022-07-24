@@ -5,6 +5,13 @@ export interface dmTemplate {
     messages: any[];
 }
 
+export interface messageTemplate {
+    channelId: number;
+    messageId: number;
+    message: string;
+    token: string;
+}
+
 export interface userTemplate {
     emailAddress: string;
     userId: number;
@@ -23,6 +30,7 @@ export interface dataTemplate {
     usedTokenNums: number[];
     usedChannelNums: number[];
     DMs: dmTemplate[];
+    messages: messageTemplate[];
 }
 
 export interface Error {
