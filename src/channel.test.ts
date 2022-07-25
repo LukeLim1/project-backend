@@ -13,25 +13,42 @@ beforeEach(() => {
 });
 
 describe('HTTP tests using Jest', () => {
-  // test('Testing successful channel details', () => {
-  //   const basicA = createBasicAccount();
-  //   const newUser = JSON.parse(String(basicA.getBody()));
-  //   const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
-  //   const newChannel = JSON.parse(String(basicC.getBody()));
-  //   const res = request(
-  //     'GET',
-  //     `${url}:${port}/channel/details/v2`,
-  //     {
-  //       qs: {
-  //         token: '1',
-  //         channelId: 1,
-  //       },
-  //     }
-  //   );
-  //   console.log(res);
-  //   expect(res.statusCode).toBe(OK);
-  //   //expect(res).toMatchObject({ error: 'error' });
-  // });
+  test('Testing successful channel details', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
+    const newChannel = JSON.parse(String(basicC.getBody()));
+    const res = request(
+      'GET',
+      `${url}:${port}/channel/details/v2`,
+      {
+        qs: {
+          token: '1',
+          channelId: 1,
+        },
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({
+      name: 'channel1',
+      isPublic: true,
+      ownerMembers: [{
+        uId: newUser.authUserId,
+        email: 'zachary-chan@gmail.com',
+        nameFirst: 'Zachary',
+        nameLast: 'Chan',
+        handleStr: 'zacharychan',
+      }],
+      allMembers: [{
+        uId: newUser.authUserId,
+        email: 'zachary-chan@gmail.com',
+        nameFirst: 'Zachary',
+        nameLast: 'Chan',
+        handleStr: 'zacharychan',
+      }],
+    })
+  });
 
   test('channelDetails: channelId does not refer to valid channel', () => {
     const basicA = createBasicAccount();

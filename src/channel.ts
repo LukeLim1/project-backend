@@ -153,7 +153,7 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
     return { error: 'error' };
   }
 
-  const owner = data.users.find(o => o.userId.toString() === channel.ownerMembers[0]);
+  const owner = data.users.find(o => o.userId === channel.ownerMembers[0]);
 
   const ownerArr = [{
     uId: owner.userId,
@@ -170,7 +170,7 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
   }
 
   for (const member of channel.allMembers) {
-    const u = data.users.find(u => u.userId.toString() === member);
+    const u = data.users.find(u => u.userId === member);
     const userObj = {
       uId: u.userId,
       email: u.emailAddress,
