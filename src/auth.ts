@@ -1,7 +1,7 @@
 import { getData, setData } from './dataStore';
 import validator from 'validator';
 import { checkToken } from './helperFunctions';
-import { Empty, Error } from './interface';
+import { Error } from './interface';
 
 // Given user information from parameters, create a new account for them (as an object inside an array)
 // and return a new unique 'authUserId'
@@ -29,9 +29,9 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
 
   // case 1 : invalid email
   if (!(validator.isEmail(email))) {
-    return { error: 'error invalid email' };
+    return { error: 'error' };
   }
-  // case 2 : email used alreadyaaaaa
+  // case 2 : email used already
   const arrayOfEmails: string[] = [];
   Object.values(data.users).forEach(element => {
     const toPush = element.emailAddress;
@@ -39,18 +39,18 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
   });
   for (const i in arrayOfEmails) {
     if (arrayOfEmails[i] === email) {
-      return { error: 'error email in use' };
+      return { error: 'error' };
     }
   }
   // case 3 : password less than 6 chars
   if (password.length < 6) {
-    return { error: 'error bad password' };
+    return { error: 'error' };
   // case 4 : length of nameFirst not between 1 - 50 inclusive
   } else if (nameFirst.length <= 1 || nameFirst.length >= 50) {
-    return { error: 'error nameFirst invalid' };
+    return { error: 'error' };
     // case 5 : length of nameLast not between 1 - 50 inclusive
   } else if (nameLast.length <= 1 || nameLast.length >= 50) {
-    return { error: 'error nameLast invalid' };
+    return { error: 'error' };
   }
   // End of error cases
 
@@ -136,10 +136,10 @@ function authLoginV1 (email: string, password: string) {
     arrayOfPasswords.push(toPush);
   });
   if (arrayOfEmails.indexOf(email) === -1) {
-    return { error: 'error invalid email' };
+    return { error: 'error' };
   } else {
     if (arrayOfPasswords.indexOf(password) === -1) {
-      return { error: 'error invalid password' };
+      return { error: 'error' };
     }
   }
 
@@ -156,7 +156,7 @@ function authLoginV1 (email: string, password: string) {
   return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
 }
 
-function authLogout (token: string): Empty | Error {
+function authLogout (token: string): object | Error {
   if (checkToken(token) === false) {
     return { error: 'error' };
   }

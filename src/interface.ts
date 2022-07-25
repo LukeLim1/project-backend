@@ -67,3 +67,7 @@ export interface IDmMessages {
     start: number;
     end: number;
 }
+
+export interface messageId {
+    messageId: number,
+}
