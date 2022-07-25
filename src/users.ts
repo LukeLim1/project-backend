@@ -123,4 +123,18 @@ function usersAll (token: string) {
   return { users };
 }
 
+function uploadPhoto (imgUrl: string, xStart: number, yStart: number, xEnd: number, yEnd: number) {
+
+
+  return {};
+}
+
+function userStats () {
+
+}
+
+function usersStats () {
+
+}
+
 export { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll };

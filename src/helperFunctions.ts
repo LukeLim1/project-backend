@@ -197,6 +197,78 @@ export function joinChannel(token: string, channelId: number) {
   );
   return res;
 }
+
+// upload a photo
+export function uploadPhoto(imgUrl: string, xStart: number, yStart: number, xEnd: number, yEnd: number) {
+  return request(
+    'POST',
+    `${url}:${port}/user/profile/uploadphoto/v1`,
+    {
+      body: JSON.stringify({
+        imgUrl: imgUrl,
+        xStart: xStart,
+        yStart: yStart,
+        xEnd: xEnd,
+        yEnd: yEnd,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+}
+
+// Fetches required statistics about this user's use of UNSW Treats
+export function userStats () {
+  const res = request(
+    'GET',
+    `${url}:${port}/user/stats/v1`,
+  );
+  return res;
+}
+
+// Fetches required statistics about the workspace's use of UNSW Treats 
+export function usersStats () {
+  const res = request(
+    'GET',
+    `${url}:${port}/users/stats/v1`,
+  );
+  return res;
+}
+
+export function userRemove (uId: number) {
+  const res = request(
+    'DELETE',
+    `${url}:${port}/admin/user/remove/v1`,
+    {
+      body: JSON.stringify({
+        uId: uId,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+export function userPermissionChange(uId: number, permissionId: number) {
+  const res = request(
+    'POST',
+    `${url}:${port}/admin/userpermission/change/v1`,
+    {
+      body: JSON.stringify({
+        uId: uId,
+        permissionId: permissionId,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
 // clear everything
 export function clear() {
   const res = request(
