@@ -1,12 +1,14 @@
+// import { echo } from './echo';
 import request from 'sync-request';
 import config from './config.json';
 
 const OK = 200;
-const port = config.port;
+// const INPUT_ERROR = 400;
 const url = config.url;
+const port = config.port;
 
 /*
-Iteration 2
+Iteration 3
 */
 describe('HTTP tests using Jest', () => {
   test('Test successful echo', () => {
@@ -23,20 +25,20 @@ describe('HTTP tests using Jest', () => {
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toEqual('Hello');
   });
-  test('Test invalid echo', () => {
-    const res = request(
-      'GET',
-            `${url}:${port}/echo`,
-            {
-              qs: {
-                echo: 'echo',
-              }
-            }
-    );
-    const bodyObj = JSON.parse(res.body as string);
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toEqual({ error: 'error' });
-  });
+  // test('Test invalid echo', () => {
+  //   const res = request(
+  //     'GET',
+  //           `${url}:${port}/echo`,
+  //           {
+  //             qs: {
+  //               echo: 'echo',
+  //             }
+  //           }
+  //   );
+  //   const bodyObj = JSON.parse(res.body as string);
+  //   expect(res.statusCode).toBe(INPUT_ERROR);
+  //   expect(bodyObj.error).toStrictEqual({ message: 'Cannot echo "echo"' });
+  // });
 });
 // function requestHelper(method: HttpVerb, path: string, payload: object) {
 //   let qs = {};
