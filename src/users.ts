@@ -3,6 +3,9 @@ import { IUser } from './interface';
 import validator from 'validator';
 import { checkToken } from './helperFunctions';
 import { Error } from './interface';
+import HTTPError from 'http-errors';
+import fs from 'fs';
+import request from 'sync-request';
 
 // userProfileV1
 // There are 2 parameters, authUserId and uId. userProfileV1 prints the details of a user with uId if found in datastore.
@@ -104,7 +107,7 @@ function setHandleV1(token: string, handleStr: string): object {
 
 function usersAll (token: string) {
   if (checkToken(token) === false) {
-    return { error: 'error' };
+    throw HTTPError(403, "invalid token");
   }
 
   const users = [];
@@ -124,7 +127,38 @@ function usersAll (token: string) {
 }
 
 function uploadPhoto (imgUrl: string, xStart: number, yStart: number, xEnd: number, yEnd: number) {
+  const res = request(
+    'GET', imgUrl
+  );
 
+  if (res.statusCode !== 200) {
+    throw HTTPError(400, "status code is not 200");
+  }
+
+  if (!res) {
+    throw HTTPError(400, "res is not defined");
+  }
+  
+  // check if any coordinates are not within dimensions of the image
+  if (1) {
+    
+  }
+  
+  if (xEnd <= xStart) {
+    throw HTTPError(400, "xEnd is greater than xStart");
+  }
+  
+  if (yEnd <= yStart) {
+    throw HTTPError(400, "yEnd is greater than yStart");
+  }
+  
+  if (!imgUrl.endsWith('jpg')) {
+    throw HTTPError(400, "image uploaded is not JPG");
+  }
+  
+  // do something related to image size?
+  const bodyObj = res.getBody();
+  fs.writeFileSync('test.jpg', bodyObj, { flag: 'w' });
 
   return {};
 }
@@ -137,4 +171,4 @@ function usersStats () {
 
 }
 
-export { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll };
+export { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto };

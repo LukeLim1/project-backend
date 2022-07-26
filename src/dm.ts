@@ -1,6 +1,7 @@
 import { getData, setData } from './dataStore';
 import { containsDuplicates, checkToken } from './helperFunctions';
 import { Error, IDmMessages, IMessages, Empty } from './interface';
+import HTTPError from 'http-errors';
 
 export function dmCreateV1 (token: string, uIds: number[]) {
   if (containsDuplicates(uIds) === true) {
@@ -54,7 +55,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
 
 export function dmLeave (token: string, dmId: number) : object | Error {
   if (checkToken(token) === false) {
-    return { error: 'error' };
+    throw HTTPError(403, "invalid token");
   }
 
   const data = getData();
@@ -62,9 +63,9 @@ export function dmLeave (token: string, dmId: number) : object | Error {
   const dm = data.DMs.find(d => d.dmId === dmId);
 
   if (!dm) {
-    return { error: 'error' };
+    throw HTTPError(400, "dmId doesn't refer to valid DM");
   } else if (!dm.name.includes(user.handle)) {
-    return { error: 'error' };
+    throw HTTPError(403, "authorised user is not a member of DM");
   }
 
   for (const name of dm.name) {
@@ -79,7 +80,7 @@ export function dmLeave (token: string, dmId: number) : object | Error {
 
 export function dmMessages (token: string, dmId: number, start: number): IDmMessages | Error {
   if (checkToken(token) === false) {
-    return { error: 'error' };
+    throw HTTPError(403, "invalid token");
   }
 
   const data = getData();
@@ -89,15 +90,15 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
   let messagesRestructured: IMessages[];
 
   if (!dm) {
-    return { error: 'error' };
+    throw HTTPError(400, "dmId doesn't refer to valid DM");
   }
   const messagesCopy = dm.messages;
 
   if (start > messagesCopy.length) {
-    return { error: 'error' };
+    throw HTTPError(400, "start is greater than total number of messages");
   }
   if (!(dm.name.includes(user.handle))) {
-    return { error: 'error' };
+    throw HTTPError(403, "authorised user is not a member of DM");
   }
 
   for (const msg of dm.messages) {

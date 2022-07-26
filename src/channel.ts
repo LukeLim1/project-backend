@@ -3,6 +3,7 @@ import { IChannelDetails, userTemplate } from './interface';
 import { checkToken } from './helperFunctions';
 import { Error } from './interface';
 import { userProfileV1 } from './users';
+import HTTPError from 'http-errors';
 
 /**
  * Invite a user with ID uId to join a channel with ID channelId
@@ -143,14 +144,14 @@ export function channelDetailsV1 (authUserId: number, channelId: number) {
 
 export function channelDetails (token: string, channelId: number) : IChannelDetails | Error {
   if (checkToken(token) === false) {
-    return { error: 'error' };
+    throw HTTPError(403, "invalid token");
   }
 
   const data = getData();
   const channel = data.channels.find(channel => channel.channelId === channelId);
 
   if (!channel) {
-    return { error: 'error' };
+    throw HTTPError(400, "channelId doesn't refer to valid channel");
   }
 
   const owner = data.users.find(o => o.userId === channel.ownerMembers[0]);
@@ -166,7 +167,7 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
 
   // check if user with token belongs to channel with channelId
   if (!channel.allMembers.includes(token)) {
-    return { error: 'error' };
+    throw HTTPError(403, "authorised user is not a member");
   }
 
   for (const member of channel.allMembers) {
@@ -204,7 +205,7 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
 
 export function channelJoin (token: string, channelId: number) : object | Error {
   if (checkToken(token) === false) {
-    return { error: 'error' };
+    throw HTTPError(403, "invalid token");
   }
 
   const data = getData();
@@ -212,13 +213,13 @@ export function channelJoin (token: string, channelId: number) : object | Error 
   const user = data.users.find(u => u.token.includes(token));
 
   if (!channel) {
-    return { error: 'error' };
+    throw HTTPError(400, "channelId doesn't refer to valid channel");
   }
 
   if (channel.isPublic === false) {
-    return { error: 'error' };
+    throw HTTPError(403, "authorised user is not channel member & global owner");
   } else if (channel.allMembers.includes(user.userId)) {
-    return { error: 'error' };
+    throw HTTPError(400, "authorised user is already a member");
   }
 
   channel.allMembers.push(user.userId);

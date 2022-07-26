@@ -23,9 +23,18 @@ export interface userTemplate {
     token: string[];
 }
 
+export interface channelTemplate {
+    name: string;
+    isPublic: boolean;
+    ownerMembers: number[];
+    allMembers: number[];
+    channelId: number;
+    messages: messageTemplate[];
+}
+
 export interface dataTemplate {
     users: userTemplate[];
-    channels: any[];
+    channels: channelTemplate[];
     usedNums: number[];
     usedTokenNums: number[];
     usedChannelNums: number[];
