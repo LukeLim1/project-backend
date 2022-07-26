@@ -10,7 +10,7 @@ import { channelLeaveV1, channelDetails, channelJoin } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm } from './dm';
 import { setNameV1, setEmailV1, setHandleV1, usersAll } from './users';
 import errorHandler from 'middleware-http-errors';
-import { uploadPhoto } from './helperFunctions';
+import { uploadPhoto, userPermissionChange, userRemove, usersStats, userStats } from './helperFunctions';
 // import fs from 'fs';
 
 // Set up web app, use JSON
@@ -158,6 +158,25 @@ app.post('/user/profile/uploadphoto/v1', (req, res) => {
   const { imgUrl, xStart, yStart, xEnd, yEnd } = req.body;
   res.json(uploadPhoto(imgUrl, xStart, yStart, xEnd, yEnd));
 });
+
+app.get('/user/stats/v1', (req, res) => {
+  res.json(userStats());
+});
+
+app.get('/users/stats/v1', (req, res) => {
+  res.json(usersStats());
+});
+
+app.delete('/admin/user/remove/v1', (req, res) => {
+  const { uId } = req.body;
+  res.json(userRemove(uId));
+});
+
+app.post('/admin/userpermission/change/v1', (req, res) => {
+  const { uId, permissionId } = req.body;
+  res.json(userPermissionChange(uId, permissionId));
+});
+
 
 // for logging errors
 app.use(morgan('dev'));
