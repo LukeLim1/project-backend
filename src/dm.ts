@@ -42,14 +42,15 @@ export function dmCreateV1 (token: string, uIds: number[]) {
   if (data.usedTokenNums.length !== 0) {
     identifier += data.usedTokenNums[data.usedTokenNums.length - 1];
   }
+  const dmId = identifier;
 
   data.DMs.push({
-    dmId: identifier,
+    dmId: dmId,
     dmOwner: user.userId,
     name: [...handleArray],
     messages: [],
   });
-  return { identifier };
+  return { dmId };
 }
 
 export function dmLeave (token: string, dmId: number) : object | Error {
@@ -84,13 +85,14 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
 
   const data = getData();
   const dm = data.DMs.find(d => d.dmId === dmId);
-  const user = data.users.find(u => u.token.includes(token));
-  const end = start + 50;
-  let messagesRestructured: IMessages[];
 
   if (!dm) {
     return { error: 'error' };
   }
+
+  const user = data.users.find(u => u.token.includes(token));
+  const length = (dm.messages.length - start >= 50) ? start + 50 : dm.messages.length;
+  const messagesRestructured: IMessages[] = [];
   const messagesCopy = dm.messages;
 
   if (start > messagesCopy.length) {
@@ -100,16 +102,17 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
     return { error: 'error' };
   }
 
-  for (const msg of dm.messages) {
-    let i = 0;
+  for (let i = start; i < length; i++) {
+    const d = dm.messages[i];
     messagesRestructured.push({
-      messageId: i,
+      messageId: d.messageId,
       uId: user.userId,
-      message: msg,
-      timeSent: Math.floor((new Date()).getTime() / 1000),
+      message: d.messages,
+      timeSent: d.time,
     });
-    i++;
   }
+
+  const end = (messagesRestructured.length >= 50) ? start + 50 : -1;
 
   messagesRestructured.reverse();
   return {
