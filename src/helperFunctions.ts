@@ -203,6 +203,5 @@ export function clear() {
     'DELETE',
     `${url}:${port}/clear/v1`
   );
-  const array = [res];
-  array.slice(0);
+  return res;
 }
