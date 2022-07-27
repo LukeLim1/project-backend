@@ -137,7 +137,7 @@ describe('authRegisterV2', () => {
       `${url}:${port}/auth/logout/v1`,
       {
         body: JSON.stringify({
-          token: newUser.token[0],
+          token: newUser.token,
         }),
         headers: {
           'Content-type': 'application/json',
