@@ -148,6 +148,7 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
   }
 
   const data = getData();
+  const user = data.users.find(u => u.token.includes(token));
   const channel = data.channels.find(channel => channel.channelId === channelId);
 
   if (!channel) {
@@ -166,8 +167,8 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
   const userArr = [];
 
   // check if user with token belongs to channel with channelId
-  if (!channel.allMembers.includes(token)) {
-    throw HTTPError(403, "authorised user is not a member");
+  if (!channel.allMembers.includes(user.userId)) {
+    return { error: 'error' };
   }
 
   for (const member of channel.allMembers) {
@@ -281,6 +282,10 @@ export function channelInviteV2 (token: string, channelId: number, uId: number) 
 }
 
 export function channelMessagesV2 (token: string, channelId: number, start: number) {
+  if (checkToken(token) === false) {
+    throw HTTPError(403, "invalid token");
+  }
+
   const data = getData();
   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
   const channel = data.channels.find(channel => channel.channelId === channelId);
@@ -305,10 +310,6 @@ export function channelMessagesV2 (token: string, channelId: number, start: numb
     return { error: 'error' };
   }
 
-  // Case 3: The user does not have a valid token
-  if (!channel.user.token.includes(token)) {
-    return { error: 'error' };
-  }
 
   // Otherwise, it should be a "normal" case
   // If the end index belongs to the most recent message
