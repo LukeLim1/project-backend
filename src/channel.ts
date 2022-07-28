@@ -224,6 +224,7 @@ export function channelJoin (token: string, channelId: number) : object | Error 
   }
 
   channel.allMembers.push(user.userId);
+  user.numChannelsJoined++;
   setData(data);
   return {};
 }

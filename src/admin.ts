@@ -12,16 +12,26 @@ function userRemove (uId: number) {
     for (const channel of data.channels) {
         if (channel.allMembers.includes(uId)) {
             channel.allMembers = removeItemAll(channel.allMembers, uId) as number[];
+            user.numChannelsJoined--;
         }
     }
 
+    const userHandle = user.handle;
     for (const dm of data.DMs) {
-        
+        for (const msg of dm.messages) {
+            if (msg.uId === user.userId) {
+                msg.message = 'Removed user';
+            }
+        }
+
+        if (dm.name.includes(user.handle)) {
+            dm.name = removeItemAll(dm.name, userHandle) as string[];
+            user.numDmsJoined--;
+        }
     }
 
-    const userHandle = user.handle;
-
-
+    user.firstName = 'Removed';
+    user.lastname = 'user';
     setData(data);
     return {};
 }
@@ -51,6 +61,8 @@ function userPermissionChange(uId: number, permissionId: number) {
     if (1) {
         throw HTTPError(403, "user is not a global owner")
     }
+
+    // notification?
 
     user.permissions = permissionId;
     setData(data);

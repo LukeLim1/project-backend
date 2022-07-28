@@ -1,7 +1,7 @@
 export interface dmTemplate {
     dmId: number;
     dmOwner: number;
-    name: any;
+    name: string[];
     messages: any[];
 }
 
@@ -21,6 +21,9 @@ export interface userTemplate {
     handle: string;
     permissions: number;
     token: string[];
+    numChannelsJoined: number;
+    numDmsJoined: number;
+    numMessagesSent: number;
 }
 
 export interface channelTemplate {

@@ -44,6 +44,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
     identifier += data.usedTokenNums[data.usedTokenNums.length - 1];
   }
   const dmId = identifier;
+  user.numDmsJoined++;
 
   data.DMs.push({
     dmId: dmId,
@@ -76,6 +77,7 @@ export function dmLeave (token: string, dmId: number) : object | Error {
     }
   }
 
+  setData(data);
   return {};
 }
 

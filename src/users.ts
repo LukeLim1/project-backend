@@ -113,6 +113,9 @@ function usersAll (token: string) {
   const users = [];
   const data = getData();
   for (const user of data.users) {
+    if (user.firstName === 'Removed' && user.lastname === 'user') {
+      continue;
+    }
     const obj = {
       uId: user.userId,
       email: user.emailAddress,
@@ -169,7 +172,7 @@ function userStats () {
   const data = getData();
   const token = req.header('token');
   const user = data.users.find(u => u.token.includes(token));
-  const time = Math.floor((new Date()).getTime() / 1000); /* not entirely sure */
+  const time = Math.floor((new Date()).getTime() / 1000); // not entirely sure
 
   return {
     channelsJoined: [{
