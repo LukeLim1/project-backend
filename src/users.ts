@@ -195,7 +195,7 @@ function usersStats () {
   const data = getData();
   const numChannelsExist = data.channels.length;
   const numDmsExist = data.DMs.length;
-  const time = Math.floor((new Date()).getTime() / 1000); /* not entirely sure */
+  const time = Math.floor((new Date()).getTime() / 1000); // not entirely sure
 
   let numChannelMsg = 0;
   for (const channel of data.channels) {

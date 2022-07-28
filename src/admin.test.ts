@@ -1,8 +1,12 @@
 import request from 'sync-request';
 import { url, port } from './config.json';
-import { createBasicAccount, createBasicAccount2, clear, userRemove, userPermissionChange } from './helperFunctions';
+import { createBasicAccount, clear, userRemove, userPermissionChange } from './helperFunctions';
 
 const OK = 200;
+
+beforeEach(() => {
+    clear();
+});
 
 describe('userRemove tests using Jest', () => {
     test('Test successful userRemove', () => {

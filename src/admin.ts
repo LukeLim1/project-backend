@@ -49,7 +49,7 @@ function userPermissionChange(uId: number, permissionId: number) {
     }
 
     // invalid permissionId
-    if (1) {
+    if (!(permissionId === 1 || permissionId === 2)) {
         throw HTTPError(400, "invalid permission ID");
     }
 
