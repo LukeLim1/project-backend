@@ -102,6 +102,9 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
     handle: `${userHandle}`,
     permissions: 2,
     token: [tokenStr],
+    numChannelsJoined: 0,
+    numDmsJoined: 0,
+    numMessagesSent: 0,
   });
   setData(data);
   return {

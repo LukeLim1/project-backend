@@ -15,6 +15,19 @@ export function containsDuplicates(array: number[]): boolean {
   }
 }
 
+// removes a certain item completely from that array
+export function removeItemAll (arr: number[] | string[], item: number | string): number[] | string[] {
+  let i = 0;
+  while (i < arr.length) {
+    if (arr[i] === item) {
+      arr.splice(i, 1);
+    } else {
+      ++i;
+    }
+  }
+  return arr;
+}
+
 // test for a valid token
 export function checkToken(token: string): boolean | undefined {
   const data = getData();

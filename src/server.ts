@@ -168,7 +168,7 @@ app.get('/users/stats/v1', (req, res) => {
 });
 
 app.delete('/admin/user/remove/v1', (req, res) => {
-  const { uId } = req.body;
+  const uId = parseInt(req.query.uId as string);
   res.json(userRemove(uId));
 });
 

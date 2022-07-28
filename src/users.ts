@@ -131,6 +131,8 @@ function uploadPhoto (imgUrl: string, xStart: number, yStart: number, xEnd: numb
     'GET', imgUrl
   );
 
+  console.log(res);
+
   if (res.statusCode !== 200) {
     throw HTTPError(400, "status code is not 200");
   }
@@ -164,11 +166,61 @@ function uploadPhoto (imgUrl: string, xStart: number, yStart: number, xEnd: numb
 }
 
 function userStats () {
+  const data = getData();
+  const token = req.header('token');
+  const user = data.users.find(u => u.token.includes(token));
+  const time = Math.floor((new Date()).getTime() / 1000); /* not entirely sure */
 
+  return {
+    channelsJoined: [{
+      numChannelsJoined: user.numChannelsJoined,
+      timeStamp: time,
+    }],
+    dmsJoined: [{
+      numDmsJoined: user.numDmsJoined,
+      timeStamp: time,
+    }],
+    messagesSent: [{
+      numMessagesSent: user.numMessagesSent,
+      timeStamp: time,
+    }],
+    involvementRate: 0, // CHANGE!
+  }
 }
 
 function usersStats () {
+  const data = getData();
+  const numChannelsExist = data.channels.length;
+  const numDmsExist = data.DMs.length;
+  const time = Math.floor((new Date()).getTime() / 1000); /* not entirely sure */
 
+  let numChannelMsg = 0;
+  for (const channel of data.channels) {
+    numChannelMsg += channel.messages.length;
+  }
+
+  let numDmMsg = 0;
+  for (const dm of data.DMs) {
+    numDmMsg += dm.messages.length;
+  }
+
+  const numMessagesExist = numChannelMsg + numDmMsg;
+
+  return {
+    channelsExist: [{
+      numChannelsExist: numChannelsExist,
+      timeStamp: time,
+    }],
+    dmsExist: [{
+      numDmsExist: numDmsExist,
+      timeStamp: time,
+    }],
+    messagesExist: [{
+      numMessagesExist: numMessagesExist,
+      timeStamp: time,
+    }],
+    utilizationRate: 0, // CHANGE!
+  }
 }
 
-export { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto };
+export { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats };
