@@ -197,6 +197,64 @@ export function joinChannel(token: string, channelId: number) {
   );
   return res;
 }
+
+// messageSend
+export function sendMessage(token: string, channelId: number, message: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/message/send/v2`,
+    {
+      body: JSON.stringify({
+        token: token,
+        channelId: channelId,
+        message: message
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+// senddm
+export function dmSend(token: string, dmId: number, message: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/message/senddm/v1`,
+    {
+      body: JSON.stringify({
+        token: token,
+        dmId: dmId,
+        message: message
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+// messageShareV1
+export function shareMessage(ogMessageId: number, message: string, channelId: number, dmId: number) {
+  const res = request(
+    'POST',
+    `${url}:${port}/message/share/v1`,
+    {
+      body: JSON.stringify({
+        ogMessageId: ogMessageId,
+        message: message,
+        channelId: channelId,
+        dmId: dmId
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
 // clear everything
 export function clear() {
   const res = request(

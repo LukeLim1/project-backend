@@ -9,6 +9,7 @@ import { getData } from './dataStore';
 import { channelLeaveV1, channelDetails, channelJoin } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm } from './dm';
 import { setNameV1, setEmailV1, setHandleV1, usersAll } from './users';
+import { messageSendV1, messagesShareV1 } from './message';
 // import fs from 'fs';
 
 // Set up web app, use JSON
@@ -36,9 +37,47 @@ app.get('/apple', (req, res) => {
   }));
 });
 
-app.get('/data', (req, res) => {
+app.get('/data/all', (req, res) => {
   const data = getData();
   const users = data;
+  res.send({
+    users
+  });
+});
+app.get('/data/users', (req, res) => {
+  const data = getData();
+  const users = data.users;
+  res.send({
+    users
+  });
+});
+app.get('/data/channels', (req, res) => {
+  const data = getData();
+  const users = data.channels;
+  res.send({
+    users
+  });
+});
+
+app.get('/data/channels/messages', (req, res) => {
+  const data = getData();
+  const users = data.channels[0].messages;
+  res.send({
+    users
+  });
+});
+
+app.get('/data/dms', (req, res) => {
+  const data = getData();
+  const users = data.DMs;
+  res.send({
+    users
+  });
+});
+
+app.get('/data/dms/messages', (req, res) => {
+  const data = getData();
+  const users = data.DMs[0].messages;
   res.send({
     users
   });
@@ -135,6 +174,16 @@ app.get('/dm/messages/v1', (req, res) => {
 app.post('/message/senddm/v1', (req, res) => {
   const { token, dmId, message } = req.body;
   res.json(senddm(token, dmId, message));
+});
+
+app.post('/message/send/v2', (req, res) => {
+  const { token, channelId, message } = req.body;
+  res.json(messageSendV1(token, channelId, message));
+});
+
+app.post('/message/share/v1', (req, res) => {
+  const { ogMessageId, message, channelId, dmId } = req.body;
+  res.json(messagesShareV1(ogMessageId, message, channelId, dmId));
 });
 
 app.get('/users/all/v1', (req, res) => {
