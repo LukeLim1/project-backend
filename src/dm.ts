@@ -75,6 +75,7 @@ export function dmLeave (token: string, dmId: number) : object | Error {
     }
   }
 
+  setData(data);
   return {};
 }
 
