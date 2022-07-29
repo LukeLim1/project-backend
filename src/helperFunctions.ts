@@ -2,6 +2,8 @@ import { getData } from './dataStore';
 import request from 'sync-request';
 import config from './config.json';
 
+import { userTemplate, IUser } from './interface';
+
 const port = config.port;
 const url = config.url;
 
@@ -13,6 +15,23 @@ export function containsDuplicates(array: number[]): boolean {
   } else {
     return true;
   }
+}
+
+/**
+ * convert userTemplate to IUser
+ * @param temp userTemplate
+ * @returns IUser
+ */
+export function convertUserTemplateToIUser (temp: userTemplate): IUser {
+  const res:IUser = {
+    uId: temp.userId,
+    email: temp.emailAddress,
+    nameFirst: temp.firstName,
+    nameLast: temp.lastname,
+    handleStr: temp.handle,
+  };
+
+  return res;
 }
 
 // test for a valid token

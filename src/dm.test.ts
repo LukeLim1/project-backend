@@ -26,7 +26,7 @@ describe('HTTP tests for dm/create/v1', () => {
 
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ identifier: expect.any(Number) });
+    expect(bodyObj).toMatchObject({ dmId: expect.any(Number) });
   });
 
   test('uid doesnt refer to a valid user', () => {
