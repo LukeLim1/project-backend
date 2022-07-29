@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { echo } from './echo';
+
 import morgan from 'morgan';
 import config from './config.json';
 import { authLoginV1, authRegisterV1, authLogout } from './auth';
@@ -21,14 +21,14 @@ const PORT: number = parseInt(process.env.PORT || config.port);
 const HOST: string = process.env.IP || 'localhost';
 
 // Example get request
-app.get('/echo', (req, res, next) => {
-  try {
-    const data = req.query.echo as string;
-    return res.json(echo(data));
-  } catch (err) {
-    next(err);
-  }
-});
+// app.get('/echo', (req, res, next) => {
+//   try {
+//     const data = req.query.echo as string;
+//     return res.json(echo(data));
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 app.get('/apple', (req, res) => {
   const name = req.query.name;

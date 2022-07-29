@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-import { getData } from "./dataStore.js";
-=======
 import { getData, setData } from './dataStore';
 import { IUser } from './interface';
 import validator from 'validator';
 import { checkToken } from './helperFunctions';
 import { Error } from './interface';
 import HTTPError from 'http-errors';
->>>>>>> 23ab0a9897f3394234ea3b3f3f24bd62f287f0e9
 
 // userProfileV1
 // There are 2 parameters, authUserId and uId. userProfileV1 prints the details of a user with uId if found in datastore.
@@ -18,26 +14,6 @@ import HTTPError from 'http-errors';
 //              { error: 'error' } when any of the following:
 //                  a user with uId is not found
 
-<<<<<<< HEAD
-function userProfileV1(authUserId, uId) {
-  const data = getData();
-  const user = data.users.find(u => u.userId === uId);
-  if (!user) { 
-    return { error: 'error' };
-  } else {
-    return {
-      uId: uId, 
-      email: user.emailAddress,
-      nameFirst: user.name.split(' ')[0], 
-      nameLast: user.name.split(' ')[1], 
-      handleStr: user.handle,
-    }
-  }
-
-}
-
-export { userProfileV1 }
-=======
 function userProfileV1(token: string, uId: number): IUser | Error {
   if (checkToken(token) === false) {
     return { error: 'error' };
@@ -152,4 +128,3 @@ function usersAll (token: string) {
 }
 
 export { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll };
->>>>>>> 23ab0a9897f3394234ea3b3f3f24bd62f287f0e9
