@@ -175,4 +175,46 @@ function authLogout (token: string): object | Error {
   return {};
 }
 
+// export function authPasswordResetRequest (email: string) {
+//   var nodemailer = require('nodemailer');
+//       let transporter = nodemailer.createTransport({
+//              host: 'smtp.mailtrap.io',
+//              port: 2525,
+//              auth: {
+//                  user: "be9ec5b31bc99d",
+//                  pass: "9910b7b64cee1c"
+//              }
+//      })
+
+//      const mailOptions = {
+//         from: 'youremail@gmail.com',
+//         to: 'myfriend@yahoo.com',
+//         subject: 'Sending Email using Node.js',
+//         text: 'That was easy!'
+//       };
+
+//       transporter.sendMail(mailOptions, function(error, info){
+//         if (error) {
+//           console.log(error);
+//         } else {
+//           console.log('Email sent: ' + info.response);
+//         }
+//       });
+//   return {}
+// }
+
+// export function authPasswordReset (resetCode: any, newPassword: string) {
+//   const data = getData();
+//   const user = data.users.find(u => u.token.includes(token) === true);
+
+//   if (!user) {
+//     return { error: 'error' };
+//   }
+//   // main code
+//   user.password = newPassword;
+//   setData(data);
+
+//   return {}
+// }
+
 export { authLoginV1, authRegisterV1, authLogout };
