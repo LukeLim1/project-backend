@@ -3,6 +3,9 @@ import { IUser } from './interface';
 import validator from 'validator';
 import { checkToken } from './helperFunctions';
 import { Error } from './interface';
+import HTTPError from 'http-errors';
+import fs from 'fs';
+import request from 'sync-request';
 
 // userProfileV1
 // There are 2 parameters, authUserId and uId. userProfileV1 prints the details of a user with uId if found in datastore.
@@ -104,12 +107,15 @@ function setHandleV1(token: string, handleStr: string): object {
 
 function usersAll (token: string) {
   if (checkToken(token) === false) {
-    return { error: 'error' };
+    throw HTTPError(403, "invalid token");
   }
 
   const users = [];
   const data = getData();
   for (const user of data.users) {
+    if (user.firstName === 'Removed' && user.lastname === 'user') {
+      continue;
+    }
     const obj = {
       uId: user.userId,
       email: user.emailAddress,
@@ -122,5 +128,6 @@ function usersAll (token: string) {
 
   return { users };
 }
+
 
 export { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll };
