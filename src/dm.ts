@@ -129,6 +129,7 @@ export function dmCreateV1(token: string, uIds: number[]) {
   if (data.usedNums.length !== 0) {
     identifier += data.usedNums[data.usedNums.length - 1];
   }
+  // const dmId = identifier;
 
   data.usedNums.push(identifier);
 
@@ -165,50 +166,51 @@ export function dmLeave (token: string, dmId: number) : object | Error {
     }
   }
 
+  setData(data);
   return {};
 }
 
-// export function dmMessages (token: string, dmId: number, start: number): IDmMessages | Error {
-//   if (checkToken(token) === false) {
-//     return { error: 'error' };
-//   }
+export function dmMessages (token: string, dmId: number, start: number): IDmMessages | Error {
+  if (checkToken(token) === false) {
+    return { error: 'error' };
+  }
 
-//   const data = getData();
-//   const dm = data.DMs.find(d => d.dmId === dmId);
-//   const user = data.users.find(u => u.token.includes(token));
-//   const end = start + 50;
-//   let messagesRestructured: IMessages[];
+  const data = getData();
+  const dm = data.DMs.find(d => d.dmId === dmId);
+  const user = data.users.find(u => u.token.includes(token));
+  const end = start + 50;
+  let messagesRestructured: IMessages[];
 
-//   if (!dm) {
-//     return { error: 'error' };
-//   }
-//   const messagesCopy = dm.messages;
+  if (!dm) {
+    return { error: 'error' };
+  }
+  const messagesCopy = dm.messages;
 
-//   if (start > messagesCopy.length) {
-//     return { error: 'error' };
-//   }
-//   if (!(dm.name.includes(user.handle))) {
-//     return { error: 'error' };
-//   }
+  if (start > messagesCopy.length) {
+    return { error: 'error' };
+  }
+  if (!(dm.name.includes(user.handle))) {
+    return { error: 'error' };
+  }
 
-//   for (const msg of dm.messages) {
-//     let i = 0;
-//     messagesRestructured.push({
-//       messageId: i,
-//       uId: user.userId,
-//       message: msg,
-//       timeSent: Math.floor((new Date()).getTime() / 1000),
-//     });
-//     i++;
-//   }
+  for (const msg of dm.messages) {
+    let i = 0;
+    messagesRestructured.push({
+      messageId: i,
+      uId: user.userId,
+      message: msg.message,
+      timeSent: Math.floor((new Date()).getTime() / 1000),
+    });
+    i++;
+  }
 
-//   messagesRestructured.reverse();
-//   return {
-//     messages: messagesRestructured,
-//     start: start,
-//     end: end,
-//   };
-// }
+  messagesRestructured.reverse();
+  return {
+    messages: messagesRestructured,
+    start: start,
+    end: end,
+  };
+}
 
 // interface members {
 //   uId: number,
@@ -231,82 +233,87 @@ export function dmLeave (token: string, dmId: number) : object | Error {
 //   dmId: number,
 //   name: string[],
 // }
-export function dmMessages(token: string, dmId: number, start: number): IDmMessages | Error {
-  // Check if token is valid
-  if (!checkToken(token)) {
-    return { error: 'error' };
-  }
 
-  const data = getData();
+/// ///////////////////////////////////////////////////////
+// above is lukes below is ruis
+/// /////////////////////////////////////////////////////
 
-  // Case 1: dmId does not refer to a valid DM
-  const dm = data.DMs.find(d => d.dmId === dmId);
-  if (!dm) {
-    return { error: 'error' };
-  }
+// export function dmMessages(token: string, dmId: number, start: number): IDmMessages | Error {
+//   // Check if token is valid
+//   if (!checkToken(token)) {
+//     return { error: 'error' };
+//   }
 
-  // case 2: check user
-  const user = data.users.find(u => u.token.includes(token));
-  if (!user) {
-    return { error: 'error' };
-  }
+//   const data = getData();
 
-  // case 3: check member of dm
-  let isMember = false;
-  for (const member of dm.members) {
-    if (member.uId === user.userId) {
-      isMember = true;
-      break;
-    }
-  }
+//   // Case 1: dmId does not refer to a valid DM
+//   const dm = data.DMs.find(d => d.dmId === dmId);
+//   if (!dm) {
+//     return { error: 'error' };
+//   }
 
-  if (!isMember) {
-    return { error: 'error' };
-  }
+//   // case 2: check user
+//   const user = data.users.find(u => u.token.includes(token));
+//   if (!user) {
+//     return { error: 'error' };
+//   }
 
-  const theStart: number = start;
-  let theEnd: number = start + 50;
+//   // case 3: check member of dm
+//   let isMember = false;
+//   for (const member of dm.members) {
+//     if (member.uId === user.userId) {
+//       isMember = true;
+//       break;
+//     }
+//   }
 
-  const messageArr = dm.messages;
+//   if (!isMember) {
+//     return { error: 'error' };
+//   }
 
-  // case4 check start
-  if (start > messageArr.length) {
-    return { error: 'error' };
-  }
+//   const theStart: number = start;
+//   let theEnd: number = start + 50;
 
-  // case5 sort message
-  for (let i = 0; i < messageArr.length; i++) {
-    let flag = false;
-    for (let j = 0; j < messageArr.length - i - 1; j++) {
-      if (messageArr[j].timeSent < messageArr[j + 1].timeSent) {
-        // compare exchange
-        const temp: IMessages = messageArr[j + 1];
-        messageArr[j + 1] = messageArr[j];
-        messageArr[j] = temp;
+//   const messageArr = dm.messages;
 
-        flag = true;
-      }
-    }
+//   // case4 check start
+//   if (start > messageArr.length) {
+//     return { error: 'error' };
+//   }
 
-    // when is sort break
-    if (!flag) {
-      break;
-    }
-  }
+//   // case5 sort message
+//   for (let i = 0; i < messageArr.length; i++) {
+//     let flag = false;
+//     for (let j = 0; j < messageArr.length - i - 1; j++) {
+//       if (messageArr[j].timeSent < messageArr[j + 1].timeSent) {
+//         // compare exchange
+//         const temp: IMessages = messageArr[j + 1];
+//         messageArr[j + 1] = messageArr[j];
+//         messageArr[j] = temp;
 
-  theEnd = theEnd > messageArr.length ? messageArr.length : theEnd;
-  const theMessages = messageArr.slice(theStart, theEnd);
+//         flag = true;
+//       }
+//     }
 
-  theEnd = theMessages.length < 1 ? -1 : theEnd;
+//     // when is sort break
+//     if (!flag) {
+//       break;
+//     }
+//   }
 
-  const result: IDmMessages = {
-    messages: theMessages,
-    start: theStart,
-    end: theEnd,
-  };
+//   theEnd = theEnd > messageArr.length ? messageArr.length : theEnd;
+//   const theMessages = messageArr.slice(theStart, theEnd);
 
-  return result;
-}
+//   theEnd = theMessages.length < 1 ? -1 : theEnd;
+
+//   const result: IDmMessages = {
+//     messages: theMessages,
+//     start: theStart,
+//     end: theEnd,
+//   };
+
+//   return result;
+// }
 
 // export function senddm (token: string, dmId: number, message: string): messageId | Error {
 //   // Check if token is valid

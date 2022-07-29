@@ -147,13 +147,14 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
   }
 
   const data = getData();
+  const user = data.users.find(u => u.token.includes(token));
   const channel = data.channels.find(channel => channel.channelId === channelId);
 
   if (!channel) {
     return { error: 'error' };
   }
 
-  const owner = data.users.find(o => o.userId.toString() === channel.ownerMembers[0]);
+  const owner = data.users.find(o => o.userId === channel.ownerMembers[0]);
 
   const ownerArr = [{
     uId: owner.userId,
@@ -165,12 +166,12 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
   const userArr = [];
 
   // check if user with token belongs to channel with channelId
-  if (!channel.allMembers.includes(token)) {
+  if (!channel.allMembers.includes(user.userId)) {
     return { error: 'error' };
   }
 
   for (const member of channel.allMembers) {
-    const u = data.users.find(u => u.userId.toString() === member);
+    const u = data.users.find(u => u.userId === member);
     const userObj = {
       uId: u.userId,
       email: u.emailAddress,
