@@ -1,6 +1,7 @@
 import { getData } from './dataStore';
 import request from 'sync-request';
 import config from './config.json';
+import { IUser, userTemplate } from './interface';
 
 const port = config.port;
 const url = config.url;
@@ -97,6 +98,25 @@ export function createBasicAccount2() {
         password: 'z5312387',
         nameFirst: 'Zachary2',
         nameLast: 'Chan2'
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+export function createBasicAccount3() {
+  const res = request(
+    'POST',
+    `${url}:${port}/auth/register/v2`,
+    {
+      body: JSON.stringify({
+        email: 'zachary-chan3@gmail.com',
+        password: 'z5312387',
+        nameFirst: 'Zachary3',
+        nameLast: 'Chan3'
       }),
       headers: {
         'Content-type': 'application/json',
@@ -232,10 +252,15 @@ export function uploadPhoto(imgUrl: string, xStart: number, yStart: number, xEnd
 }
 
 // Fetches required statistics about this user's use of UNSW Treats
-export function userStats () {
+export function userStats (token: string) {
   const res = request(
     'GET',
     `${url}:${port}/user/stats/v1`,
+    {
+      headers: {
+        token
+      }
+    }
   );
   return res;
 }
@@ -282,6 +307,62 @@ export function userPermissionChange(uId: number, permissionId: number) {
   return res;
 }
 
+
+export function sendMessage(token: string, channelId: number, message: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/message/send/v2`,
+    {
+      body: JSON.stringify({
+        token: token,
+        channelId: channelId,
+        message: message
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+export function dmSend(token: string, dmId: number, message: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/message/senddm/v1`,
+    {
+      body: JSON.stringify({
+        token: token,
+        dmId: dmId,
+        message: message
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+export function shareMessage(ogMessageId: number, message: string, channelId: number, dmId: number) {
+  const res = request(
+    'POST',
+    `${url}:${port}/message/share/v1`,
+    {
+      body: JSON.stringify({
+        ogMessageId: ogMessageId,
+        message: message,
+        channelId: channelId,
+        dmId: dmId
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
 // clear everything
 export function clear() {
   const res = request(
@@ -290,4 +371,15 @@ export function clear() {
   );
   const array = [res];
   array.slice(0);
+}
+
+export function convertUserTemplateToIUser (temp: userTemplate): IUser {
+  const res:IUser = {
+    uId: temp.userId,
+    email: temp.emailAddress,
+    nameFirst: temp.firstName,
+    nameLast: temp.lastname,
+    handleStr: temp.handle,
+  };
+  return res;
 }

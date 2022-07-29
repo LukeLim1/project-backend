@@ -159,7 +159,7 @@ describe('HTTP tests using Jest', () => {
       }
     );
 
-    const bodyObj = JSON.parse(String(res.getBody()));
+    const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({
       messages: [{
@@ -243,5 +243,164 @@ describe('HTTP tests using Jest', () => {
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: 'error' });
+  });
+});
+
+describe('test for dm ', () => {
+  let userA: any, userB: any;
+  let userBMemberOfDMId: number;
+  let userBToken: string;
+  beforeAll(() => {
+    clear();
+
+    // register user A
+    const basicA = createBasicAccount();
+    userA = JSON.parse(String(basicA.getBody()));
+
+    // register user B
+    const basicB = createBasicAccount2();
+    userB = JSON.parse(String(basicB.getBody()));
+    userBToken = userB.token[0];
+
+    // console.log('create member 2 of dm ');
+    // // register user c
+    // const basicC = createBasicAccount3();
+    // userC = JSON.parse(String(basicC.getBody()));
+  });
+
+  test('list dm test success', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
+    JSON.parse(String(basicD.getBody()));
+
+    const res = request(
+      'GET',
+      `${url}:${port}/dm/list/v1`,
+      {
+        qs: { token: newUser.token }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ dms: expect.any(Object) });
+  });
+
+  test('details dm test success', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
+    const newDm = JSON.parse(String(basicD.getBody()));
+
+    const res = request(
+      'GET',
+      `${url}:${port}/dm/details/v1`,
+      {
+        qs: { token: newUser.token, dmId: newDm.dmId }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ name: expect.any(String), members: expect.any(Object) });
+  });
+
+  test('details dm test fail', () => {
+    const token = userBToken;
+    const dmId = -1;
+
+    const res = request(
+      'GET',
+      `${url}:${port}/dm/details/v1`,
+      {
+        qs: { token: token, dmId: dmId }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+
+  test('message senddm test success', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
+    const newDm = JSON.parse(String(basicD.getBody()));
+
+    const param = JSON.stringify({
+      token: newUser.token,
+      dmId: newDm.dmId,
+      message: 'hello everyone,this is ' + userBMemberOfDMId + 'dm,can you hear me.'
+    });
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/senddm/v1`,
+      {
+        body: param,
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ messageId: expect.any(Number) });
+  });
+
+  test('message senddm test fail', () => {
+    const param = JSON.stringify({
+      token: userBToken,
+      dmId: -1,
+      message: 'hello everyone,this is ' + userBMemberOfDMId + 'dm,can you hear me.'
+    });
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/senddm/v1`,
+      {
+        body: param,
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+
+  test('dm remove test fail', () => {
+    const token = userBToken;
+    const dmId = -1;
+
+    const res = request(
+      'DELETE',
+      `${url}:${port}/dm/remove/v1`,
+      {
+        qs: { token: token, dmId: dmId }
+      }
+    );
+
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+  test('dm remove test success', () => {
+    const token = userA.token[0];
+    const dmId = userBMemberOfDMId;
+
+    const res = request(
+      'DELETE',
+      `${url}:${port}/dm/remove/v1`,
+      {
+        qs: { token: token, dmId: dmId }
+      }
+    );
+
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({});
   });
 });

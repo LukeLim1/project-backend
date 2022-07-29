@@ -168,9 +168,8 @@ function uploadPhoto (imgUrl: string, xStart: number, yStart: number, xEnd: numb
   return {};
 }
 
-function userStats () {
+function userStats (token: string) {
   const data = getData();
-  const token = req.header('token');
   const user = data.users.find(u => u.token.includes(token));
   const time = Math.floor((new Date()).getTime() / 1000); // not entirely sure
 
