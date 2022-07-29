@@ -1,0 +1,2863 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.5, pytest-7.0.1, pluggy-1.0.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+hypothesis profile 'default' -> database=DirectoryBasedExampleDatabase('/home/nktnet/temp/project-automarking/tempstore/.hypothesis/examples')
+rootdir: /home/nktnet/temp/project-automarking/tempstore
+plugins: hypothesis-6.41.0
+collecting ... collected 366 items
+
+httpTests/authTests/test_auth_login.py::testSuccessfulLogin FAILED       [  5%]
+httpTests/authTests/test_auth_login.py::testCanHaveTwoSessions FAILED    [  5%]
+httpTests/authTests/test_auth_login.py::testUnregisteredUser PASSED      [  6%]
+httpTests/authTests/test_auth_login.py::testRegisteredButIncorrectPassword PASSED [  6%]
+httpTests/authTests/test_auth_logout.py::testSuccessfulLogout PASSED     [  6%]
+httpTests/authTests/test_auth_register.py::testInvalidEmail[@gmail.com] PASSED [  6%]
+httpTests/authTests/test_auth_register.py::testInvalidEmail[bob] PASSED  [  7%]
+httpTests/authTests/test_auth_register.py::testInvalidEmail[bob@bob@bob.com] PASSED [  7%]
+httpTests/authTests/test_auth_register.py::testInvalidPassword[12345] PASSED [  7%]
+httpTests/authTests/test_auth_register.py::testInvalidPassword[] PASSED  [  7%]
+httpTests/authTests/test_auth_register.py::testInvalidNameFirst[] PASSED [  8%]
+httpTests/authTests/test_auth_register.py::testInvalidNameFirst[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa] PASSED [  8%]
+httpTests/authTests/test_auth_register.py::testInvalidNameLast[] PASSED  [  8%]
+httpTests/authTests/test_auth_register.py::testInvalidNameLast[bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb] PASSED [  9%]
+httpTests/authTests/test_auth_register.py::testDuplicateEmail PASSED     [  9%]
+httpTests/authTests/test_auth_register.py::testRemovedUserName FAILED    [  9%]
+httpTests/authTests/test_auth_register.py::testSuccessfulRegistration FAILED [  9%]
+httpTests/authTests/test_auth_register.py::testBasicHandleGeneratedCorrectly[Bob-Smith-bobsmith] FAILED [ 10%]
+httpTests/authTests/test_auth_register.py::testBasicHandleGeneratedCorrectly[ababababab-cdcdcdcdcdcd-abababababcdcdcdcdcd] FAILED [ 10%]
+httpTests/authTests/test_auth_register.py::testDuplicateHandlesGeneratedCorrectly[abcdefghij-klmnopqrs-abcdefghijklmnopqrs-abcdefghij-klmnopqrs-abcdefghijklmnopqrs0] FAILED [ 10%]
+httpTests/authTests/test_auth_register.py::testDuplicateHandlesGeneratedCorrectly[abcdefghij-klmnopqrst-abcdefghijklmnopqrst-abcdefghij-klmnopqrst-abcdefghijklmnopqrst0] FAILED [ 10%]
+httpTests/authTests/test_auth_register.py::testDuplicateHandlesGeneratedCorrectly[@bcdefgh!j-klmn opqrst-bcdefghjklmnopqrst-bcdefghj-klmnopqrst-bcdefghjklmnopqrst0] FAILED [ 11%]
+httpTests/authTests/test_auth_register.py::testDuplicateHandlesGeneratedCorrectly[abc-def0-abcdef0-abc-def-abcdef1] FAILED [ 11%]
+httpTests/channelTests/test_channel_addowner.py::testChannelOwnerCanAddownerWhenMember FAILED [ 12%]
+httpTests/channelTests/test_channel_addowner.py::testChannelOwnerCantAddownerWhenNonMember FAILED [ 12%]
+httpTests/channelTests/test_channel_addowner.py::testNonMemberCannotAddOwner FAILED [ 13%]
+httpTests/channelTests/test_channel_addowner.py::testGlobalOwnerNonMemberCantAddownerPrivate FAILED [ 13%]
+httpTests/channelTests/test_channel_addowner.py::testGlobalOwnerNonMemberCantAddownerPublic FAILED [ 13%]
+httpTests/channelTests/test_channel_addowner.py::testMemberCannotAddOwner FAILED [ 13%]
+httpTests/channelTests/test_channel_addowner.py::testCannotAddownerPrexistingChannelOwner FAILED [ 14%]
+httpTests/channelTests/test_channel_addowner.py::testWithInvalidUId FAILED [ 14%]
+httpTests/channelTests/test_channel_addowner.py::testWithInvalidChannelId FAILED [ 14%]
+httpTests/channelTests/test_channel_addowner.py::testInvalidToken FAILED [ 15%]
+httpTests/channelTests/test_channel_details.py::testMemberSuccessful PASSED [ 15%]
+httpTests/channelTests/test_channel_details.py::testNonMemberNotSuccessful PASSED [ 15%]
+httpTests/channelTests/test_channel_details.py::testInvalidChannelId PASSED [ 15%]
+httpTests/channelTests/test_channel_details.py::testInvalidToken PASSED  [ 16%]
+httpTests/channelTests/test_channel_invite.py::testDuplicateInvite PASSED [ 16%]
+httpTests/channelTests/test_channel_invite.py::testInviteGlobalOwner PASSED [ 16%]
+httpTests/channelTests/test_channel_invite.py::testInviteGlobalMember PASSED [ 16%]
+httpTests/channelTests/test_channel_invite.py::testInvitationFromNonChannelMember FAILED [ 17%]
+httpTests/channelTests/test_channel_invite.py::testChannelIdInvalid PASSED [ 17%]
+httpTests/channelTests/test_channel_invite.py::testUIdInvalid PASSED     [ 17%]
+httpTests/channelTests/test_channel_invite.py::testInvalidatedToken PASSED [ 18%]
+httpTests/channelTests/test_channel_join.py::testGlobalOwnerJoinChannelPublic PASSED [ 18%]
+httpTests/channelTests/test_channel_join.py::testGlobalOwnerJoinChannelPrivate FAILED [ 18%]
+httpTests/channelTests/test_channel_join.py::testGlobalMemberJoinPublic PASSED [ 18%]
+httpTests/channelTests/test_channel_join.py::testGlobalMemberCantJoinPrivate PASSED [ 19%]
+httpTests/channelTests/test_channel_join.py::testAlreadyJoinedChannel PASSED [ 19%]
+httpTests/channelTests/test_channel_join.py::testJoinInvalidChannelId PASSED [ 19%]
+httpTests/channelTests/test_channel_join.py::testInvalidatedToken PASSED [ 19%]
+httpTests/channelTests/test_channel_leave.py::testMemberLeaveChannelSuccessfully PASSED [ 20%]
+httpTests/channelTests/test_channel_leave.py::testLeaveChannelWhenNotMember PASSED [ 20%]
+httpTests/channelTests/test_channel_leave.py::testInvalidChannelId PASSED [ 20%]
+httpTests/channelTests/test_channel_leave.py::testInvalidToken FAILED    [ 21%]
+httpTests/channelTests/test_channel_messages.py::testMessageTimestamp FAILED [ 21%]
+httpTests/channelTests/test_channel_messages.py::testUnderFiftyMessagesSent FAILED [ 21%]
+httpTests/channelTests/test_channel_messages.py::testOverFiftyMessagesSent FAILED [ 21%]
+httpTests/channelTests/test_channel_messages.py::testRemovalByEditReflected FAILED [ 22%]
+httpTests/channelTests/test_channel_messages.py::testRemovalByDeletionReflected FAILED [ 22%]
+httpTests/channelTests/test_channel_messages.py::testInputErrorWhenStartGreaterThanMessageNum PASSED [ 22%]
+httpTests/channelTests/test_channel_messages.py::testAccessErrorWhenUserIsNonMember PASSED [ 22%]
+httpTests/channelTests/test_channel_messages.py::testInputErrorWhenChannelIdInvalid PASSED [ 23%]
+httpTests/channelTests/test_channel_messages.py::testAccessErrorWhenInvalidTokenGiven PASSED [ 23%]
+httpTests/channelTests/test_channel_removeowner.py::testOwnerCanRemoveOwner FAILED [ 23%]
+httpTests/channelTests/test_channel_removeowner.py::testGlobalOwnerMmberCanRemoveOwner FAILED [ 24%]
+httpTests/channelTests/test_channel_removeowner.py::testGlobalOwnerNonmemberCannotRemoveOwner FAILED [ 24%]
+httpTests/channelTests/test_channel_removeowner.py::testNonmemberCannotRemoveOwner FAILED [ 24%]
+httpTests/channelTests/test_channel_removeowner.py::testMmberCannotRemoveOwner FAILED [ 24%]
+httpTests/channelTests/test_channel_removeowner.py::testCannotRemoveLastOwner FAILED [ 25%]
+httpTests/channelTests/test_channel_removeowner.py::testGlobalOwnerCannotRemoveOnlyOwner FAILED [ 25%]
+httpTests/channelTests/test_channel_removeowner.py::testCannotRemoveNonOwner FAILED [ 25%]
+httpTests/channelTests/test_channel_removeowner.py::testInvalidUId FAILED [ 25%]
+httpTests/channelTests/test_channel_removeowner.py::testWithInvalidChannelId FAILED [ 26%]
+httpTests/channelTests/test_channel_removeowner.py::testInvalidatedToken FAILED [ 26%]
+httpTests/channels_tests/test_channels_create.py::testCreateChannel[True-andys room] PASSED [ 26%]
+httpTests/channels_tests/test_channels_create.py::testCreateChannel[False-andys room] PASSED [ 27%]
+httpTests/channels_tests/test_channels_create.py::testInvalidChannelNameLength[True-] PASSED [ 27%]
+httpTests/channels_tests/test_channels_create.py::testInvalidChannelNameLength[True-I AM NOT A TOY AND ALSO THIS NAME IS TOO LONG] PASSED [ 27%]
+httpTests/channels_tests/test_channels_create.py::testInvalidChannelNameLength[False-] PASSED [ 27%]
+httpTests/channels_tests/test_channels_create.py::testInvalidChannelNameLength[False-I AM NOT A TOY AND ALSO THIS NAME IS TOO LONG] PASSED [ 28%]
+httpTests/channels_tests/test_channels_create.py::testInvalidatedToken FAILED [ 28%]
+httpTests/channels_tests/test_channels_list.py::testWhenInNoChannels PASSED [ 28%]
+httpTests/channels_tests/test_channels_list.py::testWhenInOneChannel[True-andy] PASSED [ 28%]
+httpTests/channels_tests/test_channels_list.py::testWhenInOneChannel[False-andy] PASSED [ 29%]
+httpTests/channels_tests/test_channels_list.py::testWhenInMultipleChannels[False-True-ZERG-andy] PASSED [ 29%]
+httpTests/channels_tests/test_channels_list.py::testWhenInMultipleChannels[False-False-ZERG-andy] PASSED [ 29%]
+httpTests/channels_tests/test_channels_list.py::testWhenInMultipleChannels[True-True-ZERG-andy] PASSED [ 30%]
+httpTests/channels_tests/test_channels_list.py::testWhenInMultipleChannels[True-False-ZERG-andy] PASSED [ 30%]
+httpTests/channels_tests/test_channels_list.py::testListAfterLeaveChannel PASSED [ 30%]
+httpTests/channels_tests/test_channels_list.py::testInvalidatedToken FAILED [ 30%]
+httpTests/channels_tests/test_channels_listall.py::testWhenNoChannels PASSED [ 31%]
+httpTests/channels_tests/test_channels_listall.py::testWhenOneChannelExistsPrivate PASSED [ 31%]
+httpTests/channels_tests/test_channels_listall.py::testWhenOneChannelExistsPublic PASSED [ 31%]
+httpTests/channels_tests/test_channels_listall.py::testWhenMultipleChannelsExist PASSED [ 31%]
+httpTests/channels_tests/test_channels_listall.py::testInvalidatedToken FAILED [ 32%]
+httpTests/dmTests/test_dm_create.py::testSuccessfulDmCreation FAILED     [ 32%]
+httpTests/dmTests/test_dm_create.py::testDmNameCreationMultiple FAILED   [ 32%]
+httpTests/dmTests/test_dm_create.py::testDmToInvalidUsers PASSED         [ 33%]
+httpTests/dmTests/test_dm_create.py::testDmToUsersButOneInvalid PASSED   [ 33%]
+httpTests/dmTests/test_dm_create.py::testDmToUsersButDuplicate PASSED    [ 33%]
+httpTests/dmTests/test_dm_create.py::testInvalidToken PASSED             [ 33%]
+httpTests/dmTests/test_dm_details.py::testMemberSuccessful FAILED        [ 34%]
+httpTests/dmTests/test_dm_details.py::testNonMemberNotSuccessful FAILED  [ 34%]
+httpTests/dmTests/test_dm_details.py::testInvalidDmId FAILED             [ 34%]
+httpTests/dmTests/test_dm_details.py::testInvalidToken FAILED            [ 34%]
+httpTests/dmTests/test_dm_leave.py::testMemberLeaveDmSuccessfully FAILED [ 35%]
+httpTests/dmTests/test_dm_leave.py::testLeaveDmWhenNotMember PASSED      [ 35%]
+httpTests/dmTests/test_dm_leave.py::testInvalidDmId PASSED               [ 35%]
+httpTests/dmTests/test_dm_leave.py::testInvalidToken PASSED              [ 36%]
+httpTests/dmTests/test_dm_list.py::testWhenInNoDms PASSED                [ 36%]
+httpTests/dmTests/test_dm_list.py::testWhenInOneDm FAILED                [ 36%]
+httpTests/dmTests/test_dm_list.py::testWhenInMultipleDms FAILED          [ 36%]
+httpTests/dmTests/test_dm_list.py::testListAfterLeaveDm PASSED           [ 37%]
+httpTests/dmTests/test_dm_list.py::testInvalidatedToken FAILED           [ 37%]
+httpTests/dmTests/test_dm_messages.py::testUnderFiftyMessagesSent FAILED [ 37%]
+httpTests/dmTests/test_dm_messages.py::testOverFiftyMessagesSent FAILED  [ 37%]
+httpTests/dmTests/test_dm_messages.py::testRemovalByEditReflected FAILED [ 38%]
+httpTests/dmTests/test_dm_messages.py::testRemovalByDeletionReflected FAILED [ 38%]
+httpTests/dmTests/test_dm_messages.py::testInputErrorWhenStartGreaterThanMessageNum PASSED [ 38%]
+httpTests/dmTests/test_dm_messages.py::testAccessErrorWhenUserIsNonMember PASSED [ 39%]
+httpTests/dmTests/test_dm_messages.py::testInputErrorWhenDmIdInvalid PASSED [ 39%]
+httpTests/dmTests/test_dm_messages.py::testAccessErrorWhenInvalidTokenGiven PASSED [ 39%]
+httpTests/dmTests/test_dm_remove.py::testSuccessfulDmRemoval PASSED      [ 39%]
+httpTests/dmTests/test_dm_remove.py::testNonownerCannotRemoveDm FAILED   [ 40%]
+httpTests/dmTests/test_dm_remove.py::testOwnerNonmemberCannotRemoveDm FAILED [ 40%]
+httpTests/dmTests/test_dm_remove.py::testInvalidDmId FAILED              [ 40%]
+httpTests/dmTests/test_dm_remove.py::testInvalidToken FAILED             [ 41%]
+httpTests/messageTests/test_message_edit.py::testOriginalPosterCanEditMessageChannel FAILED [ 41%]
+httpTests/messageTests/test_message_edit.py::testOriginalPosterCanEditMessageDm FAILED [ 41%]
+httpTests/messageTests/test_message_edit.py::testGlobalOwnerCantEditMembersMessageDm FAILED [ 42%]
+httpTests/messageTests/test_message_edit.py::testEmptyEditDeletesMessage FAILED [ 42%]
+httpTests/messageTests/test_message_edit.py::testInvalidMessageLength FAILED [ 42%]
+httpTests/messageTests/test_message_edit.py::testCannotEditDeletedMessage FAILED [ 42%]
+httpTests/messageTests/test_message_edit.py::testNonownerNonposterCantEdit FAILED [ 43%]
+httpTests/messageTests/test_message_edit.py::testInvalidToken FAILED     [ 43%]
+httpTests/messageTests/test_message_meta.py::testMessageIdsUnique FAILED [ 43%]
+httpTests/messageTests/test_message_remove.py::testOriginalPosterCanRemoveMessage FAILED [ 48%]
+httpTests/messageTests/test_message_remove.py::testGlobalOwnerCantRemoveMembersMessageDm FAILED [ 49%]
+httpTests/messageTests/test_message_remove.py::testCannotRemoveDeletedMessage FAILED [ 49%]
+httpTests/messageTests/test_message_remove.py::testNonownerNonposterCantRemoveMessage FAILED [ 49%]
+httpTests/messageTests/test_message_remove.py::testInvalidToken FAILED   [ 50%]
+httpTests/messageTests/test_message_send.py::testValidMessage FAILED     [ 50%]
+httpTests/messageTests/test_message_send.py::testNonmemberPost FAILED    [ 50%]
+httpTests/messageTests/test_message_send.py::testInvalidChannel FAILED   [ 50%]
+httpTests/messageTests/test_message_send.py::testInvalidMessage[] FAILED [ 51%]
+httpTests/messageTests/test_message_send.py::testInvalidMessage[mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm] FAILED [ 51%]
+httpTests/messageTests/test_message_send.py::testInvalidToken FAILED     [ 51%]
+httpTests/messageTests/test_message_senddm.py::testValidMessage FAILED   [ 51%]
+httpTests/messageTests/test_message_senddm.py::testNonmemberPost PASSED  [ 52%]
+httpTests/messageTests/test_message_senddm.py::testInvalidDm PASSED      [ 52%]
+httpTests/messageTests/test_message_senddm.py::testInvalidMessage[] PASSED [ 52%]
+httpTests/messageTests/test_message_senddm.py::testInvalidMessage[mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm] PASSED [ 53%]
+httpTests/messageTests/test_message_senddm.py::testInvalidToken PASSED   [ 53%]
+httpTests/otherTests/test_clear.py::testClearWorks FAILED                [ 66%]
+httpTests/otherTests/test_users_all.py::testSuccessfulUsersAll FAILED    [ 74%]
+httpTests/otherTests/test_users_all.py::testInvalidToken FAILED          [ 75%]
+httpTests/userTests/test_user_profile.py::testUserProfileValid FAILED    [ 90%]
+httpTests/userTests/test_user_profile.py::testInvalidUser FAILED         [ 90%]
+httpTests/userTests/test_user_profile.py::testInvalidToken FAILED        [ 90%]
+httpTests/userTests/test_user_profile_setemail.py::testSuccessfulEmailChange FAILED [ 91%]
+httpTests/userTests/test_user_profile_setemail.py::testCannotChangeToTakenEmail FAILED [ 91%]
+httpTests/userTests/test_user_profile_setemail.py::testInvalidEmail[] PASSED [ 91%]
+httpTests/userTests/test_user_profile_setemail.py::testInvalidEmail[bob] PASSED [ 92%]
+httpTests/userTests/test_user_profile_setemail.py::testInvalidEmail[ab.com] PASSED [ 92%]
+httpTests/userTests/test_user_profile_setemail.py::testInvalidEmail[@gmail.com] PASSED [ 92%]
+httpTests/userTests/test_user_profile_setemail.py::testInvalidEmail[ab@ab@gmail.com] PASSED [ 92%]
+httpTests/userTests/test_user_profile_setemail.py::testInvalidToken PASSED [ 93%]
+httpTests/userTests/test_user_profile_sethandle.py::testSuccessfulHandleChange FAILED [ 93%]
+httpTests/userTests/test_user_profile_sethandle.py::testCannotChangeToTakenHandle PASSED [ 93%]
+httpTests/userTests/test_user_profile_sethandle.py::testInvalidHandle[] PASSED [ 93%]
+httpTests/userTests/test_user_profile_sethandle.py::testInvalidHandle[a] PASSED [ 94%]
+httpTests/userTests/test_user_profile_sethandle.py::testInvalidHandle[aa] PASSED [ 94%]
+httpTests/userTests/test_user_profile_sethandle.py::testInvalidHandle[aaaaaaaaaaaaaaaaaaaaa] PASSED [ 94%]
+httpTests/userTests/test_user_profile_sethandle.py::testInvalidHandle[new handle] PASSED [ 95%]
+httpTests/userTests/test_user_profile_sethandle.py::testInvalidHandle[newh@ndle] PASSED [ 95%]
+httpTests/userTests/test_user_profile_sethandle.py::testInvalidToken PASSED [ 95%]
+httpTests/userTests/test_user_profile_setname.py::testUserProfileSetnameValidName FAILED [ 95%]
+httpTests/userTests/test_user_profile_setname.py::testInvalidName[-] PASSED [ 96%]
+httpTests/userTests/test_user_profile_setname.py::testInvalidName[-MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM] PASSED [ 96%]
+httpTests/userTests/test_user_profile_setname.py::testInvalidName[PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP-] PASSED [ 96%]
+httpTests/userTests/test_user_profile_setname.py::testInvalidName[PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP-MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM] PASSED [ 96%]
+httpTests/userTests/test_user_profile_setname.py::testInvalidToken PASSED [ 97%]
+
+====== Marks recorded: 44.22 ======
+
+
+=================================== FAILURES ===================================
+_____________________________ testSuccessfulLogin ______________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testSuccessfulLogin(userWoody, ctx):
+        ret = authLogin(userWoody.email, userWoody.password, ctx)
+    
+        #  will break if iteration 1
+>       assert type(ret.get('authUserId')) is int and type(ret.get('token')) is str
+E       AssertionError: assert (<class 'int'> is int and <class 'list'> is str)
+E        +  where <class 'int'> = type(1)
+E        +    where 1 = <built-in method get of dict object at 0x7f09758d5c40>('authUserId')
+E        +      where <built-in method get of dict object at 0x7f09758d5c40> = {'authUserId': 1, 'token': ['1', '2']}.get
+E        +  and   <class 'list'> = type(['1', '2'])
+E        +    where ['1', '2'] = <built-in method get of dict object at 0x7f09758d5c40>('token')
+E        +      where <built-in method get of dict object at 0x7f09758d5c40> = {'authUserId': 1, 'token': ['1', '2']}.get
+
+httpTests/authTests/test_auth_login.py:18: AssertionError
+____________________________ testCanHaveTwoSessions ____________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    @pytest.mark.overrideMarks(2)
+    def testCanHaveTwoSessions(userWoody, ctx):
+        session2 = authLogin(userWoody.email, userWoody.password, ctx)
+    
+        # succeeds
+>       assert userProfile(session2['token'], userWoody.uId, ctx) == userProfile(userWoody.token, userWoody.uId, ctx)
+
+httpTests/authTests/test_auth_login.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_____________________________ testRemovedUserName ______________________________
+
+ctx = None
+
+    def testRemovedUserName(ctx):
+        session = authRegister('abc@gmail.com', 'password1', 'Removed', 'user', ctx)
+>       profile = userProfile(session['token'], session['authUserId'], ctx)['user']
+
+httpTests/authTests/test_auth_register.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+__________________________ testSuccessfulRegistration __________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testSuccessfulRegistration(userWoody, ctx):
+>       woodyProf = userProfile(userWoody.token, userWoody.uId, ctx)['user']
+
+httpTests/authTests/test_auth_register.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+____________ testBasicHandleGeneratedCorrectly[Bob-Smith-bobsmith] _____________
+
+nameFirst = 'Bob', nameLast = 'Smith', expectedHandle = 'bobsmith', ctx = None
+
+    @pytest.mark.parametrize('nameFirst, nameLast, expectedHandle', [
+        ('Bob', 'Smith', 'bobsmith'),
+        ('ab' * 5, 'cd' * 6, f'{"ab" * 5}{"cd" * 5}')
+    ])
+    def testBasicHandleGeneratedCorrectly(nameFirst, nameLast, expectedHandle, ctx):
+        session = authRegister('bob.jane@gmail.com', '~~qazwsx', nameFirst, nameLast, ctx)
+    
+>       actualHandle = userProfile(session['token'], session['authUserId'], ctx)['user']['handleStr']
+
+httpTests/authTests/test_auth_register.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_ testBasicHandleGeneratedCorrectly[ababababab-cdcdcdcdcdcd-abababababcdcdcdcdcd] _
+
+nameFirst = 'ababababab', nameLast = 'cdcdcdcdcdcd'
+expectedHandle = 'abababababcdcdcdcdcd', ctx = None
+
+    @pytest.mark.parametrize('nameFirst, nameLast, expectedHandle', [
+        ('Bob', 'Smith', 'bobsmith'),
+        ('ab' * 5, 'cd' * 6, f'{"ab" * 5}{"cd" * 5}')
+    ])
+    def testBasicHandleGeneratedCorrectly(nameFirst, nameLast, expectedHandle, ctx):
+        session = authRegister('bob.jane@gmail.com', '~~qazwsx', nameFirst, nameLast, ctx)
+    
+>       actualHandle = userProfile(session['token'], session['authUserId'], ctx)['user']['handleStr']
+
+httpTests/authTests/test_auth_register.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_ testDuplicateHandlesGeneratedCorrectly[abcdefghij-klmnopqrs-abcdefghijklmnopqrs-abcdefghij-klmnopqrs-abcdefghijklmnopqrs0] _
+
+first1 = 'abcdefghij', last1 = 'klmnopqrs', handle1 = 'abcdefghijklmnopqrs'
+first2 = 'abcdefghij', last2 = 'klmnopqrs', handle2 = 'abcdefghijklmnopqrs0'
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    @pytest.mark.parametrize('first1, last1, handle1, first2, last2, handle2', [
+        ('abcdefghij', 'klmnopqrs', 'abcdefghijklmnopqrs', 'abcdefghij', 'klmnopqrs', 'abcdefghijklmnopqrs0'),
+        ('abcdefghij', 'klmnopqrst', 'abcdefghijklmnopqrst', 'abcdefghij', 'klmnopqrst', 'abcdefghijklmnopqrst0'),
+        ('@bcdefgh!j', 'klmn opqrst', 'bcdefghjklmnopqrst', 'bcdefghj', 'klmnopqrst', 'bcdefghjklmnopqrst0'),
+        ('abc', 'def0', 'abcdef0', 'abc', 'def', 'abcdef1'),
+    ])
+    def testDuplicateHandlesGeneratedCorrectly(first1, last1, handle1, first2, last2, handle2, woodysPublicToybox, userWoody, ctx):
+        email1 = 'blah1@email.com'
+        email2 = 'blah2@email.com'
+    
+        authRegister('blah3@email.com', 'password1', 'abc', 'def', ctx)
+    
+        user1 = authRegister(email1, 'password1', first1, last1, ctx)
+>       assert handle1 == userProfile(user1['token'], user1['authUserId'], ctx)['user']['handleStr']
+
+httpTests/authTests/test_auth_register.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_ testDuplicateHandlesGeneratedCorrectly[abcdefghij-klmnopqrst-abcdefghijklmnopqrst-abcdefghij-klmnopqrst-abcdefghijklmnopqrst0] _
+
+first1 = 'abcdefghij', last1 = 'klmnopqrst', handle1 = 'abcdefghijklmnopqrst'
+first2 = 'abcdefghij', last2 = 'klmnopqrst', handle2 = 'abcdefghijklmnopqrst0'
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    @pytest.mark.parametrize('first1, last1, handle1, first2, last2, handle2', [
+        ('abcdefghij', 'klmnopqrs', 'abcdefghijklmnopqrs', 'abcdefghij', 'klmnopqrs', 'abcdefghijklmnopqrs0'),
+        ('abcdefghij', 'klmnopqrst', 'abcdefghijklmnopqrst', 'abcdefghij', 'klmnopqrst', 'abcdefghijklmnopqrst0'),
+        ('@bcdefgh!j', 'klmn opqrst', 'bcdefghjklmnopqrst', 'bcdefghj', 'klmnopqrst', 'bcdefghjklmnopqrst0'),
+        ('abc', 'def0', 'abcdef0', 'abc', 'def', 'abcdef1'),
+    ])
+    def testDuplicateHandlesGeneratedCorrectly(first1, last1, handle1, first2, last2, handle2, woodysPublicToybox, userWoody, ctx):
+        email1 = 'blah1@email.com'
+        email2 = 'blah2@email.com'
+    
+        authRegister('blah3@email.com', 'password1', 'abc', 'def', ctx)
+    
+        user1 = authRegister(email1, 'password1', first1, last1, ctx)
+>       assert handle1 == userProfile(user1['token'], user1['authUserId'], ctx)['user']['handleStr']
+
+httpTests/authTests/test_auth_register.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_ testDuplicateHandlesGeneratedCorrectly[@bcdefgh!j-klmn opqrst-bcdefghjklmnopqrst-bcdefghj-klmnopqrst-bcdefghjklmnopqrst0] _
+
+first1 = '@bcdefgh!j', last1 = 'klmn opqrst', handle1 = 'bcdefghjklmnopqrst'
+first2 = 'bcdefghj', last2 = 'klmnopqrst', handle2 = 'bcdefghjklmnopqrst0'
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    @pytest.mark.parametrize('first1, last1, handle1, first2, last2, handle2', [
+        ('abcdefghij', 'klmnopqrs', 'abcdefghijklmnopqrs', 'abcdefghij', 'klmnopqrs', 'abcdefghijklmnopqrs0'),
+        ('abcdefghij', 'klmnopqrst', 'abcdefghijklmnopqrst', 'abcdefghij', 'klmnopqrst', 'abcdefghijklmnopqrst0'),
+        ('@bcdefgh!j', 'klmn opqrst', 'bcdefghjklmnopqrst', 'bcdefghj', 'klmnopqrst', 'bcdefghjklmnopqrst0'),
+        ('abc', 'def0', 'abcdef0', 'abc', 'def', 'abcdef1'),
+    ])
+    def testDuplicateHandlesGeneratedCorrectly(first1, last1, handle1, first2, last2, handle2, woodysPublicToybox, userWoody, ctx):
+        email1 = 'blah1@email.com'
+        email2 = 'blah2@email.com'
+    
+        authRegister('blah3@email.com', 'password1', 'abc', 'def', ctx)
+    
+        user1 = authRegister(email1, 'password1', first1, last1, ctx)
+>       assert handle1 == userProfile(user1['token'], user1['authUserId'], ctx)['user']['handleStr']
+
+httpTests/authTests/test_auth_register.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+___ testDuplicateHandlesGeneratedCorrectly[abc-def0-abcdef0-abc-def-abcdef1] ___
+
+first1 = 'abc', last1 = 'def0', handle1 = 'abcdef0', first2 = 'abc'
+last2 = 'def', handle2 = 'abcdef1'
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    @pytest.mark.parametrize('first1, last1, handle1, first2, last2, handle2', [
+        ('abcdefghij', 'klmnopqrs', 'abcdefghijklmnopqrs', 'abcdefghij', 'klmnopqrs', 'abcdefghijklmnopqrs0'),
+        ('abcdefghij', 'klmnopqrst', 'abcdefghijklmnopqrst', 'abcdefghij', 'klmnopqrst', 'abcdefghijklmnopqrst0'),
+        ('@bcdefgh!j', 'klmn opqrst', 'bcdefghjklmnopqrst', 'bcdefghj', 'klmnopqrst', 'bcdefghjklmnopqrst0'),
+        ('abc', 'def0', 'abcdef0', 'abc', 'def', 'abcdef1'),
+    ])
+    def testDuplicateHandlesGeneratedCorrectly(first1, last1, handle1, first2, last2, handle2, woodysPublicToybox, userWoody, ctx):
+        email1 = 'blah1@email.com'
+        email2 = 'blah2@email.com'
+    
+        authRegister('blah3@email.com', 'password1', 'abc', 'def', ctx)
+    
+        user1 = authRegister(email1, 'password1', first1, last1, ctx)
+>       assert handle1 == userProfile(user1['token'], user1['authUserId'], ctx)['user']['handleStr']
+
+httpTests/authTests/test_auth_register.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+____________________ testChannelOwnerCanAddownerWhenMember _____________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testChannelOwnerCanAddownerWhenMember(userWoody, woodysPublicToybox, userBuzz, ctx):
+        channelJoin(userBuzz.token, woodysPublicToybox.channelId, ctx)
+    
+>       channelAddowner(userWoody.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+
+httpTests/channelTests/test_channel_addowner.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:67: in channelAddowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+__________________ testChannelOwnerCantAddownerWhenNonMember ___________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testChannelOwnerCantAddownerWhenNonMember(userWoody, woodysPublicToybox, userBuzz, ctx):
+        with pytest.raises(InputError):
+>           channelAddowner(userWoody.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+
+httpTests/channelTests/test_channel_addowner.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:67: in channelAddowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_________________________ testNonMemberCannotAddOwner __________________________
+
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testNonMemberCannotAddOwner(woodysPublicToybox, userBuzz, ctx):
+        with pytest.raises(AccessError):
+>           channelAddowner(userBuzz.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+
+httpTests/channelTests/test_channel_addowner.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:67: in channelAddowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_________________ testGlobalOwnerNonMemberCantAddownerPrivate __________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+zergsPrivateLair = Channel(name='zergs lair', isPublic=False, channelId=1, ownerMembers=[2], allMembers=[])
+ctx = None
+
+    def testGlobalOwnerNonMemberCantAddownerPrivate(userWoody, zergsPrivateLair, ctx):
+        with pytest.raises(AccessError):
+>           channelAddowner(userWoody.token, zergsPrivateLair.channelId, userWoody.uId, ctx)
+
+httpTests/channelTests/test_channel_addowner.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:67: in channelAddowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+__________________ testGlobalOwnerNonMemberCantAddownerPublic __________________
+
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[2], allMembers=[])
+ctx = None
+
+    def testGlobalOwnerNonMemberCantAddownerPublic(userBuzz, woodysPublicToybox, ctx):
+        with pytest.raises(AccessError):
+>           channelAddowner(userBuzz.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+
+httpTests/channelTests/test_channel_addowner.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:67: in channelAddowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+___________________________ testMemberCannotAddOwner ___________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testMemberCannotAddOwner(userWoody, woodysPublicToybox, userBuzz, ctx):
+        channelJoin(userBuzz.token, woodysPublicToybox.channelId, ctx)
+    
+        with pytest.raises(AccessError):
+>           channelAddowner(userBuzz.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+
+httpTests/channelTests/test_channel_addowner.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:67: in channelAddowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+___________________ testCannotAddownerPrexistingChannelOwner ___________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+ctx = None
+
+    def testCannotAddownerPrexistingChannelOwner(userWoody, woodysPublicToybox, ctx):
+        with pytest.raises(InputError):
+>           channelAddowner(userWoody.token, woodysPublicToybox.channelId, userWoody.uId, ctx)
+
+httpTests/channelTests/test_channel_addowner.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:67: in channelAddowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+______________________________ testWithInvalidUId ______________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+ctx = None
+
+    def testWithInvalidUId(userWoody, woodysPublicToybox, ctx):
+        with pytest.raises(InputError):
+>           channelAddowner(userWoody.token, woodysPublicToybox.channelId, -1, ctx)
+
+httpTests/channelTests/test_channel_addowner.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:67: in channelAddowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+___________________________ testWithInvalidChannelId ___________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testWithInvalidChannelId(userWoody, userBuzz, ctx):
+        with pytest.raises(InputError):
+>           channelAddowner(userWoody.token, -1, userBuzz.uId, ctx)
+
+httpTests/channelTests/test_channel_addowner.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:67: in channelAddowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_______________________________ testInvalidToken _______________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testInvalidToken(userWoody, woodysPublicToybox, userBuzz, ctx):
+        authLogout(userWoody.token, ctx)
+        with pytest.raises(AccessError):
+>           channelAddowner(userWoody.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+
+httpTests/channelTests/test_channel_addowner.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:67: in channelAddowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+______________________ testInvitationFromNonChannelMember ______________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+zergsPrivateLair = Channel(name='zergs lair', isPublic=False, channelId=1, ownerMembers=[3], allMembers=[])
+ctx = None
+
+    def testInvitationFromNonChannelMember(userWoody, userBuzz, zergsPrivateLair, ctx):
+>       with pytest.raises(AccessError):
+E       Failed: DID NOT RAISE <class 'httpTests.error.InputError'>
+
+httpTests/channelTests/test_channel_invite.py:41: Failed
+______________________ testGlobalOwnerJoinChannelPrivate _______________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+zergsPrivateLair = Channel(name='zergs lair', isPublic=False, channelId=1, ownerMembers=[2], allMembers=[])
+ctx = None
+
+    def testGlobalOwnerJoinChannelPrivate(userWoody, zergsPrivateLair, ctx):
+>       channelJoin(userWoody.token, zergsPrivateLair.channelId, ctx)
+
+httpTests/channelTests/test_channel_join.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:56: in channelJoin
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [200]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+>               raise error.InputError()
+E               httpTests.error.InputError: 400 Bad Request: None
+
+httpTests/fakepi/util.py:80: InputError
+_______________________________ testInvalidToken _______________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+ctx = None
+
+    def testInvalidToken(userWoody, woodysPublicToybox, ctx):
+        authLogout(userWoody.token, ctx)
+        with pytest.raises(AccessError):
+>           channelLeave(userWoody.token, woodysPublicToybox.channelId, ctx)
+
+httpTests/channelTests/test_channel_leave.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:45: in channelLeave
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [500]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [500]>
+
+httpTests/fakepi/util.py:84: Exception
+_____________________________ testMessageTimestamp _____________________________
+
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testMessageTimestamp(woodysPublicToybox, userWoody, ctx):
+        expectedTime = utcNow()
+>       messageSend(userWoody.token, woodysPublicToybox.channelId, 'you are a toy', ctx)
+
+httpTests/channelTests/test_channel_messages.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+__________________________ testUnderFiftyMessagesSent __________________________
+
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testUnderFiftyMessagesSent(woodysPublicToybox, userWoody, ctx):
+>       messageIds = [
+            messageSend(userWoody.token, woodysPublicToybox.channelId, 'you are a toy', ctx)['messageId'] for x in
+            range(10)
+        ]
+
+httpTests/channelTests/test_channel_messages.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/channelTests/test_channel_messages.py:24: in <listcomp>
+    messageSend(userWoody.token, woodysPublicToybox.channelId, 'you are a toy', ctx)['messageId'] for x in
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+__________________________ testOverFiftyMessagesSent ___________________________
+
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testOverFiftyMessagesSent(woodysPublicToybox, userWoody, ctx):
+>       messageIds = [
+            messageSend(userWoody.token, woodysPublicToybox.channelId, 'you are a toy', ctx)['messageId'] for x in
+            range(51)
+        ]
+
+httpTests/channelTests/test_channel_messages.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/channelTests/test_channel_messages.py:37: in <listcomp>
+    messageSend(userWoody.token, woodysPublicToybox.channelId, 'you are a toy', ctx)['messageId'] for x in
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+__________________________ testRemovalByEditReflected __________________________
+
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testRemovalByEditReflected(woodysPublicToybox, userWoody, ctx):
+>       msg = messageSend(userWoody.token, woodysPublicToybox.channelId, 'you are a toy maybe?', ctx)['messageId']
+
+httpTests/channelTests/test_channel_messages.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+________________________ testRemovalByDeletionReflected ________________________
+
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testRemovalByDeletionReflected(woodysPublicToybox, userWoody, ctx):
+>       msg = messageSend(userWoody.token, woodysPublicToybox.channelId, 'you are a toy maybe?', ctx)['messageId']
+
+httpTests/channelTests/test_channel_messages.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+___________________________ testOwnerCanRemoveOwner ____________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testOwnerCanRemoveOwner(userWoody, woodysPublicToybox, userBuzz, ctx):
+        channelInvite(userWoody.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+    
+>       channelAddowner(userWoody.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+
+httpTests/channelTests/test_channel_removeowner.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:67: in channelAddowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+______________________ testGlobalOwnerMmberCanRemoveOwner ______________________
+
+userZerg = User(email='zerg.thedestroyer@zergworld.com', password='!!qazwsx', nameFirst='lord', nameLast='zerg', uId=1, token='1', handleStr='')
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=2, token='2', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[2], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=3, token='3', handleStr='')
+ctx = None
+
+    def testGlobalOwnerMmberCanRemoveOwner(userZerg, userWoody, woodysPublicToybox, userBuzz, ctx):
+        channelInvite(userWoody.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+        channelInvite(userWoody.token, woodysPublicToybox.channelId, userZerg.uId, ctx)
+    
+>       channelAddowner(userWoody.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+
+httpTests/channelTests/test_channel_removeowner.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:67: in channelAddowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+__________________ testGlobalOwnerNonmemberCannotRemoveOwner ___________________
+
+userZerg = User(email='zerg.thedestroyer@zergworld.com', password='!!qazwsx', nameFirst='lord', nameLast='zerg', uId=1, token='1', handleStr='')
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=2, token='2', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[2], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=3, token='3', handleStr='')
+ctx = None
+
+    def testGlobalOwnerNonmemberCannotRemoveOwner(userZerg, userWoody, woodysPublicToybox, userBuzz, ctx):
+        channelInvite(userWoody.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+    
+>       channelAddowner(userWoody.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+
+httpTests/channelTests/test_channel_removeowner.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:67: in channelAddowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+________________________ testNonmemberCannotRemoveOwner ________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testNonmemberCannotRemoveOwner(userWoody, woodysPublicToybox, userBuzz, ctx):
+        with pytest.raises(AccessError):
+>           channelRemoveowner(userBuzz.token, woodysPublicToybox.channelId, userWoody.uId, ctx)
+
+httpTests/channelTests/test_channel_removeowner.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:78: in channelRemoveowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+__________________________ testMmberCannotRemoveOwner __________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testMmberCannotRemoveOwner(userWoody, woodysPublicToybox, userBuzz, ctx):
+        channelJoin(userBuzz.token, woodysPublicToybox.channelId, ctx)
+        with pytest.raises(AccessError):
+>           channelRemoveowner(userBuzz.token, woodysPublicToybox.channelId, userWoody.uId, ctx)
+
+httpTests/channelTests/test_channel_removeowner.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:78: in channelRemoveowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+__________________________ testCannotRemoveLastOwner ___________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+ctx = None
+
+    def testCannotRemoveLastOwner(userWoody, woodysPublicToybox, ctx):
+        with pytest.raises(InputError):
+>           channelRemoveowner(userWoody.token, woodysPublicToybox.channelId, userWoody.uId, ctx)
+
+httpTests/channelTests/test_channel_removeowner.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:78: in channelRemoveowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_____________________ testGlobalOwnerCannotRemoveOnlyOwner _____________________
+
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=1, token='1', handleStr='')
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=2, token='2', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[2], allMembers=[])
+ctx = None
+
+    def testGlobalOwnerCannotRemoveOnlyOwner(userBuzz, userWoody, woodysPublicToybox, ctx):
+        channelJoin(userBuzz.token, woodysPublicToybox.channelId, ctx)
+        with pytest.raises(InputError):
+>           channelRemoveowner(userBuzz.token, woodysPublicToybox.channelId, userWoody.uId, ctx)
+
+httpTests/channelTests/test_channel_removeowner.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:78: in channelRemoveowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+___________________________ testCannotRemoveNonOwner ___________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testCannotRemoveNonOwner(userWoody, woodysPublicToybox, userBuzz, ctx):
+        with pytest.raises(InputError):
+>           channelRemoveowner(userWoody.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+
+httpTests/channelTests/test_channel_removeowner.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:78: in channelRemoveowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+________________________________ testInvalidUId ________________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+ctx = None
+
+    def testInvalidUId(userWoody, woodysPublicToybox, ctx):
+        with pytest.raises(InputError):
+>           channelRemoveowner(userWoody.token, woodysPublicToybox.channelId, -1, ctx)
+
+httpTests/channelTests/test_channel_removeowner.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:78: in channelRemoveowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+___________________________ testWithInvalidChannelId ___________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testWithInvalidChannelId(userWoody, userBuzz, ctx):
+        with pytest.raises(InputError):
+>           channelRemoveowner(userWoody.token, -1, userBuzz.uId, ctx)
+
+httpTests/channelTests/test_channel_removeowner.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:78: in channelRemoveowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_____________________________ testInvalidatedToken _____________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testInvalidatedToken(userWoody, woodysPublicToybox, userBuzz, ctx):
+        authLogout(userWoody.token, ctx)
+        with pytest.raises(AccessError):
+>           channelRemoveowner(userWoody.token, woodysPublicToybox.channelId, userBuzz.uId, ctx)
+
+httpTests/channelTests/test_channel_removeowner.py:89: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channel.py:78: in channelRemoveowner
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_____________________________ testInvalidatedToken _____________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testInvalidatedToken(userWoody, ctx):
+        authLogout(userWoody.token, ctx)
+        with pytest.raises(AccessError):
+>           channelsCreate(userWoody.token, 'literally anything', True, ctx)
+
+httpTests/channels_tests/test_channels_create.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/channels.py:35: in channelsCreate
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [500]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [500]>
+
+httpTests/fakepi/util.py:84: Exception
+_____________________________ testInvalidatedToken _____________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testInvalidatedToken(userWoody, ctx):
+        authLogout(userWoody.token, ctx)
+>       with pytest.raises(AccessError):
+E       Failed: DID NOT RAISE <class 'httpTests.error.InputError'>
+
+httpTests/channels_tests/test_channels_list.py:52: Failed
+_____________________________ testInvalidatedToken _____________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testInvalidatedToken(userWoody, ctx):
+        authLogout(userWoody.token, ctx)
+>       with pytest.raises(AccessError):
+E       Failed: DID NOT RAISE <class 'httpTests.error.InputError'>
+
+httpTests/channels_tests/test_channels_listall.py:43: Failed
+___________________________ testSuccessfulDmCreation ___________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testSuccessfulDmCreation(userWoody, userBuzz, ctx):
+        aDm = dmCreate(userWoody.token, [userBuzz.uId], ctx)
+    
+        woodysDms = dmList(userWoody.token, ctx)
+        buzzsDms = dmList(userBuzz.token, ctx)
+    
+>       assert woodysDms['dms'][0]['dmId'] == aDm['dmId']
+E       IndexError: list index out of range
+
+httpTests/dmTests/test_dm_create.py:20: IndexError
+__________________________ testDmNameCreationMultiple __________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testDmNameCreationMultiple(userWoody, userBuzz, ctx):
+        theDm = dmCreate(userWoody.token, [userBuzz.uId], ctx)
+        dmDeets = dmDetails(userWoody.token, theDm['dmId'], ctx)
+    
+>       assert dmDeets['name'] == ', '.join(sorted([userWoody.handleStr, userBuzz.handleStr]))
+E       KeyError: 'name'
+
+httpTests/dmTests/test_dm_create.py:36: KeyError
+_____________________________ testMemberSuccessful _____________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3), ctx = None
+
+    def testMemberSuccessful(userWoody, userBuzz, woodyAndBuzzDm, ctx):
+        dmDeets = dmDetails(userBuzz.token, woodyAndBuzzDm.dmId, ctx)
+    
+>       assert dmDeets['name'] == woodyAndBuzzDm.name
+E       AssertionError: assert 'buzzlightyear' == ''
+E         + buzzlightyear
+
+httpTests/dmTests/test_dm_details.py:17: AssertionError
+__________________________ testNonMemberNotSuccessful __________________________
+
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3)
+userZerg = User(email='zerg.thedestroyer@zergworld.com', password='!!qazwsx', nameFirst='lord', nameLast='zerg', uId=3, token='3', handleStr='')
+ctx = None
+
+    def testNonMemberNotSuccessful(woodyAndBuzzDm, userZerg, ctx):
+>       with pytest.raises(AccessError):
+E       Failed: DID NOT RAISE <class 'httpTests.error.InputError'>
+
+httpTests/dmTests/test_dm_details.py:31: Failed
+_______________________________ testInvalidDmId ________________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testInvalidDmId(userWoody, ctx):
+>       with pytest.raises(InputError):
+E       Failed: DID NOT RAISE <class 'httpTests.error.InputError'>
+
+httpTests/dmTests/test_dm_details.py:36: Failed
+_______________________________ testInvalidToken _______________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3), ctx = None
+
+    def testInvalidToken(userWoody, woodyAndBuzzDm, ctx):
+        authLogout(userWoody.token, ctx)
+>       with pytest.raises(AccessError):
+E       Failed: DID NOT RAISE <class 'httpTests.error.InputError'>
+
+httpTests/dmTests/test_dm_details.py:42: Failed
+________________________ testMemberLeaveDmSuccessfully _________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3), ctx = None
+
+    def testMemberLeaveDmSuccessfully(userWoody, userBuzz, woodyAndBuzzDm, ctx):
+        dmLeave(userBuzz.token, woodyAndBuzzDm.dmId, ctx)
+    
+        buzzsDms = dmList(userBuzz.token, ctx)
+        dmDeets = dmDetails(userWoody.token, woodyAndBuzzDm.dmId, ctx)
+    
+        assert buzzsDms['dms'] == []
+>       assert userBuzz.uId not in [m['uId'] for m in dmDeets['members']]
+E       KeyError: 'members'
+
+httpTests/dmTests/test_dm_leave.py:21: KeyError
+_______________________________ testWhenInOneDm ________________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3), ctx = None
+
+    def testWhenInOneDm(userWoody, woodyAndBuzzDm, ctx):
+        dms = dmList(userWoody.token, ctx)
+    
+>       assert dms == {'dms': [{'name': woodyAndBuzzDm.name, 'dmId': woodyAndBuzzDm.dmId}]}
+E       AssertionError: assert {'dms': []} == {'dms': [{'dmId': 3, 'name': ''}]}
+E         Differing items:
+E         {'dms': []} != {'dms': [{'dmId': 3, 'name': ''}]}
+E         Full diff:
+E         - {'dms': [{'dmId': 3, 'name': ''}]}
+E         + {'dms': []}
+
+httpTests/dmTests/test_dm_list.py:21: AssertionError
+____________________________ testWhenInMultipleDms _____________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+dmFactory = <function dmFactory.<locals>.makeDm at 0x7f09758430a0>, ctx = None
+
+    def testWhenInMultipleDms(userWoody, dmFactory, ctx):
+        dm_1 = dmFactory(userWoody, [])
+        dm_2 = dmFactory(userWoody, [])
+    
+        expected = [{'dmId': dm_1.dmId, 'name': dm_1.name}, {'dmId': dm_2.dmId, 'name': dm_2.name}]
+        actual = dmList(userWoody.token, ctx)['dms']
+    
+>       assert sorted(actual, key=lambda d: d['dmId']) == sorted(expected, key=lambda d: d['dmId'])
+E       AssertionError: assert [] == [{'dmId': 2, 'name': ''}, {'dmId': 2, 'name': ''}]
+E         Right contains 2 more items, first extra item: {'dmId': 2, 'name': ''}
+E         Full diff:
+E         - [{'dmId': 2, 'name': ''}, {'dmId': 2, 'name': ''}]
+E         + []
+
+httpTests/dmTests/test_dm_list.py:31: AssertionError
+_____________________________ testInvalidatedToken _____________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testInvalidatedToken(userWoody, ctx):
+        authLogout(userWoody.token, ctx)
+>       with pytest.raises(AccessError):
+E       Failed: DID NOT RAISE <class 'httpTests.error.InputError'>
+
+httpTests/dmTests/test_dm_list.py:42: Failed
+__________________________ testUnderFiftyMessagesSent __________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3), ctx = None
+
+    def testUnderFiftyMessagesSent(userWoody, woodyAndBuzzDm, ctx):
+>       messageIds = [
+            messageSenddm(userWoody.token, woodyAndBuzzDm.dmId, 'you are a toy', ctx)['messageId'] for x in
+            range(10)
+        ]
+
+httpTests/dmTests/test_dm_messages.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/dmTests/test_dm_messages.py:17: in <listcomp>
+    messageSenddm(userWoody.token, woodyAndBuzzDm.dmId, 'you are a toy', ctx)['messageId'] for x in
+httpTests/fakepi/message.py:99: in messageSenddm
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [200]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+>               raise error.InputError()
+E               httpTests.error.InputError: 400 Bad Request: None
+
+httpTests/fakepi/util.py:80: InputError
+__________________________ testOverFiftyMessagesSent ___________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3), ctx = None
+
+    def testOverFiftyMessagesSent(userWoody, woodyAndBuzzDm, ctx):
+>       messageIds = [
+            messageSenddm(userWoody.token, woodyAndBuzzDm.dmId, 'you are a toy', ctx)['messageId'] for x in
+            range(51)
+        ]
+
+httpTests/dmTests/test_dm_messages.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/dmTests/test_dm_messages.py:30: in <listcomp>
+    messageSenddm(userWoody.token, woodyAndBuzzDm.dmId, 'you are a toy', ctx)['messageId'] for x in
+httpTests/fakepi/message.py:99: in messageSenddm
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [200]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+>               raise error.InputError()
+E               httpTests.error.InputError: 400 Bad Request: None
+
+httpTests/fakepi/util.py:80: InputError
+__________________________ testRemovalByEditReflected __________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3), ctx = None
+
+    def testRemovalByEditReflected(userWoody, woodyAndBuzzDm, ctx):
+>       msg = messageSenddm(userWoody.token, woodyAndBuzzDm.dmId, 'you are a toy maybe?', ctx)['messageId']
+
+httpTests/dmTests/test_dm_messages.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/message.py:99: in messageSenddm
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [200]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+>               raise error.InputError()
+E               httpTests.error.InputError: 400 Bad Request: None
+
+httpTests/fakepi/util.py:80: InputError
+________________________ testRemovalByDeletionReflected ________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3), ctx = None
+
+    def testRemovalByDeletionReflected(userWoody, woodyAndBuzzDm, ctx):
+>       msg = messageSenddm(userWoody.token, woodyAndBuzzDm.dmId, 'you are a toy maybe?', ctx)['messageId']
+
+httpTests/dmTests/test_dm_messages.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/message.py:99: in messageSenddm
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [200]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+>               raise error.InputError()
+E               httpTests.error.InputError: 400 Bad Request: None
+
+httpTests/fakepi/util.py:80: InputError
+__________________________ testNonownerCannotRemoveDm __________________________
+
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=1, token='1', handleStr='')
+woodyAndBuzzDm = DM(owner=2, members=[1], name='', dmId=3), ctx = None
+
+    def testNonownerCannotRemoveDm(userBuzz, woodyAndBuzzDm, ctx):
+>       with pytest.raises(AccessError):
+E       Failed: DID NOT RAISE <class 'httpTests.error.InputError'>
+
+httpTests/dmTests/test_dm_remove.py:35: Failed
+_______________________ testOwnerNonmemberCannotRemoveDm _______________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3), ctx = None
+
+    def testOwnerNonmemberCannotRemoveDm(userWoody, woodyAndBuzzDm, ctx):
+>       dmLeave(userWoody.token, woodyAndBuzzDm.dmId, ctx)
+
+httpTests/dmTests/test_dm_remove.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/dm.py:57: in dmLeave
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [200]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+>               raise error.InputError()
+E               httpTests.error.InputError: 400 Bad Request: None
+
+httpTests/fakepi/util.py:80: InputError
+_______________________________ testInvalidDmId ________________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3), ctx = None
+
+    def testInvalidDmId(userWoody, woodyAndBuzzDm, ctx):
+        # should succeed
+        dmRemove(userWoody.token, woodyAndBuzzDm.dmId, ctx)
+>       with pytest.raises(InputError):
+E       Failed: DID NOT RAISE <class 'httpTests.error.InputError'>
+
+httpTests/dmTests/test_dm_remove.py:48: Failed
+_______________________________ testInvalidToken _______________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3), ctx = None
+
+    def testInvalidToken(userWoody, woodyAndBuzzDm, ctx):
+        authLogout(userWoody.token, ctx)
+>       with pytest.raises(AccessError):
+E       Failed: DID NOT RAISE <class 'httpTests.error.InputError'>
+
+httpTests/dmTests/test_dm_remove.py:55: Failed
+___________________ testOriginalPosterCanEditMessageChannel ____________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+messageFactory = <function messageFactory.<locals>.makeMessage at 0x7f097585c0d0>
+ctx = None
+
+    def testOriginalPosterCanEditMessageChannel(userWoody, woodysPublicToybox, messageFactory, ctx):
+>       aMsg = messageFactory(userWoody, woodysPublicToybox)
+
+httpTests/messageTests/test_message_edit.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fixtures.py:106: in makeMessage
+    msgId = message.messageSend(poster.token, location.channelId, content, ctx)['messageId']
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+______________________ testOriginalPosterCanEditMessageDm ______________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3)
+messageFactory = <function messageFactory.<locals>.makeMessage at 0x7f09758030a0>
+ctx = None
+
+    def testOriginalPosterCanEditMessageDm(userWoody, woodyAndBuzzDm, messageFactory, ctx):
+>       aMsg = messageFactory(userWoody, woodyAndBuzzDm)
+
+httpTests/messageTests/test_message_edit.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fixtures.py:104: in makeMessage
+    msgId = message.messageSenddm(poster.token, location.dmId, content, ctx)['messageId']
+httpTests/fakepi/message.py:99: in messageSenddm
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [200]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+>               raise error.InputError()
+E               httpTests.error.InputError: 400 Bad Request: None
+
+httpTests/fakepi/util.py:80: InputError
+___________________ testGlobalOwnerCantEditMembersMessageDm ____________________
+
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=1, token='1', handleStr='')
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=2, token='2', handleStr='')
+woodyAndBuzzDm = DM(owner=2, members=[1], name='', dmId=3)
+messageFactory = <function messageFactory.<locals>.makeMessage at 0x7f0975801ab0>
+ctx = None
+
+    def testGlobalOwnerCantEditMembersMessageDm(userBuzz, userWoody, woodyAndBuzzDm, messageFactory, ctx):
+>       woodysMsg = messageFactory(userWoody, woodyAndBuzzDm)
+
+httpTests/messageTests/test_message_edit.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fixtures.py:104: in makeMessage
+    msgId = message.messageSenddm(poster.token, location.dmId, content, ctx)['messageId']
+httpTests/fakepi/message.py:99: in messageSenddm
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [200]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+>               raise error.InputError()
+E               httpTests.error.InputError: 400 Bad Request: None
+
+httpTests/fakepi/util.py:80: InputError
+_________________________ testEmptyEditDeletesMessage __________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+messageFactory = <function messageFactory.<locals>.makeMessage at 0x7f09758017e0>
+ctx = None
+
+    def testEmptyEditDeletesMessage(userWoody, woodysPublicToybox, messageFactory, ctx):
+>       woodysMsg = messageFactory(userWoody, woodysPublicToybox)
+
+httpTests/messageTests/test_message_edit.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fixtures.py:106: in makeMessage
+    msgId = message.messageSend(poster.token, location.channelId, content, ctx)['messageId']
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+___________________________ testInvalidMessageLength ___________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+messageFactory = <function messageFactory.<locals>.makeMessage at 0x7f0975800e50>
+ctx = None
+
+    def testInvalidMessageLength(userWoody, woodysPublicToybox, messageFactory, ctx):
+>       aMsg = messageFactory(userWoody, woodysPublicToybox, 'hi')
+
+httpTests/messageTests/test_message_edit.py:88: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fixtures.py:106: in makeMessage
+    msgId = message.messageSend(poster.token, location.channelId, content, ctx)['messageId']
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_________________________ testCannotEditDeletedMessage _________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+messageFactory = <function messageFactory.<locals>.makeMessage at 0x7f0975800af0>
+ctx = None
+
+    def testCannotEditDeletedMessage(userWoody, woodysPublicToybox, messageFactory, ctx):
+>       aMsg = messageFactory(userWoody, woodysPublicToybox, 'hi')
+
+httpTests/messageTests/test_message_edit.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fixtures.py:106: in makeMessage
+    msgId = message.messageSend(poster.token, location.channelId, content, ctx)['messageId']
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+________________________ testNonownerNonposterCantEdit _________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+messageFactory = <function messageFactory.<locals>.makeMessage at 0x7f09759856c0>
+ctx = None
+
+    def testNonownerNonposterCantEdit(userWoody, woodysPublicToybox, userBuzz, messageFactory, ctx):
+        channelJoin(userBuzz.token, woodysPublicToybox.channelId, ctx)
+>       woodysMsg = messageFactory(userWoody, woodysPublicToybox)
+
+httpTests/messageTests/test_message_edit.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fixtures.py:106: in makeMessage
+    msgId = message.messageSend(poster.token, location.channelId, content, ctx)['messageId']
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_______________________________ testInvalidToken _______________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+messageFactory = <function messageFactory.<locals>.makeMessage at 0x7f0975952ef0>
+ctx = None
+
+    def testInvalidToken(userWoody, woodysPublicToybox, messageFactory, ctx):
+>       aMsg = messageFactory(userWoody, woodysPublicToybox)
+
+httpTests/messageTests/test_message_edit.py:113: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fixtures.py:106: in makeMessage
+    msgId = message.messageSend(poster.token, location.channelId, content, ctx)['messageId']
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_____________________________ testMessageIdsUnique _____________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+userZerg = User(email='zerg.thedestroyer@zergworld.com', password='!!qazwsx', nameFirst='lord', nameLast='zerg', uId=2, token='2', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[3], name='', dmId=4)
+zergsPrivateLair = Channel(name='zergs lair', isPublic=False, channelId=1, ownerMembers=[2], allMembers=[])
+ctx = None
+
+    @pytest.mark.marks(0.5)
+    def testMessageIdsUnique(userWoody, userZerg, woodyAndBuzzDm, zergsPrivateLair, ctx):
+>       msg1 = messageSend(userZerg.token, zergsPrivateLair.channelId, 'hi', ctx)
+
+httpTests/messageTests/test_message_meta.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+______________________ testOriginalPosterCanRemoveMessage ______________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+messageFactory = <function messageFactory.<locals>.makeMessage at 0x7f0975952b00>
+ctx = None
+
+    def testOriginalPosterCanRemoveMessage(userWoody, woodysPublicToybox, messageFactory, ctx):
+>       aMsg = messageFactory(userWoody, woodysPublicToybox)
+
+httpTests/messageTests/test_message_remove.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fixtures.py:106: in makeMessage
+    msgId = message.messageSend(poster.token, location.channelId, content, ctx)['messageId']
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+__________________ testGlobalOwnerCantRemoveMembersMessageDm ___________________
+
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=1, token='1', handleStr='')
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=2, token='2', handleStr='')
+woodyAndBuzzDm = DM(owner=2, members=[1], name='', dmId=3)
+messageFactory = <function messageFactory.<locals>.makeMessage at 0x7f0975988e50>
+ctx = None
+
+    def testGlobalOwnerCantRemoveMembersMessageDm(userBuzz, userWoody, woodyAndBuzzDm, messageFactory, ctx):
+>       woodysMsg = messageFactory(userWoody, woodyAndBuzzDm)
+
+httpTests/messageTests/test_message_remove.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fixtures.py:104: in makeMessage
+    msgId = message.messageSenddm(poster.token, location.dmId, content, ctx)['messageId']
+httpTests/fakepi/message.py:99: in messageSenddm
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [200]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+>               raise error.InputError()
+E               httpTests.error.InputError: 400 Bad Request: None
+
+httpTests/fakepi/util.py:80: InputError
+________________________ testCannotRemoveDeletedMessage ________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+messageFactory = <function messageFactory.<locals>.makeMessage at 0x7f097598be20>
+ctx = None
+
+    def testCannotRemoveDeletedMessage(userWoody, woodysPublicToybox, messageFactory, ctx):
+>       aMsg = messageFactory(userWoody, woodysPublicToybox, 'hi')
+
+httpTests/messageTests/test_message_remove.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fixtures.py:106: in makeMessage
+    msgId = message.messageSend(poster.token, location.channelId, content, ctx)['messageId']
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+____________________ testNonownerNonposterCantRemoveMessage ____________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+messageFactory = <function messageFactory.<locals>.makeMessage at 0x7f09758423b0>
+ctx = None
+
+    def testNonownerNonposterCantRemoveMessage(userWoody, woodysPublicToybox, userBuzz, messageFactory, ctx):
+        channelJoin(userBuzz.token, woodysPublicToybox.channelId, ctx)
+>       woodysMsg = messageFactory(userWoody, woodysPublicToybox)
+
+httpTests/messageTests/test_message_remove.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fixtures.py:106: in makeMessage
+    msgId = message.messageSend(poster.token, location.channelId, content, ctx)['messageId']
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_______________________________ testInvalidToken _______________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+messageFactory = <function messageFactory.<locals>.makeMessage at 0x7f097598b010>
+ctx = None
+
+    def testInvalidToken(userWoody, woodysPublicToybox, messageFactory, ctx):
+>       aMsg = messageFactory(userWoody, woodysPublicToybox)
+
+httpTests/messageTests/test_message_remove.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fixtures.py:106: in makeMessage
+    msgId = message.messageSend(poster.token, location.channelId, content, ctx)['messageId']
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_______________________________ testValidMessage _______________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+ctx = None
+
+    def testValidMessage(userWoody, woodysPublicToybox, ctx):
+        msgText = 'hello, world'
+>       msg = messageSend(userWoody.token, woodysPublicToybox.channelId, msgText, ctx)
+
+httpTests/messageTests/test_message_send.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+______________________________ testNonmemberPost _______________________________
+
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testNonmemberPost(woodysPublicToybox, userBuzz, ctx):
+        with pytest.raises(AccessError):
+>           messageSend(userBuzz.token, woodysPublicToybox.channelId, 'hi', ctx)
+
+httpTests/messageTests/test_message_send.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+______________________________ testInvalidChannel ______________________________
+
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testInvalidChannel(userBuzz, ctx):
+        with pytest.raises(InputError):
+>           messageSend(userBuzz.token, -1, 'Hello world', ctx)
+
+httpTests/messageTests/test_message_send.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_____________________________ testInvalidMessage[] _____________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+message = '', ctx = None
+
+    @pytest.mark.parametrize('message', ['', 'm' * 1001])
+    def testInvalidMessage(userWoody, woodysPublicToybox, message, ctx):
+        with pytest.raises(InputError):
+>           messageSend(userWoody.token, woodysPublicToybox.channelId, message, ctx)
+
+httpTests/messageTests/test_message_send.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_ testInvalidMessage[mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm] _
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+message = 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm...mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm'
+ctx = None
+
+    @pytest.mark.parametrize('message', ['', 'm' * 1001])
+    def testInvalidMessage(userWoody, woodysPublicToybox, message, ctx):
+        with pytest.raises(InputError):
+>           messageSend(userWoody.token, woodysPublicToybox.channelId, message, ctx)
+
+httpTests/messageTests/test_message_send.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_______________________________ testInvalidToken _______________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodysPublicToybox = Channel(name='woodys toybox', isPublic=True, channelId=1, ownerMembers=[1], allMembers=[])
+ctx = None
+
+    def testInvalidToken(userWoody, woodysPublicToybox, ctx):
+        authLogout(userWoody.token, ctx)
+        with pytest.raises(AccessError):
+>           messageSend(userWoody.token, woodysPublicToybox.channelId, 'AccessError nooooooooo', ctx)
+
+httpTests/messageTests/test_message_send.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/message.py:11: in messageSend
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_______________________________ testValidMessage _______________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+woodyAndBuzzDm = DM(owner=1, members=[2], name='', dmId=3), ctx = None
+
+    def testValidMessage(userWoody, woodyAndBuzzDm, ctx):
+        msgText = 'hello, world'
+>       msg = messageSenddm(userWoody.token, woodyAndBuzzDm.dmId, msgText, ctx)
+
+httpTests/messageTests/test_message_senddm.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/message.py:99: in messageSenddm
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [200]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+>               raise error.InputError()
+E               httpTests.error.InputError: 400 Bad Request: None
+
+httpTests/fakepi/util.py:80: InputError
+________________________________ testClearWorks ________________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+userFactory = <function userFactory.<locals>.makeUser at 0x7f097585e950>
+ctx = None
+
+    def testClearWorks(userWoody, userFactory, ctx):
+        # an existing user can do something
+        assert usersAll(userWoody.token, ctx) is not None
+    
+        clear(ctx)
+    
+        with pytest.raises(AccessError):
+            #  ex-existing user now can't do the original action because they don't exist
+>           usersAll(userWoody.token, ctx)
+
+httpTests/otherTests/test_clear.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/other.py:11: in usersAll
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [403]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [403]>
+
+httpTests/fakepi/util.py:84: Exception
+____________________________ testSuccessfulUsersAll ____________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testSuccessfulUsersAll(userWoody, userBuzz, ctx):
+        users = usersAll(userWoody.token, ctx)['users']
+        users.sort(key=lambda u: u['handleStr'])
+    
+        for detail, usr in zip(users, (userBuzz, userWoody)):
+            assert detail['uId'] == usr.uId
+            assert detail['email'] == usr.email
+            assert detail['nameFirst'] == usr.nameFirst
+            assert detail['nameLast'] == usr.nameLast
+>           assert detail['handleStr'] == usr.handleStr
+E           AssertionError: assert 'buzzlightyear' == ''
+E             + buzzlightyear
+
+httpTests/otherTests/test_users_all.py:23: AssertionError
+_______________________________ testInvalidToken _______________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testInvalidToken(userWoody, ctx):
+        authLogout(userWoody.token, ctx)
+        with pytest.raises(AccessError):
+>           usersAll(userWoody.token, ctx)
+
+httpTests/otherTests/test_users_all.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/other.py:11: in usersAll
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [403]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [403]>
+
+httpTests/fakepi/util.py:84: Exception
+_____________________________ testUserProfileValid _____________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testUserProfileValid(userWoody, ctx):
+>       deets = userProfile(userWoody.token, userWoody.uId, ctx)['user']
+
+httpTests/userTests/test_user_profile.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_______________________________ testInvalidUser ________________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testInvalidUser(userWoody, ctx):
+        with pytest.raises(InputError):
+>           userProfile(userWoody.token, -1, ctx)
+
+httpTests/userTests/test_user_profile.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_______________________________ testInvalidToken _______________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testInvalidToken(userWoody, ctx):
+        authLogout(userWoody.token, ctx)
+        with pytest.raises(AccessError):
+>           userProfile(userWoody.token, userWoody.uId, ctx)
+
+httpTests/userTests/test_user_profile.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+__________________________ testSuccessfulEmailChange ___________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testSuccessfulEmailChange(userWoody, ctx):
+        newEmail = 'toystory3@pixar.com'
+        userProfileSetemail(userWoody.token, newEmail, ctx)
+    
+>       deets = userProfile(userWoody.token, userWoody.uId, ctx)['user']
+
+httpTests/userTests/test_user_profile_setemail.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+_________________________ testCannotChangeToTakenEmail _________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+userBuzz = User(email='buzz.lightyear@starcommand.com', password='qazwsx@@', nameFirst='buzz', nameLast='lightyear', uId=2, token='2', handleStr='')
+ctx = None
+
+    def testCannotChangeToTakenEmail(userWoody, userBuzz, ctx):
+>       with pytest.raises(InputError):
+E       Failed: DID NOT RAISE <class 'httpTests.error.InputError'>
+
+httpTests/userTests/test_user_profile_setemail.py:24: Failed
+__________________________ testSuccessfulHandleChange __________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testSuccessfulHandleChange(userWoody, ctx):
+        newHandle = 'www'
+>       userProfileSethandle(userWoody.token, newHandle, ctx)
+
+httpTests/userTests/test_user_profile_sethandle.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:44: in userProfileSethandle
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [200]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+>               raise error.InputError()
+E               httpTests.error.InputError: 400 Bad Request: None
+
+httpTests/fakepi/util.py:80: InputError
+_______________________ testUserProfileSetnameValidName ________________________
+
+userWoody = User(email='sheriff.woody@andysroom.com', password='qazwsx!!', nameFirst='sheriff', nameLast='woody', uId=1, token='1', handleStr='')
+ctx = None
+
+    def testUserProfileSetnameValidName(userWoody, ctx):
+        #  woody became japanese with family coming first
+        userProfileSetname(userWoody.token, userWoody.nameLast, userWoody.nameFirst, ctx)
+    
+>       deets = userProfile(userWoody.token, userWoody.uId, ctx)['user']
+
+httpTests/userTests/test_user_profile_setname.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+httpTests/fakepi/user.py:11: in userProfile
+    return util.parseResponse(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = <Response [404]>
+
+    def parseResponse(res):
+        if res.status_code in [200, 201]:
+            data = json.loads(res.text)
+            # error handling for iteration 2, without exceptions
+            if data == {'error': 'error'}:
+                raise error.InputError()
+            else:
+                return res.json()
+        else:
+>           raise Exception(res)
+E           Exception: <Response [404]>
+
+httpTests/fakepi/util.py:84: Exception
+=========================== short test summary info ============================
+FAILED httpTests/authTests/test_auth_login.py::testSuccessfulLogin - Assertio...
+FAILED httpTests/authTests/test_auth_login.py::testCanHaveTwoSessions - Excep...
+FAILED httpTests/authTests/test_auth_register.py::testRemovedUserName - Excep...
+FAILED httpTests/authTests/test_auth_register.py::testSuccessfulRegistration
+FAILED httpTests/authTests/test_auth_register.py::testBasicHandleGeneratedCorrectly[Bob-Smith-bobsmith]
+FAILED httpTests/authTests/test_auth_register.py::testBasicHandleGeneratedCorrectly[ababababab-cdcdcdcdcdcd-abababababcdcdcdcdcd]
+FAILED httpTests/authTests/test_auth_register.py::testDuplicateHandlesGeneratedCorrectly[abcdefghij-klmnopqrs-abcdefghijklmnopqrs-abcdefghij-klmnopqrs-abcdefghijklmnopqrs0]
+FAILED httpTests/authTests/test_auth_register.py::testDuplicateHandlesGeneratedCorrectly[abcdefghij-klmnopqrst-abcdefghijklmnopqrst-abcdefghij-klmnopqrst-abcdefghijklmnopqrst0]
+FAILED httpTests/authTests/test_auth_register.py::testDuplicateHandlesGeneratedCorrectly[@bcdefgh!j-klmn opqrst-bcdefghjklmnopqrst-bcdefghj-klmnopqrst-bcdefghjklmnopqrst0]
+FAILED httpTests/authTests/test_auth_register.py::testDuplicateHandlesGeneratedCorrectly[abc-def0-abcdef0-abc-def-abcdef1]
+FAILED httpTests/channelTests/test_channel_addowner.py::testChannelOwnerCanAddownerWhenMember
+FAILED httpTests/channelTests/test_channel_addowner.py::testChannelOwnerCantAddownerWhenNonMember
+FAILED httpTests/channelTests/test_channel_addowner.py::testNonMemberCannotAddOwner
+FAILED httpTests/channelTests/test_channel_addowner.py::testGlobalOwnerNonMemberCantAddownerPrivate
+FAILED httpTests/channelTests/test_channel_addowner.py::testGlobalOwnerNonMemberCantAddownerPublic
+FAILED httpTests/channelTests/test_channel_addowner.py::testMemberCannotAddOwner
+FAILED httpTests/channelTests/test_channel_addowner.py::testCannotAddownerPrexistingChannelOwner
+FAILED httpTests/channelTests/test_channel_addowner.py::testWithInvalidUId - ...
+FAILED httpTests/channelTests/test_channel_addowner.py::testWithInvalidChannelId
+FAILED httpTests/channelTests/test_channel_addowner.py::testInvalidToken - Ex...
+FAILED httpTests/channelTests/test_channel_invite.py::testInvitationFromNonChannelMember
+FAILED httpTests/channelTests/test_channel_join.py::testGlobalOwnerJoinChannelPrivate
+FAILED httpTests/channelTests/test_channel_leave.py::testInvalidToken - Excep...
+FAILED httpTests/channelTests/test_channel_messages.py::testMessageTimestamp
+FAILED httpTests/channelTests/test_channel_messages.py::testUnderFiftyMessagesSent
+FAILED httpTests/channelTests/test_channel_messages.py::testOverFiftyMessagesSent
+FAILED httpTests/channelTests/test_channel_messages.py::testRemovalByEditReflected
+FAILED httpTests/channelTests/test_channel_messages.py::testRemovalByDeletionReflected
+FAILED httpTests/channelTests/test_channel_removeowner.py::testOwnerCanRemoveOwner
+FAILED httpTests/channelTests/test_channel_removeowner.py::testGlobalOwnerMmberCanRemoveOwner
+FAILED httpTests/channelTests/test_channel_removeowner.py::testGlobalOwnerNonmemberCannotRemoveOwner
+FAILED httpTests/channelTests/test_channel_removeowner.py::testNonmemberCannotRemoveOwner
+FAILED httpTests/channelTests/test_channel_removeowner.py::testMmberCannotRemoveOwner
+FAILED httpTests/channelTests/test_channel_removeowner.py::testCannotRemoveLastOwner
+FAILED httpTests/channelTests/test_channel_removeowner.py::testGlobalOwnerCannotRemoveOnlyOwner
+FAILED httpTests/channelTests/test_channel_removeowner.py::testCannotRemoveNonOwner
+FAILED httpTests/channelTests/test_channel_removeowner.py::testInvalidUId - E...
+FAILED httpTests/channelTests/test_channel_removeowner.py::testWithInvalidChannelId
+FAILED httpTests/channelTests/test_channel_removeowner.py::testInvalidatedToken
+FAILED httpTests/channels_tests/test_channels_create.py::testInvalidatedToken
+FAILED httpTests/channels_tests/test_channels_list.py::testInvalidatedToken
+FAILED httpTests/channels_tests/test_channels_listall.py::testInvalidatedToken
+FAILED httpTests/dmTests/test_dm_create.py::testSuccessfulDmCreation - IndexE...
+FAILED httpTests/dmTests/test_dm_create.py::testDmNameCreationMultiple - KeyE...
+FAILED httpTests/dmTests/test_dm_details.py::testMemberSuccessful - Assertion...
+FAILED httpTests/dmTests/test_dm_details.py::testNonMemberNotSuccessful - Fai...
+FAILED httpTests/dmTests/test_dm_details.py::testInvalidDmId - Failed: DID NO...
+FAILED httpTests/dmTests/test_dm_details.py::testInvalidToken - Failed: DID N...
+FAILED httpTests/dmTests/test_dm_leave.py::testMemberLeaveDmSuccessfully - Ke...
+FAILED httpTests/dmTests/test_dm_list.py::testWhenInOneDm - AssertionError: a...
+FAILED httpTests/dmTests/test_dm_list.py::testWhenInMultipleDms - AssertionEr...
+FAILED httpTests/dmTests/test_dm_list.py::testInvalidatedToken - Failed: DID ...
+FAILED httpTests/dmTests/test_dm_messages.py::testUnderFiftyMessagesSent - ht...
+FAILED httpTests/dmTests/test_dm_messages.py::testOverFiftyMessagesSent - htt...
+FAILED httpTests/dmTests/test_dm_messages.py::testRemovalByEditReflected - ht...
+FAILED httpTests/dmTests/test_dm_messages.py::testRemovalByDeletionReflected
+FAILED httpTests/dmTests/test_dm_remove.py::testNonownerCannotRemoveDm - Fail...
+FAILED httpTests/dmTests/test_dm_remove.py::testOwnerNonmemberCannotRemoveDm
+FAILED httpTests/dmTests/test_dm_remove.py::testInvalidDmId - Failed: DID NOT...
+FAILED httpTests/dmTests/test_dm_remove.py::testInvalidToken - Failed: DID NO...
+FAILED httpTests/messageTests/test_message_edit.py::testOriginalPosterCanEditMessageChannel
+FAILED httpTests/messageTests/test_message_edit.py::testOriginalPosterCanEditMessageDm
+FAILED httpTests/messageTests/test_message_edit.py::testGlobalOwnerCantEditMembersMessageDm
+FAILED httpTests/messageTests/test_message_edit.py::testEmptyEditDeletesMessage
+FAILED httpTests/messageTests/test_message_edit.py::testInvalidMessageLength
+FAILED httpTests/messageTests/test_message_edit.py::testCannotEditDeletedMessage
+FAILED httpTests/messageTests/test_message_edit.py::testNonownerNonposterCantEdit
+FAILED httpTests/messageTests/test_message_edit.py::testInvalidToken - Except...
+FAILED httpTests/messageTests/test_message_meta.py::testMessageIdsUnique - Ex...
+FAILED httpTests/messageTests/test_message_remove.py::testOriginalPosterCanRemoveMessage
+FAILED httpTests/messageTests/test_message_remove.py::testGlobalOwnerCantRemoveMembersMessageDm
+FAILED httpTests/messageTests/test_message_remove.py::testCannotRemoveDeletedMessage
+FAILED httpTests/messageTests/test_message_remove.py::testNonownerNonposterCantRemoveMessage
+FAILED httpTests/messageTests/test_message_remove.py::testInvalidToken - Exce...
+FAILED httpTests/messageTests/test_message_send.py::testValidMessage - Except...
+FAILED httpTests/messageTests/test_message_send.py::testNonmemberPost - Excep...
+FAILED httpTests/messageTests/test_message_send.py::testInvalidChannel - Exce...
+FAILED httpTests/messageTests/test_message_send.py::testInvalidMessage[] - Ex...
+FAILED httpTests/messageTests/test_message_send.py::testInvalidMessage[mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm]
+FAILED httpTests/messageTests/test_message_send.py::testInvalidToken - Except...
+FAILED httpTests/messageTests/test_message_senddm.py::testValidMessage - http...
+FAILED httpTests/otherTests/test_clear.py::testClearWorks - Exception: <Respo...
+FAILED httpTests/otherTests/test_users_all.py::testSuccessfulUsersAll - Asser...
+FAILED httpTests/otherTests/test_users_all.py::testInvalidToken - Exception: ...
+FAILED httpTests/userTests/test_user_profile.py::testUserProfileValid - Excep...
+FAILED httpTests/userTests/test_user_profile.py::testInvalidUser - Exception:...
+FAILED httpTests/userTests/test_user_profile.py::testInvalidToken - Exception...
+FAILED httpTests/userTests/test_user_profile_setemail.py::testSuccessfulEmailChange
+FAILED httpTests/userTests/test_user_profile_setemail.py::testCannotChangeToTakenEmail
+FAILED httpTests/userTests/test_user_profile_sethandle.py::testSuccessfulHandleChange
+FAILED httpTests/userTests/test_user_profile_setname.py::testUserProfileSetnameValidName
+================== 91 failed, 92 passed, 183 skipped in 3.31s ==================

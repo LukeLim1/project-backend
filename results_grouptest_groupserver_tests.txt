@@ -1,0 +1,404 @@
+npm verb cli /usr/bin/node /usr/bin/npm
+npm info using npm@8.15.0
+npm info using node@v18.7.0
+npm timing npm:load:whichnode Completed in 0ms
+npm timing config:load:defaults Completed in 1ms
+npm timing config:load:file:/usr/lib/node_modules/npm/npmrc Completed in 1ms
+npm timing config:load:builtin Completed in 1ms
+npm timing config:load:cli Completed in 1ms
+npm timing config:load:env Completed in 0ms
+npm timing config:load:file:/home/nktnet/temp/project-automarking/tempstore/.npmrc Completed in 0ms
+npm timing config:load:project Completed in 5ms
+npm timing config:load:file:/home/nktnet/.npmrc Completed in 0ms
+npm timing config:load:user Completed in 1ms
+npm timing config:load:file:/usr/etc/npmrc Completed in 0ms
+npm timing config:load:global Completed in 0ms
+npm timing config:load:validate Completed in 0ms
+npm timing config:load:credentials Completed in 0ms
+npm timing config:load:setEnvs Completed in 1ms
+npm timing config:load Completed in 10ms
+npm timing npm:load:configload Completed in 10ms
+npm timing npm:load:mkdirpcache Completed in 1ms
+npm timing npm:load:mkdirplogs Completed in 0ms
+npm verb title npm run test **/?(*.)+(test).ts
+npm verb argv "run" "test" "--loglevel" "verbose" "--testMatch" "**/?(*.)+(test).ts"
+npm timing npm:load:setTitle Completed in 1ms
+npm timing config:load:flatten Completed in 1ms
+npm timing npm:load:display Completed in 2ms
+npm verb logfile logs-max:10 dir:/home/nktnet/.npm/_logs
+npm verb logfile /home/nktnet/.npm/_logs/2022-07-29T13_34_13_952Z-debug-0.log
+npm timing npm:load:logFile Completed in 2ms
+npm timing npm:load:timers Completed in 0ms
+npm timing npm:load:configScope Completed in 0ms
+npm timing npm:load Completed in 17ms
+
+> test
+> jest --coverage
+
+  Invalid testPattern **/?(*.)+(test).ts supplied. Running all tests instead.
+  Invalid testPattern **/?(*.)+(test).ts supplied. Running all tests instead.
+FAIL src/channel.test.ts (9.747 s)
+  ● Test channel/invite/v2,successfully › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      280 | describe('Test channel/invite/v2,successfully', () => {
+      281 |   test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    > 282 |     const res = request(
+          |                        ^
+      283 |       'POST',
+      284 |       'http://localhost:3200/auth/register/v2',
+      285 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/channel.test.ts:282:24)
+
+  ● channelId does not refer to a valid channel, return {error:"error"}  › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      327 | describe('channelId does not refer to a valid channel, return {error:"error"} ', () => {
+      328 |   test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    > 329 |     const res = request(
+          |                        ^
+      330 |       'POST',
+      331 |       'http://localhost:3200/auth/register/v2',
+      332 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/channel.test.ts:329:24)
+
+  ● uId does not refer to a valid user, return {error:"error"}  › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      373 | describe('uId does not refer to a valid user, return {error:"error"} ', () => {
+      374 |   test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    > 375 |     const res = request(
+          |                        ^
+      376 |       'POST',
+      377 |       'http://localhost:3200/auth/register/v2',
+      378 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/channel.test.ts:375:24)
+
+  ● uId refers to a user who is already a member of the channel, return {error:"error"}  › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      420 | describe('uId refers to a user who is already a member of the channel, return {error:"error"} ', () => {
+      421 |   test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    > 422 |     const res = request(
+          |                        ^
+      423 |       'POST',
+      424 |       'http://localhost:3200/auth/register/v2',
+      425 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/channel.test.ts:422:24)
+
+  ● channelId is valid and the authorised user is not a member of the channel, return {error:"error"}  › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      479 | describe('channelId is valid and the authorised user is not a member of the channel, return {error:"error"} ', () => {
+      480 |   test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    > 481 |     const res = request(
+          |                        ^
+      482 |       'POST',
+      483 |       'http://localhost:3200/auth/register/v2',
+      484 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/channel.test.ts:481:24)
+
+  ● channelId does not refer to a valid channel › If it returns {message:,start:,end:} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      528 | describe('channelId does not refer to a valid channel', () => {
+      529 |   test('If it returns {message:,start:,end:} successfully, otherwise {error:"error"}', () => {
+    > 530 |     const res = request(
+          |                        ^
+      531 |       'POST',
+      532 |       'http://localhost:3200/auth/register/v2',
+      533 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/channel.test.ts:530:24)
+
+  ● Test channel/addowner successfully › If user is not already a member of the channel, return {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      577 | describe('Test channel/addowner successfully', () => {
+      578 |   test('If user is not already a member of the channel, return {error:"error"}', () => {
+    > 579 |     const res = request(
+          |                        ^
+      580 |       'POST',
+      581 |       'http://localhost:3200/auth/register/v2',
+      582 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/channel.test.ts:579:24)
+
+  ● channelId does not refer to a valid channel,return {error:"error"} › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      625 | describe('channelId does not refer to a valid channel,return {error:"error"}', () => {
+      626 |   test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    > 627 |     const res = request(
+          |                        ^
+      628 |       'POST',
+      629 |       'http://localhost:3200/auth/register/v2',
+      630 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/channel.test.ts:627:24)
+
+  ● uId does not refer to a valid user,return {error:"error"} › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      671 | describe('uId does not refer to a valid user,return {error:"error"}', () => {
+      672 |   test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    > 673 |     const res = request(
+          |                        ^
+      674 |       'POST',
+      675 |       'http://localhost:3200/auth/register/v2',
+      676 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/channel.test.ts:673:24)
+
+  ● channelId is valid and the authorised user is not a member of the channel,return {error:"error"} › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      717 | describe('channelId is valid and the authorised user is not a member of the channel,return {error:"error"}', () => {
+      718 |   test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    > 719 |     const res = request(
+          |                        ^
+      720 |       'POST',
+      721 |       'http://localhost:3200/auth/register/v2',
+      722 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/channel.test.ts:719:24)
+
+  ● Test channel/removeowner successfully › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      783 |     // let email = 'unique'+Math.floor(Math.random() * 88888)+'@gmail.com';
+      784 |     // let password = "qgi6dt";
+    > 785 |     const res = request(
+          |                        ^
+      786 |       'POST',
+      787 |       'http://localhost:3200/auth/register/v2',
+      788 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/channel.test.ts:785:24)
+
+  ● uId does not refer to a valid user,return {error:"error"} › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      904 | describe('uId does not refer to a valid user,return {error:"error"}', () => {
+      905 |   test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    > 906 |     const res = request(
+          |                        ^
+      907 |       'POST',
+      908 |       'http://localhost:3200/auth/register/v2',
+      909 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/channel.test.ts:906:24)
+
+  ● channelId does not refer to a valid channel,return {error:"error"} › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      952 | describe('channelId does not refer to a valid channel,return {error:"error"}', () => {
+      953 |   test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    > 954 |     const res = request(
+          |                        ^
+      955 |       'POST',
+      956 |       'http://localhost:3200/auth/register/v2',
+      957 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/channel.test.ts:954:24)
+
+FAIL src/message.test.ts
+  ● Test send message successfully › If it returns {messageId:} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      71 | describe('Test send message successfully', () => {
+      72 |   test('If it returns {messageId:} successfully, otherwise {error:"error"}', () => {
+    > 73 |     const res = request(
+         |                        ^
+      74 |       'POST',
+      75 |       'http://localhost:3200/auth/register/v2',
+      76 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/message.test.ts:73:24)
+
+  ● channelId does not refer to a valid channel,return {error:"error"} › If it returns {messageId:} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      121 | describe('channelId does not refer to a valid channel,return {error:"error"}', () => {
+      122 |   test('If it returns {messageId:} successfully, otherwise {error:"error"}', () => {
+    > 123 |     const res = request(
+          |                        ^
+      124 |       'POST',
+      125 |       'http://localhost:3200/auth/register/v2',
+      126 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/message.test.ts:123:24)
+
+  ● length of message is less than 1 or over 1000 characters ,return {error:"error"} › If it returns {messageId:} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      170 | describe('length of message is less than 1 or over 1000 characters ,return {error:"error"}', () => {
+      171 |   test('If it returns {messageId:} successfully, otherwise {error:"error"}', () => {
+    > 172 |     const res = request(
+          |                        ^
+      173 |       'POST',
+      174 |       'http://localhost:3200/auth/register/v2',
+      175 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/message.test.ts:172:24)
+
+  ● channelId is valid and the authorised user is not a member of the channel,return {error:"error"} › If it returns {messageId:} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      221 | describe('channelId is valid and the authorised user is not a member of the channel,return {error:"error"}', () => {
+      222 |   test('If it returns {messageId:} successfully, otherwise {error:"error"}', () => {
+    > 223 |     const res = request(
+          |                        ^
+      224 |       'POST',
+      225 |       'http://localhost:3200/auth/register/v2',
+      226 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/message.test.ts:223:24)
+
+  ● Test edit message successfully › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      270 | describe('Test edit message successfully', () => {
+      271 |   test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    > 272 |     const res = request(
+          |                        ^
+      273 |       'POST',
+      274 |       'http://localhost:3200/auth/register/v2',
+      275 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/message.test.ts:272:24)
+
+  ● length of message is less than 1 or over 1000 characters,return {error:"error"} › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      333 | describe('length of message is less than 1 or over 1000 characters,return {error:"error"}', () => {
+      334 |   test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    > 335 |     const res = request(
+          |                        ^
+      336 |       'POST',
+      337 |       'http://localhost:3200/auth/register/v2',
+      338 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/message.test.ts:335:24)
+
+  ● messageId does not refer to a valid message within a channel/DM that the authorised user has joined,return {error:"error"} › If it returns {} successfully, otherwise {error:"error"}
+
+    connect ECONNREFUSED ::1:3200
+
+      396 | describe('messageId does not refer to a valid message within a channel/DM that the authorised user has joined,return {error:"error"}', () => {
+      397 |   test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    > 398 |     const res = request(
+          |                        ^
+      399 |       'POST',
+      400 |       'http://localhost:3200/auth/register/v2',
+      401 |       {
+
+      at extractValue (node_modules/sync-rpc/lib/index.js:165:19)
+      at node_modules/sync-rpc/lib/index.js:175:12
+      at request (node_modules/sync-request/lib/index.js:28:15)
+      at Object.<anonymous> (src/message.test.ts:398:24)
+
+PASS src/dm.test.ts (5.974 s)
+PASS src/users.test.ts
+PASS src/channels.test.ts
+PASS src/auth.test.ts
+--------------------|---------|----------|---------|---------|----------------------------------------------------------------------
+File                | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                                    
+--------------------|---------|----------|---------|---------|----------------------------------------------------------------------
+All files           |   58.13 |    15.38 |   51.85 |   58.06 |                                                                      
+ channels.ts        |   24.32 |    14.28 |      20 |   21.21 | 21-43,65-110                                                         
+ dataStore.ts       |     100 |      100 |     100 |     100 |                                                                      
+ helperFunctions.ts |   65.33 |    16.66 |   52.63 |   65.33 | 11-15,21-29,37,42-44,111-126,166-179,235-249,253-267,271-286,300-307 
+ other.ts           |     100 |      100 |     100 |     100 |                                                                      
+--------------------|---------|----------|---------|---------|----------------------------------------------------------------------
+
+Test Suites: 2 failed, 4 passed, 6 total
+Tests:       20 failed, 51 passed, 71 total
+Snapshots:   0 total
+Time:        26.372 s
+Ran all test suites.
+npm timing command:run Completed in 26733ms
+npm verb exit 1
+npm timing npm Completed in 26755ms
+npm verb code 1

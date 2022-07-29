@@ -1,0 +1,363 @@
+
+> start
+> nodemon src/server.ts
+
+[33m[nodemon] 2.0.19[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: ts,json[39m
+[32m[nodemon] starting `ts-node src/server.ts`[39m
+⚡️ Server listening on port 48237 at 127.0.0.1
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 1.046 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.230 ms - 154[0m
+[0mGET /user/profile/v2?token=1&token=2&uId=1 [33m404[0m 0.216 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.151 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.187 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.440 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.236 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.220 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.253 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.243 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.165 ms - 154[0m
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.205 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.222 ms - 154[0m
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.137 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.140 ms - 154[0m
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.123 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.203 ms - 154[0m
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.117 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.131 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.129 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.093 ms - 159[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.146 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.113 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.080 ms - 159[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.133 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.122 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.077 ms - 159[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.126 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.114 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.084 ms - 159[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.123 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.130 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.080 ms - 159[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.132 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.122 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.079 ms - 159[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.117 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.077 ms - 159[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.133 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.080 ms - 159[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.129 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.231 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.099 ms - 159[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.123 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.114 ms - 154[0m
+[0mPOST /channel/addowner/v1 [33m404[0m 0.167 ms - 159[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.108 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.094 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.120 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.105 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.106 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.126 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.145 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.155 ms - 154[0m
+channel/invite/V2
+channel/invite/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.125 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.103 ms - 154[0m
+channel/invite/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.175 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.103 ms - 154[0m
+channel/invite/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.092 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.202 ms - 154[0m
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.168 ms - 154[0m
+channel/invite/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.109 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.098 ms - 154[0m
+channel/invite/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.120 ms - 154[0m
+channel/invite/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.098 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.089 ms - 154[0m
+channel/invite/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.125 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.098 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.094 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.178 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.113 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.086 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.106 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.090 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.091 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.111 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.092 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.131 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.107 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.103 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.111 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.091 ms - 154[0m
+TypeError: Cannot read properties of undefined (reading 'userId')
+    at channelLeaveV1 (/home/nktnet/temp/project-automarking/tempstore/src/channel.ts:239:44)
+    at /home/nktnet/temp/project-automarking/tempstore/src/server.ts:96:26
+    at Layer.handle [as handle_request] (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/layer.js:95:5)
+    at /home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/index.js:280:10)
+    at textParser (/home/nktnet/temp/project-automarking/tempstore/node_modules/body-parser/lib/types/text.js:60:7)
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.110 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.069 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.110 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.067 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.145 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.074 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.103 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.090 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.109 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.072 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.117 ms - 154[0m
+channel/messages/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.105 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.132 ms - 154[0m
+channel/messages/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.113 ms - 154[0m
+channel/messages/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.103 ms - 154[0m
+channel/messages/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.112 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.099 ms - 154[0m
+channel/invite/V2
+[0mPOST /channel/addowner/v1 [33m404[0m 0.068 ms - 159[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.122 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.116 ms - 154[0m
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.106 ms - 154[0m
+channel/invite/V2
+channel/invite/V2
+[0mPOST /channel/addowner/v1 [33m404[0m 0.076 ms - 159[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.121 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.159 ms - 154[0m
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.103 ms - 154[0m
+channel/invite/V2
+[0mPOST /channel/addowner/v1 [33m404[0m 0.088 ms - 159[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.125 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.107 ms - 154[0m
+[0mPOST /channel/removeowner/v1 [33m404[0m 0.085 ms - 162[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.113 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.179 ms - 154[0m
+[0mPOST /channel/removeowner/v1 [33m404[0m 0.121 ms - 162[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.183 ms - 154[0m
+[0mPOST /channel/removeowner/v1 [33m404[0m 0.123 ms - 162[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.174 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.162 ms - 154[0m
+[0mPOST /channel/removeowner/v1 [33m404[0m 0.155 ms - 162[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.128 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.121 ms - 154[0m
+[0mPOST /channel/removeowner/v1 [33m404[0m 0.081 ms - 162[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.125 ms - 154[0m
+[0mPOST /channel/removeowner/v1 [33m404[0m 0.091 ms - 162[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.127 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.116 ms - 154[0m
+[0mPOST /channel/removeowner/v1 [33m404[0m 0.086 ms - 162[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.138 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.158 ms - 154[0m
+[0mPOST /channel/removeowner/v1 [33m404[0m 0.089 ms - 162[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.132 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.235 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.139 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.116 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.139 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.129 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.128 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.132 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.129 ms - 154[0m
+TypeError: Cannot read properties of undefined (reading 'userId')
+    at channelsCreateV1 (/home/nktnet/temp/project-automarking/tempstore/src/channels.ts:37:25)
+    at /home/nktnet/temp/project-automarking/tempstore/src/server.ts:72:28
+    at Layer.handle [as handle_request] (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/layer.js:95:5)
+    at /home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/index.js:280:10)
+    at textParser (/home/nktnet/temp/project-automarking/tempstore/node_modules/body-parser/lib/types/text.js:60:7)
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.130 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.167 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.134 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.156 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.155 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.151 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.201 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.147 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.135 ms - 154[0m
+channel/invite/V2
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.153 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.470 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.149 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.134 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.139 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.137 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.133 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.137 ms - 154[0m
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.133 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.146 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.157 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.137 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.181 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.166 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.159 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.205 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.145 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.145 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.144 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.142 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.140 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.140 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.161 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.156 ms - 154[0m
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.169 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.163 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.175 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.153 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.160 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.160 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.186 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.160 ms - 154[0m
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.149 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.169 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.168 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.156 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.174 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.228 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.191 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.170 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.202 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.175 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.169 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.184 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.163 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.169 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.168 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.171 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.175 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.175 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.191 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.170 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.161 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.175 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.180 ms - 154[0m
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.153 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.191 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.185 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.176 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.189 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.166 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.174 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.164 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.172 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.182 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.174 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.161 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.243 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.184 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.179 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.135 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.178 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.173 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.169 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.159 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.174 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.128 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.165 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.122 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.177 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.118 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.175 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.176 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.112 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.168 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.124 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.165 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.175 ms - 154[0m
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.159 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.147 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.172 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.125 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.164 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.158 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.161 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.120 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.162 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.173 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.131 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.167 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.123 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.172 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.118 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.162 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.163 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.109 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.156 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.114 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.163 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.115 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.160 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.120 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.160 ms - 154[0m
+[0mPOST /message/send/v1 [33m404[0m 0.117 ms - 155[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.173 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.177 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.166 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.159 ms - 154[0m
+[0mGET /user/profile/v2?token=3&uId=3 [33m404[0m 0.163 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.156 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.157 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.147 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.167 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.174 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.168 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.152 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.165 ms - 154[0m
+invalid token
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.160 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.157 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.159 ms - 154[0m
+invalid token
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.172 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.149 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.161 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=-1 [33m404[0m 0.145 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.155 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.148 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.160 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.155 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.160 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.162 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.166 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.199 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.158 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.152 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.160 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.173 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.162 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.243 ms - 154[0m
+[0mGET /user/profile/v2?token=2&uId=2 [33m404[0m 0.158 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.179 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.162 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.168 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.154 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.169 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.158 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.155 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.180 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.169 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.171 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.156 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.165 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.168 ms - 154[0m
+[0mGET /user/profile/v2?token=1&uId=1 [33m404[0m 0.156 ms - 154[0m
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
