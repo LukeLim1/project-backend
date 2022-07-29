@@ -1,15 +1,38 @@
-# DO NOT CHANGE THIS FILE!
-#
-# This is run on a non-standard gitlab runner so any changes you make may break in unexpected ways.
-# If you feel for some reason this file MUST be changed, please post on the course forum so it can
-# be discussed between you and course staff.
-#
 image: comp1531/basic:latest
 
 stages:
   - checks
 
-test:
+before_script:
+  - npm install
+
+cache:
+  paths:
+    - node_modules
+
+tests with coverage:
   stage: checks
   script:
-    - npm run test
+    - SERVER_LOG=$(mktemp)
+    - npm run ts-node-coverage >& $SERVER_LOG &
+    - sleep 10
+    - npm run test src/**.ts || (cat $SERVER_LOG && exit 1)
+    - kill -SIGINT %1
+    - sleep 2
+    - cat $SERVER_LOG
+  coverage: '/All files\s*\|\s*(\d+(?:\.\d+)?)/'
+  artifacts:
+    paths:
+      - coverage/
+    expose_as: Coverage Report
+    expire_in: 1 week
+
+typecheck:
+  stage: checks
+  script:
+    - npm run tsc
+
+linting:
+  stage: checks
+  script:
+    - npm run lint

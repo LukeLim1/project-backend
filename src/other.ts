@@ -1,4 +1,4 @@
-import { getData, setData } from "./dataStore.js";
+import { getData, setData } from './dataStore';
 
 // Resets the internal data of the dataStore to it its inital state (empty)
 
@@ -6,12 +6,16 @@ import { getData, setData } from "./dataStore.js";
 
 // return type : none
 
-
 function clearV1() {
-  let data = getData();
+  const data = getData();
   data.users = [];
   data.channels = [];
-  setData(data); 
+  data.usedNums = [];
+  data.usedTokenNums = [];
+  data.usedChannelNums = [];
+  data.DMs = [];
+  data.messages = [];
+  setData(data);
   return {};
 }
 
