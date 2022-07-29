@@ -1,6 +1,7 @@
 import { getData } from './dataStore';
 import request from 'sync-request';
 import config from './config.json';
+import { IUser, userTemplate } from './interface';
 
 const port = config.port;
 const url = config.url;
@@ -13,6 +14,19 @@ export function containsDuplicates(array: number[]): boolean {
   } else {
     return true;
   }
+}
+
+// removes a certain item completely from that array
+export function removeItemAll (arr: number[] | string[], item: number | string): number[] | string[] {
+  let i = 0;
+  while (i < arr.length) {
+    if (arr[i] === item) {
+      arr.splice(i, 1);
+    } else {
+      ++i;
+    }
+  }
+  return arr;
 }
 
 // test for a valid token
@@ -84,6 +98,25 @@ export function createBasicAccount2() {
         password: 'z5312387',
         nameFirst: 'Zachary2',
         nameLast: 'Chan2'
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+export function createBasicAccount3() {
+  const res = request(
+    'POST',
+    `${url}:${port}/auth/register/v2`,
+    {
+      body: JSON.stringify({
+        email: 'zachary-chan3@gmail.com',
+        password: 'z5312387',
+        nameFirst: 'Zachary3',
+        nameLast: 'Chan3'
       }),
       headers: {
         'Content-type': 'application/json',
@@ -198,7 +231,6 @@ export function joinChannel(token: string, channelId: number) {
   return res;
 }
 
-// messageSend
 export function sendMessage(token: string, channelId: number, message: string) {
   const res = request(
     'POST',
@@ -217,7 +249,6 @@ export function sendMessage(token: string, channelId: number, message: string) {
   return res;
 }
 
-// senddm
 export function dmSend(token: string, dmId: number, message: string) {
   const res = request(
     'POST',
@@ -236,7 +267,6 @@ export function dmSend(token: string, dmId: number, message: string) {
   return res;
 }
 
-// messageShareV1
 export function shareMessage(ogMessageId: number, message: string, channelId: number, dmId: number) {
   const res = request(
     'POST',
@@ -255,6 +285,7 @@ export function shareMessage(ogMessageId: number, message: string, channelId: nu
   );
   return res;
 }
+
 // clear everything
 export function clear() {
   const res = request(
@@ -263,4 +294,15 @@ export function clear() {
   );
   const array = [res];
   array.slice(0);
+}
+
+export function convertUserTemplateToIUser (temp: userTemplate): IUser {
+  const res:IUser = {
+    uId: temp.userId,
+    email: temp.emailAddress,
+    nameFirst: temp.firstName,
+    nameLast: temp.lastname,
+    handleStr: temp.handle,
+  };
+  return res;
 }
