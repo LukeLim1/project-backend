@@ -68,10 +68,10 @@ export function dmLeave (token: string, dmId: number) : object | Error {
     return { error: 'error' };
   }
 
-  for (const name of dm.name) {
-    if (user.handle === name) {
-      const index = dm.name.indexOf(name);
-      dm.name.splice(index, 1);
+  for (const member of dm.members) {
+    if (user.userId === member.uId) {
+      const index = dm.members.indexOf(member);
+      dm.members.splice(index, 1);
     }
   }
 

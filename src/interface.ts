@@ -1,7 +1,8 @@
 export interface dmTemplate {
     dmId: number;
     dmOwner: number;
-    name: any;
+    name: string;
+    members: IUser[];
     messages: any[];
 }
 
