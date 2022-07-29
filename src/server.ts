@@ -10,7 +10,6 @@ import { channelLeaveV1, channelDetails, channelJoin } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm } from './dm';
 import { setNameV1, setEmailV1, setHandleV1, usersAll } from './users';
 import errorHandler from 'middleware-http-errors';
-import { uploadPhoto, userPermissionChange, userRemove, usersStats, userStats } from './helperFunctions';
 // import fs from 'fs';
 
 // Set up web app, use JSON
