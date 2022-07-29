@@ -60,7 +60,397 @@
 //   // });
 // });
 
-test('placeholder', () => {
-  const hey = 1;
-  expect(hey).toEqual(1);
+import request from 'sync-request';
+import { clearV1 } from './other';
+
+beforeEach(() => {
+  clearV1();
+});
+
+// Tests for messageSendV1
+describe('Test send message successfully', () => {
+  test('If it returns {messageId:} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      'http://localhost:3200/auth/register/v2',
+      {
+        json: {
+          email: 'rabbit' + Math.floor(Math.random() * 99999) + '@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const res2 = request(
+      'POST',
+      'http://localhost:3200/channels/create/v2',
+      {
+        json: {
+          token: String(uID),
+          name: 'channel154',
+          isPublic: true
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res3 = request(
+      'POST',
+      'http://localhost:3200/message/send',
+      {
+        json: {
+          token: String(uID),
+          channelId: channelID,
+          message: 'hello,node' + Math.floor(Math.random() * 10000)
+        },
+      }
+    );
+    const bodyObj3 = JSON.parse(String(res3.getBody()));
+    // console.log(bodyObj3);
+    const messageId11 = bodyObj3.messageId;
+    // console.log(messageId11);
+    expect(messageId11 > 0).toBeTruthy();
+  });
+});
+
+// Tests for messageSendV1
+describe('channelId does not refer to a valid channel,return {error:"error"}', () => {
+  test('If it returns {messageId:} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      'http://localhost:3200/auth/register/v2',
+      {
+        json: {
+          email: 'uniquepeterrabbit222@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    // const bodyuID = bodyObj.authUserId;
+    const bodyToken = bodyObj.token;
+
+    const res2 = request(
+      'POST',
+      'http://localhost:3200/channels/create/v2',
+      {
+        json: {
+          token: String(bodyToken),
+          name: 'channel001',
+          isPublic: true
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID2 = bodyObj2.channelId;
+
+    const res4 = request(
+      'POST',
+      'http://localhost:3200/message/send',
+      {
+        json: {
+          token: String(bodyToken),
+          channelId: channelID2 + 100,
+          message: 'hello,world2'
+        },
+      }
+    );
+    const bodyObj4 = JSON.parse(String(res4.getBody()));
+    expect(bodyObj4).toMatchObject({ error: 'error' });
+  });
+});
+
+// Tests for messageSendV1
+describe('length of message is less than 1 or over 1000 characters ,return {error:"error"}', () => {
+  test('If it returns {messageId:} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      'http://localhost:3200/auth/register/v2',
+      {
+        json: {
+          email: 'peterrabbit' + Math.floor(Math.random() * 99999) + '@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    // const uID = bodyObj.authUserId;
+    const bodyToken = bodyObj.token;
+
+    const res2 = request(
+      'POST',
+      'http://localhost:3200/channels/create/v2',
+      {
+        json: {
+          token: String(bodyToken),
+          name: 'channel154',
+          isPublic: true
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID2 = bodyObj2.channelId;
+
+    const res44 = request(
+      'POST',
+      'http://localhost:3200/message/send',
+      {
+        json: {
+          token: String(bodyToken),
+          channelId: channelID2,
+          message: '',
+        },
+      }
+    );
+    // console.log("======="+res44.getBody);
+    const bodyObj44 = JSON.parse(String(res44.getBody()));
+    // console.log("======="+bodyObj44);
+    expect(bodyObj44).toMatchObject({ error: 'error' });
+  });
+});
+
+// Tests for messageSendV1
+describe('channelId is valid and the authorised user is not a member of the channel,return {error:"error"}', () => {
+  test('If it returns {messageId:} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      'http://localhost:3200/auth/register/v2',
+      {
+        json: {
+          email: 'uniquepeterrabbit2@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    const uID = bodyObj.authUserId;
+    const bodyToken = bodyObj.token;
+
+    const res2 = request(
+      'POST',
+      'http://localhost:3200/channels/create/v2',
+      {
+        json: {
+          token: String(bodyToken),
+          name: 'channel001',
+          isPublic: true
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID2 = bodyObj2.channelId;
+
+    const res6 = request(
+      'POST',
+      'http://localhost:3200/message/send',
+      {
+        json: {
+          token: String(uID),
+          channelId: channelID2,
+          message: 'world,hello'
+        },
+      }
+    );
+    const bodyObj6 = JSON.parse(String(res6.getBody()));
+    expect(bodyObj6).toMatchObject({ error: 'error' });
+  });
+});
+
+// Tests for messageEditV1
+describe('Test edit message successfully', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      'http://localhost:3200/auth/register/v2',
+      {
+        json: {
+          email: 'uniquepeterrabbit3@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    // const uID = bodyObj.authUserId;
+    const bodyToken = bodyObj.token;
+
+    const res2 = request(
+      'POST',
+      'http://localhost:3200/channels/create/v2',
+      {
+        json: {
+          token: String(bodyToken),
+          name: 'channel002',
+          isPublic: true
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID2 = bodyObj2.channelId;
+
+    const res3 = request(
+      'POST',
+      'http://localhost:3200/message/send',
+      {
+        json: {
+          token: String(bodyToken),
+          channelId: channelID2,
+          message: 'hello,world'
+        },
+      }
+    );
+    const bodyObj3 = JSON.parse(String(res3.getBody()));
+    const messageId3 = bodyObj3.messageId;
+
+    const res4 = request(
+      'PUT',
+      'http://localhost:3200/message/edit',
+      {
+        json: {
+          token: String(bodyToken),
+          messageId: messageId3,
+          message: 'hello,nodejs'
+        },
+      }
+    );
+    const bodyObj4 = JSON.parse(String(res4.getBody()));
+    expect(bodyObj4).toMatchObject({});
+  });
+});
+
+// Tests for messageEditV1
+describe('length of message is less than 1 or over 1000 characters,return {error:"error"}', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      'http://localhost:3200/auth/register/v2',
+      {
+        json: {
+          email: 'uniquepeter' + Math.floor(Math.random() * 22222) + '@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    // const uID = bodyObj.authUserId;
+    const bodyToken = bodyObj.token;
+
+    const res2 = request(
+      'POST',
+      'http://localhost:3200/channels/create/v2',
+      {
+        json: {
+          token: String(bodyToken),
+          name: 'channel',
+          isPublic: true
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID2 = bodyObj2.channelId;
+
+    const res3 = request(
+      'POST',
+      'http://localhost:3200/message/send',
+      {
+        json: {
+          token: String(bodyToken),
+          channelId: channelID2,
+          message: 'hello,world'
+        },
+      }
+    );
+    const bodyObj3 = JSON.parse(String(res3.getBody()));
+    const messageId3 = bodyObj3.messageId;
+
+    const res44 = request(
+      'PUT',
+      'http://localhost:3200/message/edit',
+      {
+        json: {
+          token: String(bodyToken),
+          messageId: messageId3,
+          message: '',
+        },
+      }
+    );
+    const bodyObj44 = JSON.parse(String(res44.getBody()));
+    expect(bodyObj44).toMatchObject({ error: 'error' });
+  });
+});
+
+// Tests for messageEditV1
+describe('messageId does not refer to a valid message within a channel/DM that the authorised user has joined,return {error:"error"}', () => {
+  test('If it returns {} successfully, otherwise {error:"error"}', () => {
+    const res = request(
+      'POST',
+      'http://localhost:3200/auth/register/v2',
+      {
+        json: {
+          email: 'uniquepeterrabbit333@gmail.com',
+          password: 'qgi6dt',
+          nameFirst: 'Peter',
+          nameLast: 'Rabbit'
+        },
+      }
+    );
+    const bodyObj = JSON.parse(String(res.getBody()));
+    // const uID = bodyObj.authUserId;
+    const bodyToken = bodyObj.token;
+
+    const res2 = request(
+      'POST',
+      'http://localhost:3200/channels/create/v2',
+      {
+        json: {
+          token: String(bodyToken),
+          name: 'channel002',
+          isPublic: true
+        },
+      }
+    );
+    const bodyObj2 = JSON.parse(String(res2.getBody()));
+    const channelID = bodyObj2.channelId;
+
+    const res3 = request(
+      'POST',
+      'http://localhost:3200/message/send',
+      {
+        json: {
+          token: String(bodyToken),
+          channelId: channelID,
+          message: 'hello,world'
+        },
+      }
+    );
+    const bodyObj3 = JSON.parse(String(res3.getBody()));
+    const messageId3 = bodyObj3.messageId;
+
+    const res5 = request(
+      'PUT',
+      'http://localhost:3200/message/edit',
+      {
+        json: {
+          token: String(bodyToken),
+          messageId: messageId3 + 99999,
+          message: 'hello,nodejs'
+        },
+      }
+    );
+    const bodyObj5 = JSON.parse(String(res5.getBody()));
+    expect(bodyObj5).toMatchObject({ error: 'error' });
+  });
 });
