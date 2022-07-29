@@ -2,7 +2,11 @@ export interface dmTemplate {
     dmId: number;
     dmOwner: number;
     name: string;
+<<<<<<< HEAD
     members: IUser[];
+=======
+    members: number[];
+>>>>>>> ee90e5d0ecfbe1e9f64b845117c72f02005315d5
     messages: any[];
 }
 
