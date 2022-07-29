@@ -1,6 +1,7 @@
 import request from 'sync-request';
 import { url, port } from './config.json';
 import { createBasicAccount, createBasicAccount2, clear, createBasicDm, newReg } from './helperFunctions';
+// import { createBasicChannel } from './channels.test';
 
 const OK = 200;
 
@@ -127,51 +128,107 @@ describe('HTTP tests using Jest', () => {
     expect(bodyObj).toMatchObject({ error: 'error' });
   });
 
-  test('Testing successful dmMessages', () => {
-    const basicA = createBasicAccount();
-    const newUser = JSON.parse(String(basicA.getBody()));
-    const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
-    const newDm = JSON.parse(String(basicD.getBody()));
-    request(
-      'POST',
-      `${url}:${port}/message/senddm/v1`,
-      {
-        body: JSON.stringify({
-          token: newUser.token,
-          dmId: newDm.dmId,
-          message: 'Hi',
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+  // test('Testing successful dmMessages', () => {
 
-    const res = request(
-      'GET',
-      `${url}:${port}/dm/messages/v1`,
-      {
-        qs: {
-          token: newUser.token,
-          dmId: newDm.dmId,
-          start: 0,
-        },
-      }
-    );
+  //   const user1 = newReg('zach@gmail.com', '123456', 'zach', 'chan');
+  //   const user1Body = JSON.parse(String(user1.getBody()));
+  //   expect(user1Body).toMatchObject({ token: expect.any(String), authUserId: expect.any(Number) });
 
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({
-      messages: [{
-        messageId: expect.any(Number),
-        uId: expect.any(Number),
-        message: 'Hi',
-        timeSent: expect.any(Number),
-      }],
-      start: 0,
-      end: -1,
-    });
-  });
+  //   // new channel
+  //   const chan1 = createBasicChannel(user1Body.token[0], 'Channel 1', true);
+  //   const chan1Body = JSON.parse(String(chan1.getBody()));
+  //   expect(chan1Body).toMatchObject({ channelId: expect.any(Number) });
+
+  //   // new dm
+  //   const dm1 = createBasicDm(user1Body.token[0], [user1Body.authUserId]);
+  //   const dm1Body = JSON.parse(String(dm1.getBody()));
+  //   console.log(dm1Body)
+  //   expect(dm1Body).toMatchObject({ dmId: expect.any(Number) });
+
+  //   // send message to channel
+  //   const send1 = sendMessage(user1Body.token[0], chan1Body.channelId, 'chan1 message');
+  //   const send1Body = JSON.parse(String(send1.getBody()));
+  //   expect(send1Body).toMatchObject({ messageId: expect.any(Number) });
+  //   expect(send1.statusCode).toBe(OK);
+  //   console.log(user1Body)
+  //   // send message to dm
+  //   const dmMessage1 = dmSend(user1Body.token[0], dm1Body.dmId, 'DM 1 message 1 ahaha');
+  //   const dmMessage1Body = JSON.parse(String(dmMessage1.getBody()));
+
+  //   const res = request(
+  //         'GET',
+  //         `${url}:${port}/dm/messages/v1`,
+  //         {
+  //           qs: {
+  //             token: user1Body.token[0],
+  //             dmId: dm1Body.dmId,
+  //             start: 0,
+  //           },
+  //         }
+  //       );
+  //       const bodyObj = JSON.parse(String(res.getBody()));
+  //       expect(res.statusCode).toBe(OK);
+  //       expect(bodyObj).toMatchObject({
+  //             messages: [{
+  //               messageId: expect.any(Number),
+  //               uId: expect.any(Number),
+  //               message: 'Hi',
+  //               timeSent: expect.any(Number),
+  //             }],
+  //             start: 0,
+  //             end: -1,
+  //           });
+  // })
+
+  // console.log(dmMessage1Body)
+  //     expect(dmMessage1Body).toMatchObject({ dmId: expect.any(Number) });
+  /// /////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // above is zachs attempt below is lukes old test
+  /// ////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //   const basicA = createBasicAccount();
+  //   const newUser = JSON.parse(String(basicA.getBody()));
+  //   const basicD = createBasicDm(newUser.token[0], [newUser.authUserId]);
+  //   const newDm = JSON.parse(String(basicD.getBody()));
+  //   request(
+  //     'POST',
+  //     `${url}:${port}/message/senddm/v1`,
+  //     {
+  //       body: JSON.stringify({
+  //         token: newUser.token[0],
+  //         dmId: newDm.dmId,
+  //         message: 'Hi',
+  //       }),
+  //       headers: {
+  //         'Content-type': 'application/json',
+  //       },
+  //     }
+  //   );
+
+  //   const res = request(
+  //     'GET',
+  //     `${url}:${port}/dm/messages/v1`,
+  //     {
+  //       qs: {
+  //         token: newUser.token[0],
+  //         dmId: newDm.dmId,
+  //         start: 0,
+  //       },
+  //     }
+  //   );
+
+  //   const bodyObj = JSON.parse(String(res.getBody()));
+  //   expect(res.statusCode).toBe(OK);
+  //   expect(bodyObj).toMatchObject({
+  //     messages: [{
+  //       messageId: expect.any(Number),
+  //       uId: expect.any(Number),
+  //       message: 'Hi',
+  //       timeSent: expect.any(Number),
+  //     }],
+  //     start: 0,
+  //     end: -1,
+  //   });
+  // });
 
   test('dmMessages: dmId does not refer to valid DM', () => {
     const basicA = createBasicAccount();
@@ -181,14 +238,14 @@ describe('HTTP tests using Jest', () => {
 
     const res = request(
       'GET',
-      `${url}:${port}/dm/messages/v1`,
-      {
-        qs: {
-          token: newUser.token,
-          dmId: newDm.dmId + 5,
-          start: 0,
-        },
-      }
+        `${url}:${port}/dm/messages/v1`,
+        {
+          qs: {
+            token: newUser.token,
+            dmId: newDm.dmId + 5,
+            start: 0,
+          },
+        }
     );
 
     const bodyObj = JSON.parse(String(res.getBody()));
@@ -204,14 +261,14 @@ describe('HTTP tests using Jest', () => {
 
     const res = request(
       'GET',
-      `${url}:${port}/dm/messages/v1`,
-      {
-        qs: {
-          token: newUser.token,
-          dmId: newDm.dmId,
-          start: 50,
-        },
-      }
+        `${url}:${port}/dm/messages/v1`,
+        {
+          qs: {
+            token: newUser.token,
+            dmId: newDm.dmId,
+            start: 50,
+          },
+        }
     );
 
     const bodyObj = JSON.parse(String(res.getBody()));
@@ -230,14 +287,14 @@ describe('HTTP tests using Jest', () => {
 
     const res = request(
       'GET',
-      `${url}:${port}/dm/messages/v1`,
-      {
-        qs: {
-          token: newUser2.token,
-          dmId: newDm.dmId,
-          start: 0,
-        },
-      }
+        `${url}:${port}/dm/messages/v1`,
+        {
+          qs: {
+            token: newUser2.token,
+            dmId: newDm.dmId,
+            start: 0,
+          },
+        }
     );
 
     const bodyObj = JSON.parse(String(res.getBody()));

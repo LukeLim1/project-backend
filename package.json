@@ -4,9 +4,9 @@
         "tsc": "tsc --noImplicitAny",
         "lint": "eslint src/**.ts",
         "lint-fix": "eslint --fix src/**.ts",
-        "start": "ts-node src/server.ts",
+        "start": "nodemon src/server.ts",
         "ts-node-coverage": "nyc --reporter=text --reporter=lcov ts-node src/server.ts",
-        "posttest":  "pkill -f 'node_modules/sync-rpc/lib/worker.js' > /dev/null 2>&1"
+        "posttest": "pkill -f 'node_modules/sync-rpc/lib/worker.js' > /dev/null 2>&1"
     },
     "dependencies": {
         "cors": "^2.8.5",
@@ -14,6 +14,7 @@
         "http-errors": "^2.0.0",
         "middleware-http-errors": "^0.1.1",
         "morgan": "^1.10.0",
+        "nodemailer": "^6.7.7",
         "rewire": "^6.0.0",
         "validator": "^13.7.0"
     },

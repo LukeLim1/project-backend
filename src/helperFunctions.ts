@@ -2,6 +2,8 @@ import { getData } from './dataStore';
 import request from 'sync-request';
 import config from './config.json';
 
+import { userTemplate, IUser } from './interface';
+
 const port = config.port;
 const url = config.url;
 
@@ -13,6 +15,23 @@ export function containsDuplicates(array: number[]): boolean {
   } else {
     return true;
   }
+}
+
+/**
+ * convert userTemplate to IUser
+ * @param temp userTemplate
+ * @returns IUser
+ */
+export function convertUserTemplateToIUser (temp: userTemplate): IUser {
+  const res:IUser = {
+    uId: temp.userId,
+    email: temp.emailAddress,
+    nameFirst: temp.firstName,
+    nameLast: temp.lastname,
+    handleStr: temp.handle,
+  };
+
+  return res;
 }
 
 // test for a valid token
@@ -189,6 +208,64 @@ export function joinChannel(token: string, channelId: number) {
       body: JSON.stringify({
         token: token,
         channelId: channelId,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+// messageSend
+export function sendMessage(token: string, channelId: number, message: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/message/send/v2`,
+    {
+      body: JSON.stringify({
+        token: token,
+        channelId: channelId,
+        message: message
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+// senddm
+export function dmSend(token: string, dmId: number, message: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/message/senddm/v1`,
+    {
+      body: JSON.stringify({
+        token: token,
+        dmId: dmId,
+        message: message
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+// messageShareV1
+export function shareMessage(ogMessageId: number, message: string, channelId: number, dmId: number) {
+  const res = request(
+    'POST',
+    `${url}:${port}/message/share/v1`,
+    {
+      body: JSON.stringify({
+        ogMessageId: ogMessageId,
+        message: message,
+        channelId: channelId,
+        dmId: dmId
       }),
       headers: {
         'Content-type': 'application/json',
