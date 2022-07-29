@@ -24,12 +24,19 @@ token: string;
  * @param {*} message
  * @returns {} unless it is error case, in which case it will return { error: 'error' }
  */
+/**
+ * Send a message from the authorised user to the channel specified by channelId.
+ * @param {*} token
+ * @param {*} channelId
+ * @param {*} message
+ * @returns {} unless it is error case, in which case it will return { error: 'error' }
+ */
 export function messageSendV1 (token: string, channelId: number, message: string) {
   const data = getData();
-  // let channel, user;
   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
   const channel = data.channels.find(channel => channel.channelId === channelId);
 
+  // Checking if the token passed in is valid
   if (checkToken(token) === false) {
     return { error: 'error' };
   }
@@ -44,13 +51,17 @@ export function messageSendV1 (token: string, channelId: number, message: string
     return { error: 'error' };
   }
 
+  if (channel === undefined) {
+    return { error: 'error' };
+  }
+
   // Case 3 : length of message is less than 1 or over 1000 characters
   if (!message || message.length < 1 || message.length > 1000) {
     return { error: 'error' };
   }
 
   // Case 4: The authorised user is not a member of the valid channel
-  if (!channel.allMembers.includes(String(token))) {
+  if (!channel.allMembers.includes(user.userId)) {
     return { error: 'error' };
   }
 
@@ -82,6 +93,7 @@ export function messageEditV1 (token: string, messageId: number, message: string
   const data = getData();
   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
   const messageObj = data.messages.find(message => message.messageId === messageId);
+  const channelOwner = data.channels.find(channel => channel.ownerMembers === user.userId);
 
   if (checkToken(token) === false) {
     return { error: 'error' };
@@ -97,7 +109,17 @@ export function messageEditV1 (token: string, messageId: number, message: string
     return { error: 'error' };
   }
 
+  // Case 2: Message was not sent by the user making this request
   if (messageObj.token !== token) {
+    return { error: 'error' };
+  }
+
+  // Case 3: The authorised owner is not an owner of the channel
+  if (!channelOwner) {
+    return { error: 'error' };
+  }
+
+  if (channelOwner === undefined) {
     return { error: 'error' };
   }
 
@@ -121,6 +143,7 @@ export function messageRemoveV1 (token: string, messageId: number) {
   const data = getData();
   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
   const messageObj = data.messages.find(message => message.messageId === messageId);
+  const channelOwner = data.channels.find(channel => channel.ownerMembers === user.userId);
 
   if (checkToken(token) === false) {
     return { error: 'error' };
@@ -132,7 +155,17 @@ export function messageRemoveV1 (token: string, messageId: number) {
     return { error: 'error' };
   }
 
+  // Case 2: Message was not sent by the user making this request
   if (messageObj.token !== token) {
+    return { error: 'error' };
+  }
+
+  // Case 3: The authorised owner is not an owner of the channel
+  if (!channelOwner) {
+    return { error: 'error' };
+  }
+
+  if (channelOwner === undefined) {
     return { error: 'error' };
   }
 
