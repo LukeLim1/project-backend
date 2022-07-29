@@ -1,7 +1,8 @@
 export interface dmTemplate {
     dmId: number;
-    dmOwner: number;
-    name: string[];
+    dmOwner: IUser;
+    name: string;
+    members: IUser[];
     messages: any[];
 }
 
@@ -26,18 +27,9 @@ export interface userTemplate {
     numMessagesSent: number;
 }
 
-export interface channelTemplate {
-    name: string;
-    isPublic: boolean;
-    ownerMembers: number[];
-    allMembers: number[];
-    channelId: number;
-    messages: messageTemplate[];
-}
-
 export interface dataTemplate {
     users: userTemplate[];
-    channels: channelTemplate[];
+    channels: any[];
     usedNums: number[];
     usedTokenNums: number[];
     usedChannelNums: number[];
@@ -70,7 +62,7 @@ export interface IMessages {
 export interface IChannelDetails {
     name: string;
     isPublic: boolean;
-    ownerMembers: any;
+    ownerMembers: IUser[];
     allMembers: IUser[];
 }
 
