@@ -9,6 +9,8 @@ import { getData } from './dataStore';
 import { channelLeaveV1, channelDetails, channelJoin } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm } from './dm';
 import { setNameV1, setEmailV1, setHandleV1, usersAll } from './users';
+import errorHandler from 'middleware-http-errors';
+import { uploadPhoto, userPermissionChange, userRemove, usersStats, userStats } from './helperFunctions';
 // import fs from 'fs';
 
 // Set up web app, use JSON
@@ -152,8 +154,12 @@ app.put('/user/profile/sethandle/v1', (req, res) => {
   res.json(setHandleV1(token, handleStr));
 });
 
+
 // for logging errors
 app.use(morgan('dev'));
+
+// for handling errors
+app.use(errorHandler());
 
 // start server
 const server = app.listen(PORT, HOST, () => {
