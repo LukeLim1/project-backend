@@ -1,6 +1,7 @@
 import { getData } from './dataStore';
 import request from 'sync-request';
 import config from './config.json';
+import { userTemplate, IUser } from './interface';
 
 const port = config.port;
 const url = config.url;
@@ -132,16 +133,16 @@ export function changeEmail(token: string, email: string) {
 export function changeHandle(token: string, handle: string) {
   const res = request(
     'PUT',
-      `${url}:${port}/user/profile/sethandle/v1`,
-      {
-        body: JSON.stringify({
-          token: '2',
-          handle: 'newhandle',
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
+    `${url}:${port}/user/profile/sethandle/v1`,
+    {
+      body: JSON.stringify({
+        token: '2',
+        handle: 'newhandle',
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
   );
   return res;
 }
@@ -263,4 +264,40 @@ export function clear() {
   );
   const array = [res];
   array.slice(0);
+}
+
+/**
+ * convert userTemplate to IUser
+ * @param temp userTemplate
+ * @returns IUser
+ */
+export function convertUserTemplateToIUser(temp: userTemplate): IUser {
+  const res: IUser = {
+    uId: temp.userId,
+    email: temp.emailAddress,
+    nameFirst: temp.firstName,
+    nameLast: temp.lastname,
+    handleStr: temp.handle,
+  };
+
+  return res;
+}
+
+export function createBasicAccount3() {
+  const res = request(
+    'POST',
+    `${url}:${port}/auth/register/v2`,
+    {
+      body: JSON.stringify({
+        email: 'zachary-chan3@gmail.com',
+        password: 'z5312387',
+        nameFirst: 'Zachary3',
+        nameLast: 'Chan3'
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
 }

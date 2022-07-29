@@ -1,8 +1,8 @@
 import { getData, setData } from './dataStore';
 import { containsDuplicates, checkToken } from './helperFunctions';
-import { Error, /* IDmMessages */ IMessages } from './interface';
+import { dmTemplate, Error, IMessages, userTemplate } from './interface';
 
-export function dmCreateV1 (token: string, uIds: number[]) {
+export function dmCreateV1(token: string, uIds: number[]) {
   if (containsDuplicates(uIds) === true) {
     return { error: 'error' };
   }
@@ -66,7 +66,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
   return { dmId: identifier };
 }
 
-export function dmLeave (token: string, dmId: number) : object | Error {
+export function dmLeave(token: string, dmId: number): object | Error {
   if (checkToken(token) === false) {
     return { error: 'error' };
   }
@@ -91,7 +91,7 @@ export function dmLeave (token: string, dmId: number) : object | Error {
   return {};
 }
 
-export function dmMessages (token: string, dmId: number, start: number) {
+export function dmMessages(token: string, dmId: number, start: number) {
   if (checkToken(token) === false) {
     return { error: 'error' };
   }
@@ -157,31 +157,56 @@ export function dmMessages (token: string, dmId: number, start: number) {
 //   members: members[],
 // }
 
-interface messageId {
-  messageId: number,
-}
+// interface messageId {
+//   messageId: number,
+// }
 
 // interface dms {
 //   dmId: number,
 //   name: string[],
 // }
 
-export function senddm (token: string, dmId: number, message: string): messageId | Error {
+/**
+ * send message to dm
+ * @param token the ticket of the user
+ * @param dmId id of dm
+ * @param message message body
+ * @returns messageId
+ */
+export function senddm(token: string, dmId: number, message: string) {
   // Check if token is valid
-  checkToken(token);
-  if (checkToken(token) === false) {
+  if (!checkToken(token)) {
     return { error: 'error' };
   }
 
-  const data = getData();
-
-  // Case 1: if length of message is less than 1 or greater than 1000
+  // Case 0: if length of message is less than 1 or greater than 1000
   if (message.length < 1 || message.length > 1000) {
     return { error: 'error' };
   }
-  // Case 2 : dmId does not refer to a valid DM
-  const id = data.DMs.find(i => i.dmId === dmId);
-  if (!id) {
+  const data = getData();
+
+  // Case 1: dmId does not refer to a valid DM
+  const dm = data.DMs.find(d => d.dmId === dmId);
+  if (!dm) {
+    return { error: 'error' };
+  }
+
+  // case 2: check user
+  const user = data.users.find(u => u.token.includes(token));
+  if (!user) {
+    return { error: 'error' };
+  }
+
+  // case 3: check member of dm
+  let isMember = false;
+  for (const member of dm.members) {
+    if (member.uId === user.userId) {
+      isMember = true;
+      break;
+    }
+  }
+
+  if (!isMember) {
     return { error: 'error' };
   }
 
@@ -194,117 +219,121 @@ export function senddm (token: string, dmId: number, message: string): messageId
 
   const timeSent: number = Date.now();
 
-  for (const i in data.DMs) {
-    data.DMs[i].messages.push({
-      token: token,
-      messages: message,
-      time: timeSent,
-      messageId: random,
-    });
-  }
+  dm.messages.push({
+    messageId: random,
+    uId: user.userId,
+    message: message,
+    timeSent: timeSent
+  });
 
   setData(data);
   return { messageId: random };
 }
 
-// export function dmList (token: string) {
-//   // Check if token is valid
-//   checkToken(token);
-//   if (checkToken(token) === false) {
-//     return { error: 'error' };
-//   }
+/**
+ * select list dms that the user is a member of
+ * @param token the ticket of the user
+ * @returns list dm
+ */
+export function dmList(token: string) {
+  // Check if token is valid
+  if (!checkToken(token)) {
+    return { error: 'error token' };
+  }
+  const data = getData();
+  // get current user
+  const user = data.users.find(u => u.token.includes(token) === true) as userTemplate;
+  const userId = user.userId;
 
-//   const data = getData();
+  // array to store all the return objects with dmId and name
+  const myDMs: dmTemplate[] = [];
+  for (const dm of data.DMs) {
+    for (const member of dm.members) {
+      if (member.uId === userId) {
+        myDMs.push(dm);
+        break;
+      }
+    }
+  }
 
-//   // array to store all the return objects with dmId and name
-//   const array: dms[] = [];
+  return { dms: myDMs };
+}
 
-//   for (const i in data.users) {
-//     if (data.users.find(u => u.token.includes(token) === true)) {
-//       const dmObject = {
-//         dmId: data.DMs[i].dmId,
-//         name: data.DMs[i].name,
-//       };
-//       array.push(dmObject);
-//     }
-//   }
-//   // dms: Array of objects, where each object contains types { dmId, name }
-//   setData(data);
-//   return { dms: array };
-// }
+/**
+ * delete dm for owner
+ * @param token  the ticket of the user
+ * @param dmId dm id
+ * @returns
+ */
+export function dmRemove(token: string, dmId: number): object | Error {
+  // Check if token is valid
+  if (!checkToken(token)) {
+    return { error: 'error token' };
+  }
 
-// export function dmRemove (token: string, dmId: number): Empty | Error {
-//   // Check if token is valid
-//   checkToken(token);
-//   if (checkToken(token) === false) {
-//     return { error: 'error' };
-//   }
+  const data = getData();
+  const user = data.users.find(u => u.token.includes(token));
+  if (!user) {
+    return { error: 'error user not exit' };
+  }
 
-//   const data = getData();
-//   const id = data.DMs.find(i => i.dmId === dmId);
+  const ownerId = user.userId;
 
-//   // Case 1: dmId does not refer to a valid DM
-//   if (!id) {
-//     return { error: 'error' };
-//   }
+  const dms = data.DMs;
+  const dm = dms.find(d => d.dmId === dmId);
+  if (!dm) {
+    return { error: 'error dm not exit' };
+  }
 
-//   // Case 2: authorised user is not the original DM creator
-//   if (!data.users.find(u => u.token.includes(token) === true)) {
-//     return { error: 'error' };
-//   }
-//   // check if this is owner
-//   if (data.users.find(dm => dm.token.includes(token) === true)) {
-//     data.DMs = [];
-//   }
+  if (dm.dmOwner.uId !== ownerId) {
+    return { error: 'error you are not the dm owner' };
+  }
 
-//   setData(data);
-//   return {};
-// }
+  const index = dms.indexOf(dm);
+  dms.splice(index, 1);
 
-// export function dmDetails (token: string, dmId: number): userData | Error {
-// // Check if token is valid
-//   checkToken(token);
-//   if (checkToken(token) === false) {
-//     return { error: 'error' };
-//   }
+  setData(data);
+  return {};
+}
 
-//   const data = getData();
+/**
+ * get detail of the dm by id
+ * @param token the ticket of the user
+ * @param dmId id of dm
+ * @returns dm detail
+ */
+export function dmDetails(token: string, dmId: number): object | Error {
+  // Check if token is valid
+  if (!checkToken(token)) {
+    return { error: 'error token' };
+  }
 
-//   const id = data.DMs.find(i => i.dmId === dmId);
-//   // Case 1: dmId does not refer to a valid DM
-//   if (!id) {
-//     return { error: 'error' };
-//   }
+  const data = getData();
 
-//   // Case 2: authorised user is not a member of the DM
-//   if (!data.users.find(dm => dm.token.includes(token) === true)) {
-//     return { error: 'error' };
-//   }
+  // Case 1: dmId does not refer to a valid DM
+  const dm = data.DMs.find(d => d.dmId === dmId);
+  if (!dm) {
+    return { error: 'error dm not exit' };
+  }
 
-//   const dataArray: members[] = [];
-//   for (const i in id.name) {
-//     const handle: string = id.name[i];
-//     const user = data.users.find(user => user.handle === handle);
-//     if (!user) {
-//       return { error: 'error' };
-//     }
-//     const uId: number = user.userId;
-//     const email: string = user.emailAddress;
-//     const nameFirst: string = user.firstName;
-//     const nameLast: string = user.lastname;
+  // Case 2: check user is not a member of the DM
+  const user = data.users.find(dm => dm.token.includes(token)) as userTemplate;
+  let isMember = false;
+  for (const member of dm.members) {
+    if (member.uId === user.userId) {
+      isMember = true;
+      break;
+    }
+  }
 
-//     dataArray.push({
-//       uId: uId,
-//       email: email,
-//       nameFirst: nameFirst,
-//       nameLast: nameLast,
-//       handleStr: handle,
-//     });
-//   }
+  if (!isMember) {
+    return { error: 'error is not member of the dm' };
+  }
 
-//   setData(data);
-//   return {
-//     name: id.name.join(', '),
-//     members: dataArray,
-//   };
-// }
+  const result = {
+    name: dm.name,
+    members: dm.members
+  };
+
+  return result;
+}

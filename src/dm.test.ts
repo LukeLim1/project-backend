@@ -1,7 +1,6 @@
 import request from 'sync-request';
 import { url, port } from './config.json';
 import { createBasicAccount, createBasicAccount2, clear, createBasicDm, newReg } from './helperFunctions';
-
 const OK = 200;
 
 /*
@@ -243,5 +242,181 @@ describe('HTTP tests using Jest', () => {
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: 'error' });
+  });
+});
+
+describe('test for dm ', () => {
+  let userA: any, userB: any;
+  let userBMemberOfDMId: number;
+  let userBToken: string;
+  beforeAll(() => {
+    console.log('clear data before all test');
+    clear();
+
+    console.log('create owner of dm ');
+    // register user A
+    const basicA = createBasicAccount();
+    userA = JSON.parse(String(basicA.getBody()));
+
+    console.log('create member 1 of dm ');
+    // register user B
+    const basicB = createBasicAccount2();
+    userB = JSON.parse(String(basicB.getBody()));
+    userBToken = userB.token[0];
+
+    // console.log('create member 2 of dm ');
+    // // register user c
+    // const basicC = createBasicAccount3();
+    // userC = JSON.parse(String(basicC.getBody()));
+  });
+
+  test('list dm test success', () => {
+    console.log('start list dm test success');
+
+    const token = userBToken;
+
+    console.log('request param:{token:%s}', token);
+    const res = request(
+      'GET',
+      `${url}:${port}/dm/list/v1`,
+      {
+        qs: { token: token }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    console.log('response body :%s', bodyObj);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ dms: expect.any(Object) });
+  });
+
+  test('details dm test success', () => {
+    console.log('start details dm test success');
+    const token = userBToken;
+    const dmId = userBMemberOfDMId;
+
+    console.log('request param,{token:%s,dmId:%s}', token, dmId);
+    const res = request(
+      'GET',
+      `${url}:${port}/dm/details/v1`,
+      {
+        qs: { token: token, dmId: dmId }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    console.log('response body :%s', bodyObj);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ name: expect.any(String), members: expect.any(Object) });
+  });
+
+  test('details dm test fail', () => {
+    console.log('start details dm test fail');
+    const token = userBToken;
+    const dmId = -1;
+
+    console.log('request param,{token:%s,dmId:%s}', token, dmId);
+    const res = request(
+      'GET',
+      `${url}:${port}/dm/details/v1`,
+      {
+        qs: { token: token, dmId: dmId }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    console.log('response body :%s', bodyObj);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+
+  test('message senddm test success', () => {
+    console.log('start message senddm  test success');
+    const param = JSON.stringify({
+      token: userBToken,
+      dmId: userBMemberOfDMId,
+      message: 'hello everyone,this is ' + userBMemberOfDMId + 'dm,can you hear me.'
+    });
+
+    console.log('request param,%s', param);
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/senddm/v1`,
+      {
+        body: param,
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+
+    const bodyObj = JSON.parse(res.body as string);
+    console.log('response body :%s', bodyObj);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ messageId: expect.any(Number) });
+  });
+
+  test('message senddm test fail', () => {
+    console.log('start message senddm  test fail');
+    const param = JSON.stringify({
+      token: userBToken,
+      dmId: -1,
+      message: 'hello everyone,this is ' + userBMemberOfDMId + 'dm,can you hear me.'
+    });
+
+    console.log('request param,%s', param);
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/senddm/v1`,
+      {
+        body: param,
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
+
+    const bodyObj = JSON.parse(res.body as string);
+    console.log('response body :%s', bodyObj);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+
+  test('dm remove test fail', () => {
+    console.log('start dm remove  test fail');
+    const token = userBToken;
+    const dmId = -1;
+    console.log('request param,{token:%s,dmId:%s}', token, dmId);
+
+    const res = request(
+      'DELETE',
+      `${url}:${port}/dm/remove/v1`,
+      {
+        qs: { token: token, dmId: dmId }
+      }
+    );
+
+    const bodyObj = JSON.parse(res.body as string);
+    console.log('response body :%s', bodyObj);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  });
+  test('dm remove test success', () => {
+    console.log('start dm remove  test success');
+    const token = userA.token[0];
+    const dmId = userBMemberOfDMId;
+    console.log('request param,{token:%s,dmId:%s}', token, dmId);
+
+    const res = request(
+      'DELETE',
+      `${url}:${port}/dm/remove/v1`,
+      {
+        qs: { token: token, dmId: dmId }
+      }
+    );
+
+    const bodyObj = JSON.parse(res.body as string);
+    console.log('response body :%s', bodyObj);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({});
   });
 });

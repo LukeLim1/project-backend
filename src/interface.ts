@@ -1,9 +1,23 @@
+export interface IUser {
+    uId: number;
+    email: string;
+    nameFirst: string;
+    nameLast: string;
+    handleStr: string;
+}
+
+export interface IMessages {
+    messageId: number;
+    uId: number;
+    message: string;
+    timeSent: number;
+}
 export interface dmTemplate {
     dmId: number;
-    dmOwner: number;
+    dmOwner: IUser;
     name: string;
-    members: number[];
-    messages: any[];
+    members: IUser[];
+    messages: IMessages[];
 }
 
 export interface messageTemplate {
@@ -39,22 +53,7 @@ export interface Error {
 }
 
 /* eslint-disable @typescript-eslint/no-empty-interface */
-export interface Empty {}
-
-export interface IUser {
-    uId: number;
-    email: string;
-    nameFirst: string;
-    nameLast: string;
-    handleStr: string;
-}
-
-export interface IMessages {
-    messageId: number;
-    uId: number;
-    message: string;
-    timeSent: number;
-}
+export interface Empty { }
 
 export interface IChannelDetails {
     name: string;
