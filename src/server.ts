@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { echo } from './echo';
 import morgan from 'morgan';
 import config from './config.json';
@@ -7,7 +7,7 @@ import { channelsListV1, channelsListallV1, channelsCreateV1 } from './channels'
 import { clearV1 } from './other';
 import { getData } from './dataStore';
 import { channelLeaveV1, channelDetails, channelJoin } from './channel';
-import { dmCreateV1, dmLeave, dmMessages, senddm } from './dm';
+import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } from './dm';
 import { setNameV1, setEmailV1, setHandleV1, usersAll } from './users';
 // import fs from 'fs';
 
@@ -135,6 +135,23 @@ app.get('/dm/messages/v1', (req, res) => {
 app.post('/message/senddm/v1', (req, res) => {
   const { token, dmId, message } = req.body;
   res.json(senddm(token, dmId, message));
+});
+
+app.get('/dm/list/v1', (req: Request, res: Response) => {
+  const token = req.query.token as string;
+  res.json(dmList(token));
+});
+
+app.get('/dm/details/v1', (req: Request, res: Response) => {
+  const token = req.query.token as string;
+  const dmId = req.query.dmId as string;
+  res.json(dmDetails(token as string, parseInt(dmId)));
+});
+
+app.delete('/dm/remove/v1', (req: Request, res: Response) => {
+  const token = req.query.token as string;
+  const dmId = req.query.dmId as string;
+  res.json(dmRemove(token, parseInt(dmId)));
 });
 
 app.get('/users/all/v1', (req, res) => {
