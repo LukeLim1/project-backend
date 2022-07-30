@@ -73,6 +73,9 @@ export function dmCreateV1 (token: string, uIds: number[]) {
     handleStr: user.handle
   };
 
+  user.numDmsJoined++;
+  data.numDms++;
+
   data.DMs.push({
     dmId: identifier,
     dmOwner: owner,
@@ -80,6 +83,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
     messages: [],
     members: memberArray,
   });
+  setData(data);
   return { dmId: identifier };
 }
 
@@ -107,6 +111,8 @@ export function dmLeave (token: string, dmId: number) : object | Error {
   }
 
   if (!isMember) return { error: 'error' };
+
+  user.numDmsJoined--;
 
   setData(data);
   return {};
@@ -215,6 +221,7 @@ export function senddm(token: string, dmId: number, message: string) {
     timeSent: timeSent
   });
 
+  user.numMessagesSent++;
   setData(data);
   return { messageId: random };
 }
@@ -281,9 +288,19 @@ export function dmRemove(token: string, dmId: number): object | Error {
     return { error: 'error you are not the dm owner' };
   }
 
+  for (const member of dm.members) {
+    for (const user of data.users) {
+      if (member.handleStr === user.handle) {
+        user.numDmsJoined--;
+      }
+    }
+  }
+
   const index = dms.indexOf(dm);
   dms.splice(index, 1);
 
+  data.numDms--;
+  data.numMsgs -= dm.messages.length;
   setData(data);
   return {};
 }

@@ -13,16 +13,21 @@ export interface IMessages {
     timeSent: number;
 }
 
+export interface channelTemplate {
+    name: string;
+    isPublic: boolean;
+    ownerMembers: IUser[];
+    allMembers: IUser[];
+    channelId: number;
+    messages: any[];
+}
+
 export interface dmTemplate {
     dmId: number;
     dmOwner: IUser;
     name: string;
     members: IUser[];
-<<<<<<< HEAD
-    messages: any[];
-=======
     messages: IMessages[];
->>>>>>> e25a6ab866704466f144dbc9b113d4fda506e797
 }
 
 export interface messageTemplate {
@@ -54,6 +59,9 @@ export interface dataTemplate {
     usedChannelNums: number[];
     DMs: dmTemplate[];
     messages: messageTemplate[];
+    numChannels: number;
+    numDms: number;
+    numMsgs: number;
 }
 
 export interface Error {

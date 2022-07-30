@@ -10,23 +10,18 @@ function userRemove (uId: number) {
     }
 
     for (const channel of data.channels) {
-        if (channel.allMembers.includes(uId)) {
-            channel.allMembers = removeItemAll(channel.allMembers, uId) as number[];
-            user.numChannelsJoined--;
+        for (const member of channel.allMembers) {
+            if (member.uId === user.userId) {
+                channel.allMembers = removeItemAll(channel.allMembers, member);
+            }
         }
     }
 
-    const userHandle = user.handle;
     for (const dm of data.DMs) {
-        for (const msg of dm.messages) {
-            if (msg.uId === user.userId) {
-                msg.message = 'Removed user';
+        for (const member of dm.members) {
+            if (member.uId === user.userId) {
+                channel.allMembers = removeItemAll(channel.allMembers, member);
             }
-        }
-
-        if (dm.name.includes(user.handle)) {
-            dm.name = removeItemAll(dm.name, userHandle) as string[];
-            user.numDmsJoined--;
         }
     }
 

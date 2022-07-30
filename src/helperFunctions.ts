@@ -17,7 +17,7 @@ export function containsDuplicates(array: number[]): boolean {
 }
 
 // removes a certain item completely from that array
-export function removeItemAll (arr: number[] | string[], item: number | string): number[] | string[] {
+export function removeItemAll (arr: any[], item: any) {
   let i = 0;
   while (i < arr.length) {
     if (arr[i] === item) {
@@ -252,13 +252,13 @@ export function uploadPhoto(imgUrl: string, xStart: number, yStart: number, xEnd
 }
 
 // Fetches required statistics about this user's use of UNSW Treats
-export function userStats (token: string) {
+export function requestUserStats (token: string) {
   const res = request(
     'GET',
     `${url}:${port}/user/stats/v1`,
     {
       headers: {
-        token
+        token: token,
       }
     }
   );
@@ -266,7 +266,7 @@ export function userStats (token: string) {
 }
 
 // Fetches required statistics about the workspace's use of UNSW Treats 
-export function usersStats () {
+export function requestUsersStats () {
   const res = request(
     'GET',
     `${url}:${port}/users/stats/v1`,

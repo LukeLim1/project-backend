@@ -77,6 +77,7 @@ export function messageSendV1 (token: string, channelId: number, message: string
     message: `${message}`,
     token: String(token),
   });
+  user.numMessagesSent++;
   setData(data);
   return { messageId: randomNumber };
 }

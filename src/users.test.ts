@@ -1,6 +1,6 @@
 import request from 'sync-request';
 import { url, port } from './config.json';
-import { createBasicAccount, createBasicAccount2, clear, changeName, changeEmail, newReg, uploadPhoto, userStats, usersStats /* changeHandle */ } from './helperFunctions';
+import { createBasicAccount, createBasicAccount2, clear, changeName, changeEmail, newReg, uploadPhoto, requestUserStats, requestUsersStats /* changeHandle */ } from './helperFunctions';
 
 const OK = 200;
 
@@ -237,7 +237,9 @@ describe('uploadPhoto tests using Jest', () => {
 
 describe('userStats & usersStats tests using Jest', () => {
   test('Test successful userStats', () => {
-    const res = userStats();
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const res = requestUserStats(newUser.token);
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({
@@ -258,7 +260,7 @@ describe('userStats & usersStats tests using Jest', () => {
   });
 
   test('Test successful usersStats', () => {
-    const res = usersStats();
+    const res = requestUsersStats();
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({

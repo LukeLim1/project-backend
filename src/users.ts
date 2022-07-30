@@ -171,7 +171,23 @@ function uploadPhoto (imgUrl: string, xStart: number, yStart: number, xEnd: numb
 function userStats (token: string) {
   const data = getData();
   const user = data.users.find(u => u.token.includes(token));
-  const time = Math.floor((new Date()).getTime() / 1000); // not entirely sure
+  const time = Math.floor((new Date()).getTime() / 1000);
+
+  // let numChannelMsg = 0;
+  // for (const channel of data.channels) {
+  //   numChannelMsg += channel.messages.length;
+  // }
+
+  // let numDmMsg = 0;
+  // for (const dm of data.DMs) {
+  //   numDmMsg += dm.messages.length;
+  // }
+
+  // const numMessagesExist = numChannelMsg + numDmMsg;
+
+
+  const involvementRate = (user.numChannelsJoined + user.numDmsJoined + user.numMessagesSent)
+        / (data.numChannels + data.numDms + data.numMsgs);
 
   return {
     channelsJoined: [{
@@ -186,27 +202,31 @@ function userStats (token: string) {
       numMessagesSent: user.numMessagesSent,
       timeStamp: time,
     }],
-    involvementRate: 0, // CHANGE!
+    involvementRate: involvementRate,
   }
 }
 
 function usersStats () {
   const data = getData();
-  const numChannelsExist = data.channels.length;
-  const numDmsExist = data.DMs.length;
-  const time = Math.floor((new Date()).getTime() / 1000); // not entirely sure
+  const numChannelsExist = data.numChannels;
+  const numDmsExist = data.numDms;
+  const numMessagesExist = data.numMsgs;
+  const time = Math.floor((new Date()).getTime() / 1000);
 
-  let numChannelMsg = 0;
+  const usersJoined = new Set();
   for (const channel of data.channels) {
-    numChannelMsg += channel.messages.length;
+    for (const member of channel.allMembers) {
+      usersJoined.add(member);
+    }
   }
 
-  let numDmMsg = 0;
   for (const dm of data.DMs) {
-    numDmMsg += dm.messages.length;
+    for (const member of dm.members) {
+      usersJoined.add(member);
+    }
   }
-
-  const numMessagesExist = numChannelMsg + numDmMsg;
+  const numUsersJoined = usersJoined.size;
+  const utilizationRate = numUsersJoined / (data.users.length);
 
   return {
     channelsExist: [{
@@ -221,7 +241,7 @@ function usersStats () {
       numMessagesExist: numMessagesExist,
       timeStamp: time,
     }],
-    utilizationRate: 0, // CHANGE!
+    utilizationRate: utilizationRate,
   }
 }
 

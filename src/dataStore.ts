@@ -10,6 +10,9 @@ let data: dataTemplate = {
   usedChannelNums: [],
   DMs: [],
   messages: [],
+  numChannels: 0,
+  numDms: 0,
+  numMsgs: 0,  // still have to count for the case of standup/send
 };
 
 // YOU SHOULDNT NEED TO MODIFY THE FUNCTIONS BELOW IN ITERATION 1
