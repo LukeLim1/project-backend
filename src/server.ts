@@ -8,8 +8,8 @@ import { clearV1 } from './other';
 import { getData } from './dataStore';
 import { channelLeaveV1, channelDetails, channelJoin, channelInviteV2, channelAddownerV1, channelRemoveownerV1, channelMessagesV2 } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } from './dm';
-import { setNameV1, setEmailV1, setHandleV1, usersAll } from './users';
-import { uploadPhoto, userPermissionChange, userRemove, usersStats, userStats } from './helperFunctions';
+import { setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats } from './users';
+import { userPermissionChange, userRemove } from './helperFunctions';
 import { messageSendV1, messageEditV1, messageRemoveV1 } from './message';
 import errorHandler from 'middleware-http-errors';
 // import fs from 'fs';
@@ -178,7 +178,8 @@ app.post('/user/profile/uploadphoto/v1', (req, res) => {
 });
 
 app.get('/user/stats/v1', (req, res) => {
-  res.json(userStats());
+  const token = req.header('token');
+  res.json(userStats(token));
 });
 
 app.get('/users/stats/v1', (req, res) => {
