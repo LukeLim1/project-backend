@@ -20,7 +20,7 @@ function userRemove (uId: number) {
     for (const dm of data.DMs) {
         for (const member of dm.members) {
             if (member.uId === user.userId) {
-                channel.allMembers = removeItemAll(channel.allMembers, member);
+                dm.members = removeItemAll(dm.members, member);
             }
         }
     }

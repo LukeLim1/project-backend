@@ -53,7 +53,7 @@ export interface userTemplate {
 
 export interface dataTemplate {
     users: userTemplate[];
-    channels: any[];
+    channels: channelTemplate[];
     usedNums: number[];
     usedTokenNums: number[];
     usedChannelNums: number[];

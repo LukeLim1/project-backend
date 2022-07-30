@@ -55,7 +55,7 @@ describe('HTTP tests using Jest', () => {
   test('Testing successful dmLeave', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
-    const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
+    const basicD = createBasicDm(newUser.token[0], [newUser.authUserId]);
     const newDm = JSON.parse(String(basicD.getBody()));
 
     const res = request(
@@ -63,7 +63,7 @@ describe('HTTP tests using Jest', () => {
       `${url}:${port}/dm/leave/v1`,
       {
         body: JSON.stringify({
-          token: newUser.token,
+          token: newUser.token[0],
           channelId: newDm.dmId,
         }),
         headers: {

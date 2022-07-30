@@ -53,31 +53,31 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
 // Return type : { channelId },
 
 function channelsListV1 (token: string) {
-  checkToken(token);
-  // if (checkToken(token) === false) {
-  //   return { error: 'error bad token' };
+  // checkToken(token);
+  // // if (checkToken(token) === false) {
+  // //   return { error: 'error bad token' };
+  // // }
+
+  // const data = getData();
+
+  // if (data.channels.length === 0) {
+  //   return { channels: [] };
   // }
 
-  const data = getData();
+  // const objectArray = [];
+  // const user = data.users.find(u => u.token.includes(token) === true);
+  // for (const channel of data.channels) {
+  //   if (channel.allMembers.includes(user.userId)) {
+  //     const channelsObject = {
+  //       channelId: channel.channelId,
+  //       name: channel.name,
+  //     };
 
-  if (data.channels.length === 0) {
-    return { channels: [] };
-  }
+  //     objectArray.push(channelsObject);
+  //   }
+  // }
 
-  const objectArray = [];
-  const user = data.users.find(u => u.token.includes(token) === true);
-  for (const channel of data.channels) {
-    if (channel.allMembers.includes(user.userId)) {
-      const channelsObject = {
-        channelId: channel.channelId,
-        name: channel.name,
-      };
-
-      objectArray.push(channelsObject);
-    }
-  }
-
-  return { channels: objectArray };
+  // return { channels: objectArray };
 }
 
 // Given an authorised user id and create an array of all channels including channels ids and names
