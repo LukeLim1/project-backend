@@ -214,7 +214,7 @@ export function leaveChannel(token: string, channelId: number) {
   return res;
 }
 // join a channel
-export function joinChannel(token: string, channelId: number) {
+export function requestJoinChannel(token: string, channelId: number) {
   const res = request(
     'POST',
     `${url}:${port}/channel/join/v2`,
@@ -262,6 +262,7 @@ export function requestUserStats (token: string) {
       }
     }
   );
+
   return res;
 }
 
@@ -271,6 +272,7 @@ export function requestUsersStats () {
     'GET',
     `${url}:${port}/users/stats/v1`,
   );
+
   return res;
 }
 
