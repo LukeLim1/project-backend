@@ -1,5 +1,6 @@
 import { getData, setData } from './dataStore';
 import { checkToken } from './helperFunctions';
+import { IUser } from './interface';
 
 // Given a name create a channel that can either be public or private
 // User who created a channel is automatically a memeber of the channel and the owner
@@ -30,14 +31,20 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
     return { error: 'error' };
   }
   const user = data.users.find(u => u.token.includes(token) === true);
-  user.numChannelsJoined++;
-  data.numChannels++;
+
+  const userPush: IUser =  {
+    uId: user.userId,
+    email: user.emailAddress,
+    nameFirst: user.firstName,
+    nameLast: user.lastname,
+    handleStr: user.handle
+}
 
   data.channels.push({
     name: `${name}`,
     isPublic: isPublic,
-    ownerMembers: [user],
-    allMembers: [user],
+    ownerMembers: [userPush],
+    allMembers: [userPush],
     channelId: randomNumber,
     messages: [],
   });
