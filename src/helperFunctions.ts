@@ -2,6 +2,8 @@ import { getData } from './dataStore';
 import request from 'sync-request';
 import config from './config.json';
 import { IUser, userTemplate } from './interface';
+import { channel } from 'diagnostics_channel';
+import { token } from 'morgan';
 
 const port = config.port;
 const url = config.url;
@@ -126,6 +128,21 @@ export function createBasicAccount3() {
   return res;
 }
 
+// log out
+export function requestAuthLogout(token: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/auth/logout/v2`,
+    {
+      headers: {
+        token: token,
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
 // change name
 export function changeName(token: string, nameFirst: string, nameLast: string) {
   const res = request(
@@ -213,21 +230,88 @@ export function leaveChannel(token: string, channelId: number) {
   );
   return res;
 }
+
+// channel details
+export function requestChannelDetails (token: string, channelId: number) {
+  const res = request(
+    'GET',
+    `${url}:${port}/channel/details/v3`,
+    {
+      qs: {
+        channelId: channelId,
+      },
+      headers: {
+        token: token,
+      }
+    }
+  );
+
+  return res;
+}
+
 // join a channel
 export function requestJoinChannel(token: string, channelId: number) {
   const res = request(
     'POST',
-    `${url}:${port}/channel/join/v2`,
+    `${url}:${port}/channel/join/v3`,
     {
       body: JSON.stringify({
-        token: token,
         channelId: channelId,
       }),
       headers: {
+        token: token,
         'Content-type': 'application/json',
       },
     }
   );
+  return res;
+}
+
+export function requestDmLeave(token: string, dmId: number) {
+  const res = request(
+    'POST',
+    `${url}:${port}/dm/leave/v2`,
+    {
+      body: JSON.stringify({
+        dmId: dmId,
+      }),
+      headers: {
+        token: token,
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+export function requestDmMessages(token: string, dmId: number, start: number) {
+  const res = request(
+    'GET',
+    `${url}:${port}/dm/messages/v2`,
+    {
+      qs: {
+        dmId: dmId,
+        start: start,
+      },
+      headers: {
+        token: token,
+      },
+    }
+  );
+  return res;
+}
+
+export function requestUsersAll (token: string) {
+  const res = request(
+    'GET',
+    `${url}:${port}/users/all/v2`,
+    {
+      headers: {
+        token: token,
+      }
+    }
+  );
+
   return res;
 }
 
@@ -276,7 +360,7 @@ export function requestUsersStats () {
   return res;
 }
 
-export function userRemove (uId: number) {
+export function requestUserRemove (token: string, uId: number) {
   const res = request(
     'DELETE',
     `${url}:${port}/admin/user/remove/v1`,
@@ -285,6 +369,7 @@ export function userRemove (uId: number) {
         uId: uId,
       }),
       headers: {
+        token: token,
         'Content-type': 'application/json',
       },
     }
@@ -292,7 +377,7 @@ export function userRemove (uId: number) {
   return res;
 }
 
-export function userPermissionChange(uId: number, permissionId: number) {
+export function requestUserPermissionChange(token: string, uId: number, permissionId: number) {
   const res = request(
     'POST',
     `${url}:${port}/admin/userpermission/change/v1`,
@@ -302,6 +387,7 @@ export function userPermissionChange(uId: number, permissionId: number) {
         permissionId: permissionId,
       }),
       headers: {
+        token: token,
         'Content-type': 'application/json',
       },
     }

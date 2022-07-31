@@ -1,8 +1,12 @@
 import { getData, setData } from './dataStore';
 import HTTPError from 'http-errors';
-import { removeItemAll } from './helperFunctions';
+import { checkToken, removeItemAll } from './helperFunctions';
 
-function userRemove (uId: number) {
+function userRemove (token: string, uId: number) {
+    if (!checkToken(token)) {
+        throw HTTPError(403, "invalid token");
+    }
+
     const data = getData();
     const user = data.users.find(u => u.userId === uId);
     if (!user) {
@@ -31,7 +35,10 @@ function userRemove (uId: number) {
     return {};
 }
 
-function userPermissionChange(uId: number, permissionId: number) {
+function userPermissionChange(token: string, uId: number, permissionId: number) {
+    if (!checkToken(token)) {
+        throw HTTPError(403, "invalid token");
+    }
     const data = getData();
     const user = data.users.find(u => u.userId === uId);
     if (!user) {

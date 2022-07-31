@@ -11,7 +11,7 @@ beforeEach(() => {
 describe('userRemove tests using Jest', () => {
     test('Test successful userRemove', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserRemove(newUser.authUserId);
+        const res = requestUserRemove(newUser.token, newUser.authUserId);
         const bodyObj = JSON.parse(String(res.getBody()));
         expect(res.statusCode).toBe(OK);
         expect(bodyObj).toMatchObject({});
@@ -19,7 +19,7 @@ describe('userRemove tests using Jest', () => {
 
     test('uId doesn\'t refer to valid user', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserRemove(newUser.authUserId + 5);
+        const res = requestUserRemove(newUser.token, newUser.authUserId + 5);
         const bodyObj = JSON.parse(String(res.getBody()));
         expect(res.statusCode).toBe(OK);
         // expect 400 error
@@ -27,7 +27,7 @@ describe('userRemove tests using Jest', () => {
 
     test('uId refers to a user who is only global owner', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserRemove(newUser.authUserId);
+        const res = requestUserRemove(newUser.token, newUser.authUserId);
         const bodyObj = JSON.parse(String(res.getBody()));
         expect(res.statusCode).toBe(OK);
         // expect 400 error
@@ -35,7 +35,7 @@ describe('userRemove tests using Jest', () => {
 
     test('authorised user is not global owner', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserRemove(newUser.authUserId);
+        const res = requestUserRemove(newUser.token, newUser.authUserId);
         const bodyObj = JSON.parse(String(res.getBody()));
         expect(res.statusCode).toBe(OK);
         // expect 403 error
@@ -45,7 +45,7 @@ describe('userRemove tests using Jest', () => {
 describe('userPermissionChange tests using Jest', () => {
     test('Test successful userPermissionChange', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserPermissionChange(newUser.authUserId, 1);
+        const res = requestUserPermissionChange(newUser.token, newUser.authUserId, 1);
         const bodyObj = JSON.parse(String(res.getBody()));
         expect(res.statusCode).toBe(OK);
         expect(bodyObj).toMatchObject({});
@@ -53,7 +53,7 @@ describe('userPermissionChange tests using Jest', () => {
 
     test('uId does not refer to a valid user', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserPermissionChange(newUser.authUserId + 5, 1);
+        const res = requestUserPermissionChange(newUser.token, newUser.authUserId + 5, 1);
         const bodyObj = JSON.parse(String(res.getBody()));
         expect(res.statusCode).toBe(OK);
         // expect 400 error
@@ -61,7 +61,7 @@ describe('userPermissionChange tests using Jest', () => {
 
     test('uId refers to only global owner who is being demoted to a user', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserPermissionChange(newUser.authUserId, 1);
+        const res = requestUserPermissionChange(newUser.token, newUser.authUserId, 1);
         const bodyObj = JSON.parse(String(res.getBody()));
         expect(res.statusCode).toBe(OK);
         // expect 400 error
@@ -69,7 +69,7 @@ describe('userPermissionChange tests using Jest', () => {
 
     test('permission ID invalid', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserPermissionChange(newUser.authUserId, 10000);
+        const res = requestUserPermissionChange(newUser.token, newUser.authUserId, 10000);
         const bodyObj = JSON.parse(String(res.getBody()));
         expect(res.statusCode).toBe(OK);
         // expect 400 error
@@ -77,7 +77,7 @@ describe('userPermissionChange tests using Jest', () => {
 
     test('user already has permission level of permission ID', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserPermissionChange(newUser.authUserId, 1);
+        const res = requestUserPermissionChange(newUser.token, newUser.authUserId, 1);
         const bodyObj = JSON.parse(String(res.getBody()));
         expect(res.statusCode).toBe(OK);
         // expect 400 error
@@ -85,7 +85,7 @@ describe('userPermissionChange tests using Jest', () => {
 
     test('authorised user is not global owner', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserPermissionChange(newUser.authUserId, 1);
+        const res = requestUserPermissionChange(newUser.token, newUser.authUserId, 1);
         const bodyObj = JSON.parse(String(res.getBody()));
         expect(res.statusCode).toBe(OK);
         // expect 403 error

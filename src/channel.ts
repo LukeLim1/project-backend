@@ -99,7 +99,7 @@ import HTTPError from 'http-errors';
 //                  channelId is valid, but the authorised user is not a member of the channel (i.e. authUserId not in ownerMembers nor allMembers)
 
 
-export function channelDetails (token: string, channelId: number) : IChannelDetails | Error {
+export function channelDetails(token: string, channelId: number): IChannelDetails | Error {
   if (checkToken(token) === false) {
     throw HTTPError(403, "invalid token");
   }
@@ -131,6 +131,11 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
     }
   }
   if (!isMember) throw HTTPError(403, "authorised user is not a member of the channel");
+
+  // check if user with token belongs to channel with channelId
+  // if (!channel.allMembers.includes(user.userId)) {
+  //   return { error: 'error' };
+  // }
 
   for (const member of channel.allMembers) {
     const u = data.users.find(u => u.userId === member.uId);
@@ -165,7 +170,7 @@ export function channelDetails (token: string, channelId: number) : IChannelDeta
 //                                                                      In our case it's in allMembers array)
 //                  channelId refers to a private channel, and the authrized user is not a channel member and not a global owner
 
-export function channelJoin (token: string, channelId: number) : object | Error {
+export function channelJoin(token: string, channelId: number): object | Error {
   if (checkToken(token) === false) {
     throw HTTPError(403, "invalid token");
   }
@@ -202,7 +207,7 @@ export function channelJoin (token: string, channelId: number) : object | Error 
   return {};
 }
 
-export function channelLeaveV1 (token: string, channelId: number): object {
+export function channelLeaveV1(token: string, channelId: number): object {
   const data = getData();
   const channel = data.channels.find(channel => channel.channelId === channelId);
   const getUser = data.users.find(u => u.token.includes(token));
@@ -228,7 +233,7 @@ export function channelLeaveV1 (token: string, channelId: number): object {
   return {};
 }
 
-export function channelInviteV2 (token: string, channelId: number, uId: number) {
+export function channelInviteV2(token: string, channelId: number, uId: number) {
   const data = getData();
   const user: userTemplate = data.users.find(user => user.userId === uId);
   const channel = data.channels.find(channel => channel.channelId === channelId);
@@ -252,7 +257,17 @@ export function channelInviteV2 (token: string, channelId: number, uId: number) 
     return { error: 'error' };
   }
   // Case 3: Inviting a user who is already a channel member
-  if (channel.allMembers.includes(uId)) {
+  // if (channel.allMembers.includes(uId)) {
+  //   return { error: 'error' };
+  // }
+  const arrayUserId: number[] = [];
+  Object.values(data.channels).forEach(element => {
+    let toPush;
+    for (const i in element.allMembers) { toPush = element.allMembers[i].userId; }
+    arrayUserId.push(toPush);
+  });
+
+  if (arrayUserId.includes(user.userId)) {
     return { error: 'error' };
   }
 
@@ -324,7 +339,7 @@ export function channelMessagesV2 (token: string, channelId: number, start: numb
   return { messages: messagesRestructured, start, end };
 }
 
-export function channelAddownerV1 (token: string, channelId: number, uId: number) {
+export function channelAddownerV1(token: string, channelId: number, uId: number) {
   const data = getData();
   const channel = data.channels.find(channel => channel.channelId === channelId);
   const getUser = data.users.find(u => u.userId === uId);
@@ -363,9 +378,10 @@ export function channelAddownerV1 (token: string, channelId: number, uId: number
   return {};
 }
 
-export function channelRemoveownerV1 (token: string, channelId: number, uId: number): object {
+export function channelRemoveownerV1(token: string, channelId: number, uId: number): object {
   const data = getData();
   const channel = data.channels.find(channel => channel.channelId === channelId);
+  console.log(channel);
   const getUser = data.users.find(u => u.userId === uId);
 
   // Checking if the token passed in is valid
@@ -390,18 +406,30 @@ export function channelRemoveownerV1 (token: string, channelId: number, uId: num
   }
 
   // Check if uId refers to a user who is not a member of the channel
-  if (!channel.allMembers.includes(uId)) {
-    return { error: 'error' };
-  }
+  // if (!channel.allMembers.includes(uId)) {
+  //   return { error: 'error' };
+  // }
+  // const arrayUserId = []
+  // Object.values(data.channels).forEach(element => {
+  //   let toPush;
+  //   for (const i in element.allMembers)
+  //     toPush = element.allMembers[i].userId;
+  //   arrayUserId.push(toPush);
+  // });
+  // console.log(arrayUserId)
+  // console.log(uId)
+  // if (!arrayUserId.includes(uId)) {
+  //   return { error: 'error not a member' };
+  // }
 
   // Check if uId refers to a user who is not an owner of the channel
-  if (!channel.ownerMembers.includes(uId)) {
-    return { error: 'error' };
+  if (channel.ownerMembers[0].userId !== uId) {
+    return { error: 'error not an owner' };
   }
 
   // Check if the channel only has 1 owner
   if (channel.ownerMembers.length === 1) {
-    return { error: 'error' };
+    return { error: 'error only 1 owner' };
   }
 
   // Otherwise, kick the user out of the ownerMembers

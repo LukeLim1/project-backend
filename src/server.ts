@@ -62,7 +62,7 @@ app.post('/auth/login/v2', (req, res) => {
 });
 
 app.post('/auth/logout/v1', (req, res) => {
-  const { token } = req.body;
+  const token = req.header('token');
   res.json(authLogout(token));
 });
 
@@ -187,13 +187,15 @@ app.get('/users/stats/v1', (req, res) => {
 });
 
 app.delete('/admin/user/remove/v1', (req, res) => {
+  const token = req.header('token');
   const uId = parseInt(req.query.uId as string);
-  res.json(userRemove(uId));
+  res.json(userRemove(token, uId));
 });
 
 app.post('/admin/userpermission/change/v1', (req, res) => {
+  const token = req.header('token');
   const { uId, permissionId } = req.body;
-  res.json(userPermissionChange(uId, permissionId));
+  res.json(userPermissionChange(token, uId, permissionId));
 });
 
 app.post('/channel/invite/v2', (req, res) => {
