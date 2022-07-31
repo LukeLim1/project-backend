@@ -2,6 +2,7 @@ import { getData } from './dataStore';
 import request from 'sync-request';
 import config from './config.json';
 import { IUser, userTemplate } from './interface';
+import HTTPError from 'http-errors';
 
 const port = config.port;
 const url = config.url;
@@ -47,6 +48,16 @@ export function checkToken(token: string): boolean | undefined {
   if (trigger === 0) {
     return false;
   }
+}
+
+// Use token to get uId
+export function getAuthUser(token: string) {
+  const data = getData();
+  const user = data.users.find((x) => x.token.includes(token));
+  if (!user) {
+    throw HTTPError(403, 'token passed in is invalid');
+  }
+  return user;
 }
 
 // create new account
