@@ -13,10 +13,10 @@ import { checkToken } from './helperFunctions';
 //               - name.length is not between 1 and 20 chars
 
 function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
-  // checkToken(token);
-  // if (checkToken(token) === false) {
-  //   return { error: 'error bad token' };
-  // }
+  checkToken(token);
+  if (checkToken(token) === false) {
+    return { error: 'error bad token' };
+  }
 
   const data = getData();
   let randomNumber = 1;
@@ -34,8 +34,8 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
   data.channels.push({
     name: `${name}`,
     isPublic: isPublic,
-    ownerMembers: [user.userId],
-    allMembers: [user.userId],
+    ownerMembers: [user],
+    allMembers: [user],
     channelId: randomNumber,
     messages: [],
   });
@@ -64,17 +64,18 @@ function channelsListV1 (token: string) {
 
   const objectArray = [];
   const user = data.users.find(u => u.token.includes(token) === true);
-  for (const channel of data.channels) {
-    if (channel.allMembers.includes(user.userId)) {
-      const channelsObject = {
-        channelId: channel.channelId,
-        name: channel.name,
-      };
 
-      objectArray.push(channelsObject);
+  for (const channel of data.channels) {
+    for (const member of channel.allMembers) {
+      if (member.userId === user.userId) {
+        objectArray.push({
+          channelId: channel.channelId,
+          name: channel.name,
+        });
+        break;
+      }
     }
   }
-
   return { channels: objectArray };
 }
 
