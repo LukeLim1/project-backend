@@ -9,7 +9,7 @@ import { getData } from './dataStore';
 import { channelLeaveV1, channelDetails, channelJoin, channelInviteV2, channelAddownerV1, channelRemoveownerV1, channelMessagesV2 } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } from './dm';
 import { setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats } from './users';
-import { userPermissionChange, userRemove } from './helperFunctions';
+import { userRemove, userPermissionChange } from './admin';
 import { messageSendV1, messageEditV1, messageRemoveV1 } from './message';
 import errorHandler from 'middleware-http-errors';
 // import fs from 'fs';

@@ -1,7 +1,7 @@
 import request from 'sync-request';
 import { url, port } from './config.json';
 import { createBasicChannel } from './channels.test';
-import { newReg, createBasicAccount, createBasicAccount2, leaveChannel, joinChannel, clear } from './helperFunctions';
+import { newReg, createBasicAccount, createBasicAccount2, leaveChannel, requestJoinChannel, clear } from './helperFunctions';
 // import { join } from 'path';
 
 const OK = 200;
@@ -16,31 +16,19 @@ describe('HTTP tests using Jest', () => {
   test('Testing successful channel details', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
-<<<<<<< HEAD
-    const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
-=======
     const basicC = createBasicChannel(newUser.token, 'channel1', true);
->>>>>>> 24a19ac164e24c0fbbc083f133623eadee63f6ca
     const newChannel = JSON.parse(String(basicC.getBody()));
     const res = request(
       'GET',
       `${url}:${port}/channel/details/v2`,
       {
         qs: {
-<<<<<<< HEAD
-          token: '1',
-          channelId: 1,
-        },
-      }
-    );
-=======
           token: newUser.token,
           channelId: newChannel.channelId,
         },
       }
     );
 
->>>>>>> 24a19ac164e24c0fbbc083f133623eadee63f6ca
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({
@@ -60,11 +48,7 @@ describe('HTTP tests using Jest', () => {
         nameLast: 'Chan',
         handleStr: 'zacharychan',
       }],
-<<<<<<< HEAD
-    })
-=======
     });
->>>>>>> 24a19ac164e24c0fbbc083f133623eadee63f6ca
   });
 
   test('channelDetails: channelId does not refer to valid channel', () => {
@@ -216,7 +200,7 @@ describe('HTTP tests using Jest', () => {
     const basicA2 = createBasicAccount2();
     const newUser2 = JSON.parse(String(basicA2.getBody()));
 
-    const res = joinChannel(newUser2.token, newChannel.channelId);
+    const res = requestJoinChannel(newUser2.token, newChannel.channelId);
 
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
@@ -238,7 +222,7 @@ describe('HTTP tests using Jest', () => {
       const newChannel = JSON.parse(String(basicC.getBody()));
 
       // join a channel
-      const res4 = joinChannel(newUser.token[0], newChannel.channelId);
+      const res4 = requestJoinChannel(newUser.token[0], newChannel.channelId);
 
       const bodyObj1 = JSON.parse(String(res4.getBody()));
       expect(res4.statusCode).toBe(OK);
@@ -268,7 +252,7 @@ describe('HTTP tests using Jest', () => {
       const newChannel = JSON.parse(String(basicC.getBody()));
 
       // join a channel
-      const res4 = joinChannel(newUser.token[0], newChannel.channelId);
+      const res4 = requestJoinChannel(newUser.token[0], newChannel.channelId);
 
       const bodyObj1 = JSON.parse(String(res4.getBody()));
       expect(res4.statusCode).toBe(OK);

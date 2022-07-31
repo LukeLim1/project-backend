@@ -20,7 +20,7 @@ function userRemove (uId: number) {
     for (const dm of data.DMs) {
         for (const member of dm.members) {
             if (member.uId === user.userId) {
-                channel.allMembers = removeItemAll(channel.allMembers, member);
+                dm.members = removeItemAll(dm.members, member);
             }
         }
     }
@@ -38,8 +38,13 @@ function userPermissionChange(uId: number, permissionId: number) {
         throw HTTPError(400, "user not found");
     }
 
+    let count = 0;
+    for (const user of data.users) {
+        if (user.globalPermissionId === 1) count++;
+    }
+
     // uId refers to only global owner being demoted to user
-    if (1) {
+    if (count === 1 && user.globalPermissionId === 1 && permissionId === 2) {
         throw HTTPError(400, "uId refers to only global owner being demoted to user");
     }
 
@@ -53,7 +58,7 @@ function userPermissionChange(uId: number, permissionId: number) {
     }
 
     // authorised user is not a global owner
-    if (1) {
+    if (user.globalPermissionId !== 1) {
         throw HTTPError(403, "user is not a global owner")
     }
 

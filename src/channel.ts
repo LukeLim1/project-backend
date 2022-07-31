@@ -177,11 +177,7 @@ export function channelJoin (token: string, channelId: number) : object | Error 
   if (!channel) {
     throw HTTPError(400, "channelId doesn't refer to valid channel");
   }
-
-  if (channel.isPublic === false) {
-    throw HTTPError(403, "authorised user is not channel member & global owner");
-  } 
-
+  
   let isMember = false;
   for (const member of channel.allMembers) {
     if (user.userId === member.uId) {
@@ -189,6 +185,10 @@ export function channelJoin (token: string, channelId: number) : object | Error 
     }
   }
   if (isMember) throw HTTPError(400, "authorised user is already a member of the channel");
+
+  if (channel.isPublic === false && user.globalPermissionId != 1) {
+    throw HTTPError(403, "authorised user is not channel member & global owner");
+  }
 
   channel.allMembers.push({
     uId: user.userId,

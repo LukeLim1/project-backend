@@ -101,6 +101,7 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
     lastname: nameLast,
     handle: `${userHandle}`,
     permissions: 2,
+    globalPermissionId: 2,
     token: [tokenStr],
     numChannelsJoined: 0,
     numDmsJoined: 0,
