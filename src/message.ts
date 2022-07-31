@@ -61,7 +61,18 @@ export function messageSendV1 (token: string, channelId: number, message: string
   }
 
   // Case 4: The authorised user is not a member of the valid channel
-  if (!channel.allMembers.includes(user.userId)) {
+  // if (!channel.allMembers.includes(user.userId)) {
+  //   return { error: 'error' };
+  // }
+
+  const arrayUserId: number[] = [];
+  Object.values(data.channels).forEach(element => {
+    let toPush;
+    for (const i in element.allMembers) { toPush = element.allMembers[i].userId; }
+    arrayUserId.push(toPush);
+  });
+
+  if (!arrayUserId.includes(user.userId)) {
     return { error: 'error' };
   }
 
