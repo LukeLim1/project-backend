@@ -21,7 +21,6 @@ function userProfileV1(token: string, uId: number): IUser | Error {
     return { error: 'error' };
   }
   const data = getData();
-  console.log(data);
   const user = data.users.find(u => u.userId === uId);
   if (!user) {
     return { error: 'error' };
@@ -107,7 +106,7 @@ function setHandleV1(token: string, handleStr: string): object {
 
 function usersAll (token: string) {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    return { error: 'error' }; //throw HTTPError(403, "invalid token");
   }
 
   const users = [];
@@ -133,8 +132,6 @@ function uploadPhoto (imgUrl: string, xStart: number, yStart: number, xEnd: numb
   const res = request(
     'GET', imgUrl
   );
-
-  console.log(res);
 
   if (res.statusCode !== 200) {
     throw HTTPError(400, "status code is not 200");

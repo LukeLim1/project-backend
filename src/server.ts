@@ -199,48 +199,41 @@ app.post('/admin/userpermission/change/v1', (req, res) => {
 });
 
 app.post('/channel/invite/v2', (req, res) => {
-  console.log('channel/invite/V2');
   const { token, channelId, uId } = req.body;
   res.json(channelInviteV2(token, channelId, uId));
 });
 
 app.get('/channel/messages/v2', (req, res) => {
-  console.log('channel/messages/V2');
   const { token, channelId, start } = req.body;
   // returns {messages,start,end}
   res.json(channelMessagesV2(token, channelId, start));
 });
 
 app.post('/channel/addowner', (req, res) => {
-  console.log('channel/addowner');
   const { token, channelId, uId } = req.body;
   // returns {}
   res.json(channelAddownerV1(token, channelId, uId));
 });
 
 app.post('/channel/removeowner', (req, res) => {
-  console.log('channel/removeowner');
   const { token, channelId, uId } = req.body;
   // returns {}
   res.json(channelRemoveownerV1(token, channelId, uId));
 });
 
 app.post('/message/send', (req, res) => {
-  console.log('message/send');
   const { token, channelId, message } = req.body;
   // returns {}
   res.json(messageSendV1(token, channelId, message));
 });
 
 app.put('/message/edit', (req, res) => {
-  console.log('message/edit');
   const { token, messageId, message } = req.body;
   // returns {}
   res.json(messageEditV1(token, messageId, message));
 });
 
 app.delete('/message/remove', (req, res) => {
-  console.log('message/remove');
   const { token, messageId } = req.body;
   // returns {}
   res.json(messageRemoveV1(token, messageId));

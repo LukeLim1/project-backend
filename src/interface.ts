@@ -45,6 +45,7 @@ export interface userTemplate {
     lastname: string;
     handle: string;
     permissions: number;
+    globalPermissionId: number;
     token: string[];
     numChannelsJoined: number;
     numDmsJoined: number;
@@ -53,7 +54,7 @@ export interface userTemplate {
 
 export interface dataTemplate {
     users: userTemplate[];
-    channels: any[];
+    channels: channelTemplate[];
     usedNums: number[];
     usedTokenNums: number[];
     usedChannelNums: number[];

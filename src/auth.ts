@@ -163,7 +163,7 @@ function authLoginV1 (email: string, password: string) {
 
 function authLogout (token: string): object | Error {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    return { error: 'error' }; //throw HTTPError(403, "invalid token");
   }
 
   const data = getData();

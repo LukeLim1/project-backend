@@ -745,7 +745,6 @@ describe('channelId is valid and the authorised user is not a member of the chan
     );
     const bodyObj11 = JSON.parse(String(res11.getBody()));
     const uID11 = bodyObj.authUserId;
-    console.log(bodyObj11);
 
     const res2 = request(
       'POST',
@@ -840,7 +839,6 @@ describe('Test channel/removeowner successfully', () => {
       }
     );
     const bodyObj5 = JSON.parse(String(res5.getBody()));
-    console.log(bodyObj5);
 
     const res6 = request(
       'POST',
@@ -854,7 +852,6 @@ describe('Test channel/removeowner successfully', () => {
       }
     );
     const bodyObj6 = JSON.parse(String(res6.getBody()));
-    console.log(bodyObj6);
 
     const res4 = request(
       'POST',
@@ -868,7 +865,6 @@ describe('Test channel/removeowner successfully', () => {
       }
     );
     const bodyObj4 = JSON.parse(String(res4.getBody()));
-    console.log(bodyObj4);
 
     const res7 = request(
       'POST',
@@ -882,7 +878,6 @@ describe('Test channel/removeowner successfully', () => {
       }
     );
     const bodyObj7 = JSON.parse(String(res7.getBody()));
-    console.log(bodyObj7);
 
     const res3 = request(
       'POST',

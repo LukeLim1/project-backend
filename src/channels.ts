@@ -40,6 +40,9 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
     handleStr: user.handle
 }
 
+  user.numChannelsJoined++;
+  data.numChannels++;
+
   data.channels.push({
     name: `${name}`,
     isPublic: isPublic,
@@ -76,7 +79,7 @@ function channelsListV1 (token: string) {
 
   for (const channel of data.channels) {
     for (const member of channel.allMembers) {
-      if (member.userId === user.userId) {
+      if (member.uId === user.userId) {
         objectArray.push({
           channelId: channel.channelId,
           name: channel.name,
