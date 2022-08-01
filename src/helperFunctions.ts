@@ -133,12 +133,12 @@ export function changeName(token: string, nameFirst: string, nameLast: string) {
     `${url}:${port}/user/profile/setname/v1`,
     {
       body: JSON.stringify({
-        token: token,
         nameFirst: nameFirst,
         nameLast: nameLast
       }),
       headers: {
         'Content-type': 'application/json',
+        token: token,
       },
     }
   );
@@ -151,11 +151,11 @@ export function changeEmail(token: string, email: string) {
     `${url}:${port}/user/profile/setemail/v1`,
     {
       body: JSON.stringify({
-        token: token,
         email: email,
       }),
       headers: {
         'Content-type': 'application/json',
+        token: token,
       },
     }
   );
@@ -168,11 +168,11 @@ export function changeHandle(token: string, handle: string) {
       `${url}:${port}/user/profile/sethandle/v1`,
       {
         body: JSON.stringify({
-          token: '2',
           handle: 'newhandle',
         }),
         headers: {
           'Content-type': 'application/json',
+          token: token,
         },
       }
   );
@@ -185,11 +185,11 @@ export function createBasicDm(token: string, uIds: number[]) {
     `${url}:${port}/dm/create/v1`,
     {
       body: JSON.stringify({
-        token: token,
         uIds: uIds,
       }),
       headers: {
         'Content-type': 'application/json',
+        token: token
       },
     }
   );

@@ -1,5 +1,6 @@
 import { getData, setData } from './dataStore';
 import { checkToken } from './helperFunctions';
+// import { IUser } from './interface';
 
 // Given a name create a channel that can either be public or private
 // User who created a channel is automatically a memeber of the channel and the owner
