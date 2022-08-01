@@ -66,17 +66,14 @@ app.post('/auth/logout/v1', (req, res) => {
 });
 
 app.post('/auth/passwordreset/request/v1', (req, res) => {
-  const token = req.header('token')
+  const token = req.header('token');
   const email = req.body.email;
   res.json(authPasswordResetRequest(token, email));
-
 });
 
 app.post('/auth/passwordreset/v1', (req, res) => {
-
   const { resetCode, newPassword } = req.body;
   res.json(authPasswordReset(resetCode, newPassword));
-
 });
 
 // app.post('/channels/create/v2', (req, res) => {

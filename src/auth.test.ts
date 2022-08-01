@@ -1,8 +1,6 @@
 import request from 'sync-request';
-import { authPasswordResetRequest } from './auth';
 import config from './config.json';
-import { getData } from './dataStore';
-import { newReg, clear, createBasicAccount, resetPassword, findResetCode } from './helperFunctions';
+import { newReg, clear, createBasicAccount, resetPassword } from './helperFunctions';
 
 const OK = 200;
 const port = config.port;
@@ -157,7 +155,7 @@ describe('authRegisterV2', () => {
 describe('request password reset', () => {
   test('Testing successful password email sent', () => {
     clear();
-    const basicA = newReg('zachary@gmail.com', 'zac123456', 'zach', 'chan')
+    const basicA = newReg('zachary@gmail.com', 'zac123456', 'zach', 'chan');
     const newUser = JSON.parse(String(basicA.getBody()));
 
     const res = request(
@@ -173,7 +171,7 @@ describe('request password reset', () => {
       },
     }
     );
-    
+
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({});
@@ -181,12 +179,12 @@ describe('request password reset', () => {
 });
 
 describe('request password reset', () => {
-  let newUser, newUserBody, passReq, passReqObject
-  beforeEach (() => {
+  let newUser, newUserBody, passReq, passReqObject;
+  beforeEach(() => {
     clear();
-    newUser = newReg('zachary@gmail.com', 'zac123456', 'zach', 'chan')
+    newUser = newReg('zachary@gmail.com', 'zac123456', 'zach', 'chan');
     newUserBody = JSON.parse(String(newUser.getBody()));
-    
+
     passReq = request(
       'POST',
     `${url}:${port}/auth/passwordreset/request/v1`,
@@ -200,12 +198,12 @@ describe('request password reset', () => {
       },
     }
     );
-    
+
     passReqObject = JSON.parse(String(passReq.getBody()));
     expect(passReq.statusCode).toBe(OK);
     expect(passReqObject).toMatchObject({});
   });
-  
+
   test('resetCode is not a valid reset code', () => {
     expect(resetPassword('dd31', 'newPassword')).toHaveProperty('statusCode', 400);
   });

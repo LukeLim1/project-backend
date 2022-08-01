@@ -28,6 +28,10 @@ export interface messageTemplate {
     token: string;
 }
 
+export interface passwordRequest {
+    email: string,
+    passReq: string
+}
 export interface userTemplate {
     emailAddress: string;
     userId: number;
@@ -49,12 +53,6 @@ export interface dataTemplate {
     messages: messageTemplate[];
     passwordRequest: passwordRequest[]
 }
-
-export interface passwordRequest {
-    email: string,
-    passReq: string
-}
-
 
 export interface Error {
     error: 'error';

@@ -286,6 +286,33 @@ export function shareMessage(ogMessageId: number, message: string, channelId: nu
   return res;
 }
 
+export function resetPassword(resetCode: string, newPassword: string) {
+  const res = request(
+    'POST',
+  `${url}:${port}/auth/passwordreset/v1`,
+  {
+    body: JSON.stringify({
+      resetCode: resetCode,
+      newPassword: newPassword
+    }),
+    headers: {
+      'Content-type': 'application/json',
+    },
+  }
+  );
+  return res;
+}
+
+export function findResetCode(userId: number) {
+  const data = getData();
+
+  const user = data.users.find(u => u.userId === userId);
+  console.log(user);
+  const resetObject = data.passwordRequest.find(u => u.email === user.emailAddress);
+  console.log(resetObject);
+  return resetObject.passReq;
+}
+
 // clear everything
 export function clear() {
   const res = request(
