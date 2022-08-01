@@ -1,6 +1,7 @@
 import { getData, setData } from './dataStore';
 import { containsDuplicates, checkToken } from './helperFunctions';
 import { Error, IDmMessages, IMessages, userTemplate, IUser } from './interface';
+import HTTPError from 'http-errors';
 
 export function dmCreateV1 (token: string, uIds: number[]) {
   if (containsDuplicates(uIds) === true) {
@@ -92,7 +93,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
 
 export function dmLeave (token: string, dmId: number) : object | Error {
   if (checkToken(token) === false) {
-    return { error: 'error' };  // throw HTTPError(403, "invalid token");
+    throw HTTPError(403, "invalid token");
   }
 
   const data = getData();
@@ -100,7 +101,7 @@ export function dmLeave (token: string, dmId: number) : object | Error {
   const dm = data.DMs.find(d => d.dmId === dmId);
 
   if (!dm) {
-    return { error: 'error' };  // throw HTTPError(400, "dmId doesn't refer to valid DM");
+    throw HTTPError(400, "dmId doesn't refer to valid DM");
   }
 
   let isMember = false;
@@ -113,7 +114,7 @@ export function dmLeave (token: string, dmId: number) : object | Error {
     }
   }
 
-  if (!isMember) return { error: 'error' }; // throw HTTPError(403, "authorised user is not a member of DM");
+  if (!isMember) throw HTTPError(403, "authorised user is not a member of DM");
 
   user.numDmsJoined--;
 
@@ -123,14 +124,14 @@ export function dmLeave (token: string, dmId: number) : object | Error {
 
 export function dmMessages (token: string, dmId: number, start: number): IDmMessages | Error {
   if (checkToken(token) === false) {
-    return { error: 'error' };  // throw HTTPError(403, "invalid token");
+    throw HTTPError(403, "invalid token");
   }
 
   const data = getData();
   const dm = data.DMs.find(d => d.dmId === dmId);
 
   if (!dm) {
-    return { error: 'error' };  // throw HTTPError(400, "dmId doesn't refer to valid DM");
+    throw HTTPError(400, "dmId doesn't refer to valid DM");
   }
 
   const user = data.users.find(u => u.token.includes(token));
@@ -140,7 +141,7 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
   const time = Math.floor((new Date()).getTime() / 1000);
 
   if (start > messagesCopy.length) {
-    return { error: 'error' };  // throw HTTPError(400, "start is greater than total messages in DM");
+    throw HTTPError(400, "start is greater than total messages in DM");
   }
 
   let isMember = false;
@@ -150,10 +151,13 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
     }
   }
 
-  if (!isMember) return { error: 'error' }; // throw HTTPError(403, "authorised user is not member of DM");
+  if (!isMember) throw HTTPError(403, "authorised user is not member of DM");
 
   for (let i = start; i < length; i++) {
     const d = dm.messages[i];
+    if (user.firstName === 'Removed' && user.lastname === 'user') {
+      d.message = 'Removed user';
+    }
     messagesRestructured.push({
       messageId: d.messageId,
       uId: user.userId,
@@ -226,6 +230,7 @@ export function senddm(token: string, dmId: number, message: string) {
   });
 
   user.numMessagesSent++;
+  data.numMsgs++;
   setData(data);
   return { messageId: random };
 }

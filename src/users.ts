@@ -183,8 +183,10 @@ function userStats (token: string) {
   // const numMessagesExist = numChannelMsg + numDmMsg;
 
 
-  const involvementRate = (user.numChannelsJoined + user.numDmsJoined + user.numMessagesSent)
+  let involvementRate = (user.numChannelsJoined + user.numDmsJoined + user.numMessagesSent)
         / (data.numChannels + data.numDms + data.numMsgs);
+  if (data.numChannels + data.numDms + data.numMsgs === 0) involvementRate = 0;
+  else if (involvementRate > 1) involvementRate = 1;
 
   return {
     channelsJoined: [{
@@ -223,7 +225,9 @@ function usersStats () {
     }
   }
   const numUsersJoined = usersJoined.size;
-  const utilizationRate = numUsersJoined / (data.users.length);
+  let utilizationRate = numUsersJoined / (data.users.length);
+  if (data.users.length === 0) utilizationRate = 0;
+  else if (utilizationRate > 1) utilizationRate = 1;
 
   return {
     channelsExist: [{

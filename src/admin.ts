@@ -1,12 +1,11 @@
 import { getData, setData } from './dataStore';
 import HTTPError from 'http-errors';
-import { checkToken, removeItemAll } from './helperFunctions';
+import { checkToken } from './helperFunctions';
 
 function userRemove (token: string, uId: number) {
     if (!checkToken(token)) {
         throw HTTPError(403, "invalid token");
     }
-
     
     const data = getData();
     const caller = data.users.find(u => u.token.includes(token));
@@ -25,12 +24,13 @@ function userRemove (token: string, uId: number) {
         if (user.globalPermissionId === 1) globalOwnerCount++;
     }
 
-    if (globalOwnerCount <= 1) throw HTTPError(400, "uId refers to only global owner");
+    if (globalOwnerCount === 1) throw HTTPError(400, "uId refers to only global owner");
 
     for (const channel of data.channels) {
         for (const member of channel.allMembers) {
             if (member.uId === user.userId) {
-                channel.allMembers = removeItemAll(channel.allMembers, member);
+                const index = channel.allMembers.indexOf(member);
+                channel.allMembers.splice(index, 1);
             }
         }
     }
@@ -38,7 +38,8 @@ function userRemove (token: string, uId: number) {
     for (const dm of data.DMs) {
         for (const member of dm.members) {
             if (member.uId === user.userId) {
-                dm.members = removeItemAll(dm.members, member);
+                const index = dm.members.indexOf(member);
+                dm.members.splice(index, 1);
             }
         }
     }

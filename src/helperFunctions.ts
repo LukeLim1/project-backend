@@ -18,19 +18,6 @@ export function containsDuplicates(array: number[]): boolean {
   }
 }
 
-// removes a certain item completely from that array
-export function removeItemAll (arr: any[], item: any) {
-  let i = 0;
-  while (i < arr.length) {
-    if (arr[i] === item) {
-      arr.splice(i, 1);
-    } else {
-      ++i;
-    }
-  }
-  return arr;
-}
-
 // test for a valid token
 export function checkToken(token: string): boolean | undefined {
   const data = getData();
@@ -267,6 +254,22 @@ export function requestJoinChannel(token: string, channelId: number) {
   return res;
 }
 
+export function requestDmDetails(token: string, dmId: number) {
+  const res = request(
+    'GET',
+    `${url}:${port}/dm/details/v2`,
+    {
+      qs: {
+        dmId: dmId,
+      },
+      headers: {
+        token: token,
+      },
+    }
+  );
+  return res;
+}
+
 export function requestDmLeave(token: string, dmId: number) {
   const res = request(
     'POST',
@@ -295,6 +298,24 @@ export function requestDmMessages(token: string, dmId: number, start: number) {
       },
       headers: {
         token: token,
+      },
+    }
+  );
+  return res;
+}
+
+export function requestSendDm(token: string, dmId: number, message: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/message/senddm/v2`,
+    {
+      body: JSON.stringify({
+        dmId: dmId,
+        message: message,
+      }),
+      headers: {
+        token: token,
+        'Content-type': 'application/json',
       },
     }
   );
@@ -365,9 +386,9 @@ export function requestUserRemove (token: string, uId: number) {
     'DELETE',
     `${url}:${port}/admin/user/remove/v1`,
     {
-      body: JSON.stringify({
+      qs: {
         uId: uId,
-      }),
+      },
       headers: {
         token: token,
         'Content-type': 'application/json',

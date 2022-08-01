@@ -1,6 +1,7 @@
 import request from 'sync-request';
+import { createBasicChannel } from './channels.test';
 import { url, port } from './config.json';
-import { createBasicAccount, clear, requestUserRemove, requestUserPermissionChange } from './helperFunctions';
+import { createBasicAccount, createBasicAccount2, clear, requestUserRemove, requestUserPermissionChange, createBasicDm, requestJoinChannel, requestChannelDetails } from './helperFunctions';
 
 const OK = 200;
 
@@ -11,8 +12,17 @@ beforeEach(() => {
 describe('userRemove tests using Jest', () => {
     test('Test successful userRemove', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserRemove(newUser.token, newUser.authUserId);
+        const newUser2 = JSON.parse(String(createBasicAccount2().getBody()));
+        const newChannel = JSON.parse(JSON.stringify(createBasicChannel(newUser.token, 'channel1', true)));
+        const newDm = JSON.parse(JSON.stringify(createBasicDm(newUser.token, [newUser.authUserId, newUser2.authUserId])));
+        requestJoinChannel(newUser2.token, newChannel.channelId);
+
+        const res = requestUserRemove(newUser.token, newUser2.authUserId);
         const bodyObj = JSON.parse(String(res.getBody()));
+
+        const channelDetails = JSON.parse(JSON.stringify(requestChannelDetails(newUser.token, newChannel.channelId)));
+        console.log(channelDetails);
+
         expect(res.statusCode).toBe(OK);
         expect(bodyObj).toMatchObject({});
     });

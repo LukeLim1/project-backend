@@ -1,7 +1,8 @@
 import request from 'sync-request';
+import { createBasicChannel } from './channels.test';
 import { url, port } from './config.json';
-import { createBasicAccount, createBasicAccount2, clear, changeName, changeEmail, newReg, 
-        requestUploadPhoto, requestUserStats, requestUsersStats } from './helperFunctions';
+import { createBasicAccount, createBasicAccount2, clear, changeName, changeEmail, newReg, requestUsersAll,
+        requestUploadPhoto, requestUserStats, requestUsersStats, requestUserRemove, createBasicDm, requestSendDm } from './helperFunctions';
 
 const OK = 200;
 
@@ -28,11 +29,10 @@ describe('HTTP tests using Jest', () => {
     const newUser = JSON.parse(String(basicA.getBody()));
     const basicA2 = createBasicAccount2();
     const newUser2 = JSON.parse(String(basicA2.getBody()));
-
-    const res = getallUsers();
-
-    const bodyObj = JSON.parse(String(res.getBody()));
-    console.log(bodyObj);
+    
+    const res = requestUsersAll(newUser.token);
+    
+    const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toStrictEqual({
       users: [{
@@ -51,8 +51,16 @@ describe('HTTP tests using Jest', () => {
       }]
     });
   });
-});
 
+  // test('Removed user is unseen', () => {
+  //   const basicA = createBasicAccount();
+  //   const newUser = JSON.parse(String(basicA.getBody()));
+  //   requestUserRemove(newUser.token, newUser.authUserId);
+  //   const res = requestUsersAll(newUser.token);
+  //   const bodyObj = JSON.parse(res.body as string);
+  //   console.log(bodyObj);
+  // });
+});
 // zachs tests for setname, setemail and sethandle
 describe('update name', () => {
   test('Changing name', () => {
@@ -233,48 +241,79 @@ describe('setHandle http route tests', () => {
 // });
 
 
-// describe('userStats & usersStats tests using Jest', () => {
-//   test('Test successful userStats', () => {
-//     const basicA = createBasicAccount();
-//     const newUser = JSON.parse(String(basicA.getBody()));
-//     const res = requestUserStats(newUser.token);
-//     const bodyObj = JSON.parse(res.body as string);
-//     expect(res.statusCode).toBe(OK);
-//     expect(bodyObj).toMatchObject({
-//       channelsJoined: [{
-//         numChannelsJoined: expect.any(Number),
-//         timeStamp: expect.any(Number),
-//       }],
-//       dmsJoined: [{
-//         numDmsJoined: expect.any(Number),
-//         timeStamp: expect.any(Number),
-//       }],
-//       messagesSent: [{
-//         numMessagesSent: expect.any(Number),
-//         timeStamp: expect.any(Number),
-//       }],
-//       involvementRate: expect.any(Number),
-//     })
-//   });
+describe('userStats & usersStats tests using Jest', () => {
+  test('Test successful userStats', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const res = requestUserStats(newUser.token);
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({
+      channelsJoined: [{
+        numChannelsJoined: 0,
+        timeStamp: expect.any(Number),
+      }],
+      dmsJoined: [{
+        numDmsJoined: 0,
+        timeStamp: expect.any(Number),
+      }],
+      messagesSent: [{
+        numMessagesSent: 0,
+        timeStamp: expect.any(Number),
+      }],
+      involvementRate: 0,
+    })
+  });
 
-//   test('Test successful usersStats', () => {
-//     const res = requestUsersStats();
-//     const bodyObj = JSON.parse(res.body as string);
-//     expect(res.statusCode).toBe(OK);
-//     expect(bodyObj).toMatchObject({
-//       channelsExist: [{
-//         numChannelsExist: expect.any(Number),
-//         timeStamp: expect.any(Number),
-//       }],
-//       dmsExist: [{
-//         numDmsExist: expect.any(Number),
-//         timeStamp: expect.any(Number),
-//       }],
-//       messagesExist: [{
-//         numMessagesExist: expect.any(Number),
-//         timeStamp: expect.any(Number),
-//       }],
-//       utilizationRate: expect.any(Number),
-//     })
-//   });
-// });
+  test('Test successful userStats 2', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+
+    createBasicChannel(newUser.token, 'channel1', true);
+    const newDm = JSON.parse(String(createBasicDm(newUser.token, [newUser.authUserId]).getBody()));
+    for (let i = 0; i < 12; i++) {
+      requestSendDm(newUser.token, newDm.dmId, 'Hey');
+    }
+
+    const res = requestUserStats(newUser.token);
+    const bodyObj = JSON.parse(res.body as string);
+
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({
+      channelsJoined: [{
+        numChannelsJoined: 1,
+        timeStamp: expect.any(Number),
+      }],
+      dmsJoined: [{
+        numDmsJoined: 1,
+        timeStamp: expect.any(Number),
+      }],
+      messagesSent: [{
+        numMessagesSent: 12,
+        timeStamp: expect.any(Number),
+      }],
+      involvementRate: 1,
+    })
+  });
+
+  test('Test successful usersStats', () => {
+    const res = requestUsersStats();
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({
+      channelsExist: [{
+        numChannelsExist: expect.any(Number),
+        timeStamp: expect.any(Number),
+      }],
+      dmsExist: [{
+        numDmsExist: expect.any(Number),
+        timeStamp: expect.any(Number),
+      }],
+      messagesExist: [{
+        numMessagesExist: expect.any(Number),
+        timeStamp: expect.any(Number),
+      }],
+      utilizationRate: expect.any(Number),
+    })
+  });
+});
