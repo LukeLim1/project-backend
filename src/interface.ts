@@ -28,6 +28,10 @@ export interface messageTemplate {
     token: string;
 }
 
+export interface passwordRequest {
+    email: string,
+    passReq: string
+}
 export interface userTemplate {
     emailAddress: string;
     userId: number;
@@ -47,7 +51,7 @@ export interface dataTemplate {
     usedChannelNums: number[];
     DMs: dmTemplate[];
     messages: messageTemplate[];
-    passwordRequest: string[]
+    passwordRequest: passwordRequest[]
 }
 
 export interface Error {

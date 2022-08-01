@@ -1,7 +1,8 @@
 import { getData, setData } from './dataStore';
 import validator from 'validator';
 import { checkToken } from './helperFunctions';
-import { Error } from './interface';
+import { Error, userTemplate } from './interface';
+import createHttpError from 'http-errors';
 // import crypto from 'crypto';
 
 // Given user information from parameters, create a new account for them (as an object inside an array)
@@ -191,8 +192,43 @@ function authLogout(token: string): object | Error {
 //   return hash;
 // }
 
-export function authPasswordResetRequest(email: string) {
-  // const token = req.headers.token
+function makeid(length: number) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() *
+      charactersLength));
+  }
+  return result;
+}
+/**
+ * Given an email send a secret reset password code to users email,
+ * that when used for auth/password/reset shows user trying to reset the password is
+ * who got the email.
+ * No errors are displayed when invalid email or user not found as it presents
+ * a security risk.
+ * A user is logged out of all sessions (tokens invalidated) when requesting reset
+ * @param {*} token
+ * @param {*} email
+ * @returns {}
+ */
+export function authPasswordResetRequest(token: string, email: string) {
+  const data = getData();
+  const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
+
+  if (!user) return { error: 'user not found' };
+  if (!data.users.find(u => u.emailAddress === email)) {
+    return { error: 'email not found' };
+  }
+
+  const rand = makeid(6);
+
+  data.passwordRequest.push(
+    {
+      email: email,
+      passReq: rand
+    });
 
   const nodemailer = require('nodemailer');
   const transporter = nodemailer.createTransport({
@@ -205,34 +241,71 @@ export function authPasswordResetRequest(email: string) {
   });
 
   const mailOptions = {
-    from: 'youremail@gmail.com',
-    to: 'myfriend@yahoo.com',
-    subject: 'Sending Email using Node.js',
-    text: 'That was easy!'
+    from: 'crunchieDevelopment@gmail.com',
+    to: email,
+    subject: 'Code to reset password is found below',
+    text: rand
   };
-
-  transporter.sendMail(mailOptions, function (error: string, info: any) {
+  let worked = 0;
+  transporter.sendMail(mailOptions, function (error: any, info: any) {
     if (error) {
       console.log(error);
     } else {
       console.log('Email sent: ' + info.response);
+      worked = 1;
     }
   });
+
+  // log user out of all current sessions
+  if (worked === 1) {
+    user.token = [];
+  }
+
   return {};
 }
 
-// export function authPasswordReset (resetCode: any, newPassword: string) {
-//   const data = getData();
-//   const user = data.users.find(u => u.token.includes(token) === true);
+/**
+ * Given a reset code for a user, change that users password to the
+ * newPassword provided in the arguement
+ * A reset code is invalidated once used
+ * Once
+ * @param {*} resetCode
+ * @param {*} newPassword
+ * @returns {} 400 error when resetCode is invalid or password entered is less than 6 chars long
+ */
+export function authPasswordReset (resetCode: any, newPassword: string) {
+  // error case 1 : 400 error new password arguement.length < 6
+  if (newPassword.length < 6) {
+    throw createHttpError(400, 'new password must be 6 characters or longer');
+  }
+  const data = getData();
+  // error case 2 : 400 error resetCode is not a valid activated resetCode
+  if (!data.passwordRequest.some(u => u.passReq === resetCode)) {
+    throw createHttpError(400, 'resetCode is not a valid reset code');
+  }
+  const findEmail = data.passwordRequest.find(u => u.passReq === resetCode);
+  // console.log(findEmail)
+  const user = data.users.find(u => u.emailAddress === findEmail.email);
+  // console.log('printing user below')
+  // console.log(user)
+  // console.log('printing data.passwordRequest array below')
+  // console.log(data.passwordRequest)
 
-//   if (!user) {
-//     return { error: 'error' };
-//   }
-//   // main code
-//   user.password = newPassword;
-//   setData(data);
+  // error case 3 : when the user was unable to be found
+  if (!user) {
+    throw createHttpError(400, 'user was not found');
+  }
 
-//   return {}
-// }
+  // console.log('printing userCheck below')
+  // console.log(userCheck)
+
+  // main code
+  user.password = newPassword;
+  setData(data);
+
+  data.passwordRequest = [];
+
+  return {};
+}
 
 export { authLoginV1, authRegisterV1, authLogout };

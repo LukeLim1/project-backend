@@ -1,0 +1,36 @@
+// primary questions
+
+1. Are you generally satisfied with the current features of treats
+2. Is there any key features you would say are missing from treats?
+3. If yes what benefit would the addition of these missing features add to treats?
+4. 
+
+
+
+Interview 1 : 
+            name: Dominic Chan
+            email: dominic.chan999@hotmail.com
+
+            1. Treats is generally satisfactory as it mimics many of the primary features other big communication
+               software achieves (such as skype, discord, microsoft teams)
+            2. Key features from other communication applications that could be implemented are the addition of many 
+               types of reacts to messages rather than just a 'like/ thumbs up' in treats
+            3. Benefits of this include greater expression of ones reaction to a particular message, which could
+               mean reduced time thinking of what to respond, since you can just react with your exact emotion at the time 
+
+
+Interview 2 :
+            name: Adele Chiong
+            email: adele.Geca2@bigpond.com
+
+            1. Treats feels quite underdeveloped in comparision to other communication applications, however i understand
+               that Treats is a new work in progress application and so cant expect it to be up to the same standards as 
+               other communication giants
+            2. A good feature could be predictive text, like on apple Iphone keyboards. It could suggest a list of
+               predetermined responses after analysing key words given to the program
+            3. Benefits could range from increased work productivity to coworkers, when asked simple question that can 
+               be broadly answered. For example 
+                                                person1: "have you left home to come to work yet"
+                                                person2: "On my way now!"
+
+
