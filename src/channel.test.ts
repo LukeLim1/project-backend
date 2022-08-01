@@ -13,21 +13,11 @@ beforeEach(() => {
 });
 
 describe('HTTP tests using Jest', () => {
-  test('Testing successful channel details', () => {
+  test('Testing successful single channel details', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
     const basicC = createBasicChannel(newUser.token, 'channel1', true);
     const newChannel = JSON.parse(String(basicC.getBody()));
-    // const res = request(
-    //   'GET',
-    //   `${url}:${port}/channel/details/v2`,
-    //   {
-    //     qs: {
-    //       token: newUser.token,
-    //       channelId: newChannel.channelId,
-    //     },
-    //   }
-    // );
 
     const res = requestChannelDetails(newUser.token, newChannel.channelId);
 
@@ -53,25 +43,54 @@ describe('HTTP tests using Jest', () => {
     });
   });
 
-  test('channelDetails: channelId does not refer to valid channel', () => {
+  test('Testing successful multiple channel details', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
-    const basicC = createBasicChannel(newUser.token[0], 'channel1', true);
+    const basicA2 = createBasicAccount2();
+    const newUser2 = JSON.parse(String(basicA2.getBody()));
+    const basicC = createBasicChannel(newUser.token, 'channel1', true);
     const newChannel = JSON.parse(String(basicC.getBody()));
-    const res = request(
-      'GET',
-      `${url}:${port}/channel/details/v2`,
-      {
-        qs: {
-          token: newUser.token[0],
-          channelId: newChannel.channelId + 5,
-        },
-      }
-    );
+
+    requestJoinChannel(newUser2.token, newChannel.channelId);
+    const res = requestChannelDetails(newUser.token, newChannel.channelId);
 
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(bodyObj).toMatchObject({
+      name: 'channel1',
+      isPublic: true,
+      ownerMembers: [{
+        uId: newUser.authUserId,
+        email: 'zachary-chan@gmail.com',
+        nameFirst: 'Zachary',
+        nameLast: 'Chan',
+        handleStr: 'zacharychan',
+      }],
+      allMembers: [{
+        uId: newUser.authUserId,
+        email: 'zachary-chan@gmail.com',
+        nameFirst: 'Zachary',
+        nameLast: 'Chan',
+        handleStr: 'zacharychan',
+      },
+      {
+        uId: newUser2.authUserId,
+        email: 'zachary-chan2@gmail.com',
+        nameFirst: 'Zachary2',
+        nameLast: 'Chan2',
+        handleStr: 'zachary2chan2',
+      }],
+    });
+  });
+
+  test('channelDetails: channelId does not refer to valid channel', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicC = createBasicChannel(newUser.token, 'channel1', true);
+    const newChannel = JSON.parse(String(basicC.getBody()));
+    const res = requestChannelDetails(newUser.token, newChannel.channelId + 5);
+
+    expect(res.statusCode).toBe(400);
   });
 
   test('channelDetails: channelId valid, but user is not a member', () => {
@@ -79,48 +98,9 @@ describe('HTTP tests using Jest', () => {
     const newUser = JSON.parse(String(basicA.getBody()));
     const basicC = createBasicChannel(newUser.token, 'channel1', true);
     const newChannel = JSON.parse(String(basicC.getBody()));
-    const res = request(
-      'GET',
-      `${url}:${port}/channel/details/v2`,
-      {
-        qs: {
-          token: newUser.token.concat('abc'),
-          channelId: newChannel.channelId,
-        },
-      }
-    );
+    const res = requestChannelDetails(newUser.token.concat('abc'), newChannel.channelId);
 
-    const bodyObj = JSON.parse(res.body as string);
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
-  });
-
-  test('Testing successful channelJoin', () => {
-    const basicA = createBasicAccount();
-    const newUser = JSON.parse(String(basicA.getBody()));
-    const basicC = createBasicChannel(newUser.token, 'channel1', true);
-    const newChannel = JSON.parse(String(basicC.getBody()));
-
-    const basicA2 = createBasicAccount2();
-    const newUser2 = JSON.parse(String(basicA2.getBody()));
-
-    const res = request(
-      'POST',
-      `${url}:${port}/channel/join/v2`,
-      {
-        body: JSON.stringify({
-          token: newUser2.token,
-          channelId: newChannel.channelId,
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
-
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({});
+    expect(res.statusCode).toBe(403);
   });
 
   test('channelJoin: channelId does not refer to a valid channel', () => {
@@ -132,23 +112,18 @@ describe('HTTP tests using Jest', () => {
     const basicA2 = createBasicAccount2();
     const newUser2 = JSON.parse(String(basicA2.getBody()));
 
-    const res = request(
-      'POST',
-      `${url}:${port}/channel/join/v2`,
-      {
-        body: JSON.stringify({
-          token: newUser2.token[0],
-          channelId: newChannel.channelId + 5,
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    const res = requestJoinChannel(newUser2.token, newChannel.channelId + 5);
+    expect(res.statusCode).toBe(400);
+  });
 
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+  test('channelJoin: authorised owner is already a member', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const basicC = createBasicChannel(newUser.token, 'channel1', true);
+    const newChannel = JSON.parse(String(basicC.getBody()));
+
+    const res = requestJoinChannel(newUser.token, newChannel.channelId);
+    expect(res.statusCode).toBe(400);
   });
 
   test('channelJoin: authorised user is already a member', () => {
@@ -160,37 +135,11 @@ describe('HTTP tests using Jest', () => {
     const basicA2 = createBasicAccount2();
     const newUser2 = JSON.parse(String(basicA2.getBody()));
 
-    request(
-      'POST',
-      `${url}:${port}/channel/join/v2`,
-      {
-        body: JSON.stringify({
-          token: newUser2.token,
-          channelId: newChannel.channelId,
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    const res1 = requestJoinChannel(newUser2.token, newChannel.channelId);
+    const res2 = requestJoinChannel(newUser2.token, newChannel.channelId);
 
-    const res = request(
-      'POST',
-      `${url}:${port}/channel/join/v2`,
-      {
-        body: JSON.stringify({
-          token: newUser2.token,
-          channelId: newChannel.channelId,
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
-
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(res1.statusCode).toBe(OK);
+    expect(res2.statusCode).toBe(400);
   });
 
   test('channelJoin: channelId refers to private channel and authorised user is not channel member and not global owner', () => {
@@ -204,9 +153,7 @@ describe('HTTP tests using Jest', () => {
 
     const res = requestJoinChannel(newUser2.token, newChannel.channelId);
 
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(res.statusCode).toBe(403);
   });
 
   // tests for channel/leave

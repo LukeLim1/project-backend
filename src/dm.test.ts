@@ -1,6 +1,6 @@
 import request from 'sync-request';
 import { url, port } from './config.json';
-import { createBasicAccount, createBasicAccount2, clear, createBasicDm, newReg } from './helperFunctions';
+import { createBasicAccount, createBasicAccount2, clear, createBasicDm, newReg, requestDmLeave } from './helperFunctions';
 
 const OK = 200;
 
@@ -58,19 +58,7 @@ describe('HTTP tests using Jest', () => {
     const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
     const newDm = JSON.parse(String(basicD.getBody()));
 
-    const res = request(
-      'POST',
-      `${url}:${port}/dm/leave/v1`,
-      {
-        body: JSON.stringify({
-          token: newUser.token,
-          channelId: newDm.dmId,
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    const res = requestDmLeave(newUser.token, newDm.dmId);
 
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);

@@ -101,8 +101,7 @@ import HTTPError from 'http-errors';
 
 export function channelDetails(token: string, channelId: number): IChannelDetails | Error {
   if (checkToken(token) === false) {
-    //throw HTTPError(403, "invalid token");
-    return { error: 'error' };
+    throw HTTPError(403, "invalid token");
   }
 
   const data = getData();
@@ -110,9 +109,16 @@ export function channelDetails(token: string, channelId: number): IChannelDetail
   const channel = data.channels.find(channel => channel.channelId === channelId);
 
   if (!channel) {
-    //throw HTTPError(400, "channelId doesn't refer to valid channel");
-    return { error: 'error' };
+    throw HTTPError(400, "channelId doesn't refer to valid channel");
   }
+  // check if user with token belongs to channel with channelId
+  let isMember = false;
+  for (const member of channel.allMembers) {
+    if (user.userId === member.uId) {
+      isMember = true;
+    }
+  }
+  if (!isMember) throw HTTPError(403, "authorised user is not a member of the channel");
 
   const owner = channel.ownerMembers[0];
 
@@ -124,20 +130,6 @@ export function channelDetails(token: string, channelId: number): IChannelDetail
     handleStr: owner.handleStr,
   }];
   const userArr = [];
-
-  // check if user with token belongs to channel with channelId
-  let isMember = false;
-  for (const member of channel.allMembers) {
-    if (user.userId === member.uId) {
-      isMember = true;
-    }
-  }
-  if (!isMember) return { error: 'error' }; //throw HTTPError(403, "authorised user is not a member of the channel");
-
-  // check if user with token belongs to channel with channelId
-  // if (!channel.allMembers.includes(user.userId)) {
-  //   return { error: 'error' };
-  // }
 
   for (const member of channel.allMembers) {
     const u = data.users.find(u => u.userId === member.uId);
@@ -174,8 +166,7 @@ export function channelDetails(token: string, channelId: number): IChannelDetail
 
 export function channelJoin(token: string, channelId: number): object | Error {
   if (checkToken(token) === false) {
-    //throw HTTPError(403, "invalid token");
-    return { error: 'error' };
+    throw HTTPError(403, "invalid token");
   }
 
   const data = getData();
@@ -183,7 +174,7 @@ export function channelJoin(token: string, channelId: number): object | Error {
   const user = data.users.find(u => u.token.includes(token));
 
   if (!channel) {
-    return { error: 'error' }; //throw HTTPError(400, "channelId doesn't refer to valid channel");
+    throw HTTPError(400, "channelId doesn't refer to valid channel");
   }
   
   let isMember = false;
@@ -192,10 +183,10 @@ export function channelJoin(token: string, channelId: number): object | Error {
       isMember = true;
     }
   }
-  if (isMember) return { error: 'error' }; //throw HTTPError(400, "authorised user is already a member of the channel");
+  if (isMember) throw HTTPError(400, "authorised user is already a member of the channel");
 
   if (channel.isPublic === false && user.globalPermissionId !== 1) {
-    return { error: 'error' }; //throw HTTPError(403, "authorised user is not channel member & global owner");
+    throw HTTPError(403, "authorised user is not channel member & global owner");
   }
 
 
