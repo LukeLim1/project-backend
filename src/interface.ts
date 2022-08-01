@@ -27,14 +27,14 @@ export interface dmTemplate {
     dmOwner: IUser;
     name: string;
     members: IUser[];
-    messages: IMessages[];
+    messages: messageTemplate[];
 }
 
 export interface messageTemplate {
-    channelId: number;
     messageId: number;
+    uId: number;
     message: string;
-    token: string;
+    timeSent: number;
 }
 
 export interface userTemplate {

@@ -89,6 +89,7 @@ export function messageSendV1 (token: string, channelId: number, message: string
 //     token: String(token),
 //   });
 //   user.numMessagesSent++;
+//   data.numMsgs++;
 //   setData(data);
   return { messageId: randomNumber };
 }
@@ -187,7 +188,7 @@ export function messageRemoveV1 (token: string, messageId: number) {
 //   } else {
 //     return { error: 'error' };
 //   }
-
+//   data.numMsgs--;
 //   setData(data);
   return {};
 }

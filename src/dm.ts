@@ -73,7 +73,10 @@ export function dmCreateV1 (token: string, uIds: number[]) {
     handleStr: user.handle
   };
 
-  user.numDmsJoined++;
+  for (const uId of uIds) {
+    const u = data.users.find(u => u.userId === uId);
+    u.numDmsJoined++;
+  }
   data.numDms++;
 
   data.DMs.push({
@@ -134,6 +137,7 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
   const length = (dm.messages.length - start >= 50) ? start + 50 : dm.messages.length;
   const messagesRestructured: IMessages[] = [];
   const messagesCopy = dm.messages;
+  const time = Math.floor((new Date()).getTime() / 1000);
 
   if (start > messagesCopy.length) {
     return { error: 'error' };
@@ -154,7 +158,7 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
       messageId: d.messageId,
       uId: user.userId,
       message: d.message,
-      timeSent: d.timeSent,
+      timeSent: time,
     });
   }
 
@@ -326,7 +330,7 @@ export function dmDetails(token: string, dmId: number): object | Error {
   }
 
   // Case 2: check user is not a member of the DM
-  const user = data.users.find(dm => dm.token.includes(token)) as userTemplate;
+  const user = data.users.find(dm => dm.token.includes(token));
   let isMember = false;
   for (const member of dm.members) {
     if (member.uId === user.userId) {

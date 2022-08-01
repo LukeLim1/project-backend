@@ -174,7 +174,7 @@ describe('HTTP tests using Jest', () => {
   });
 
   test('dmMessages: over 50 messages', () => {
-    
+
   })
 
   test('dmMessages: dmId does not refer to valid DM', () => {
@@ -293,7 +293,9 @@ describe('test for dm ', () => {
   test('details dm test success', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
-    const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
+    const basicA2 = createBasicAccount2();
+    const newUser2 = JSON.parse(String(basicA2.getBody()));
+    const basicD = createBasicDm(newUser.token, [newUser.authUserId, newUser2.authUserId]);
     const newDm = JSON.parse(String(basicD.getBody()));
 
     const res = request(
@@ -305,6 +307,7 @@ describe('test for dm ', () => {
     );
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
+    console.log(bodyObj);
     expect(bodyObj).toMatchObject({ name: expect.any(String), members: expect.any(Object) });
   });
 

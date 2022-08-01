@@ -93,6 +93,9 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
   const tokenStr = token.toString();
   data.usedNums.push(randomNumber);
   data.usedTokenNums.push(token);
+
+  let globalPermissionId = (data.users.length === 0) ? 1 : 2;
+
   data.users.push({
     emailAddress: email,
     userId: randomNumber,
@@ -101,7 +104,7 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
     lastname: nameLast,
     handle: `${userHandle}`,
     permissions: 2,
-    globalPermissionId: 2,
+    globalPermissionId: globalPermissionId,
     token: [tokenStr],
     numChannelsJoined: 0,
     numDmsJoined: 0,
