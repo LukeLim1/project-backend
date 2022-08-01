@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { echo } from './echo';
 import morgan from 'morgan';
 import config from './config.json';
-import { authLoginV1, authRegisterV1, authLogout } from './auth';
+import { authLoginV1, authRegisterV1, authLogout, authPasswordResetRequest, authPasswordReset } from './auth';
 import { channelsListV1, channelsListallV1, channelsCreateV1 } from './channels';
 import { clearV1 } from './other';
 import { getData } from './dataStore';
@@ -63,6 +63,20 @@ app.post('/auth/login/v2', (req, res) => {
 app.post('/auth/logout/v1', (req, res) => {
   const { token } = req.body;
   res.json(authLogout(token));
+});
+
+app.post('/auth/passwordreset/request/v1', (req, res) => {
+  const token = req.header('token')
+  const email = req.body.email;
+  res.json(authPasswordResetRequest(token, email));
+
+});
+
+app.post('/auth/passwordreset/v1', (req, res) => {
+
+  const { resetCode, newPassword } = req.body;
+  res.json(authPasswordReset(resetCode, newPassword));
+
 });
 
 // app.post('/channels/create/v2', (req, res) => {

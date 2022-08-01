@@ -47,8 +47,14 @@ export interface dataTemplate {
     usedChannelNums: number[];
     DMs: dmTemplate[];
     messages: messageTemplate[];
-    passwordRequest: string[]
+    passwordRequest: passwordRequest[]
 }
+
+export interface passwordRequest {
+    email: string,
+    passReq: string
+}
+
 
 export interface Error {
     error: 'error';
