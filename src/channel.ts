@@ -194,9 +194,10 @@ export function channelJoin(token: string, channelId: number): object | Error {
   }
   if (isMember) return { error: 'error' }; //throw HTTPError(400, "authorised user is already a member of the channel");
 
-  if (channel.isPublic === false && user.globalPermissionId != 1) {
+  if (channel.isPublic === false && user.globalPermissionId !== 1) {
     return { error: 'error' }; //throw HTTPError(403, "authorised user is not channel member & global owner");
   }
+
 
   channel.allMembers.push({
     uId: user.userId,
@@ -205,7 +206,13 @@ export function channelJoin(token: string, channelId: number): object | Error {
     nameLast: user.lastname,
     handleStr: user.handle,
   });
+
   user.numChannelsJoined++;
+  for (const owner of channel.ownerMembers) {
+    if (owner.uId === user.userId) {
+      user.permissions = 1;
+    } else user.permissions = 2;
+  }
   setData(data);
   return {};
 }

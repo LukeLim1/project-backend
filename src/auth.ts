@@ -94,6 +94,7 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
   data.usedNums.push(randomNumber);
   data.usedTokenNums.push(token);
 
+  // first user who joins treat becomes global owner
   let globalPermissionId = (data.users.length === 0) ? 1 : 2;
 
   data.users.push({

@@ -7,11 +7,25 @@ function userRemove (token: string, uId: number) {
         throw HTTPError(403, "invalid token");
     }
 
+    
     const data = getData();
+    const caller = data.users.find(u => u.token.includes(token));
     const user = data.users.find(u => u.userId === uId);
     if (!user) {
         throw HTTPError(400, "user not found");
     }
+
+    if (caller.globalPermissionId !== 1) {
+        throw HTTPError(403, "authorised user is not a global owner");
+    }
+
+    // check if authorised user is the only global owner
+    let globalOwnerCount = 0;
+    for (const user of data.users) {
+        if (user.globalPermissionId === 1) globalOwnerCount++;
+    }
+
+    if (globalOwnerCount <= 1) throw HTTPError(400, "uId refers to only global owner");
 
     for (const channel of data.channels) {
         for (const member of channel.allMembers) {
@@ -40,11 +54,13 @@ function userPermissionChange(token: string, uId: number, permissionId: number) 
         throw HTTPError(403, "invalid token");
     }
     const data = getData();
+    const caller = data.users.find(u => u.token.includes(token));
     const user = data.users.find(u => u.userId === uId);
     if (!user) {
         throw HTTPError(400, "user not found");
     }
 
+    // count number of global owners
     let count = 0;
     for (const user of data.users) {
         if (user.globalPermissionId === 1) count++;
@@ -60,18 +76,16 @@ function userPermissionChange(token: string, uId: number, permissionId: number) 
         throw HTTPError(400, "invalid permission ID");
     }
 
-    if (user.permissions === permissionId) {
+    if (user.globalPermissionId === permissionId) {
         throw HTTPError(400, "user's permission is already set to given ID");
     }
 
     // authorised user is not a global owner
-    if (user.globalPermissionId !== 1) {
+    if (caller.globalPermissionId !== 1) {
         throw HTTPError(403, "user is not a global owner")
     }
 
-    // notification?
-
-    user.permissions = permissionId;
+    user.globalPermissionId = permissionId;
     setData(data);
 
     return {};

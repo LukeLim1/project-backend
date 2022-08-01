@@ -42,6 +42,7 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
 
   user.numChannelsJoined++;
   data.numChannels++;
+  user.permissions = 1;
 
   data.channels.push({
     name: `${name}`,

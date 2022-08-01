@@ -316,7 +316,7 @@ export function requestUsersAll (token: string) {
 }
 
 // upload a photo
-export function uploadPhoto(imgUrl: string, xStart: number, yStart: number, xEnd: number, yEnd: number) {
+export function requestUploadPhoto(imgUrl: string, xStart: number, yStart: number, xEnd: number, yEnd: number) {
   return request(
     'POST',
     `${url}:${port}/user/profile/uploadphoto/v1`,

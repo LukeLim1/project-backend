@@ -1,7 +1,7 @@
 import request from 'sync-request';
 import { url, port } from './config.json';
 import { createBasicChannel } from './channels.test';
-import { newReg, createBasicAccount, createBasicAccount2, leaveChannel, requestJoinChannel, clear } from './helperFunctions';
+import { newReg, createBasicAccount, createBasicAccount2, leaveChannel, requestJoinChannel, clear, requestChannelDetails } from './helperFunctions';
 // import { join } from 'path';
 
 const OK = 200;
@@ -18,16 +18,18 @@ describe('HTTP tests using Jest', () => {
     const newUser = JSON.parse(String(basicA.getBody()));
     const basicC = createBasicChannel(newUser.token, 'channel1', true);
     const newChannel = JSON.parse(String(basicC.getBody()));
-    const res = request(
-      'GET',
-      `${url}:${port}/channel/details/v2`,
-      {
-        qs: {
-          token: newUser.token,
-          channelId: newChannel.channelId,
-        },
-      }
-    );
+    // const res = request(
+    //   'GET',
+    //   `${url}:${port}/channel/details/v2`,
+    //   {
+    //     qs: {
+    //       token: newUser.token,
+    //       channelId: newChannel.channelId,
+    //     },
+    //   }
+    // );
+
+    const res = requestChannelDetails(newUser.token, newChannel.channelId);
 
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
