@@ -9,7 +9,7 @@ import { getData } from './dataStore';
 import { channelLeaveV1, channelDetails, channelJoin, channelInviteV2, channelAddownerV1, channelRemoveownerV1, channelMessagesV2 } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } from './dm';
 import { setNameV1, setEmailV1, setHandleV1, usersAll } from './users';
-import { messageSendV1, messageEditV1, messageRemoveV1 } from './message';
+import { messageSendV1, messageEditV1, messageRemoveV1, messagesShareV1 } from './message';
 import errorHandler from 'middleware-http-errors';
 // import fs from 'fs';
 
@@ -65,9 +65,17 @@ app.post('/auth/logout/v1', (req, res) => {
   res.json(authLogout(token));
 });
 
+// app.post('/channels/create/v2', (req, res) => {
+//   // console.log('channels/create/V2');
+//   const { token, name, isPublic } = req.body;
+//   // returns channelId
+//   res.json(channelsCreateV1(token, name, isPublic));
+// });
+
 app.post('/channels/create/v2', (req, res) => {
   // console.log('channels/create/V2');
-  const { token, name, isPublic } = req.body;
+  const { name, isPublic } = req.body;
+  const token = req.header('token');
   // returns channelId
   res.json(channelsCreateV1(token, name, isPublic));
 });
@@ -97,14 +105,9 @@ app.post('/channel/leave/v1', (req, res) => {
 });
 
 app.post('/dm/create/v1', (req, res) => {
-  const { token, uIds } = req.body;
+  const { uIds } = req.body;
+  const token = req.header('token');
   res.json(dmCreateV1(token, uIds));
-});
-
-app.put('/user/profile/setname/v1', (req, res) => {
-  const token = String(req.body.token);
-  const { nameFirst, nameLast } = req.body;
-  res.json(setNameV1(token, nameFirst, nameLast));
 });
 
 app.delete('/clear/v1', (req, res) => {
@@ -160,14 +163,21 @@ app.get('/users/all/v1', (req, res) => {
   const token = req.query.token as string;
   res.json(usersAll(token));
 });
+app.put('/user/profile/setname/v1', (req, res) => {
+  const token = req.header('token');
+  const { nameFirst, nameLast } = req.body;
+  res.json(setNameV1(token, nameFirst, nameLast));
+});
 
 app.put('/user/profile/setemail/v1', (req, res) => {
-  const { token, email } = req.body;
+  const token = req.header('token');
+  const { email } = req.body;
   res.json(setEmailV1(token, email));
 });
 
 app.put('/user/profile/sethandle/v1', (req, res) => {
-  const { token, handleStr } = req.body;
+  const token = req.header('token');
+  const { handleStr } = req.body;
   res.json(setHandleV1(token, handleStr));
 });
 
@@ -210,6 +220,13 @@ app.put('/message/edit', (req, res) => {
   const { token, messageId, message } = req.body;
   // returns {}
   res.json(messageEditV1(token, messageId, message));
+});
+
+app.post('/message/share/v1', (req, res) => {
+  console.log('message/share/v1');
+  const { ogMessageId, message, channelId, dmId } = req.body;
+  // returns {}
+  res.json(messagesShareV1(ogMessageId, message, channelId, dmId));
 });
 
 app.delete('/message/remove', (req, res) => {

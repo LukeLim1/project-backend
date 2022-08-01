@@ -165,25 +165,25 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
 export function senddm(token: string, dmId: number, message: string) {
   // Check if token is valid
   if (!checkToken(token)) {
-    return { error: 'error' };
+    return { error: 'error invalid token' };
   }
 
   // Case 0: if length of message is less than 1 or greater than 1000
   if (message.length < 1 || message.length > 1000) {
-    return { error: 'error' };
+    return { error: 'error message length' };
   }
   const data = getData();
 
   // Case 1: dmId does not refer to a valid DM
   const dm = data.DMs.find(d => d.dmId === dmId);
   if (!dm) {
-    return { error: 'error' };
+    return { error: 'error cant find dm' };
   }
 
   // case 2: check user
   const user = data.users.find(u => u.token.includes(token));
   if (!user) {
-    return { error: 'error' };
+    return { error: 'error cant find user' };
   }
 
   // case 3: check member of dm
@@ -196,7 +196,7 @@ export function senddm(token: string, dmId: number, message: string) {
   }
 
   if (!isMember) {
-    return { error: 'error' };
+    return { error: 'error not a member' };
   }
 
   let random: number = Math.floor(Math.random() * 10000);
