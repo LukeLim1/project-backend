@@ -2,6 +2,7 @@ import { getData, setData } from './dataStore';
 import validator from 'validator';
 import { checkToken } from './helperFunctions';
 import { Error } from './interface';
+// import crypto from 'crypto';
 
 // Given user information from parameters, create a new account for them (as an object inside an array)
 // and return a new unique 'authUserId'
@@ -23,7 +24,7 @@ import { Error } from './interface';
 //              - nameFirst.length not between 1 - 50
 //              - nameLast.length not between 1 - 50
 
-function authRegisterV1 (email: string, password: string, nameFirst: string, nameLast: string) {
+function authRegisterV1(email: string, password: string, nameFirst: string, nameLast: string) {
   const data = getData();
   // error cases //
 
@@ -45,7 +46,7 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
   // case 3 : password less than 6 chars
   if (password.length < 6) {
     return { error: 'error' };
-  // case 4 : length of nameFirst not between 1 - 50 inclusive
+    // case 4 : length of nameFirst not between 1 - 50 inclusive
   } else if (nameFirst.length <= 1 || nameFirst.length >= 50) {
     return { error: 'error' };
     // case 5 : length of nameLast not between 1 - 50 inclusive
@@ -120,7 +121,7 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
 //              - email doesnt belong to a user
 //              - password is incorrect for the corresponding email
 
-function authLoginV1 (email: string, password: string) {
+function authLoginV1(email: string, password: string) {
   const data = getData();
 
   // put every email into an array to check against
@@ -156,7 +157,7 @@ function authLoginV1 (email: string, password: string) {
   return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
 }
 
-function authLogout (token: string): object | Error {
+function authLogout(token: string): object | Error {
   if (checkToken(token) === false) {
     return { error: 'error' };
   }
@@ -174,34 +175,51 @@ function authLogout (token: string): object | Error {
 
   return {};
 }
+// function getHashOf(plaintext: string) {
+//   const crypto = require('crypto');
 
-// export function authPasswordResetRequest (email: string) {
-//   var nodemailer = require('nodemailer');
-//       let transporter = nodemailer.createTransport({
-//              host: 'smtp.mailtrap.io',
-//              port: 2525,
-//              auth: {
-//                  user: "be9ec5b31bc99d",
-//                  pass: "9910b7b64cee1c"
-//              }
-//      })
+//   // Defining key
+//   const secret = 'Hi';
+//   // Calling createHash method
+//   const hash = crypto.createHash('sha256', secret)
+//     // updating data
+//     .update('How are you?')
+//     // Encoding to be used
+//     .digest('hex');
 
-//      const mailOptions = {
-//         from: 'youremail@gmail.com',
-//         to: 'myfriend@yahoo.com',
-//         subject: 'Sending Email using Node.js',
-//         text: 'That was easy!'
-//       };
-
-//       transporter.sendMail(mailOptions, function(error, info){
-//         if (error) {
-//           console.log(error);
-//         } else {
-//           console.log('Email sent: ' + info.response);
-//         }
-//       });
-//   return {}
+//   // const sliced = hash.slice(0, 5)
+//   return hash;
 // }
+
+export function authPasswordResetRequest(email: string) {
+  // const token = req.headers.token
+
+  const nodemailer = require('nodemailer');
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.mailtrap.io',
+    port: 2525,
+    auth: {
+      user: 'be9ec5b31bc99d',
+      pass: '9910b7b64cee1c'
+    }
+  });
+
+  const mailOptions = {
+    from: 'youremail@gmail.com',
+    to: 'myfriend@yahoo.com',
+    subject: 'Sending Email using Node.js',
+    text: 'That was easy!'
+  };
+
+  transporter.sendMail(mailOptions, function (error: string, info: any) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+  return {};
+}
 
 // export function authPasswordReset (resetCode: any, newPassword: string) {
 //   const data = getData();

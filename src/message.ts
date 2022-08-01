@@ -68,10 +68,13 @@ export function messageSendV1 (token: string, channelId: number, message: string
   const arrayUserId: number[] = [];
   Object.values(data.channels).forEach(element => {
     let toPush;
-    for (const i in element.allMembers) { toPush = element.allMembers[i].userId; }
-    arrayUserId.push(toPush);
+    for (const i in element.allMembers) {
+      toPush = element.allMembers[i].userId;
+      arrayUserId.push(toPush);
+    }
   });
-
+  console.log(arrayUserId);
+  console.log(user.userId);
   if (!arrayUserId.includes(user.userId)) {
     return { error: 'error' };
   }
@@ -206,6 +209,7 @@ export function messagesShareV1(ogMessageId: number, message: string, channelId:
   if (dmId === -1) {
     oldMessage = data.channels.find(channels => channels.channelId === channelId);
   }
+  console.log(oldMessage);
 
   // Error cases 400 ERROR
   // case 2 : neither channelId nor dmId are -1
