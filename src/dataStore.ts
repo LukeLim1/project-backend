@@ -13,6 +13,7 @@ let data: dataTemplate = {
   numChannels: 0,
   numDms: 0,
   numMsgs: 0,
+  passwordRequest: [],
 };
 
 // YOU SHOULDNT NEED TO MODIFY THE FUNCTIONS BELOW IN ITERATION 1

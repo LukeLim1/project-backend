@@ -22,19 +22,19 @@ export interface channelTemplate {
     messages: any[];
 }
 
+export interface messageTemplate {
+    messageId: number;
+    uId: number;
+    message: string;
+    timeSent: number;
+}
+
 export interface dmTemplate {
     dmId: number;
     dmOwner: IUser;
     name: string;
     members: IUser[];
     messages: messageTemplate[];
-}
-
-export interface messageTemplate {
-    messageId: number;
-    uId: number;
-    message: string;
-    timeSent: number;
 }
 
 export interface userTemplate {
@@ -50,19 +50,6 @@ export interface userTemplate {
     numChannelsJoined: number;
     numDmsJoined: number;
     numMessagesSent: number;
-}
-
-export interface dataTemplate {
-    users: userTemplate[];
-    channels: channelTemplate[];
-    usedNums: number[];
-    usedTokenNums: number[];
-    usedChannelNums: number[];
-    DMs: dmTemplate[];
-    messages: messageTemplate[];
-    numChannels: number;
-    numDms: number;
-    numMsgs: number;
 }
 
 export interface Error {
@@ -87,4 +74,23 @@ export interface IDmMessages {
 
 export interface messageId {
     messageId: number,
+}
+
+export interface passwordRequest {
+    email: string,
+    passReq: string
+}
+
+export interface dataTemplate {
+    users: userTemplate[];
+    channels: any[];
+    usedNums: number[];
+    usedTokenNums: number[];
+    usedChannelNums: number[];
+    DMs: dmTemplate[];
+    messages: messageTemplate[];
+    numChannels: number;
+    numDms: number;
+    numMsgs: number;
+    passwordRequest: passwordRequest[];
 }

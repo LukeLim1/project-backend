@@ -137,12 +137,12 @@ export function changeName(token: string, nameFirst: string, nameLast: string) {
     `${url}:${port}/user/profile/setname/v1`,
     {
       body: JSON.stringify({
-        token: token,
         nameFirst: nameFirst,
         nameLast: nameLast
       }),
       headers: {
         'Content-type': 'application/json',
+        token: token,
       },
     }
   );
@@ -155,11 +155,11 @@ export function changeEmail(token: string, email: string) {
     `${url}:${port}/user/profile/setemail/v1`,
     {
       body: JSON.stringify({
-        token: token,
         email: email,
       }),
       headers: {
         'Content-type': 'application/json',
+        token: token,
       },
     }
   );
@@ -172,11 +172,11 @@ export function changeHandle(token: string, handle: string) {
       `${url}:${port}/user/profile/sethandle/v1`,
       {
         body: JSON.stringify({
-          token: '2',
           handle: 'newhandle',
         }),
         headers: {
           'Content-type': 'application/json',
+          token: token,
         },
       }
   );
@@ -189,11 +189,11 @@ export function createBasicDm(token: string, uIds: number[]) {
     `${url}:${port}/dm/create/v1`,
     {
       body: JSON.stringify({
-        token: token,
         uIds: uIds,
       }),
       headers: {
         'Content-type': 'application/json',
+        token: token
       },
     }
   );
@@ -470,6 +470,33 @@ export function shareMessage(ogMessageId: number, message: string, channelId: nu
     }
   );
   return res;
+}
+
+export function resetPassword(resetCode: string, newPassword: string) {
+  const res = request(
+    'POST',
+  `${url}:${port}/auth/passwordreset/v1`,
+  {
+    body: JSON.stringify({
+      resetCode: resetCode,
+      newPassword: newPassword
+    }),
+    headers: {
+      'Content-type': 'application/json',
+    },
+  }
+  );
+  return res;
+}
+
+export function findResetCode(userId: number) {
+  const data = getData();
+
+  const user = data.users.find(u => u.userId === userId);
+  console.log(user);
+  const resetObject = data.passwordRequest.find(u => u.email === user.emailAddress);
+  console.log(resetObject);
+  return resetObject.passReq;
 }
 
 // clear everything

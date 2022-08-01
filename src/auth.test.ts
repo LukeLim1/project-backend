@@ -1,6 +1,6 @@
 import request from 'sync-request';
 import config from './config.json';
-import { newReg, clear, createBasicAccount } from './helperFunctions';
+import { newReg, clear, createBasicAccount, resetPassword } from './helperFunctions';
 
 const OK = 200;
 const port = config.port;
@@ -149,5 +149,65 @@ describe('authRegisterV2', () => {
       expect(res.statusCode).toBe(OK);
       expect(bodyObj).toMatchObject({});
     });
+  });
+});
+
+describe('request password reset', () => {
+  test('Testing successful password email sent', () => {
+    clear();
+    const basicA = newReg('zachary@gmail.com', 'zac123456', 'zach', 'chan');
+    const newUser = JSON.parse(String(basicA.getBody()));
+
+    const res = request(
+      'POST',
+    `${url}:${port}/auth/passwordreset/request/v1`,
+    {
+      body: JSON.stringify({
+        email: 'zachary@gmail.com'
+      }),
+      headers: {
+        'Content-type': 'application/json',
+        token: newUser.token[0],
+      },
+    }
+    );
+
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({});
+  });
+});
+
+describe('request password reset', () => {
+  let newUser, newUserBody, passReq, passReqObject;
+  beforeEach(() => {
+    clear();
+    newUser = newReg('zachary@gmail.com', 'zac123456', 'zach', 'chan');
+    newUserBody = JSON.parse(String(newUser.getBody()));
+
+    passReq = request(
+      'POST',
+    `${url}:${port}/auth/passwordreset/request/v1`,
+    {
+      body: JSON.stringify({
+        email: 'zachary@gmail.com'
+      }),
+      headers: {
+        'Content-type': 'application/json',
+        token: newUserBody.token[0],
+      },
+    }
+    );
+
+    passReqObject = JSON.parse(String(passReq.getBody()));
+    expect(passReq.statusCode).toBe(OK);
+    expect(passReqObject).toMatchObject({});
+  });
+
+  test('resetCode is not a valid reset code', () => {
+    expect(resetPassword('dd31', 'newPassword')).toHaveProperty('statusCode', 400);
+  });
+  test('password is less than 6 chars', () => {
+    expect(resetPassword('dd31t', '')).toHaveProperty('statusCode', 400);
   });
 });

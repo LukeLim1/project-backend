@@ -68,10 +68,13 @@ export function messageSendV1 (token: string, channelId: number, message: string
 //   const arrayUserId: number[] = [];
 //   Object.values(data.channels).forEach(element => {
 //     let toPush;
-//     for (const i in element.allMembers) { toPush = element.allMembers[i].userId; }
-//     arrayUserId.push(toPush);
+//     for (const i in element.allMembers) {
+//       toPush = element.allMembers[i].userId;
+//       arrayUserId.push(toPush);
+//     }
 //   });
-
+//   console.log(arrayUserId);
+//   console.log(user.userId);
 //   if (!arrayUserId.includes(user.userId)) {
 //     return { error: 'error' };
 //   }
@@ -193,6 +196,26 @@ export function messageRemoveV1 (token: string, messageId: number) {
   return {};
 }
 
+/**
+ * find the message that has messageId, ogMessageId (in either channel or dm)
+ * and concat it with new message (message)
+ * a -1 in either the channelId dmId arg indicates to search for ogMessageId in the other message location
+ * The new message has no link to the ogMessage and thus is unaffected to changes
+ * to the ogMessage
+ *
+ * @param {*} ogMessageId
+ * @param {*} message
+ * @param {*} channelId
+ * @param {*} dmId
+ * @returns {sharedMessageId}
+ * 400 error when:
+ *                both channelId and dmId are invalid
+ *                neither channelId or dmId are -1
+ *                ogMessageId doesnt refer to a valid message within channel/DM of auth user
+ *                length of message is more than 1000 chars
+ * 403 error when:
+ *               channelId and dmid are valid but authorised user isnt apart of the channel/dm of intention
+ */
 export function messagesShareV1(ogMessageId: number, message: string, channelId: number, dmId: number) {
   const data = getData();
   // case 1 400 error: length of message is > 1000
@@ -208,6 +231,7 @@ export function messagesShareV1(ogMessageId: number, message: string, channelId:
   if (dmId === -1) {
     oldMessage = data.channels.find(channels => channels.channelId === channelId);
   }
+  console.log(oldMessage);
 
   // Error cases 400 ERROR
   // case 2 : neither channelId nor dmId are -1
