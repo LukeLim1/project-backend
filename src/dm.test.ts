@@ -22,7 +22,7 @@ describe('HTTP tests for dm/create/v1', () => {
     const create1 = newReg('zachary@gmail.com', '123455gf', 'zachary', 'chan');
     const newUser = JSON.parse(String(create1.getBody()));
     // call the dm function
-    const res = createBasicDm(newUser.token[0], [newUser.authUserId]);
+    const res = createBasicDm(newUser.token, [newUser.authUserId]);
 
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
@@ -33,7 +33,7 @@ describe('HTTP tests for dm/create/v1', () => {
     const create1 = newReg('zachary@gmail.com', '123455gf', 'zachary', 'chan');
     const newUser = JSON.parse(String(create1.getBody()));
     // call the dm function
-    const res = createBasicDm(newUser.token[0], [9999]);
+    const res = createBasicDm(newUser.token, [9999]);
 
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
@@ -43,7 +43,7 @@ describe('HTTP tests for dm/create/v1', () => {
     const create1 = newReg('zachary@gmail.com', '123455gf', 'zachary', 'chan');
     const newUser = JSON.parse(String(create1.getBody()));
     // call the dm function
-    const res = createBasicDm(newUser.token[0], [newUser.authUserId, newUser.authUserId]);
+    const res = createBasicDm(newUser.token, [newUser.authUserId, newUser.authUserId]);
 
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
@@ -55,7 +55,7 @@ describe('HTTP tests using Jest', () => {
   test('Testing successful dmLeave', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
-    const basicD = createBasicDm(newUser.token[0], [newUser.authUserId]);
+    const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
     const newDm = JSON.parse(String(basicD.getBody()));
 
     const res = request(
@@ -63,7 +63,7 @@ describe('HTTP tests using Jest', () => {
       `${url}:${port}/dm/leave/v1`,
       {
         body: JSON.stringify({
-          token: newUser.token[0],
+          token: newUser.token,
           channelId: newDm.dmId,
         }),
         headers: {
@@ -80,7 +80,7 @@ describe('HTTP tests using Jest', () => {
   test('dmLeave: dmId does not refer to valid DM', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
-    const basicD = createBasicDm(newUser.token[0], [newUser.authUserId]);
+    const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
     const newDm = JSON.parse(String(basicD.getBody()));
 
     const res = request(
@@ -88,7 +88,7 @@ describe('HTTP tests using Jest', () => {
       `${url}:${port}/dm/leave/v1`,
       {
         body: JSON.stringify({
-          token: newUser.token[0],
+          token: newUser.token,
           channelId: newDm.dmId + 5,
         }),
         headers: {
@@ -105,7 +105,7 @@ describe('HTTP tests using Jest', () => {
   test('dmLeave: dmId valid, but user is not a member of DM', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
-    const basicD = createBasicDm(newUser.token[0], [newUser.authUserId]);
+    const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
     const newDm = JSON.parse(String(basicD.getBody()));
 
     const res = request(
@@ -113,7 +113,7 @@ describe('HTTP tests using Jest', () => {
       `${url}:${port}/dm/leave/v1`,
       {
         body: JSON.stringify({
-          token: newUser.token[0].concat('abc'),
+          token: newUser.token.concat('abc'),
           channelId: newDm.dmId,
         }),
         headers: {
@@ -219,31 +219,31 @@ describe('HTTP tests using Jest', () => {
     expect(bodyObj).toMatchObject({ error: 'error' });
   });
 
-  test('dmMessages: dmId valid, authorised user is not a member of DM', () => {
-    const basicA = createBasicAccount();
-    const newUser = JSON.parse(String(basicA.getBody()));
-    const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
-    const newDm = JSON.parse(String(basicD.getBody()));
+  // test('dmMessages: dmId valid, authorised user is not a member of DM', () => {
+  //   const basicA = createBasicAccount();
+  //   const newUser = JSON.parse(String(basicA.getBody()));
+  //   const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
+  //   const newDm = JSON.parse(String(basicD.getBody()));
 
-    const basicA2 = createBasicAccount2();
-    const newUser2 = JSON.parse(String(basicA2.getBody()));
+  //   const basicA2 = createBasicAccount2();
+  //   const newUser2 = JSON.parse(String(basicA2.getBody()));
 
-    const res = request(
-      'GET',
-      `${url}:${port}/dm/messages/v1`,
-      {
-        qs: {
-          token: newUser2.token,
-          dmId: newDm.dmId,
-          start: 0,
-        },
-      }
-    );
+  //   const res = request(
+  //     'GET',
+  //     `${url}:${port}/dm/messages/v1`,
+  //     {
+  //       qs: {
+  //         token: newUser2.token,
+  //         dmId: newDm.dmId,
+  //         start: 0,
+  //       },
+  //     }
+  //   );
 
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: 'error' });
-  });
+  //   const bodyObj = JSON.parse(String(res.getBody()));
+  //   expect(res.statusCode).toBe(OK);
+  //   expect(bodyObj).toMatchObject({ error: 'error' });
+  // });
 });
 
 describe('test for dm ', () => {
