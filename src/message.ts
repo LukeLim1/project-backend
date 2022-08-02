@@ -263,6 +263,7 @@ export function messagesShareV1(ogMessageId: number, message: string, channelId:
     messageId: sharedMessageId,
     text: concatNew
   });
+  data.numMsgs++;
 
   // console.log(data.channels[0].messages)
   return { sharedMessageId: sharedMessageId };

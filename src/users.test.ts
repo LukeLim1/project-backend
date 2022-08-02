@@ -328,15 +328,46 @@ describe('userStats & usersStats tests using Jest', () => {
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({
       channelsExist: [{
-        numChannelsExist: expect.any(Number),
+        numChannelsExist: 0,
         timeStamp: expect.any(Number),
       }],
       dmsExist: [{
-        numDmsExist: expect.any(Number),
+        numDmsExist: 0,
         timeStamp: expect.any(Number),
       }],
       messagesExist: [{
-        numMessagesExist: expect.any(Number),
+        numMessagesExist: 0,
+        timeStamp: expect.any(Number),
+      }],
+      utilizationRate: 0,
+    })
+  });
+
+  test('Test successful usersStats 2', () => {
+    const newUser = JSON.parse(String(createBasicAccount().getBody()));
+    JSON.parse(String(createBasicAccount2().getBody()));
+    createBasicChannel(newUser.token, 'channel1', true);
+    const newDm = JSON.parse(String(createBasicDm(newUser.token, [newUser.authUserId]).getBody()));
+
+    for (let i = 0; i < 12; i++) {
+      requestSendDm(newUser.token, newDm.dmId, 'Hey');
+    }
+
+    const res = requestUsersStats();
+    const bodyObj = JSON.parse(res.body as string);
+    console.log(bodyObj);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({
+      channelsExist: [{
+        numChannelsExist: 1,
+        timeStamp: expect.any(Number),
+      }],
+      dmsExist: [{
+        numDmsExist: 1,
+        timeStamp: expect.any(Number),
+      }],
+      messagesExist: [{
+        numMessagesExist: 12,
         timeStamp: expect.any(Number),
       }],
       utilizationRate: expect.any(Number),

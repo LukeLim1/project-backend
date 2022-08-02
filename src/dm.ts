@@ -1,6 +1,6 @@
 import { getData, setData } from './dataStore';
 import { containsDuplicates, checkToken } from './helperFunctions';
-import { Error, IDmMessages, IMessages, userTemplate, IUser, messageTemplate } from './interface';
+import { Error, IDmMessages, userTemplate, IUser, messageTemplate } from './interface';
 import HTTPError from 'http-errors';
 
 export function dmCreateV1 (token: string, uIds: number[]) {
@@ -138,7 +138,6 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
   const length = (dm.messages.length - start >= 50) ? start + 50 : dm.messages.length;
   const messagesRestructured: messageTemplate[] = [];
   const messagesCopy = dm.messages;
-  const time = Math.floor((new Date()).getTime() / 1000);
 
   if (start > messagesCopy.length) {
     throw HTTPError(400, "start is greater than total messages in DM");

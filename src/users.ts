@@ -213,22 +213,35 @@ function usersStats () {
   const numMessagesExist = data.numMsgs;
   const time = Math.floor((new Date()).getTime() / 1000);
 
-  const usersJoined = new Set();
+  const usersJoined: IUser[] = [];
   for (const channel of data.channels) {
     for (const member of channel.allMembers) {
-      usersJoined.add(member);
+      usersJoined.push(member);
     }
   }
 
   for (const dm of data.DMs) {
     for (const member of dm.members) {
-      usersJoined.add(member);
+      usersJoined.push(member);
     }
   }
-  const numUsersJoined = usersJoined.size;
+  
+  const uniqueUsersJoined = [];
+  usersJoined.filter(element => {
+    const isDuplicate = uniqueUsersJoined.includes(element);
+    if (!isDuplicate) uniqueUsersJoined.push(element);
+  });
+  
+
+  const numUsersJoined = uniqueUsersJoined.length;
   let utilizationRate = numUsersJoined / (data.users.length);
   if (data.users.length === 0) utilizationRate = 0;
   else if (utilizationRate > 1) utilizationRate = 1;
+
+  console.log(usersJoined);
+  console.log(uniqueUsersJoined);
+  console.log(numUsersJoined);
+  console.log(data.users.length);
 
   return {
     channelsExist: [{
