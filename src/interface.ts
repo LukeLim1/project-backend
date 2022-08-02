@@ -18,14 +18,16 @@ export interface dmTemplate {
     dmOwner: IUser;
     name: string;
     members: IUser[];
-    messages: IMessages[];
+    messages: messageTemplate[];
 }
 
 export interface messageTemplate {
-    channelId: number;
     messageId: number;
+    uId: number;
     message: string;
-    token: string;
+    timeSent: number;
+    reacts: IReact[];
+    isPinned: boolean;
 }
 
 export interface passwordRequest {
@@ -41,6 +43,15 @@ export interface userTemplate {
     handle: string;
     permissions: number;
     token: string[];
+}
+
+export interface channelTemplate {
+    name: string;
+    isPublic: boolean;
+    ownerMembers: IUser[];
+    allMembers: IUser[];
+    channelId: number;
+    messages: messageTemplate[];
 }
 
 export interface dataTemplate {
