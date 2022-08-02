@@ -14,6 +14,7 @@ let data: dataTemplate = {
   numDms: 0,
   numMsgs: 0,
   passwordRequest: [],
+  notifications: [],
 };
 
 // YOU SHOULDNT NEED TO MODIFY THE FUNCTIONS BELOW IN ITERATION 1

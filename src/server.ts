@@ -8,7 +8,7 @@ import { clearV1 } from './other';
 import { getData } from './dataStore';
 import { channelLeaveV1, channelDetails, channelJoin, channelInviteV2, channelAddownerV1, channelRemoveownerV1, channelMessagesV2 } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } from './dm';
-import { setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats } from './users';
+import { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats } from './users';
 import { userRemove, userPermissionChange } from './admin';
 import { messageSendV1, messageEditV1, messageRemoveV1, messagesShareV1 } from './message';
 import errorHandler from 'middleware-http-errors';
@@ -128,6 +128,7 @@ app.post('/dm/create/v1', (req, res) => {
   res.json(dmCreateV1(token, uIds));
 });
 
+
 app.delete('/clear/v1', (req, res) => {
   res.json(clearV1());
 });
@@ -166,6 +167,12 @@ app.delete('/dm/remove/v1', (req: Request, res: Response) => {
   const token = req.query.token as string;
   const dmId = req.query.dmId as string;
   res.json(dmRemove(token, parseInt(dmId)));
+});
+
+app.get('/user/profile/v3', (req, res) => {
+  const token = req.header('token');
+  const uId = parseInt(req.query.uId as string);
+  res.json(userProfileV1(token, uId));
 });
 
 app.get('/users/all/v2', (req, res) => {

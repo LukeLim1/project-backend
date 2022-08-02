@@ -1,7 +1,7 @@
 import request from 'sync-request';
 import { createBasicChannel } from './channels.test';
 import { url, port } from './config.json';
-import { createBasicAccount, createBasicAccount2, clear, changeName, changeEmail, newReg, requestUsersAll,
+import { createBasicAccount, createBasicAccount2, clear, changeName, changeEmail, newReg, requestUsersAll, requestUserProfile,
         requestUploadPhoto, requestUserStats, requestUsersStats, requestUserRemove, createBasicDm, requestSendDm } from './helperFunctions';
 
 const OK = 200;
@@ -22,6 +22,32 @@ function getallUsers() {
   );
   return res;
 }
+
+describe('HTTP tests using Jest', () => {
+  test('Test successful userProfile', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    
+    const res = requestUserProfile(newUser.token, newUser.authUserId);
+    
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toStrictEqual({
+        uId: newUser.authUserId,
+        email: 'zachary-chan@gmail.com',
+        nameFirst: 'Zachary',
+        nameLast: 'Chan',
+        handleStr: 'zacharychan',
+    });
+  });
+
+  test('userProfile: uId does not refer to valid user', () => {
+    const basicA = createBasicAccount();
+    const newUser = JSON.parse(String(basicA.getBody()));
+    const res = requestUserProfile(newUser.token, newUser.authUserId + 5);    
+    expect(res.statusCode).toBe(400);
+  });
+});
 
 describe('HTTP tests using Jest', () => {
   test('Test successful usersAll', () => {
@@ -52,14 +78,14 @@ describe('HTTP tests using Jest', () => {
     });
   });
 
-  // test('Removed user is unseen', () => {
-  //   const basicA = createBasicAccount();
-  //   const newUser = JSON.parse(String(basicA.getBody()));
-  //   requestUserRemove(newUser.token, newUser.authUserId);
-  //   const res = requestUsersAll(newUser.token);
-  //   const bodyObj = JSON.parse(res.body as string);
-  //   console.log(bodyObj);
-  // });
+  test('Removed user is unseen', () => {
+    const newUser = JSON.parse(String(createBasicAccount().getBody()));
+    const newUser2 = JSON.parse(String(createBasicAccount2().getBody()));
+    requestUserRemove(newUser.token, newUser2.authUserId);
+    const res = requestUsersAll(newUser.token);
+    const bodyObj = JSON.parse(res.body as string);
+    expect(bodyObj.users.length).toBe(1);
+  });
 });
 // zachs tests for setname, setemail and sethandle
 describe('update name', () => {

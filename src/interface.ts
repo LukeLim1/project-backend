@@ -13,6 +13,12 @@ export interface IMessages {
     timeSent: number;
 }
 
+export interface notification {
+    channelId: number;
+    dmId: number;
+    notificationMessage: string;
+}
+
 export interface messageTemplate {
     messageId: number;
     uId: number;
@@ -92,4 +98,5 @@ export interface dataTemplate {
     numDms: number;
     numMsgs: number;
     passwordRequest: passwordRequest[];
+    notifications: notification[];
 }

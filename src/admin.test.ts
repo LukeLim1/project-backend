@@ -38,15 +38,17 @@ describe('userRemove tests using Jest', () => {
         const newDm = JSON.parse(String(createBasicDm(newUser.token, [newUser.authUserId, newUser2.authUserId]).getBody()));
         requestJoinChannel(newUser2.token, newChannel.channelId);
 
+        for (let i = 0; i < 10; i++) {
+            requestSendDm(newUser2.token, newDm.dmId, 'Hi');
+            requestSendDm(newUser.token, newDm.dmId, 'Heyhey');
+        }
+
         const res = requestUserRemove(newUser.token, newUser2.authUserId);
         const bodyObj = JSON.parse(String(res.getBody()));
 
-        for (let i = 0; i < 10; i++) {
-            requestSendDm(newUser2.token, newDm.dmId, 'Hi');
-        }
 
-        const dmMessages = JSON.parse(String(requestDmMessages(newUser2.token, newDm.dmId, 0).getBody()));
-        console.log(dmMessages);
+        const dmMessages = JSON.parse(String(requestDmMessages(newUser.token, newDm.dmId, 0).getBody()));
+        expect(dmMessages.messages[9].message).toEqual('Removed user');
 
         expect(res.statusCode).toBe(OK);
         expect(bodyObj).toMatchObject({});
@@ -90,36 +92,35 @@ describe('userPermissionChange tests using Jest', () => {
 
     test('uId does not refer to a valid user', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserPermissionChange(newUser.token, newUser.authUserId + 5, 1);
-        const bodyObj = JSON.parse(String(res.getBody()));
+        const newUser2 = JSON.parse(String(createBasicAccount2().getBody()));
+        const res = requestUserPermissionChange(newUser.token, newUser2.authUserId + 5, 1);
         expect(res.statusCode).toBe(400);
     });
 
     test('uId refers to only global owner who is being demoted to a user', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserPermissionChange(newUser.token, newUser.authUserId, 1);
-        const bodyObj = JSON.parse(String(res.getBody()));
+        const res = requestUserPermissionChange(newUser.token, newUser.authUserId, 2);
         expect(res.statusCode).toBe(400);
     });
 
     test('permission ID invalid', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
         const res = requestUserPermissionChange(newUser.token, newUser.authUserId, 10000);
-        const bodyObj = JSON.parse(String(res.getBody()));
         expect(res.statusCode).toBe(400);
     });
 
     test('user already has permission level of permission ID', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
         const res = requestUserPermissionChange(newUser.token, newUser.authUserId, 1);
-        const bodyObj = JSON.parse(String(res.getBody()));
         expect(res.statusCode).toBe(400);
     });
 
     test('authorised user is not global owner', () => {
         const newUser = JSON.parse(String(createBasicAccount().getBody()));
-        const res = requestUserPermissionChange(newUser.token, newUser.authUserId, 1);
-        const bodyObj = JSON.parse(String(res.getBody()));
+        const newUser2 = JSON.parse(String(createBasicAccount2().getBody()));
+        const newUser3 = JSON.parse(String(createBasicAccount3().getBody()));
+        requestUserPermissionChange(newUser.token, newUser2.authUserId, 1); // so that the test doesn't trigger 'uId refers to only global owner...' error
+        const res = requestUserPermissionChange(newUser3.token, newUser.authUserId, 2);
         expect(res.statusCode).toBe(403);
     });
 });

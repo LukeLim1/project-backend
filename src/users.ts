@@ -18,12 +18,12 @@ import request from 'sync-request';
 
 function userProfileV1(token: string, uId: number): IUser | Error {
   if (checkToken(token) === false) {
-    return { error: 'error' };
+    throw HTTPError(403, "invalid token");
   }
   const data = getData();
   const user = data.users.find(u => u.userId === uId);
   if (!user) {
-    return { error: 'error' };
+    throw HTTPError(400, "uId does not refer to a valid user");
   } else {
     return {
       uId: uId,
@@ -114,15 +114,16 @@ function usersAll (token: string) {
   for (const user of data.users) {
     if (user.firstName === 'Removed' && user.lastname === 'user') {
       continue;
-    }
-    const obj = {
-      uId: user.userId,
-      email: user.emailAddress,
-      nameFirst: user.firstName,
-      nameLast: user.lastname,
-      handleStr: user.handle,
+    } else {
+      const obj = {
+        uId: user.userId,
+        email: user.emailAddress,
+        nameFirst: user.firstName,
+        nameLast: user.lastname,
+        handleStr: user.handle,
+      }
+      users.push(obj);
     };
-    users.push(obj);
   }
 
   return { users };

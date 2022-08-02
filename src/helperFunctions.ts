@@ -322,6 +322,23 @@ export function requestSendDm(token: string, dmId: number, message: string) {
   return res;
 }
 
+// user profile
+export function requestUserProfile (token: string, uId: number) {
+  const res = request(
+    'GET',
+    `${url}:${port}/user/profile/v3`,
+    {
+      qs: {
+        uId: uId,
+      },
+      headers: {
+        token: token,
+      }
+    }
+  );
+  return res;
+}
+
 export function requestUsersAll (token: string) {
   const res = request(
     'GET',
