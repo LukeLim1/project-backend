@@ -13,20 +13,20 @@ export interface IMessages {
     timeSent: number;
 }
 
+export interface messageTemplate {
+    messageId: number;
+    uId: number;
+    message: string;
+    timeSent: number;
+}
+
 export interface channelTemplate {
     name: string;
     isPublic: boolean;
     ownerMembers: IUser[];
     allMembers: IUser[];
     channelId: number;
-    messages: any[];
-}
-
-export interface messageTemplate {
-    messageId: number;
-    uId: number;
-    message: string;
-    timeSent: number;
+    messages: messageTemplate[];
 }
 
 export interface dmTemplate {
@@ -83,7 +83,7 @@ export interface passwordRequest {
 
 export interface dataTemplate {
     users: userTemplate[];
-    channels: any[];
+    channels: channelTemplate[];
     usedNums: number[];
     usedTokenNums: number[];
     usedChannelNums: number[];

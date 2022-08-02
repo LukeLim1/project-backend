@@ -26,20 +26,40 @@ function userRemove (token: string, uId: number) {
 
     if (globalOwnerCount === 1) throw HTTPError(400, "uId refers to only global owner");
 
+    // delete the user in channel.allMembers and channel.ownerMembers (if they are owner), as well as changing their messages to 'Removed user'
     for (const channel of data.channels) {
         for (const member of channel.allMembers) {
             if (member.uId === user.userId) {
                 const index = channel.allMembers.indexOf(member);
                 channel.allMembers.splice(index, 1);
+                user.numChannelsJoined--;
+            }
+        }
+        for (const owner of channel.ownerMembers) {
+            if (owner.uId === user.userId) {
+                const index = channel.ownerMembers.indexOf(owner);
+                channel.ownerMembers.splice(index, 1);
+            }
+        }
+        for (const msg of channel.messages) {
+            if (msg.uId === user.userId) {
+                msg.message = 'Removed user';
             }
         }
     }
 
+    // delete the user in dm.members, as well as changing their messages to 'Removed user'
     for (const dm of data.DMs) {
         for (const member of dm.members) {
             if (member.uId === user.userId) {
                 const index = dm.members.indexOf(member);
                 dm.members.splice(index, 1);
+                user.numDmsJoined--;
+            }
+        }
+        for (const msg of dm.messages) {
+            if (msg.uId === user.userId) {
+                msg.message = 'Removed user';
             }
         }
     }
@@ -83,7 +103,7 @@ function userPermissionChange(token: string, uId: number, permissionId: number) 
 
     // authorised user is not a global owner
     if (caller.globalPermissionId !== 1) {
-        throw HTTPError(403, "user is not a global owner")
+        throw HTTPError(403, "authorised user is not a global owner")
     }
 
     user.globalPermissionId = permissionId;

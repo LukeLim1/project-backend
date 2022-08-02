@@ -106,7 +106,7 @@ function setHandleV1(token: string, handleStr: string): object {
 
 function usersAll (token: string) {
   if (checkToken(token) === false) {
-    return { error: 'error' }; //throw HTTPError(403, "invalid token");
+    throw HTTPError(403, "invalid token");
   }
 
   const users = [];
