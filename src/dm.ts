@@ -1,6 +1,6 @@
 import { getData, setData } from './dataStore';
 import { containsDuplicates, checkToken } from './helperFunctions';
-import { Error, IDmMessages, IMessages, userTemplate, IUser } from './interface';
+import { Error, IDmMessages, IMessages, userTemplate, IUser, messageTemplate } from './interface';
 import HTTPError from 'http-errors';
 
 export function dmCreateV1 (token: string, uIds: number[]) {
@@ -136,7 +136,7 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
 
   const user = data.users.find(u => u.token.includes(token));
   const length = (dm.messages.length - start >= 50) ? start + 50 : dm.messages.length;
-  const messagesRestructured: IMessages[] = [];
+  const messagesRestructured: messageTemplate[] = [];
   const messagesCopy = dm.messages;
   const time = Math.floor((new Date()).getTime() / 1000);
 
@@ -154,16 +154,7 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
   if (!isMember) throw HTTPError(403, "authorised user is not member of DM");
 
   for (let i = start; i < length; i++) {
-    const d = dm.messages[i];
-    if (user.firstName === 'Removed' && user.lastname === 'user') {
-      d.message = 'Removed user';
-    }
-    messagesRestructured.push({
-      messageId: d.messageId,
-      uId: user.userId,
-      message: d.message,
-      timeSent: time,
-    });
+    messagesRestructured.push(dm.messages[i]);
   }
 
   const end = (messagesRestructured.length >= 50) ? start + 50 : -1;

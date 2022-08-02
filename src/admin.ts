@@ -24,7 +24,7 @@ function userRemove (token: string, uId: number) {
         if (user.globalPermissionId === 1) globalOwnerCount++;
     }
 
-    if (globalOwnerCount === 1) throw HTTPError(400, "uId refers to only global owner");
+    if (globalOwnerCount === 1 && user.globalPermissionId === 1) throw HTTPError(400, "uId refers to only global owner");
 
     // delete the user in channel.allMembers and channel.ownerMembers (if they are owner), as well as changing their messages to 'Removed user'
     for (const channel of data.channels) {
@@ -50,6 +50,9 @@ function userRemove (token: string, uId: number) {
 
     // delete the user in dm.members, as well as changing their messages to 'Removed user'
     for (const dm of data.DMs) {
+        if (user.userId === dm.dmOwner.uId) {
+            dm.dmOwner = null;
+        }
         for (const member of dm.members) {
             if (member.uId === user.userId) {
                 const index = dm.members.indexOf(member);

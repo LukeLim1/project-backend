@@ -391,7 +391,6 @@ export function requestUserRemove (token: string, uId: number) {
       },
       headers: {
         token: token,
-        'Content-type': 'application/json',
       },
     }
   );

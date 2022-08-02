@@ -44,7 +44,6 @@ export interface userTemplate {
     firstName: string;
     lastname: string;
     handle: string;
-    permissions: number;
     globalPermissionId: number;
     token: string[];
     numChannelsJoined: number;
