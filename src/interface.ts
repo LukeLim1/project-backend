@@ -1,3 +1,9 @@
+export interface notifications {
+    channelId: number;
+    dmId: number;
+    notificationMessage: string;
+}
+
 export interface IUser {
     uId: number;
     email: string;

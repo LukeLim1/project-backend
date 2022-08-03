@@ -4,7 +4,7 @@ import { Response } from 'sync-request';
 
 const OK = 200;
 describe('messageShareV1', () => {
-  let user1: Response, user1Body: { token: string[]; authUserId: number; },
+  let user1: Response, user1Body: { token: string; authUserId: number; },
     chan1: Response, chan1Body: { channelId: number; }, dm1: Response,
     dm1Body: {
     dmId: number
@@ -17,28 +17,28 @@ describe('messageShareV1', () => {
     expect(user1Body).toMatchObject({ token: expect.any(String), authUserId: expect.any(Number) });
 
     // new channel
-    chan1 = createBasicChannel(user1Body.token[0], 'Channel 1', true);
+    chan1 = createBasicChannel(user1Body.token, 'Channel 1', true);
     chan1Body = JSON.parse(String(chan1.getBody()));
     expect(chan1Body).toMatchObject({ channelId: expect.any(Number) });
 
     // new dm
-    dm1 = createBasicDm(user1Body.token[0], [user1Body.authUserId]);
+    dm1 = createBasicDm(user1Body.token, [user1Body.authUserId]);
     dm1Body = JSON.parse(String(dm1.getBody()));
     expect(dm1Body).toMatchObject({ dmId: expect.any(Number) });
 
     // send message to channel
-    // send1 = sendMessage(user1Body.token[0], chan1Body.channelId, 'chan1 message');
+    // send1 = sendMessage(user1Body.token, chan1Body.channelId, 'chan1 message');
     // send1Body = JSON.parse(String(send1.getBody()));
     // expect(send1Body).toMatchObject({ messageId: expect.any(Number) });
     // expect(send1.statusCode).toBe(OK);
 
     // send message to dm
-    dmMessage1 = dmSend(user1Body.token[0], dm1Body.dmId, 'DM 1 message 1 ahaha');
+    dmMessage1 = dmSend(user1Body.token, dm1Body.dmId, 'DM 1 message 1 ahaha');
     dmMessage1Body = JSON.parse(String(dmMessage1.getBody()));
     expect(dmMessage1Body).toMatchObject({ messageId: expect.any(Number) });
   });
   test('Testing successful messageShare 200 status code', () => {
-    dmSend(user1Body.token[0], dm1Body.dmId, 'DM 1 message 2 beheheh');
+    dmSend(user1Body.token, dm1Body.dmId, 'DM 1 message 2 beheheh');
     // new message in dm that is concatenation of first dm and new dm
     const res = shareMessage(dmMessage1Body.messageId, 'new message ahahah', -1, dm1Body.dmId);
     const resBody = JSON.parse(String(res.getBody()));
