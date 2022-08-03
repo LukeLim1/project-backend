@@ -58,14 +58,16 @@ describe('test for channel for list/listall', () => {
     // register user A
     const basicA = createBasicAccount();
     userA = JSON.parse(String(basicA.getBody()));
-    userAToken = userA.token[0];
+    userAToken = userA.token;
 
     // create public channel
-    createBasicChannel(userA.token[0], userA.name + '-public-channel', true);
+    const nameA = 'rick-public-channel';
+    createBasicChannel(userA.token, nameA, true);
     // publicChannelId = JSON.parse(String(channel.getBody())).channelId;
 
     // create public channel
-    createBasicChannel(userA.token[0], userA.name + '-private-channel', false);
+    const nameB = 'rick-private-channel';
+    createBasicChannel(userA.token, nameB, false);
     // privateChannelId = JSON.parse(String(channel2.getBody())).channelId;
   });
 

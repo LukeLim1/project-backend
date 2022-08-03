@@ -105,6 +105,16 @@ app.get('/channels/listall/v2', (req, res) => {
   res.json(channelsListallV1(token));
 });
 
+app.get('/channels/list/v3', (req, res) => {
+  const token = req.header('token');
+  res.json(channelsListV1(token));
+});
+
+app.get('/channels/listall/v3', (req, res) => {
+  const token = req.header('token');
+  res.json(channelsListallV1(token));
+});
+
 app.get('/channel/details/v2', (req, res) => {
   const token = req.query.token as string;
   const channelId = parseInt(req.query.channelId as string);

@@ -73,7 +73,7 @@ export function channelsListV1(token: string) {
     }
     // check member
     for (const member of channel.allMembers) {
-      if (member.uId === user.userId) {
+      if (member.userId === user.userId) {
         const channelsObject = {
           channelId: channel.channelId,
           name: channel.name,
@@ -111,7 +111,7 @@ export function channelsListallV1(token: string) {
   for (const channel of data.channels) {
     // check member
     for (const member of channel.allMembers) {
-      if (member.uId === user.userId) {
+      if (member.userId === user.userId) {
         const channelsObject = {
           channelId: channel.channelId,
           name: channel.name,
