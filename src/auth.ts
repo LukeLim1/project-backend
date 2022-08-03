@@ -15,7 +15,7 @@ function getHashOf(plaintext: string) {
   // Calling createHash method
   const hash = crypto.createHash('sha256', secret)
     // updating data
-    .update('How are you?')
+    .update(plaintext)
     // Encoding to be used
     .digest('hex');
   return hash;
@@ -108,6 +108,7 @@ function authRegisterV1(email: string, password: string, nameFirst: string, name
   }
   const tokenStr = token.toString();
   const tokenHashed = getHashOf(tokenStr);
+  
   const globalPermissionId = (data.users.length === 0) ? 1 : 2;
   data.usedNums.push(randomNumber);
   data.usedTokenNums.push(token);
@@ -126,7 +127,7 @@ function authRegisterV1(email: string, password: string, nameFirst: string, name
   });
   setData(data);
   return {
-    token: tokenHashed,
+    token: [tokenHashed],
     authUserId: randomNumber
   };
 }

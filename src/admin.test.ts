@@ -16,8 +16,6 @@ describe('userRemove tests using Jest', () => {
         const newDm = JSON.parse(String(createBasicDm(newUser.token, [newUser.authUserId, newUser2.authUserId]).getBody()));
         requestJoinChannel(newUser2.token, newChannel.channelId);
 
-        console.log(JSON.parse(String(requestChannelDetails(newUser.token, newChannel.channelId).getBody())));
-
         const res = requestUserRemove(newUser.token, newUser2.authUserId);
         const bodyObj = JSON.parse(String(res.getBody()));
 
