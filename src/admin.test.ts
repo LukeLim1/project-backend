@@ -1,6 +1,4 @@
-import request from 'sync-request';
 import { createBasicChannel } from './channels.test';
-import { url, port } from './config.json';
 import { createBasicAccount, createBasicAccount2, clear, requestUserRemove, requestUserPermissionChange, 
         createBasicDm, requestJoinChannel, requestChannelDetails, requestDmDetails, createBasicAccount3, requestDmMessages, requestSendDm } from './helperFunctions';
 
@@ -48,6 +46,7 @@ describe('userRemove tests using Jest', () => {
 
 
         const dmMessages = JSON.parse(String(requestDmMessages(newUser.token, newDm.dmId, 0).getBody()));
+        console.log(dmMessages);
         expect(dmMessages.messages[9].message).toEqual('Removed user');
 
         expect(res.statusCode).toBe(OK);

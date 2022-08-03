@@ -15,13 +15,11 @@ export function containsDuplicates(array: number[]): boolean {
 
 // test for a valid token
 export function checkToken(token: string): boolean | undefined {
-  console.log('printing token');
   const data = getData();
   const tokenArray: string[] = [];
   Object.values(data.users).forEach(element => {
     tokenArray.push(...element.token);
   });
-  console.log(tokenArray);
 
   for (const i of tokenArray) {
     if (token === i) {

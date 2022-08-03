@@ -194,25 +194,25 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
 export function senddm(token: string, dmId: number, message: string) {
   // Check if token is valid
   if (!checkToken(token)) {
-    return { error: 'error invalid token' };
+    throw HTTPError(403, 'user not found');
   }
 
   // Case 0: if length of message is less than 1 or greater than 1000
   if (message.length < 1 || message.length > 1000) {
-    return { error: 'error message length' };
+    throw HTTPError(400, 'length of message is error');
   }
   const data = getData();
 
   // Case 1: dmId does not refer to a valid DM
   const dm = data.DMs.find(d => d.dmId === dmId);
   if (!dm) {
-    return { error: 'error cant find dm' };
+    throw HTTPError(400, 'dm not exit');
   }
 
   // case 2: check user
   const user = data.users.find(u => u.token.includes(token));
   if (!user) {
-    return { error: 'error cant find user' };
+    throw HTTPError(403, 'user not found');
   }
 
   // case 3: check member of dm
@@ -225,7 +225,7 @@ export function senddm(token: string, dmId: number, message: string) {
   }
 
   if (!isMember) {
-    return { error: 'error not a member' };
+    throw HTTPError(403, 'user is not member');
   }
 
   let random: number = Math.floor(Math.random() * 10000);
@@ -241,11 +241,11 @@ export function senddm(token: string, dmId: number, message: string) {
     messageId: random,
     uId: user.uId,
     message: message,
-    timeSent: timeSent
+    timeSent: timeSent,
+    reacts: [],
+    isPinned: false
   });
 
-  user.numMessagesSent++;
-  data.numMsgs++;
   setData(data);
   return { messageId: random };
 }
