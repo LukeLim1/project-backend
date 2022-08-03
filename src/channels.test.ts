@@ -32,8 +32,9 @@ describe('ChannelsCreateV1 returns correct data information', () => {
   test('Channel is created', () => {
     const user = createBasicAccount();
     const userBody = JSON.parse(String(user.getBody()));
+    // console.log(userBody)
     // const user = authRegisterV1('test@gmail.com', 'hello', 'kesha', 'freeman');
-    const res = createBasicChannel(userBody.token[0], 'Snickers', true);
+    const res = createBasicChannel(userBody.token, 'Snickers', true);
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({
@@ -43,7 +44,7 @@ describe('ChannelsCreateV1 returns correct data information', () => {
   test('Error', () => {
     const user = createBasicAccount();
     const userBody = JSON.parse(String(user.getBody()));
-    const res = createBasicChannel(userBody.token[0], '', true);
+    const res = createBasicChannel(userBody.token, '', true);
 
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);

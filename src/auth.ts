@@ -4,8 +4,22 @@ import { checkToken } from './helperFunctions';
 import HTTPError from 'http-errors';
 import { Error, userTemplate } from './interface';
 import createHttpError from 'http-errors';
+// import HTTPError from 'http-errors';
 // import crypto from 'crypto';
 
+function getHashOf(plaintext: string) {
+  const crypto = require('crypto');
+
+  // Defining key
+  const secret = 'Hi';
+  // Calling createHash method
+  const hash = crypto.createHash('sha256', secret)
+    // updating data
+    .update('How are you?')
+    // Encoding to be used
+    .digest('hex');
+  return hash;
+}
 // Given user information from parameters, create a new account for them (as an object inside an array)
 // and return a new unique 'authUserId'
 // Generate a handle as past of the object that will be the concatenation of nameFirst and nameLast
@@ -93,12 +107,9 @@ function authRegisterV1(email: string, password: string, nameFirst: string, name
     token += data.usedTokenNums[data.usedTokenNums.length - 1];
   }
   const tokenStr = token.toString();
+  const tokenHashed = getHashOf(tokenStr);
   data.usedNums.push(randomNumber);
   data.usedTokenNums.push(token);
-
-  // first user who joins treat becomes global owner
-  let globalPermissionId = (data.users.length === 0) ? 1 : 2;
-
   data.users.push({
     emailAddress: email,
     uId: randomNumber,
@@ -106,15 +117,15 @@ function authRegisterV1(email: string, password: string, nameFirst: string, name
     firstName: nameFirst,
     lastname: nameLast,
     handle: `${userHandle}`,
-    globalPermissionId: globalPermissionId,
-    token: [tokenStr],
+    globalPermissionId: 2,
+    token: [tokenHashed],
     numChannelsJoined: 0,
     numDmsJoined: 0,
     numMessagesSent: 0,
   });
   setData(data);
   return {
-    token: tokenStr,
+    token: tokenHashed,
     authUserId: randomNumber
   };
 }
@@ -161,7 +172,8 @@ function authLoginV1(email: string, password: string) {
     token += data.usedTokenNums[data.usedTokenNums.length - 1];
   }
   const tokenStr = token.toString();
-  user.token.push(tokenStr);
+  const tokenHashed = getHashOf(tokenStr);
+  user.token.push(tokenHashed);
   setData(data);
   return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].uId };
 }
@@ -188,21 +200,6 @@ function authLogout(token: string): object | Error {
 
   return {};
 }
-// function getHashOf(plaintext: string) {
-//   const crypto = require('crypto');
-
-//   // Defining key
-//   const secret = 'Hi';
-//   // Calling createHash method
-//   const hash = crypto.createHash('sha256', secret)
-//     // updating data
-//     .update('How are you?')
-//     // Encoding to be used
-//     .digest('hex');
-
-//   // const sliced = hash.slice(0, 5)
-//   return hash;
-// }
 
 function makeid(length: number) {
   let result = '';

@@ -113,12 +113,6 @@ export function channelJoin(token: string, channelId: number): object | Error {
     handleStr: user.handle,
   });
 
-  data.notifications.push({
-    channelId: channel.channelId,
-    dmId: -1,
-    notificationMessage: `${user.handle} added you to ${channel.name}`,
-  })
-
   user.numChannelsJoined++;
   setData(data);
   return {};

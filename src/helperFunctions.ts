@@ -10,32 +10,25 @@ const url = config.url;
 
 // checks for duplicates in arrays
 export function containsDuplicates(array: number[]): boolean {
-  const result = Array.from(new Set(array));
-  if (array.length === result.length) {
-    return false;
-  } else {
-    return true;
-  }
+  return array.length !== new Set(array).size;
 }
 
 // test for a valid token
 export function checkToken(token: string): boolean | undefined {
+  console.log('printing token');
   const data = getData();
   const tokenArray: string[] = [];
   Object.values(data.users).forEach(element => {
     tokenArray.push(...element.token);
   });
+  console.log(tokenArray);
 
-  let trigger = 0;
   for (const i of tokenArray) {
     if (token === i) {
-      trigger = 1;
       return true;
     }
   }
-  if (trigger === 0) {
-    return false;
-  }
+  return false;
 }
 
 // create new account

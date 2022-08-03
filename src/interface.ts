@@ -13,7 +13,13 @@ export interface IMessages {
     timeSent: number;
 }
 
-export interface notification {
+export interface IReact {
+    reactId: number;
+    uIds: number[];
+    isThisUserReacted: boolean;
+}
+
+export interface notifications {
     channelId: number;
     dmId: number;
     notificationMessage: string;
@@ -24,6 +30,15 @@ export interface messageTemplate {
     uId: number;
     message: string;
     timeSent: number;
+    reacts: IReact[];
+    isPinned: boolean;
+}
+
+export interface standup {
+    active: false;
+    start: null;
+    timeFinish: null;
+    message: messageTemplate[];
 }
 
 export interface channelTemplate {
@@ -33,6 +48,7 @@ export interface channelTemplate {
     allMembers: IUser[];
     channelId: number;
     messages: messageTemplate[];
+    standup: standup[];
 }
 
 export interface dmTemplate {
@@ -97,6 +113,6 @@ export interface dataTemplate {
     numChannels: number;
     numDms: number;
     numMsgs: number;
+    notifications: notifications[];
     passwordRequest: passwordRequest[];
-    notifications: notification[];
 }
