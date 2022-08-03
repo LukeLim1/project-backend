@@ -1,4 +1,4 @@
-import { createBasicAccount, clear } from './helperFunctions';
+import { newReg, createBasicAccount, clear } from './helperFunctions';
 import request from 'sync-request';
 import config from './config.json';
 
@@ -24,9 +24,12 @@ export function createBasicChannel(token: string, name: string, isPublic: boolea
   return res;
 }
 
+beforeEach(() => {
+  clear();
+});
+
 describe('ChannelsCreateV1 returns correct data information', () => {
   test('Channel is created', () => {
-    clear();
     const user = createBasicAccount();
     const userBody = JSON.parse(String(user.getBody()));
     // console.log(userBody)
@@ -38,8 +41,8 @@ describe('ChannelsCreateV1 returns correct data information', () => {
       channelId: expect.any(Number),
     });
   });
+
   test('Error', () => {
-    clear();
     const user = createBasicAccount();
     const userBody = JSON.parse(String(user.getBody()));
     const res = createBasicChannel(userBody.token, '', true);
@@ -53,10 +56,10 @@ describe('ChannelsCreateV1 returns correct data information', () => {
 describe('test for channel for list/listall', () => {
   let userA: any;
   let userAToken: string;
-  beforeAll(() => {
-    clear();
+
+  test('channels list test success', () => {
     // register user A
-    const basicA = createBasicAccount();
+    const basicA = newReg('zachary-chan@gmail.com', 'z5312386', 'Zach', 'Chan');
     userA = JSON.parse(String(basicA.getBody()));
     userAToken = userA.token;
 
@@ -69,9 +72,6 @@ describe('test for channel for list/listall', () => {
     const nameB = 'rick-private-channel';
     createBasicChannel(userA.token, nameB, false);
     // privateChannelId = JSON.parse(String(channel2.getBody())).channelId;
-  });
-
-  test('channels list test success', () => {
     const res = request(
       'GET',
       `${url}:${port}/channels/list/v3`,
@@ -85,6 +85,21 @@ describe('test for channel for list/listall', () => {
   });
 
   test('channels listall test success', () => {
+    // register user A
+    const basicA = newReg('zachary-chan@gmail.com', 'z5312386', 'Zach', 'Chan');
+    userA = JSON.parse(String(basicA.getBody()));
+    userAToken = userA.token;
+
+    // create public channel
+    const nameA = 'rick-public-channel';
+    createBasicChannel(userA.token, nameA, true);
+    // publicChannelId = JSON.parse(String(channel.getBody())).channelId;
+
+    // create public channel
+    const nameB = 'rick-private-channel';
+    createBasicChannel(userA.token, nameB, false);
+    // privateChannelId = JSON.parse(String(channel2.getBody())).channelId;
+
     const res = request(
       'GET',
       `${url}:${port}/channels/listall/v3`,
