@@ -1,85 +1,93 @@
 export interface notifications {
-    channelId: number;
-    dmId: number;
-    notificationMessage: string;
+	channelId: number;
+	dmId: number;
+	notificationMessage: string;
 }
 
 export interface IUser {
-    uId: number;
-    email: string;
-    nameFirst: string;
-    nameLast: string;
-    handleStr: string;
+	uId: number;
+	email: string;
+	nameFirst: string;
+	nameLast: string;
+	handleStr: string;
 }
 
 export interface IMessages {
-    messageId: number;
-    uId: number;
-    message: string;
-    timeSent: number;
+	messageId: number;
+	uId: number;
+	message: string;
+	timeSent: number;
 }
 
-export interface dmTemplate {
-    dmId: number;
-    dmOwner: IUser;
-    name: string;
-    members: IUser[];
-    messages: IMessages[];
+export interface IReact {
+	reactId: number,
+	uIds: number[],
+	isThisUserReacted: boolean
 }
 
 export interface messageTemplate {
-    channelId: number;
-    messageId: number;
-    message: string;
-    token: string;
+	messageId: number;
+	uId: number;
+	message: string;
+	timeSent: number;
+	reacts: IReact[],
+	isPinned: boolean
+}
+
+export interface dmTemplate {
+	dmId: number;
+	dmOwner: IUser;
+	name: string;
+	members: IUser[];
+	messages: messageTemplate[];
 }
 
 export interface passwordRequest {
-    email: string,
-    passReq: string
+	email: string,
+	passReq: string
 }
 export interface userTemplate {
-    emailAddress: string;
-    userId: number;
-    password: string;
-    firstName: string;
-    lastname: string;
-    handle: string;
-    permissions: number;
-    token: string[];
+	emailAddress: string;
+	userId: number;
+	password: string;
+	firstName: string;
+	lastname: string;
+	handle: string;
+	permissions: number;
+	token: string[];
 }
 
 export interface dataTemplate {
-    users: userTemplate[];
-    channels: any[];
-    usedNums: number[];
-    usedTokenNums: number[];
-    usedChannelNums: number[];
-    DMs: dmTemplate[];
-    messages: messageTemplate[];
-    passwordRequest: passwordRequest[]
+	users: userTemplate[];
+	channels: any[];
+	usedNums: number[];
+	usedTokenNums: number[];
+	usedChannelNums: number[];
+	DMs: dmTemplate[];
+	messages: messageTemplate[];
+	passwordRequest: passwordRequest[]
 }
 
 export interface Error {
-    error: 'error';
+	error: 'error';
 }
 
 /* eslint-disable @typescript-eslint/no-empty-interface */
-export interface Empty {}
+export interface Empty { }
 
 export interface IChannelDetails {
-    name: string;
-    isPublic: boolean;
-    ownerMembers: IUser[];
-    allMembers: IUser[];
+	name: string;
+	isPublic: boolean;
+	ownerMembers: IUser[];
+	allMembers: IUser[];
 }
 
 export interface IDmMessages {
-    messages: IMessages[];
-    start: number;
-    end: number;
+	messages: IMessages[];
+	start: number;
+	end: number;
 }
 
 export interface messageId {
-    messageId: number,
+	messageId: number,
 }
