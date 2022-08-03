@@ -1,6 +1,6 @@
 import request from 'sync-request';
 import { url, port } from './config.json';
-import { createBasicAccount, createBasicAccount2, createBasicAccount3, clear, createBasicDm, newReg } from './helperFunctions';
+import { createBasicAccount, clear, createBasicDm, newReg, sendDMMessage } from './helperFunctions';
 
 const OK = 200;
 const error400 = 400;
@@ -115,12 +115,13 @@ describe('HTTP tests using Jest', () => {
     const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
     const newDm = JSON.parse(String(basicD.getBody()));
 
+    const token = newUser.token + 'abc';
     const res = request(
       'POST',
       `${url}:${port}/dm/leave/v1`,
       {
         body: JSON.stringify({
-          token: newUser.token.concat('abc'),
+          token: token,
           channelId: newDm.dmId,
         }),
         headers: {
@@ -139,20 +140,22 @@ describe('HTTP tests using Jest', () => {
     const newUser = JSON.parse(String(basicA.getBody()));
     const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
     const newDm = JSON.parse(String(basicD.getBody()));
-    request(
-      'POST',
-      `${url}:${port}/message/senddm/v1`,
-      {
-        body: JSON.stringify({
-          token: newUser.token,
-          dmId: newDm.dmId,
-          message: 'Hi',
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    // request(
+    //   'POST',
+    //   `${url}:${port}/message/senddm/v1`,
+    //   {
+    //     body: JSON.stringify({
+    //       token: newUser.token,
+    //       dmId: newDm.dmId,
+    //       message: 'Hi',
+    //     }),
+    //     headers: {
+    //       'Content-type': 'application/json',
+    //     },
+    //   }
+    // );
+
+    sendDMMessage(newUser.token, newDm.dmId, 'Hi');
 
     const res = request(
       'GET',
@@ -262,17 +265,18 @@ describe('test for dm list/details/senddm/remove', () => {
     clear();
 
     // register user A
-    const basicA = createBasicAccount();
+    const basicA = newReg('zachary-chan1@gmail.com', 'z5312386', 'zachary1', 'chan1');
     userA = JSON.parse(String(basicA.getBody()));
 
     // register user B
-    const basicB = createBasicAccount2();
+    const basicB = newReg('zachary-chan2@gmail.com', 'z5312386', 'zachary2', 'chan2');
     userB = JSON.parse(String(basicB.getBody()));
-    userBToken = userB.token[0];
+    userBToken = userB.token;
 
     // register user c
-    const basicC = createBasicAccount3();
+    const basicC = newReg('zachary-chan3@gmail.com', 'z5312386', 'zachary3', 'chan');
     userC = JSON.parse(String(basicC.getBody()));
+
     // create dm
     const dm = createBasicDm(userA.token, [userA.authUserId, userB.authUserId]);
     userBMemberOfDMId = JSON.parse(String(dm.getBody())).dmId;
@@ -326,7 +330,7 @@ describe('test for dm list/details/senddm/remove', () => {
         'GET',
         `${url}:${port}/dm/details/v2`,
         {
-          headers: { token: userC.token[0] },
+          headers: { token: userC.token },
           qs: { dmId: userBMemberOfDMId }
         }
       );
@@ -432,7 +436,7 @@ describe('test for dm list/details/senddm/remove', () => {
           body: param,
           headers: {
             'Content-type': 'application/json',
-            token: userC.token[0]
+            token: userC.token
           },
         }
       );
@@ -461,7 +465,7 @@ describe('test for dm list/details/senddm/remove', () => {
   });
 
   test('dm remove test fail 403,dmId is valid and the authorised user is not the original DM creator', () => {
-    const token = userC.token[0];
+    const token = userC.token;
     const dmId = userBMemberOfDMId;
 
     const res = request(
@@ -479,7 +483,7 @@ describe('test for dm list/details/senddm/remove', () => {
   });
 
   test('dm remove test fail 403,dmId is valid and the authorised user is no longer in the DM', () => {
-    const token = userC.token[0];
+    const token = userC.token;
     const dmId = userBMemberOfDMId;
 
     const res = request(
@@ -497,7 +501,7 @@ describe('test for dm list/details/senddm/remove', () => {
   });
 
   test('dm remove test success', () => {
-    const token = userA.token[0];
+    const token = userA.token;
     const dmId = userBMemberOfDMId;
 
     const res = request(
