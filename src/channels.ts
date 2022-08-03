@@ -1,5 +1,7 @@
 import { getData, setData } from './dataStore';
 import { checkToken } from './helperFunctions';
+import HTTPError from 'http-errors';
+
 // import { IUser } from './interface';
 
 // Given a name create a channel that can either be public or private
@@ -13,7 +15,7 @@ import { checkToken } from './helperFunctions';
 //               {error: 'error'} when
 //               - name.length is not between 1 and 20 chars
 
-function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
+function channelsCreateV1(token: string, name: string, isPublic: boolean) {
   checkToken(token);
   if (checkToken(token) === false) {
     return { error: 'error bad token' };
@@ -44,21 +46,61 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
   return { channelId: randomNumber };
 }
 
-// Given an authorised user id and create an array of all channels including channels ids and names
-// that the authorised user is a member of
-
-// Parameters : authUserId: integer - used to identify which account will be used to create relative channels
-
-// Return type : { channelId },
-
-function channelsListV1 (token: string) {
-  checkToken(token);
-  // if (checkToken(token) === false) {
-  //   return { error: 'error bad token' };
-  // }
+/**
+ * list for channel
+ * @param token ticket of current user
+ * @returns channel list
+ */
+export function channelsListV1(token: string) {
+  // check token
+  if (checkToken(token) === false) {
+    throw HTTPError(403, 'user not found');
+  }
 
   const data = getData();
+  // check channels length
+  if (data.channels.length === 0) {
+    return { channels: [] };
+  }
 
+  // find is member of and public
+  const objectArray = [];
+  const user = data.users.find(u => u.token.includes(token) === true);
+  for (const channel of data.channels) {
+    // check public
+    if (!channel.isPublic) {
+      continue;
+    }
+    // check member
+    for (const member of channel.allMembers) {
+      if (member.userId === user.userId) {
+        const channelsObject = {
+          channelId: channel.channelId,
+          name: channel.name,
+          ownerMembers: channel.ownerMembers,
+          allMembers: channel.allMembers
+        };
+        objectArray.push(channelsObject);
+        break;
+      }
+    }
+  }
+  return { channels: objectArray };
+}
+
+/**
+ * list for all user
+ * @param token ticket of current user
+ * @returns including private channels
+ */
+export function channelsListallV1(token: string) {
+  // check token
+  if (checkToken(token) === false) {
+    throw HTTPError(403, 'user not found');
+  }
+  const data = getData();
+
+  // check channels length
   if (data.channels.length === 0) {
     return { channels: [] };
   }
@@ -67,49 +109,22 @@ function channelsListV1 (token: string) {
   const user = data.users.find(u => u.token.includes(token) === true);
 
   for (const channel of data.channels) {
+    // check member
     for (const member of channel.allMembers) {
       if (member.userId === user.userId) {
-        objectArray.push({
+        const channelsObject = {
           channelId: channel.channelId,
           name: channel.name,
-        });
+          ownerMembers: channel.ownerMembers,
+          allMembers: channel.allMembers
+        };
+        objectArray.push(channelsObject);
         break;
       }
     }
   }
-  return { channels: objectArray };
-}
-
-// Given an authorised user id and create an array of all channels including channels ids and names
-// that includs private channels
-
-// Parameters : authUserId: integer - used to identify which account will be used
-
-// Return type : { channelId },
-
-function channelsListallV1 (token: string) {
-  // checkToken(token);
-  // if (checkToken(token) === false) {
-  //   return { error: 'error' };
-  // }
-  const data = getData();
-
-  if (data.channels.length === 0) {
-    return { channels: [] };
-  }
-
-  const objectArray = [];
-
-  for (const element of data.channels) {
-    const channelsObject = {
-      channelId: element.channelId,
-      name: element.name,
-    };
-
-    objectArray.push(channelsObject);
-  }
 
   return { channels: objectArray };
 }
 
-export { channelsListV1, channelsListallV1, channelsCreateV1 };
+export { channelsCreateV1 };
