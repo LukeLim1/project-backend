@@ -2,8 +2,6 @@ import { getData } from './dataStore';
 import request from 'sync-request';
 import config from './config.json';
 import { IUser, userTemplate } from './interface';
-import { channel } from 'diagnostics_channel';
-import { token } from 'morgan';
 
 const port = config.port;
 const url = config.url;
@@ -379,11 +377,11 @@ export function requestUserStats (token: string) {
   return res;
 }
 
-// Fetches required statistics about the workspace's use of UNSW Treats 
+// Fetches required statistics about the workspace's use of UNSW Treats
 export function requestUsersStats () {
   const res = request(
     'GET',
-    `${url}:${port}/users/stats/v1`,
+    `${url}:${port}/users/stats/v1`
   );
 
   return res;
@@ -423,18 +421,17 @@ export function requestUserPermissionChange(token: string, uId: number, permissi
   return res;
 }
 
-
 export function sendMessage(token: string, channelId: number, message: string) {
   const res = request(
     'POST',
     `${url}:${port}/message/send/v2`,
     {
       body: JSON.stringify({
-        token: token,
         channelId: channelId,
         message: message
       }),
       headers: {
+        token: token,
         'Content-type': 'application/json',
       },
     }

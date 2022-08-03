@@ -15,7 +15,7 @@ describe('authRegisterV2', () => {
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({
       authUserId: expect.any(Number),
-      token: [expect.any(String)]
+      token: expect.any(String)
     });
   });
   test('Length of either nameFirst or nameLast not between 1-50 chars', () => {

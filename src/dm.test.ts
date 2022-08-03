@@ -94,11 +94,9 @@ describe('HTTP tests using Jest', () => {
   });
 
   test('dmLeave: dmId valid, but user is not a member of DM', () => {
-    const basicA = createBasicAccount();
-    const newUser = JSON.parse(String(basicA.getBody()));
-    const basicA2 = createBasicAccount();
-    const newUser2 = JSON.parse(String(basicA2.getBody()));
-    const basicD = createBasicDm(newUser.token[0], [newUser.authUserId]);
+    const newUser = JSON.parse(String(createBasicAccount().getBody()));
+    const newUser2 = JSON.parse(String(createBasicAccount2().getBody()));
+    const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
     const newDm = JSON.parse(String(basicD.getBody()));
 
     const res = requestDmLeave(newUser2.token, newDm.dmId);
@@ -138,7 +136,7 @@ describe('HTTP tests using Jest', () => {
       requestSendDm(newUser.token, newDm.dmId, 'Hi');
       requestSendDm(newUser2.token, newDm.dmId, 'Hey there');
     }
-    
+
     const res = requestDmMessages(newUser.token, newDm.dmId, 3);
     expect(res.statusCode).toBe(OK);
     const bodyObj = JSON.parse(res.body as string);
@@ -150,7 +148,7 @@ describe('HTTP tests using Jest', () => {
       message: 'Hi',
       timeSent: expect.any(Number),
     });
-  })
+  });
 
   test('dmMessages: over 50 messages', () => {
     const basicA = createBasicAccount();
@@ -171,7 +169,7 @@ describe('HTTP tests using Jest', () => {
       message: 'Hi',
       timeSent: expect.any(Number),
     });
-  })
+  });
 
   test('dmMessages: fetching multiple times', () => {
     const basicA = createBasicAccount();
@@ -202,7 +200,7 @@ describe('HTTP tests using Jest', () => {
       message: 'Hi',
       timeSent: expect.any(Number),
     });
-  })
+  });
 
   test('dmMessages: dmId does not refer to valid DM', () => {
     const basicA = createBasicAccount();
@@ -237,6 +235,8 @@ describe('HTTP tests using Jest', () => {
     expect(res.statusCode).toBe(403);
   });
 });
+
+/// ////////////////// Not Luke's test; change accordingly /////////////////////
 
 describe('test for dm ', () => {
   let userA: any, userB: any;
@@ -286,16 +286,9 @@ describe('test for dm ', () => {
     const basicD = createBasicDm(newUser.token, [newUser.authUserId, newUser2.authUserId]);
     const newDm = JSON.parse(String(basicD.getBody()));
 
-    const res = request(
-      'GET',
-      `${url}:${port}/dm/details/v1`,
-      {
-        qs: { token: newUser.token, dmId: newDm.dmId }
-      }
-    );
+    const res = requestDmDetails(newUser.token, newDm.dmId);
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
-    console.log(bodyObj);
     expect(bodyObj).toMatchObject({ name: expect.any(String), members: expect.any(Object) });
   });
 
@@ -303,13 +296,7 @@ describe('test for dm ', () => {
     const token = userBToken;
     const dmId = -1;
 
-    const res = request(
-      'GET',
-      `${url}:${port}/dm/details/v1`,
-      {
-        qs: { token: token, dmId: dmId }
-      }
-    );
+    const res = requestDmDetails(token, dmId);
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: expect.any(String) });
@@ -321,22 +308,7 @@ describe('test for dm ', () => {
     const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
     const newDm = JSON.parse(String(basicD.getBody()));
 
-    const param = JSON.stringify({
-      token: newUser.token,
-      dmId: newDm.dmId,
-      message: 'hello everyone,this is ' + userBMemberOfDMId + 'dm,can you hear me.'
-    });
-
-    const res = request(
-      'POST',
-      `${url}:${port}/message/senddm/v1`,
-      {
-        body: param,
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    const res = requestSendDm(newUser.token, newDm.dmId, 'hello everyone,this is ' + userBMemberOfDMId + 'dm,can you hear me.');
 
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
@@ -344,26 +316,9 @@ describe('test for dm ', () => {
   });
 
   test('message senddm test fail', () => {
-    const param = JSON.stringify({
-      token: userBToken,
-      dmId: -1,
-      message: 'hello everyone,this is ' + userBMemberOfDMId + 'dm,can you hear me.'
-    });
+    const res = requestSendDm(userBToken, -1, 'hello everyone,this is ' + userBMemberOfDMId + 'dm,can you hear me.');
 
-    const res = request(
-      'POST',
-      `${url}:${port}/message/senddm/v1`,
-      {
-        body: param,
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
-
-    const bodyObj = JSON.parse(res.body as string);
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(res.statusCode).toBe(403);
   });
 
   test('dm remove test fail', () => {

@@ -32,13 +32,13 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
   }
   const user = data.users.find(u => u.token.includes(token) === true);
 
-  const userPush: IUser =  {
+  const userPush: IUser = {
     uId: user.uId,
     email: user.emailAddress,
     nameFirst: user.firstName,
     nameLast: user.lastname,
     handleStr: user.handle
-}
+  };
 
   user.numChannelsJoined++;
   data.numChannels++;

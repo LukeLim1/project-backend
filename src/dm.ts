@@ -104,7 +104,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
 
 export function dmLeave (token: string, dmId: number) : object | Error {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    throw HTTPError(403, 'invalid token');
   }
 
   const data = getData();
@@ -125,7 +125,7 @@ export function dmLeave (token: string, dmId: number) : object | Error {
     }
   }
 
-  if (!isMember) throw HTTPError(403, "authorised user is not a member of DM");
+  if (!isMember) throw HTTPError(403, 'authorised user is not a member of DM');
 
   user.numDmsJoined--;
 
@@ -149,7 +149,7 @@ export function dmLeave (token: string, dmId: number) : object | Error {
 
 export function dmMessages (token: string, dmId: number, start: number): IDmMessages | Error {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    throw HTTPError(403, 'invalid token');
   }
 
   const data = getData();
@@ -165,7 +165,7 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
   const messagesCopy = dm.messages;
 
   if (start > messagesCopy.length) {
-    throw HTTPError(400, "start is greater than total messages in DM");
+    throw HTTPError(400, 'start is greater than total messages in DM');
   }
 
   let isMember = false;
@@ -175,7 +175,7 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
     }
   }
 
-  if (!isMember) throw HTTPError(403, "authorised user is not member of DM");
+  if (!isMember) throw HTTPError(403, 'authorised user is not member of DM');
 
   for (let i = start; i < length; i++) {
     messagesRestructured.push(dm.messages[i]);

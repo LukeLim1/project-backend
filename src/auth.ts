@@ -108,7 +108,7 @@ function authRegisterV1(email: string, password: string, nameFirst: string, name
   }
   const tokenStr = token.toString();
   const tokenHashed = getHashOf(tokenStr);
-  
+
   const globalPermissionId = (data.users.length === 0) ? 1 : 2;
   data.usedNums.push(randomNumber);
   data.usedTokenNums.push(token);
@@ -127,7 +127,7 @@ function authRegisterV1(email: string, password: string, nameFirst: string, name
   });
   setData(data);
   return {
-    token: [tokenHashed],
+    token: tokenHashed,
     authUserId: randomNumber
   };
 }
@@ -190,7 +190,7 @@ function authLoginV1(email: string, password: string) {
 
 function authLogout(token: string): object | Error {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    throw HTTPError(403, 'invalid token');
   }
 
   const data = getData();

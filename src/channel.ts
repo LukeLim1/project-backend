@@ -17,7 +17,7 @@ import HTTPError from 'http-errors';
 
 export function channelDetails(token: string, channelId: number): IChannelDetails | Error {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    throw HTTPError(403, 'invalid token');
   }
 
   const data = getData();
@@ -34,7 +34,7 @@ export function channelDetails(token: string, channelId: number): IChannelDetail
       isMember = true;
     }
   }
-  if (!isMember) throw HTTPError(403, "authorised user is not a member of the channel");
+  if (!isMember) throw HTTPError(403, 'authorised user is not a member of the channel');
 
   const owner = channel.ownerMembers[0];
 
@@ -81,7 +81,7 @@ export function channelDetails(token: string, channelId: number): IChannelDetail
 
 export function channelJoin(token: string, channelId: number): object | Error {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    throw HTTPError(403, 'invalid token');
   }
 
   const data = getData();
@@ -91,19 +91,18 @@ export function channelJoin(token: string, channelId: number): object | Error {
   if (!channel) {
     throw HTTPError(400, "channelId doesn't refer to valid channel");
   }
-  
+
   let isMember = false;
   for (const member of channel.allMembers) {
     if (user.uId === member.uId) {
       isMember = true;
     }
   }
-  if (isMember) throw HTTPError(400, "authorised user is already a member of the channel");
+  if (isMember) throw HTTPError(400, 'authorised user is already a member of the channel');
 
   if (channel.isPublic === false && user.globalPermissionId !== 1) {
-    throw HTTPError(403, "authorised user is not channel member & global owner");
+    throw HTTPError(403, 'authorised user is not channel member & global owner');
   }
-
 
   channel.allMembers.push({
     uId: user.uId,
@@ -145,8 +144,8 @@ export function channelLeaveV1(token: string, channelId: number): object {
 }
 
 export function channelInviteV2(token: string, channelId: number, uId: number) {
-  // const data = getData();
-  // const user: userTemplate = data.users.find(user => user.userId === uId);
+  const data = getData();
+  const user: userTemplate = data.users.find(user => user.uId === uId);
   // const channel = data.channels.find(channel => channel.channelId === channelId);
 
   // // Checking if the token passed in is valid
@@ -160,9 +159,9 @@ export function channelInviteV2(token: string, channelId: number, uId: number) {
 
   // // Checking for invalid cases
   // // Case 1: Not a valid user as indicated by invalid uID
-  // if (!user) {
-  //   return { error: 'error' };
-  // }
+  if (!user) {
+    return { error: 'error' };
+  }
   // // Case 2: Not a valid channel as indicated by invalid channelID
   // if (!channel) {
   //   return { error: 'error' };
@@ -174,11 +173,11 @@ export function channelInviteV2(token: string, channelId: number, uId: number) {
   // const arrayUserId: number[] = [];
   // Object.values(data.channels).forEach(element => {
   //   let toPush;
-  //   for (const i in element.allMembers) { toPush = element.allMembers[i].userId; }
+  //   for (const i in element.allMembers) { toPush = element.allMembers[i].uId; }
   //   arrayUserId.push(toPush);
   // });
 
-  // if (arrayUserId.includes(user.userId)) {
+  // if (arrayUserId.includes(user.uId)) {
   //   return { error: 'error' };
   // }
 
@@ -194,12 +193,12 @@ export function channelInviteV2(token: string, channelId: number, uId: number) {
 }
 
 export function channelMessagesV2 (token: string, channelId: number, start: number) {
-  // if (checkToken(token) === false) {
-  //   throw HTTPError(403, "invalid token");
-  // }
+  if (checkToken(token) === false) {
+    throw HTTPError(403, 'invalid token');
+  }
 
-  // const data = getData();
-  // const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
+  const data = getData();
+  const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
   // const channel = data.channels.find(channel => channel.channelId === channelId);
   // // Setting a new index "end" to be the value of "start + 50"
   // // and a new array to store the restructured messages
@@ -215,9 +214,9 @@ export function channelMessagesV2 (token: string, channelId: number, start: numb
   //   return { error: 'error' };
   // }
 
-  // if (!user) {
-  //   return { error: 'error' };
-  // }
+  if (!user) {
+    return { error: 'error' };
+  }
 
   // // Checking for invalid case
   // // Case 1: Invalid channelId

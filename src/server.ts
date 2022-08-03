@@ -129,7 +129,6 @@ app.post('/dm/create/v1', (req, res) => {
   res.json(dmCreateV1(token, uIds));
 });
 
-
 app.delete('/clear/v1', (req, res) => {
   res.json(clearV1());
 });
@@ -249,7 +248,6 @@ app.post('/channel/removeowner', (req, res) => {
 
 app.post('/message/send', (req, res) => {
   const { token, channelId, message } = req.body;
-  // returns {}
   res.json(messageSendV1(token, channelId, message));
 });
 
