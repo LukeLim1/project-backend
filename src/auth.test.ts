@@ -1,6 +1,6 @@
 import request from 'sync-request';
 import config from './config.json';
-import { newReg, clear, createBasicAccount, resetPassword } from './helperFunctions';
+import { newReg, clear, createBasicAccount, resetPassword, requestAuthLogout } from './helperFunctions';
 
 const OK = 200;
 const port = config.port;
@@ -132,18 +132,7 @@ describe('authRegisterV2', () => {
       const basicA = createBasicAccount();
       const newUser = JSON.parse(String(basicA.getBody()));
 
-      const res = request(
-        'POST',
-      `${url}:${port}/auth/logout/v1`,
-      {
-        body: JSON.stringify({
-          token: newUser.token,
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-      );
+      const res = requestAuthLogout(newUser.token);
 
       const bodyObj = JSON.parse(String(res.getBody()));
       expect(res.statusCode).toBe(OK);

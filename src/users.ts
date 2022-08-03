@@ -268,10 +268,6 @@ function usersStats () {
   if (data.users.length === 0) utilizationRate = 0;
   else if (utilizationRate > 1) utilizationRate = 1;
 
-  console.log(usersJoined);
-  console.log(numUsersJoined);
-  console.log(data.users.length);
-
   return {
     channelsExist: [{
       numChannelsExist: numChannelsExist,
