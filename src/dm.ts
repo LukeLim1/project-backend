@@ -246,6 +246,8 @@ export function senddm(token: string, dmId: number, message: string) {
     isPinned: false
   });
 
+  user.numMessagesSent++;
+  data.numMsgs++;
   setData(data);
   return { messageId: random };
 }
