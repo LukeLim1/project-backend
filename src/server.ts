@@ -181,6 +181,29 @@ app.delete('/dm/remove/v1', (req: Request, res: Response) => {
   res.json(dmRemove(token, parseInt(dmId)));
 });
 
+app.get('/dm/list/v2', (req: Request, res: Response) => {
+  const token = req.header('token');
+  res.json(dmList(token));
+});
+
+app.get('/dm/details/v2', (req: Request, res: Response) => {
+  const token = req.header('token');
+  const dmId = req.query.dmId as string;
+  res.json(dmDetails(token, parseInt(dmId)));
+});
+
+app.post('/message/senddm/v2', (req, res) => {
+  const token = req.header('token');
+  const { dmId, message } = req.body;
+  res.json(senddm(token, dmId, message));
+});
+
+app.delete('/dm/remove/v2', (req: Request, res: Response) => {
+  const token = req.header('token');
+  const dmId = req.query.dmId as string;
+  res.json(dmRemove(token, parseInt(dmId)));
+});
+
 app.get('/users/all/v1', (req, res) => {
   const token = req.query.token as string;
   res.json(usersAll(token));
