@@ -130,19 +130,21 @@ describe('HTTP tests using Jest', () => {
   });
 
   test('dmMessages: under 50 messages', () => {
-    const basicA = createBasicAccount();
-    const newUser = JSON.parse(String(basicA.getBody()));
-    const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
+    const newUser = JSON.parse(String(createBasicAccount().getBody()));
+    const newUser2 = JSON.parse(String(createBasicAccount2().getBody()));
+    const basicD = createBasicDm(newUser.token, [newUser.authUserId, newUser2.authUserId]);
     const newDm = JSON.parse(String(basicD.getBody()));
-    for (let i = 0; i < 35; i++) {
+    for (let i = 0; i < 12; i++) {
       requestSendDm(newUser.token, newDm.dmId, 'Hi');
+      requestSendDm(newUser2.token, newDm.dmId, 'Hey there');
     }
+    
     const res = requestDmMessages(newUser.token, newDm.dmId, 3);
     expect(res.statusCode).toBe(OK);
     const bodyObj = JSON.parse(res.body as string);
-    expect(bodyObj.messages.length).toBe(32);
+    expect(bodyObj.messages.length).toBe(21);
     expect(bodyObj.end).toBe(-1);
-    expect(bodyObj.messages[20]).toMatchObject({
+    expect(bodyObj.messages[9]).toMatchObject({
       messageId: expect.any(Number),
       uId: expect.any(Number),
       message: 'Hi',

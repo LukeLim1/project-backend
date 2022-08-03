@@ -508,7 +508,7 @@ export function resetPassword(resetCode: string, newPassword: string) {
 export function findResetCode(userId: number) {
   const data = getData();
 
-  const user = data.users.find(u => u.userId === userId);
+  const user = data.users.find(u => u.uId === userId);
   console.log(user);
   const resetObject = data.passwordRequest.find(u => u.email === user.emailAddress);
   console.log(resetObject);
@@ -527,7 +527,7 @@ export function clear() {
 
 export function convertUserTemplateToIUser (temp: userTemplate): IUser {
   const res:IUser = {
-    uId: temp.userId,
+    uId: temp.uId,
     email: temp.emailAddress,
     nameFirst: temp.firstName,
     nameLast: temp.lastname,

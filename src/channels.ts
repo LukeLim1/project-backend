@@ -33,7 +33,7 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
   const user = data.users.find(u => u.token.includes(token) === true);
 
   const userPush: IUser =  {
-    uId: user.userId,
+    uId: user.uId,
     email: user.emailAddress,
     nameFirst: user.firstName,
     nameLast: user.lastname,
@@ -79,7 +79,7 @@ function channelsListV1 (token: string) {
 
   for (const channel of data.channels) {
     for (const member of channel.allMembers) {
-      if (member.uId === user.userId) {
+      if (member.uId === user.uId) {
         objectArray.push({
           channelId: channel.channelId,
           name: channel.name,

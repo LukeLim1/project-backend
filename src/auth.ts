@@ -101,7 +101,7 @@ function authRegisterV1(email: string, password: string, nameFirst: string, name
 
   data.users.push({
     emailAddress: email,
-    userId: randomNumber,
+    uId: randomNumber,
     password: password,
     firstName: nameFirst,
     lastname: nameLast,
@@ -163,12 +163,20 @@ function authLoginV1(email: string, password: string) {
   const tokenStr = token.toString();
   user.token.push(tokenStr);
   setData(data);
-  return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
+  return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].uId };
 }
+
+// authLogout
+// Removes token that is given in the parameter from the corresponding user
+
+// Parameters: token: string - token of a user that is to be logged out
+
+// Return type: object {}
+//              throws 403 error when token is invalid
 
 function authLogout(token: string): object | Error {
   if (checkToken(token) === false) {
-    return { error: 'error' }; //throw HTTPError(403, "invalid token");
+    throw HTTPError(403, "invalid token");
   }
 
   const data = getData();

@@ -45,7 +45,7 @@ export interface dmTemplate {
 
 export interface userTemplate {
     emailAddress: string;
-    userId: number;
+    uId: number;
     password: string;
     firstName: string;
     lastname: string;

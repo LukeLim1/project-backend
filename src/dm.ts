@@ -17,7 +17,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
   const arrayUserId: number[] = [];
 
   Object.values(data.users).forEach(element => {
-    const toPush = element.userId;
+    const toPush = element.uId;
     arrayUserId.push(toPush);
   });
 
@@ -33,7 +33,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
 
   Object.values(data.users).forEach(element => {
     for (const i of uIds) {
-      if (i === element.userId) {
+      if (i === element.uId) {
         const toPush = element.handle;
         handleArray.push(toPush);
       }
@@ -43,9 +43,9 @@ export function dmCreateV1 (token: string, uIds: number[]) {
   const memberArray: IUser[] = [];
   Object.values(data.users).forEach(element => {
     for (const i of uIds) {
-      if (i === element.userId) {
+      if (i === element.uId) {
         const toPush1 = {
-          uId: element.userId,
+          uId: element.uId,
           email: element.emailAddress,
           nameFirst: element.firstName,
           nameLast: element.lastname,
@@ -67,7 +67,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
   }
 
   const owner = {
-    uId: user.userId,
+    uId: user.uId,
     email: user.emailAddress,
     nameFirst: user.firstName,
     nameLast: user.lastname,
@@ -75,7 +75,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
   };
 
   for (const uId of uIds) {
-    const u = data.users.find(u => u.userId === uId);
+    const u = data.users.find(u => u.uId === uId);
     u.numDmsJoined++;
   }
   data.numDms++;
@@ -90,6 +90,17 @@ export function dmCreateV1 (token: string, uIds: number[]) {
   setData(data);
   return { dmId: identifier };
 }
+
+// dmLeave
+// Removes authorised user from the DM that is given by dmId
+
+// Parameters: token: string - token of a user that is being removed
+//             dmId: number - ID of a DM
+
+// Return type: object {}
+//              throws 403 error when token is invalid
+//              throws 400 error when dmId does not refer to a valid DM (when DM is not found)
+//              throws 403 error when dmId is valid but the authorised user is not a member of DM shown by dmId
 
 export function dmLeave (token: string, dmId: number) : object | Error {
   if (checkToken(token) === false) {
@@ -107,7 +118,7 @@ export function dmLeave (token: string, dmId: number) : object | Error {
   let isMember = false;
 
   for (const member of dm.members) {
-    if (user.userId === member.uId) {
+    if (user.uId === member.uId) {
       isMember = true;
       const index = dm.members.indexOf(member);
       dm.members.splice(index, 1);
@@ -121,6 +132,20 @@ export function dmLeave (token: string, dmId: number) : object | Error {
   setData(data);
   return {};
 }
+
+// dmMessages
+// Fetches up to 50 messages sent in DM of dmId. The user can choose which message to start fetching from.
+
+// Parameters: token: string - token of a user to check if this user is authorised
+//             dmId: number - ID of a DM
+//             start: number - index to show where to start fetching
+
+// Return type: { messages, start, end }. Messages are array of { messageId, uId, message, timeSent }. End is a number (start + 50) by default
+//              and -1 if there are no more messages to load.
+//              throws 403 error when token is invalid
+//              throws 400 error when dmId does not refer to a valid DM (when DM is not found)
+//              throws 400 error when start is greater than total number of messages in that DM
+//              throws 403 error when dmId is valid but the authorised user is not a member of DM shown by dmId
 
 export function dmMessages (token: string, dmId: number, start: number): IDmMessages | Error {
   if (checkToken(token) === false) {
@@ -145,7 +170,7 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
 
   let isMember = false;
   for (const member of dm.members) {
-    if (member.uId === user.userId) {
+    if (member.uId === user.uId) {
       isMember = true;
     }
   }
@@ -193,7 +218,7 @@ export function senddm(token: string, dmId: number, message: string) {
   // case 3: check member of dm
   let isMember = false;
   for (const member of dm.members) {
-    if (member.uId === user.userId) {
+    if (member.uId === user.uId) {
       isMember = true;
       break;
     }
@@ -214,7 +239,7 @@ export function senddm(token: string, dmId: number, message: string) {
 
   dm.messages.push({
     messageId: random,
-    uId: user.userId,
+    uId: user.uId,
     message: message,
     timeSent: timeSent
   });
@@ -238,7 +263,7 @@ export function dmList(token: string) {
   const data = getData();
   // get current user
   const user = data.users.find(u => u.token.includes(token) === true) as userTemplate;
-  const userId = user.userId;
+  const userId = user.uId;
 
   // array to store all the return objects with dmId and name
   const myDMs = [];
@@ -275,7 +300,7 @@ export function dmRemove(token: string, dmId: number): object | Error {
     return { error: 'error user not exit' };
   }
 
-  const ownerId = user.userId;
+  const ownerId = user.uId;
 
   const dms = data.DMs;
   const dm = dms.find(d => d.dmId === dmId);
@@ -328,7 +353,7 @@ export function dmDetails(token: string, dmId: number): object | Error {
   const user = data.users.find(dm => dm.token.includes(token));
   let isMember = false;
   for (const member of dm.members) {
-    if (member.uId === user.userId) {
+    if (member.uId === user.uId) {
       isMember = true;
       break;
     }

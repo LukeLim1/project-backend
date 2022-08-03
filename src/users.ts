@@ -21,7 +21,7 @@ function userProfileV1(token: string, uId: number): IUser | Error {
     throw HTTPError(403, "invalid token");
   }
   const data = getData();
-  const user = data.users.find(u => u.userId === uId);
+  const user = data.users.find(u => u.uId === uId);
   if (!user) {
     throw HTTPError(400, "uId does not refer to a valid user");
   } else {
@@ -104,6 +104,14 @@ function setHandleV1(token: string, handleStr: string): object {
   return {};
 }
 
+// usersAll
+// prints details of all users except the ones removed
+
+// Parameters: token: string - token of a user to check if this user is authorised
+
+// Return type: object {}
+//              throws 403 error when token is invalid
+
 function usersAll (token: string) {
   if (checkToken(token) === false) {
     throw HTTPError(403, "invalid token");
@@ -116,7 +124,7 @@ function usersAll (token: string) {
       continue;
     } else {
       const obj = {
-        uId: user.userId,
+        uId: user.uId,
         email: user.emailAddress,
         nameFirst: user.firstName,
         nameLast: user.lastname,
@@ -128,6 +136,21 @@ function usersAll (token: string) {
 
   return { users };
 }
+
+// uploadPhoto
+// fetches URL from the internet and loads it into jpg file
+
+// Parameters: imgUrl: string - URL of image to be loaded
+//             xStart: number - beginning point of x-coordinate for image size
+//             yStart: number - beginning point of y-coordinate for image size
+//             xEnd: number - ending point of x-coordinate for image size
+//             yEnd: number - ending point of y-coordinate for image size
+
+// Return type: object {}
+//              throws 400 error when imgUrl returns statusCode other than 200 or some other errors occur when retrieving the image
+//              throws 400 error when any of the coordinate points are not within the dimensions of image at URL
+//              throws 400 error when xEnd <= xStart or yEnd <= yStart
+//              throws 400 error when image uploaded is not jpg
 
 function uploadPhoto (imgUrl: string, xStart: number, yStart: number, xEnd: number, yEnd: number) {
   const res = request(
@@ -166,23 +189,33 @@ function uploadPhoto (imgUrl: string, xStart: number, yStart: number, xEnd: numb
   return {};
 }
 
+// user/stats/v1 & users/stats/v1
+// displays statistics of user / workspace
+
+// Parameters: token: string - token of a user to check if this user is authorised
+
+// Return type: userStats: {
+//                channelsJoined: [{numChannelsJoined, timeStamp}],
+//                dmsJoined: [{numDmsJoined, timeStamp}], 
+//                messagesSent: [{numMessagesSent, timeStamp}], 
+//                involvementRate
+//              }
+// Return type: workspaceStats: {
+//                channelsExist: [{numChannelsExist, timeStamp}], 
+//                dmsExist: [{numDmsExist, timeStamp}], 
+//                messagesExist: [{numMessagesExist, timeStamp}], 
+//                utilizationRate
+//              }
+//              throws 403 error when token is invalid
+
 function userStats (token: string) {
+  if (checkToken(token) === false) {
+    throw HTTPError(403, "invalid token");
+  }
+
   const data = getData();
   const user = data.users.find(u => u.token.includes(token));
   const time = Math.floor((new Date()).getTime() / 1000);
-
-  // let numChannelMsg = 0;
-  // for (const channel of data.channels) {
-  //   numChannelMsg += channel.messages.length;
-  // }
-
-  // let numDmMsg = 0;
-  // for (const dm of data.DMs) {
-  //   numDmMsg += dm.messages.length;
-  // }
-
-  // const numMessagesExist = numChannelMsg + numDmMsg;
-
 
   let involvementRate = (user.numChannelsJoined + user.numDmsJoined + user.numMessagesSent)
         / (data.numChannels + data.numDms + data.numMsgs);
@@ -213,33 +246,29 @@ function usersStats () {
   const numMessagesExist = data.numMsgs;
   const time = Math.floor((new Date()).getTime() / 1000);
 
-  const usersJoined: IUser[] = [];
+  const usersJoined: number[] = [];
   for (const channel of data.channels) {
     for (const member of channel.allMembers) {
-      usersJoined.push(member);
+      if (!usersJoined.includes(member.uId)) {
+        usersJoined.push(member.uId);
+      }
     }
   }
 
   for (const dm of data.DMs) {
     for (const member of dm.members) {
-      usersJoined.push(member);
+      if (!usersJoined.includes(member.uId)) {
+        usersJoined.push(member.uId);
+      }
     }
   }
   
-  const uniqueUsersJoined = [];
-  usersJoined.filter(element => {
-    const isDuplicate = uniqueUsersJoined.includes(element);
-    if (!isDuplicate) uniqueUsersJoined.push(element);
-  });
-  
-
-  const numUsersJoined = uniqueUsersJoined.length;
+  const numUsersJoined = usersJoined.length;
   let utilizationRate = numUsersJoined / (data.users.length);
   if (data.users.length === 0) utilizationRate = 0;
   else if (utilizationRate > 1) utilizationRate = 1;
 
   console.log(usersJoined);
-  console.log(uniqueUsersJoined);
   console.log(numUsersJoined);
   console.log(data.users.length);
 

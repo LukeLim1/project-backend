@@ -2,7 +2,7 @@ import request from 'sync-request';
 import { createBasicChannel } from './channels.test';
 import { url, port } from './config.json';
 import { createBasicAccount, createBasicAccount2, clear, changeName, changeEmail, newReg, requestUsersAll, requestUserProfile,
-        requestUploadPhoto, requestUserStats, requestUsersStats, requestUserRemove, createBasicDm, requestSendDm } from './helperFunctions';
+        requestUploadPhoto, requestUserStats, requestUsersStats, requestUserRemove, createBasicDm, requestSendDm, requestDmMessages } from './helperFunctions';
 
 const OK = 200;
 
@@ -233,38 +233,34 @@ describe('setHandle http route tests', () => {
   // });
 });
 
-// describe('uploadPhoto tests using Jest', () => {
-//   test('Test successful uploadPhoto', () => {
-//     const res = requestUploadPhoto('http://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 0, 0, 100, 100);
-//     const bodyObj = JSON.parse(String(res.getBody()));
-//     expect(res.statusCode).toBe(OK);
-//     expect(bodyObj).toMatchObject({});
-//   });
+describe('uploadPhoto tests using Jest', () => {
+  test('Test successful uploadPhoto', () => {
+    const res = requestUploadPhoto('http://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 0, 0, 100, 100);
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({});
+  });
 
-//   test('imgUrl returns HTTP status code error', () => {
-//     const res = requestUploadPhoto('https://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 0, 0, 100, 100);
-//     const bodyObj = JSON.parse(String(res.getBody()));
-//     expect(res.statusCode).toBe(400);
-//   });
+  test('imgUrl returns HTTP status code error', () => {
+    const res = requestUploadPhoto('https://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 0, 0, 100, 100);
+    expect(res.statusCode).toBe(400);
+  });
 
-//   test('coordinates are not within dimensions of url image', () => {
-//     const res = requestUploadPhoto('http://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 0, 0, 100000, 100000);
-//     const bodyObj = JSON.parse(String(res.getBody()));
-//     expect(res.statusCode).toBe(400);
-//   });
+  test('coordinates are not within dimensions of url image', () => {
+    const res = requestUploadPhoto('http://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 0, 0, 100000, 100000);
+    expect(res.statusCode).toBe(400);
+  });
 
-//   test('xEnd <= xStart or yEnd <= yStart', () => {
-//     const res = requestUploadPhoto('http://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 100, 500, 20, 30);
-//     const bodyObj = JSON.parse(String(res.getBody()));
-//     expect(res.statusCode).toBe(400);
-//   });
+  test('xEnd <= xStart or yEnd <= yStart', () => {
+    const res = requestUploadPhoto('http://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 100, 500, 20, 30);
+    expect(res.statusCode).toBe(400);
+  });
 
-//   test('Image is not JPG', () => {
-//     const res = requestUploadPhoto('http://www.pngmart.com/files/5/Landscape-PNG-File.png', 0, 0, 100, 100);
-//     const bodyObj = JSON.parse(String(res.getBody()));
-//     expect(res.statusCode).toBe(400);
-//   });
-// });
+  test('Image is not JPG', () => {
+    const res = requestUploadPhoto('http://www.pngmart.com/files/5/Landscape-PNG-File.png', 0, 0, 100, 100);
+    expect(res.statusCode).toBe(400);
+  });
+});
 
 
 describe('userStats & usersStats tests using Jest', () => {
@@ -292,13 +288,14 @@ describe('userStats & usersStats tests using Jest', () => {
   });
 
   test('Test successful userStats 2', () => {
-    const basicA = createBasicAccount();
-    const newUser = JSON.parse(String(basicA.getBody()));
+    const newUser = JSON.parse(String(createBasicAccount().getBody()));
+    const newUser2 = JSON.parse(String(createBasicAccount2().getBody()));
 
     createBasicChannel(newUser.token, 'channel1', true);
-    const newDm = JSON.parse(String(createBasicDm(newUser.token, [newUser.authUserId]).getBody()));
+    const newDm = JSON.parse(String(createBasicDm(newUser.token, [newUser.authUserId, newUser2.authUserId]).getBody()));
     for (let i = 0; i < 12; i++) {
       requestSendDm(newUser.token, newDm.dmId, 'Hey');
+      requestSendDm(newUser2.token, newDm.dmId, 'Hi there!');
     }
 
     const res = requestUserStats(newUser.token);
@@ -318,7 +315,7 @@ describe('userStats & usersStats tests using Jest', () => {
         numMessagesSent: 12,
         timeStamp: expect.any(Number),
       }],
-      involvementRate: 1,
+      involvementRate: expect.any(Number),
     })
   });
 
