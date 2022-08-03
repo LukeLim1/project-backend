@@ -14,7 +14,7 @@ function getallUsers() {
     `${url}:${port}/users/all/v1`,
     {
       qs: {
-        token: '1',
+        token: 'df287dfc1406ed2b692e1c2c783bb5cec97eac53151ee1d9810397aa0afa0d89',
       },
     }
   );
@@ -60,7 +60,7 @@ describe('update name', () => {
     // user2
     createBasicAccount2();
     // calling the setname route
-    const res = changeName(newUser.token[0], 'tiktok', 'onTheClock');
+    const res = changeName(newUser.token, 'tiktok', 'onTheClock');
 
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
@@ -93,14 +93,14 @@ describe('update name', () => {
     // user2
     createBasicAccount2();
     // calling the setname route with bad nameFirst
-    const res = changeName(newUser.token[0], '', 'zachary');
+    const res = changeName(newUser.token, '', 'zachary');
 
     const bodyObj = JSON.parse(String(res.getBody()));
 
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: expect.any(String) });
     // calling the setname route with bad nameLast
-    const res2 = changeName(newUser.token[0], 'zachary', '');
+    const res2 = changeName(newUser.token, 'zachary', '');
     const bodyObj2 = JSON.parse(String(res.getBody()));
     expect(res2.statusCode).toBe(OK);
     expect(bodyObj2).toMatchObject({ error: expect.any(String) });
@@ -114,12 +114,13 @@ describe('SetEmail http route tests', () => {
     const newUser = JSON.parse(String(basic.getBody()));
     // user1
     createBasicAccount2();
-    const res = changeEmail(newUser.token[0], 'newemail@gmail.com');
+    const res = changeEmail(newUser.token, 'newemail@gmail.com');
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({});
     const res2 = getallUsers();
-
+    console.log('printing res 2 body');
+    console.log(JSON.parse(String(res2.getBody())));
     const userBody = JSON.parse(String(res2.getBody()));
     expect(res2.statusCode).toBe(OK);
     expect(userBody).toStrictEqual({
@@ -145,7 +146,7 @@ describe('SetEmail http route tests', () => {
     const newUser = JSON.parse(String(basic.getBody()));
     // user1
     createBasicAccount2();
-    const res = changeEmail(newUser.token[0], 'newemail');
+    const res = changeEmail(newUser.token, 'newemail');
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: expect.any(String) });
@@ -156,7 +157,7 @@ describe('SetEmail http route tests', () => {
     const newUser = JSON.parse(String(basic.getBody()));
     // user1
     newReg('zachary1234@gmail.com', 'password', 'aaazach', 'aaachan');
-    const res = changeEmail(newUser.token[0], 'zachary1234@gmail.com');
+    const res = changeEmail(newUser.token, 'zachary1234@gmail.com');
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: expect.any(String) });
@@ -170,7 +171,7 @@ describe('setHandle http route tests', () => {
   //   const newUser = JSON.parse(String(basic.getBody()));
   //   // user1
   //   newReg('zachary1234@gmail.com', 'password', 'aaazach', 'aaachan');
-  //   const res = changeHandle(newUser.token[0], 'newhandle');
+  //   const res = changeHandle(newUser.token, 'newhandle');
   //   const bodyObj = JSON.parse(String(res.getBody()));
   //   expect(res.statusCode).toBe(OK);
   //   expect(bodyObj).toMatchObject({});

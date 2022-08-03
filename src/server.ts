@@ -10,6 +10,7 @@ import { channelLeaveV1, channelDetails, channelJoin, channelInviteV2, channelAd
 import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } from './dm';
 import { setNameV1, setEmailV1, setHandleV1, usersAll } from './users';
 import { messageSendV1, messageEditV1, messageRemoveV1, messagesShareV1 } from './message';
+// import { notificationGetV1 } from './notifications';
 import errorHandler from 'middleware-http-errors';
 // import fs from 'fs';
 
@@ -246,6 +247,11 @@ app.delete('/message/remove', (req, res) => {
   // returns {}
   res.json(messageRemoveV1(token, messageId));
 });
+
+// app.get('/notifications/get/v1', (req, res) => {
+//   const token = req.header('token');
+//   res.json(notificationGetV1(token))
+// });
 
 // for logging errors
 app.use(morgan('dev'));
