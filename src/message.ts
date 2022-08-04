@@ -294,9 +294,9 @@ export function messagePin(token: string, messageId: number) {
   if (!user) {
     throw HTTPError(403, 'user not found');
   }
-  // if (user.permissions !== 1) {
-  //   throw HTTPError(403, 'user had no owner permissions');
-  // }
+  if (user.globalPermissionId !== 1) {
+    throw HTTPError(403, 'user had no owner permissions');
+  }
   const msgs = getAllMessage(data, user.uId);
   if (!msgs) {
     throw HTTPError(400, 'not is member of channel/dm');
@@ -332,7 +332,9 @@ export function messageUnPin(token: string, messageId: number) {
   if (!user) {
     throw HTTPError(403, 'user not found');
   }
-
+  if (user.globalPermissionId !== 1) {
+    throw HTTPError(403, 'user had no owner permissions');
+  }
   const msgs = getAllMessage(data, user.uId);
   if (!msgs) {
     throw HTTPError(400, 'not is member of channel/dm');

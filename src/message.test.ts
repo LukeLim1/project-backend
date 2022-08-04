@@ -8,6 +8,7 @@ import { url, port } from './config.json';
 
 const OK = 200;
 const error400 = 400;
+const error403 = 403;
 
 test('placeholder', () => {
   expect(1).toBe(1);
@@ -437,19 +438,19 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
   let userA: any, userB: any;
   let userBMemberOfDMId: number, messageId: number;
   let userBToken: string;
-  beforeAll(() => {
+  beforeEach(() => {
     clear();
     // register user A
-    const basicA = createBasicAccount();
+    const basicA = newReg('zach@gmail.com', '123456', 'zach', 'chan');
     userA = JSON.parse(String(basicA.getBody()));
 
     // register user B
-    const basicB = createBasicAccount2();
+    const basicB = newReg('111zach@gmail.com', '123456', '1zach', '1chan');
     userB = JSON.parse(String(basicB.getBody()));
-    userBToken = userB.token[0];
+    userBToken = userB.token;
 
     // create dm
-    const dm = createBasicDm(userA.token[0], [userA.authUserId, userB.authUserId]);
+    const dm = createBasicDm(userA.token, [userA.authUserId, userB.authUserId]);
     userBMemberOfDMId = JSON.parse(String(dm.getBody())).dmId;
 
     // send dm message
@@ -554,6 +555,17 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
       reactId: 1,
     };
 
+    request(
+      'POST',
+      `${url}:${port}/message/react/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
+
     const res = request(
       'POST',
       `${url}:${port}/message/react/v1`,
@@ -574,6 +586,17 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
       messageId: messageId,
       reactId: 1,
     };
+
+    request(
+      'POST',
+      `${url}:${port}/message/react/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
 
     const res = request(
       'POST',
@@ -666,7 +689,7 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
         body: JSON.stringify(param),
         headers: {
           'Content-type': 'application/json',
-          token: userA.token[0]
+          token: userA.token
         },
       });
     const bodyObj = JSON.parse(res.body as string);
@@ -686,7 +709,7 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
         body: JSON.stringify(param),
         headers: {
           'Content-type': 'application/json',
-          token: userA.token[0]
+          token: userA.token
         },
       });
     const bodyObj = JSON.parse(res.body as string);
@@ -699,6 +722,17 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
       messageId: messageId
     };
 
+    request(
+      'POST',
+      `${url}:${port}/message/pin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
+
     const res = request(
       'POST',
       `${url}:${port}/message/pin/v1`,
@@ -706,7 +740,7 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
         body: JSON.stringify(param),
         headers: {
           'Content-type': 'application/json',
-          token: userA.token[0]
+          token: userA.token
         },
       });
     const bodyObj = JSON.parse(res.body as string);
@@ -719,6 +753,17 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
       messageId: messageId
     };
 
+    request(
+      'POST',
+      `${url}:${port}/message/pin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
+
     const res = request(
       'POST',
       `${url}:${port}/message/pin/v1`,
@@ -730,7 +775,7 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
         },
       });
     const bodyObj = JSON.parse(res.body as string);
-    expect(res.statusCode).toBe(error400);
+    expect(res.statusCode).toBe(error403);
     expect(bodyObj).toMatchObject({ error: { message: 'user had no owner permissions' } });
   });
 
@@ -740,6 +785,17 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
       messageId: messageId
     };
 
+    request(
+      'POST',
+      `${url}:${port}/message/pin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
+
     const res = request(
       'POST',
       `${url}:${port}/message/unpin/v1`,
@@ -747,7 +803,7 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
         body: JSON.stringify(param),
         headers: {
           'Content-type': 'application/json',
-          token: userA.token[0]
+          token: userA.token
         },
       });
     const bodyObj = JSON.parse(res.body as string);
@@ -767,7 +823,7 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
         body: JSON.stringify(param),
         headers: {
           'Content-type': 'application/json',
-          token: userA.token[0]
+          token: userA.token
         },
       });
     const bodyObj = JSON.parse(res.body as string);
@@ -787,7 +843,7 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
         body: JSON.stringify(param),
         headers: {
           'Content-type': 'application/json',
-          token: userA.token[0]
+          token: userA.token
         },
       });
     const bodyObj = JSON.parse(res.body as string);
@@ -800,6 +856,16 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
       messageId: messageId
     };
 
+    request(
+      'POST',
+      `${url}:${port}/message/pin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
     const res = request(
       'POST',
       `${url}:${port}/message/unpin/v1`,
@@ -811,7 +877,7 @@ describe('test for message for search/react/unreact/pin/unpin', () => {
         },
       });
     const bodyObj = JSON.parse(res.body as string);
-    expect(res.statusCode).toBe(error400);
+    expect(res.statusCode).toBe(error403);
     expect(bodyObj).toMatchObject({ error: { message: 'user had no owner permissions' } });
   });
 });
