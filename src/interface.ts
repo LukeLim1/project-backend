@@ -13,13 +13,42 @@ export interface IMessages {
     timeSent: number;
 }
 
+export interface IReact {
+    reactId: number;
+    uIds: number[];
+    isThisUserReacted: boolean;
+}
+
+export interface notifications {
+    channelId: number;
+    dmId: number;
+    notificationMessage: string;
+}
+
+export interface messageTemplate {
+    messageId: number;
+    uId: number;
+    message: string;
+    timeSent: number;
+    reacts: IReact[];
+    isPinned: boolean;
+}
+
+export interface standup {
+    active: false;
+    start: null;
+    timeFinish: null;
+    message: messageTemplate[];
+}
+
 export interface channelTemplate {
     name: string;
     isPublic: boolean;
     ownerMembers: IUser[];
     allMembers: IUser[];
     channelId: number;
-    messages: any[];
+    messages: messageTemplate[];
+    standup: standup[];
 }
 
 export interface dmTemplate {
@@ -27,41 +56,21 @@ export interface dmTemplate {
     dmOwner: IUser;
     name: string;
     members: IUser[];
-    messages: IMessages[];
-}
-
-export interface messageTemplate {
-    channelId: number;
-    messageId: number;
-    message: string;
-    token: string;
+    messages: messageTemplate[];
 }
 
 export interface userTemplate {
     emailAddress: string;
-    userId: number;
+    uId: number;
     password: string;
     firstName: string;
     lastname: string;
     handle: string;
-    permissions: number;
+    globalPermissionId: number;
     token: string[];
     numChannelsJoined: number;
     numDmsJoined: number;
     numMessagesSent: number;
-}
-
-export interface dataTemplate {
-    users: userTemplate[];
-    channels: channelTemplate[];
-    usedNums: number[];
-    usedTokenNums: number[];
-    usedChannelNums: number[];
-    DMs: dmTemplate[];
-    messages: messageTemplate[];
-    numChannels: number;
-    numDms: number;
-    numMsgs: number;
 }
 
 export interface Error {
@@ -86,4 +95,24 @@ export interface IDmMessages {
 
 export interface messageId {
     messageId: number,
+}
+
+export interface passwordRequest {
+    email: string,
+    passReq: string
+}
+
+export interface dataTemplate {
+    users: userTemplate[];
+    channels: channelTemplate[];
+    usedNums: number[];
+    usedTokenNums: number[];
+    usedChannelNums: number[];
+    DMs: dmTemplate[];
+    messages: messageTemplate[];
+    numChannels: number;
+    numDms: number;
+    numMsgs: number;
+    notifications: notifications[];
+    passwordRequest: passwordRequest[];
 }

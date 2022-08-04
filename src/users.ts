@@ -18,13 +18,12 @@ import request from 'sync-request';
 
 function userProfileV1(token: string, uId: number): IUser | Error {
   if (checkToken(token) === false) {
-    return { error: 'error' };
+    throw HTTPError(403, 'invalid token');
   }
   const data = getData();
-  console.log(data);
-  const user = data.users.find(u => u.userId === uId);
+  const user = data.users.find(u => u.uId === uId);
   if (!user) {
-    return { error: 'error' };
+    throw HTTPError(400, 'uId does not refer to a valid user');
   } else {
     return {
       uId: uId,
@@ -105,9 +104,17 @@ function setHandleV1(token: string, handleStr: string): object {
   return {};
 }
 
+// usersAll
+// prints details of all users except the ones removed
+
+// Parameters: token: string - token of a user to check if this user is authorised
+
+// Return type: object {}
+//              throws 403 error when token is invalid
+
 function usersAll (token: string) {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    throw HTTPError(403, 'invalid token');
   }
 
   const users = [];
@@ -115,52 +122,63 @@ function usersAll (token: string) {
   for (const user of data.users) {
     if (user.firstName === 'Removed' && user.lastname === 'user') {
       continue;
+    } else {
+      const obj = {
+        uId: user.uId,
+        email: user.emailAddress,
+        nameFirst: user.firstName,
+        nameLast: user.lastname,
+        handleStr: user.handle,
+      };
+      users.push(obj);
     }
-    const obj = {
-      uId: user.userId,
-      email: user.emailAddress,
-      nameFirst: user.firstName,
-      nameLast: user.lastname,
-      handleStr: user.handle,
-    };
-    users.push(obj);
   }
 
   return { users };
 }
+
+// uploadPhoto
+// fetches URL from the internet and loads it into jpg file
+
+// Parameters: imgUrl: string - URL of image to be loaded
+//             xStart: number - beginning point of x-coordinate for image size
+//             yStart: number - beginning point of y-coordinate for image size
+//             xEnd: number - ending point of x-coordinate for image size
+//             yEnd: number - ending point of y-coordinate for image size
+
+// Return type: object {}
+//              throws 400 error when imgUrl returns statusCode other than 200 or some other errors occur when retrieving the image
+//              throws 400 error when any of the coordinate points are not within the dimensions of image at URL
+//              throws 400 error when xEnd <= xStart or yEnd <= yStart
+//              throws 400 error when image uploaded is not jpg
 
 function uploadPhoto (imgUrl: string, xStart: number, yStart: number, xEnd: number, yEnd: number) {
   const res = request(
     'GET', imgUrl
   );
 
-  console.log(res);
-
   if (res.statusCode !== 200) {
-    throw HTTPError(400, "status code is not 200");
+    throw HTTPError(400, 'status code is not 200');
   }
 
   if (!res) {
-    throw HTTPError(400, "res is not defined");
+    throw HTTPError(400, 'res is not defined');
   }
-  
+
   // check if any coordinates are not within dimensions of the image
-  if (1) {
-    
-  }
-  
+
   if (xEnd <= xStart) {
-    throw HTTPError(400, "xEnd is greater than xStart");
+    throw HTTPError(400, 'xEnd is greater than xStart');
   }
-  
+
   if (yEnd <= yStart) {
-    throw HTTPError(400, "yEnd is greater than yStart");
+    throw HTTPError(400, 'yEnd is greater than yStart');
   }
-  
+
   if (!imgUrl.endsWith('jpg')) {
-    throw HTTPError(400, "image uploaded is not JPG");
+    throw HTTPError(400, 'image uploaded is not JPG');
   }
-  
+
   // do something related to image size?
   const bodyObj = res.getBody();
   fs.writeFileSync('test.jpg', bodyObj, { flag: 'w' });
@@ -168,26 +186,38 @@ function uploadPhoto (imgUrl: string, xStart: number, yStart: number, xEnd: numb
   return {};
 }
 
+// user/stats/v1 & users/stats/v1
+// displays statistics of user / workspace
+
+// Parameters: token: string - token of a user to check if this user is authorised
+
+// Return type: userStats: {
+//                channelsJoined: [{numChannelsJoined, timeStamp}],
+//                dmsJoined: [{numDmsJoined, timeStamp}],
+//                messagesSent: [{numMessagesSent, timeStamp}],
+//                involvementRate
+//              }
+// Return type: workspaceStats: {
+//                channelsExist: [{numChannelsExist, timeStamp}],
+//                dmsExist: [{numDmsExist, timeStamp}],
+//                messagesExist: [{numMessagesExist, timeStamp}],
+//                utilizationRate
+//              }
+//              throws 403 error when token is invalid
+
 function userStats (token: string) {
+  if (checkToken(token) === false) {
+    throw HTTPError(403, 'invalid token');
+  }
+
   const data = getData();
   const user = data.users.find(u => u.token.includes(token));
   const time = Math.floor((new Date()).getTime() / 1000);
 
-  // let numChannelMsg = 0;
-  // for (const channel of data.channels) {
-  //   numChannelMsg += channel.messages.length;
-  // }
-
-  // let numDmMsg = 0;
-  // for (const dm of data.DMs) {
-  //   numDmMsg += dm.messages.length;
-  // }
-
-  // const numMessagesExist = numChannelMsg + numDmMsg;
-
-
-  const involvementRate = (user.numChannelsJoined + user.numDmsJoined + user.numMessagesSent)
-        / (data.numChannels + data.numDms + data.numMsgs);
+  let involvementRate = (user.numChannelsJoined + user.numDmsJoined + user.numMessagesSent) /
+        (data.numChannels + data.numDms + data.numMsgs);
+  if (data.numChannels + data.numDms + data.numMsgs === 0) involvementRate = 0;
+  else if (involvementRate > 1) involvementRate = 1;
 
   return {
     channelsJoined: [{
@@ -203,7 +233,7 @@ function userStats (token: string) {
       timeStamp: time,
     }],
     involvementRate: involvementRate,
-  }
+  };
 }
 
 function usersStats () {
@@ -213,20 +243,27 @@ function usersStats () {
   const numMessagesExist = data.numMsgs;
   const time = Math.floor((new Date()).getTime() / 1000);
 
-  const usersJoined = new Set();
+  const usersJoined: number[] = [];
   for (const channel of data.channels) {
     for (const member of channel.allMembers) {
-      usersJoined.add(member);
+      if (!usersJoined.includes(member.uId)) {
+        usersJoined.push(member.uId);
+      }
     }
   }
 
   for (const dm of data.DMs) {
     for (const member of dm.members) {
-      usersJoined.add(member);
+      if (!usersJoined.includes(member.uId)) {
+        usersJoined.push(member.uId);
+      }
     }
   }
-  const numUsersJoined = usersJoined.size;
-  const utilizationRate = numUsersJoined / (data.users.length);
+
+  const numUsersJoined = usersJoined.length;
+  let utilizationRate = numUsersJoined / (data.users.length);
+  if (data.users.length === 0) utilizationRate = 0;
+  else if (utilizationRate > 1) utilizationRate = 1;
 
   return {
     channelsExist: [{
@@ -242,7 +279,7 @@ function usersStats () {
       timeStamp: time,
     }],
     utilizationRate: utilizationRate,
-  }
+  };
 }
 
 export { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats };
