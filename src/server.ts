@@ -284,7 +284,7 @@ const data = getData();
 loadData(JSON.parse(String(data)));
 
 // start server
-const server = app.listen(PORT, HOST, () => {
+const server = app.listen(parseInt(process.env.PORT || config.port), process.env.IP, () => {
   console.log(`⚡️ Server listening on port ${PORT} at ${HOST}`);
 });
 
