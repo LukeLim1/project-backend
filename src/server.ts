@@ -149,7 +149,7 @@ app.post('/message/senddm/v2', (req, res) => {
   res.json(senddm(token, dmId, message));
 });
 
-app.get('/dm/list/v1', (req: Request, res: Response) => {
+app.get('/dm/list/v2', (req: Request, res: Response) => {
   const token = req.query.token as string;
   res.json(dmList(token));
 });
@@ -160,7 +160,7 @@ app.get('/dm/details/v2', (req: Request, res: Response) => {
   res.json(dmDetails(token, parseInt(dmId)));
 });
 
-app.delete('/dm/remove/v1', (req: Request, res: Response) => {
+app.delete('/dm/remove/v2', (req: Request, res: Response) => {
   const token = req.query.token as string;
   const dmId = req.query.dmId as string;
   res.json(dmRemove(token, parseInt(dmId)));
