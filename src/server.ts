@@ -280,8 +280,7 @@ app.use(morgan('dev'));
 app.use(errorHandler());
 
 // persistence
-const data = getData();
-loadData(JSON.parse(String(data)));
+loadData();
 
 // start server
 const server = app.listen(parseInt(process.env.PORT || config.port), process.env.IP, () => {

@@ -7,28 +7,18 @@ import fs from 'fs';
 const port = config.port;
 const url = config.url;
 
-export function saveData(name: string) {
+export function saveData() {
   const data = getData();
-  if (!/^[0-9a-z]+$/i.test(name)) {
-    throw new Error(`Name '${name}' is not alphanumeric!`);
-  }
 
-  const filename = 'iter3_' + name + '.json';
-
-  if (fs.existsSync(filename)) {
-    throw new Error(`File '${filename}' already exists!`);
-  }
+  const filename = 'data.json';
 
   fs.writeFileSync(filename, JSON.stringify(data), { flag: 'w' });
 }
 
-export function loadData(name: string) {
-  if (!/^[0-9a-z]+$/i.test(name)) {
-    throw new Error(`Name '${name}' is not alphanumeric!`);
-  }
-  const filename = 'iter3_' + name + '.json';
+export function loadData() {
+  const filename = 'data.json';
   if (!fs.existsSync(filename)) {
-    throw new Error(`No such file '${filename}'!`);
+    return;
   }
 
   const data = JSON.parse(fs.readFileSync(filename, 'utf8'));
