@@ -150,7 +150,7 @@ app.post('/message/senddm/v2', (req, res) => {
 });
 
 app.get('/dm/list/v2', (req: Request, res: Response) => {
-  const token = req.query.token as string;
+  const token = req.header('token');
   res.json(dmList(token));
 });
 
@@ -161,7 +161,7 @@ app.get('/dm/details/v2', (req: Request, res: Response) => {
 });
 
 app.delete('/dm/remove/v2', (req: Request, res: Response) => {
-  const token = req.query.token as string;
+  const token = req.header('token');
   const dmId = req.query.dmId as string;
   res.json(dmRemove(token, parseInt(dmId)));
 });

@@ -71,8 +71,9 @@ describe('HTTP tests using Jest', () => {
 
     const bodyObj = JSON.parse(String(res.getBody()));
     const bodyObj2 = JSON.parse(String(resBeforeDmLeave.getBody()));
-    const bodyObj3 = JSON.parse(String(resAfterDmLeave.getBody()));
+
     expect(res.statusCode).toBe(OK);
+    expect(resAfterDmLeave.statusCode).toBe(403);
     expect(bodyObj).toMatchObject({});
     expect(bodyObj2).toMatchObject({
       name: 'zacharychan',
@@ -86,7 +87,6 @@ describe('HTTP tests using Jest', () => {
         }
       ]
     });
-    expect(bodyObj3).toMatchObject({ error: 'error is not member of the dm' });
   });
 
   test('dmLeave: dmId does not refer to valid DM', () => {
@@ -248,7 +248,6 @@ describe('test for dm list/details/senddm/remove', () => {
   let userBMemberOfDMId: number;
   let userBToken: string;
   beforeAll(() => {
-    console.log('-------clear data ------');
     clear();
 
     // register user A
@@ -278,7 +277,6 @@ describe('test for dm list/details/senddm/remove', () => {
       }
     );
     const bodyObj = JSON.parse(res.body as string);
-    expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ dms: expect.any(Object) });
   });
 
@@ -446,9 +444,7 @@ describe('test for dm list/details/senddm/remove', () => {
       }
     );
 
-    const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(error400);
-    expect(bodyObj).toMatchObject({ error: { message: 'dm not exit' } });
   });
 
   test('dm remove test fail 403,dmId is valid and the authorised user is not the original DM creator', () => {

@@ -300,7 +300,7 @@ export function dmList(token: string) {
 export function dmRemove(token: string, dmId: number): object | Error {
   // Check if token is valid
   if (!checkToken(token)) {
-    throw HTTPError(403, 'user not found');
+    throw HTTPError(403, 'invalid token');
   }
 
   const data = getData();
