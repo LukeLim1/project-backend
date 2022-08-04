@@ -15,7 +15,7 @@ import HTTPError from 'http-errors';
 //               {error: 'error'} when
 //               - name.length is not between 1 and 20 chars
 
-function channelsCreateV1(token: string, name: string, isPublic: boolean) {
+function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
   checkToken(token);
   if (checkToken(token) === false) {
     return { error: 'error bad token' };
@@ -34,13 +34,25 @@ function channelsCreateV1(token: string, name: string, isPublic: boolean) {
   }
   const user = data.users.find(u => u.token.includes(token) === true);
 
+  const userPush = {
+    uId: user.uId,
+    email: user.emailAddress,
+    nameFirst: user.firstName,
+    nameLast: user.lastname,
+    handleStr: user.handle
+  };
+
+  user.numChannelsJoined++;
+  data.numChannels++;
+
   data.channels.push({
     name: `${name}`,
     isPublic: isPublic,
-    ownerMembers: [user],
-    allMembers: [user],
+    ownerMembers: [userPush],
+    allMembers: [userPush],
     channelId: randomNumber,
     messages: [],
+    standup: []
   });
   setData(data);
   return { channelId: randomNumber };
@@ -73,7 +85,7 @@ export function channelsListV1(token: string) {
     }
     // check member
     for (const member of channel.allMembers) {
-      if (member.userId === user.userId) {
+      if (member.uId === user.uId) {
         const channelsObject = {
           channelId: channel.channelId,
           name: channel.name,
@@ -111,7 +123,7 @@ export function channelsListallV1(token: string) {
   for (const channel of data.channels) {
     // check member
     for (const member of channel.allMembers) {
-      if (member.userId === user.userId) {
+      if (member.uId === user.uId) {
         const channelsObject = {
           channelId: channel.channelId,
           name: channel.name,
