@@ -11,10 +11,10 @@ export interface messageTemplate {
   token: string;
 }
 export interface messageArray {
-time: number;
-messageId: number;
-messages: string;
-token: string;
+  time: number;
+  messageId: number;
+  messages: string;
+  token: string;
 }
 
 /**
@@ -105,7 +105,7 @@ string, the message is deleted.
  * @param {*} message
  * @returns {messages, start, end} unless it is error case, in which case it will return { error: 'error' }
  */
-export function messageEditV1 (token: string, messageId: number, message: string) {
+export function messageEditV1(token: string, messageId: number, message: string) {
   const data = getData();
   //   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
   //   const messageObj = data.messages.find(message => message.messageId === messageId);
@@ -125,10 +125,10 @@ export function messageEditV1 (token: string, messageId: number, message: string
   //     return { error: 'error' };
   //   }
 
-  //   // Case 2: Message was not sent by the user making this request
-  //   if (messageObj.token !== token) {
-  //     return { error: 'error' };
-  //   }
+  // Case 2: Message was not sent by the user making this request
+  // if (messageObj.token !== token) {
+  //   return { error: 'error' };
+  // }
 
   //   // Case 3: The authorised owner is not an owner of the channel
   //   if (!channelOwner) {
@@ -171,10 +171,10 @@ export function messageRemoveV1 (token: string, messageId: number) {
   //     return { error: 'error' };
   //   }
 
-  //   // Case 2: Message was not sent by the user making this request
-  //   if (messageObj.token !== token) {
-  //     return { error: 'error' };
-  //   }
+  // Case 2: Message was not sent by the user making this request
+  // if (messageObj.token !== token) {
+  //   return { error: 'error' };
+  // }
 
   //   // Case 3: The authorised owner is not an owner of the channel
   //   if (!channelOwner) {

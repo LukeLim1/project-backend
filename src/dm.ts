@@ -3,7 +3,7 @@ import { containsDuplicates, checkToken } from './helperFunctions';
 import { Error, IDmMessages, userTemplate, IUser, messageTemplate } from './interface';
 import HTTPError from 'http-errors';
 
-export function dmCreateV1 (token: string, uIds: number[]) {
+export function dmCreateV1(token: string, uIds: number[]) {
   if (containsDuplicates(uIds) === true) {
     return { error: 'error' };
   }
@@ -191,6 +191,13 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
   };
 }
 
+/**
+ * send message to dm
+ * @param token ticket of user
+ * @param dmId dm id
+ * @param message message
+ * @returns result
+ */
 export function senddm(token: string, dmId: number, message: string) {
   // Check if token is valid
   if (!checkToken(token)) {
@@ -260,7 +267,7 @@ export function senddm(token: string, dmId: number, message: string) {
 export function dmList(token: string) {
   // Check if token is valid
   if (!checkToken(token)) {
-    return { error: 'error token' };
+    throw HTTPError(403, 'user not found');
   }
   const data = getData();
   // get current user
@@ -293,13 +300,13 @@ export function dmList(token: string) {
 export function dmRemove(token: string, dmId: number): object | Error {
   // Check if token is valid
   if (!checkToken(token)) {
-    return { error: 'error token' };
+    throw HTTPError(403, 'user not found');
   }
 
   const data = getData();
   const user = data.users.find(u => u.token.includes(token));
   if (!user) {
-    return { error: 'error user not exit' };
+    throw HTTPError(403, 'user not found');
   }
 
   const ownerId = user.uId;
@@ -307,11 +314,11 @@ export function dmRemove(token: string, dmId: number): object | Error {
   const dms = data.DMs;
   const dm = dms.find(d => d.dmId === dmId);
   if (!dm) {
-    return { error: 'error dm not exit' };
+    throw HTTPError(400, 'dm not exit');
   }
 
   if (dm.dmOwner.uId !== ownerId) {
-    return { error: 'error you are not the dm owner' };
+    throw HTTPError(403, 'you are not the dm owner');
   }
 
   for (const member of dm.members) {
@@ -340,7 +347,7 @@ export function dmRemove(token: string, dmId: number): object | Error {
 export function dmDetails(token: string, dmId: number): object | Error {
   // Check if token is valid
   if (!checkToken(token)) {
-    return { error: 'error token' };
+    throw HTTPError(403, 'user not found');
   }
 
   const data = getData();
@@ -348,7 +355,7 @@ export function dmDetails(token: string, dmId: number): object | Error {
   // Case 1: dmId does not refer to a valid DM
   const dm = data.DMs.find(d => d.dmId === dmId);
   if (!dm) {
-    return { error: 'error dm not exit' };
+    throw HTTPError(400, 'dm not exit');
   }
 
   // Case 2: check user is not a member of the DM
@@ -362,7 +369,7 @@ export function dmDetails(token: string, dmId: number): object | Error {
   }
 
   if (!isMember) {
-    return { error: 'error is not member of the dm' };
+    throw HTTPError(403, 'user is not member of the dm');
   }
 
   const result = {

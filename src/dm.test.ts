@@ -3,6 +3,8 @@ import { url, port } from './config.json';
 import { createBasicAccount, createBasicAccount2, clear, createBasicDm, newReg, requestDmLeave, requestDmMessages, requestDmDetails, requestSendDm } from './helperFunctions';
 
 const OK = 200;
+const error400 = 400;
+const error403 = 403;
 
 /*
 function dmMessages (token: string, dmId: number, start: number) {
@@ -14,10 +16,11 @@ function messageSenddm (token: string, dmId: number, message: string) {
 }
 */
 
-beforeEach(() => {
-  clear();
-});
 describe('HTTP tests for dm/create/v1', () => {
+  beforeEach(() => {
+    clear();
+  });
+
   test('valid creation of dm', () => {
     const create1 = newReg('zachary@gmail.com', '123455gf', 'zachary', 'chan');
     const newUser = JSON.parse(String(create1.getBody()));
@@ -52,6 +55,10 @@ describe('HTTP tests for dm/create/v1', () => {
 });
 
 describe('HTTP tests using Jest', () => {
+  beforeEach(() => {
+    clear();
+  });
+
   test('Testing successful dmLeave', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
@@ -236,147 +243,265 @@ describe('HTTP tests using Jest', () => {
   });
 });
 
-/// ////////////////// Not Luke's test; change accordingly /////////////////////
-
-describe('test for dm ', () => {
-  let userA: any, userB: any;
+describe('test for dm list/details/senddm/remove', () => {
+  let userA: any, userB: any, userC: any;
   let userBMemberOfDMId: number;
   let userBToken: string;
   beforeAll(() => {
+    console.log('-------clear data ------');
     clear();
+
+    // register user A
+    const basicA = newReg('zachary-chan1@gmail.com', 'z5312386', 'zachary1', 'chan1');
+    userA = JSON.parse(String(basicA.getBody()));
+
+    // register user B
+    const basicB = newReg('zachary-chan2@gmail.com', 'z5312386', 'zachary2', 'chan2');
+    userB = JSON.parse(String(basicB.getBody()));
+    userBToken = userB.token;
+
+    // register user c
+    const basicC = newReg('zachary-chan3@gmail.com', 'z5312386', 'zachary3', 'chan');
+    userC = JSON.parse(String(basicC.getBody()));
+
+    // create dm
+    const dm = createBasicDm(userA.token, [userA.authUserId, userB.authUserId]);
+    userBMemberOfDMId = JSON.parse(String(dm.getBody())).dmId;
   });
 
-// describe('test for dm ', () => {
-//   let userA: any, userB: any;
-//   let userBMemberOfDMId: number;
-//   let userBToken: string;
-//   beforeAll(() => {
-//     clear();
+  test('list dm test success', () => {
+    const res = request(
+      'GET',
+      `${url}:${port}/dm/list/v2`,
+      {
+        headers: { token: userBToken },
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ dms: expect.any(Object) });
+  });
 
-//     // register user A
-//     const basicA = createBasicAccount();
-//     userA = JSON.parse(String(basicA.getBody()));
+  test('list dm test fail 403, error token', () => {
+    const res = request(
+      'GET',
+      `${url}:${port}/dm/list/v2`,
+      {
+        headers: {
+          token: '-1'
+        }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error403);
+    expect(bodyObj).toMatchObject({ error: { message: 'user not found' } });
+  });
 
-//     // register user B
-//     const basicB = createBasicAccount2();
-//     userB = JSON.parse(String(basicB.getBody()));
-//     userBToken = userB.token[0];
+  test('details dm test success', () => {
+    const res = request(
+      'GET',
+      `${url}:${port}/dm/details/v2`,
+      {
+        headers: { token: userBToken },
+        qs: { dmId: userBMemberOfDMId }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ name: expect.any(String), members: expect.any(Object) });
+  });
 
-//     // console.log('create member 2 of dm ');
-//     // // register user c
-//     // const basicC = createBasicAccount3();
-//     // userC = JSON.parse(String(basicC.getBody()));
-//   });
+  test('details dm test fail 403,dmId is valid and the authorised user is not a member of the DM'
+    , () => {
+      const res = request(
+        'GET',
+        `${url}:${port}/dm/details/v2`,
+        {
+          headers: { token: userC.token },
+          qs: { dmId: userBMemberOfDMId }
+        }
+      );
+      const bodyObj = JSON.parse(res.body as string);
+      expect(res.statusCode).toBe(error403);
+      expect(bodyObj).toMatchObject({ error: { message: 'user is not member of the dm' } });
+    });
 
-//   test('list dm test success', () => {
-//     const basicA = createBasicAccount();
-//     const newUser = JSON.parse(String(basicA.getBody()));
-//     const basicD = createBasicDm(newUser.token, [newUser.authUserId]);
-//     JSON.parse(String(basicD.getBody()));
+  test('details dm test fail 400 ,dmId does not refer to a valid DM', () => {
+    const res = request(
+      'GET',
+      `${url}:${port}/dm/details/v2`,
+      {
+        headers: { token: userBToken },
+        qs: { dmId: -1 }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'dm not exit' } });
+  });
 
-//     const res = request(
-//       'GET',
-//       `${url}:${port}/dm/list/v1`,
-//       {
-//         qs: { token: newUser.token }
-//       }
-//     );
-//     const bodyObj = JSON.parse(res.body as string);
-//     expect(res.statusCode).toBe(OK);
-//     expect(bodyObj).toMatchObject({ dms: expect.any(Object) });
-//   });
+  test('message senddm test success', () => {
+    const param = JSON.stringify({
+      dmId: userBMemberOfDMId,
+      message: 'hello everyone,this is ' + userBMemberOfDMId + 'dm,can you hear me.'
+    });
 
-  //   const res = requestDmDetails(newUser.token, newDm.dmId);
-  //   const bodyObj = JSON.parse(res.body as string);
-  //   expect(res.statusCode).toBe(OK);
-  //   expect(bodyObj).toMatchObject({ name: expect.any(String), members: expect.any(Object) });
-  // });
+    const res = request(
+      'POST',
+      `${url}:${port}/message/senddm/v2`,
+      {
+        body: param,
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      }
+    );
 
-//     const res = request(
-//       'GET',
-//       `${url}:${port}/dm/details/v1`,
-//       {
-//         qs: { token: newUser.token, dmId: newDm.dmId }
-//       }
-//     );
-//     const bodyObj = JSON.parse(res.body as string);
-//     expect(res.statusCode).toBe(OK);
-//     console.log(bodyObj);
-//     expect(bodyObj).toMatchObject({ name: expect.any(String), members: expect.any(Object) });
-//   });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ messageId: expect.any(Number) });
+  });
 
-  //   const res = requestDmDetails(token, dmId);
-  //   const bodyObj = JSON.parse(res.body as string);
-  //   expect(res.statusCode).toBe(OK);
-  //   expect(bodyObj).toMatchObject({ error: expect.any(String) });
-  // });
+  test('message senddm test fail 400,dmId does not refer to a valid DM', () => {
+    const param = JSON.stringify({
+      dmId: -1,
+      message: 'hello everyone,this is ' + userBMemberOfDMId + 'dm,can you hear me.'
+    });
 
-//     const res = request(
-//       'GET',
-//       `${url}:${port}/dm/details/v1`,
-//       {
-//         qs: { token: token, dmId: dmId }
-//       }
-//     );
-//     const bodyObj = JSON.parse(res.body as string);
-//     expect(res.statusCode).toBe(OK);
-//     expect(bodyObj).toMatchObject({ error: expect.any(String) });
-//   });
+    const res = request(
+      'POST',
+      `${url}:${port}/message/senddm/v2`,
+      {
+        body: param,
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      }
+    );
 
-    // const res = requestSendDm(newUser.token, newDm.dmId, 'hello everyone,this is ' + userBMemberOfDMId + 'dm,can you hear me.');
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'dm not exit' } });
+  });
 
-//     const res = request(
-//       'POST',
-//       `${url}:${port}/message/senddm/v1`,
-//       {
-//         body: param,
-//         headers: {
-//           'Content-type': 'application/json',
-//         },
-//       }
-//     );
+  test('message senddm test fail 400,length of message is less than 1 or over 1000 characters', () => {
+    const param = JSON.stringify({
+      dmId: userBMemberOfDMId,
+      message: ''
+    });
 
-  // test('message senddm test fail', () => {
-  //   const res = requestSendDm(userBToken, -1, 'hello everyone,this is ' + userBMemberOfDMId + 'dm,can you hear me.');
+    const res = request(
+      'POST',
+      `${url}:${port}/message/senddm/v2`,
+      {
+        body: param,
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      }
+    );
 
-  //   expect(res.statusCode).toBe(403);
-  // });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'length of message is error' } });
+  });
 
-//     const bodyObj = JSON.parse(res.body as string);
-//     expect(res.statusCode).toBe(OK);
-//     expect(bodyObj).toMatchObject({ error: expect.any(String) });
-//   });
+  test('message senddm test fail 403,dmId is valid and the authorised user is not a member of the DM'
+    , () => {
+      const param = JSON.stringify({
+        dmId: userBMemberOfDMId,
+        message: 'hello everyone,this is ' + userBMemberOfDMId + 'dm,can you hear me.'
+      });
 
-//   test('dm remove test fail', () => {
-//     const token = userBToken;
-//     const dmId = -1;
+      const res = request(
+        'POST',
+        `${url}:${port}/message/senddm/v2`,
+        {
+          body: param,
+          headers: {
+            'Content-type': 'application/json',
+            token: userC.token
+          },
+        }
+      );
 
-//     const res = request(
-//       'DELETE',
-//       `${url}:${port}/dm/remove/v1`,
-//       {
-//         qs: { token: token, dmId: dmId }
-//       }
-//     );
+      const bodyObj = JSON.parse(res.body as string);
+      expect(res.statusCode).toBe(error403);
+      expect(bodyObj).toMatchObject({ error: { message: 'user is not member' } });
+    });
 
-//     const bodyObj = JSON.parse(res.body as string);
-//     expect(res.statusCode).toBe(OK);
-//     expect(bodyObj).toMatchObject({ error: expect.any(String) });
-//   });
-//   test('dm remove test success', () => {
-//     const token = userA.token[0];
-//     const dmId = userBMemberOfDMId;
+  test('dm remove test fail 400,dmId does not refer to a valid DM', () => {
+    const token = userBToken;
+    const dmId = -1;
 
-//     const res = request(
-//       'DELETE',
-//       `${url}:${port}/dm/remove/v1`,
-//       {
-//         qs: { token: token, dmId: dmId }
-//       }
-//     );
+    const res = request(
+      'DELETE',
+      `${url}:${port}/dm/remove/v2`,
+      {
+        qs: { dmId: dmId },
+        headers: { token: token },
+      }
+    );
 
-//     const bodyObj = JSON.parse(res.body as string);
-//     expect(res.statusCode).toBe(OK);
-//     expect(bodyObj).toMatchObject({});
-//   });
- });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'dm not exit' } });
+  });
+
+  test('dm remove test fail 403,dmId is valid and the authorised user is not the original DM creator', () => {
+    const token = userC.token;
+    const dmId = userBMemberOfDMId;
+
+    const res = request(
+      'DELETE',
+      `${url}:${port}/dm/remove/v2`,
+      {
+        qs: { dmId: dmId },
+        headers: { token: token },
+      }
+    );
+
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error403);
+    expect(bodyObj).toMatchObject({ error: { message: 'you are not the dm owner' } });
+  });
+
+  test('dm remove test fail 403,dmId is valid and the authorised user is no longer in the DM', () => {
+    const token = userC.token;
+    const dmId = userBMemberOfDMId;
+
+    const res = request(
+      'DELETE',
+      `${url}:${port}/dm/remove/v2`,
+      {
+        qs: { dmId: dmId },
+        headers: { token: token },
+      }
+    );
+
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error403);
+    expect(bodyObj).toMatchObject({ error: { message: 'you are not the dm owner' } });
+  });
+
+  test('dm remove test success', () => {
+    const token = userA.token;
+    const dmId = userBMemberOfDMId;
+
+    const res = request(
+      'DELETE',
+      `${url}:${port}/dm/remove/v2`,
+      {
+        qs: { dmId: dmId },
+        headers: { token: token },
+      }
+    );
+
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({});
+  });
+});

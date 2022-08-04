@@ -158,16 +158,16 @@ export function changeEmail(token: string, email: string) {
 export function changeHandle(token: string, handle: string) {
   const res = request(
     'PUT',
-      `${url}:${port}/user/profile/sethandle/v1`,
-      {
-        body: JSON.stringify({
-          handle: 'newhandle',
-        }),
-        headers: {
-          'Content-type': 'application/json',
-          token: token,
-        },
-      }
+    `${url}:${port}/user/profile/sethandle/v1`,
+    {
+      body: JSON.stringify({
+        handle: 'newhandle',
+      }),
+      headers: {
+        'Content-type': 'application/json',
+        token: token,
+      },
+    }
   );
   return res;
 }
@@ -479,16 +479,16 @@ export function shareMessage(ogMessageId: number, message: string, channelId: nu
 export function resetPassword(resetCode: string, newPassword: string) {
   const res = request(
     'POST',
-  `${url}:${port}/auth/passwordreset/v1`,
-  {
-    body: JSON.stringify({
-      resetCode: resetCode,
-      newPassword: newPassword
-    }),
-    headers: {
-      'Content-type': 'application/json',
-    },
-  }
+    `${url}:${port}/auth/passwordreset/v1`,
+    {
+      body: JSON.stringify({
+        resetCode: resetCode,
+        newPassword: newPassword
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
   );
   return res;
 }
@@ -513,13 +513,33 @@ export function clear() {
   array.slice(0);
 }
 
-export function convertUserTemplateToIUser (temp: userTemplate): IUser {
-  const res:IUser = {
+export function convertUserTemplateToIUser(temp: userTemplate): IUser {
+  const res: IUser = {
     uId: temp.uId,
     email: temp.emailAddress,
     nameFirst: temp.firstName,
     nameLast: temp.lastname,
     handleStr: temp.handle,
   };
+  return res;
+}
+
+export function sendDMMessage(token: string, dmId: number, message: string) {
+  const param = JSON.stringify({
+    dmId: dmId,
+    message: message
+  });
+
+  const res = request(
+    'POST',
+    `${url}:${port}/message/senddm/v2`,
+    {
+      body: param,
+      headers: {
+        'Content-type': 'application/json',
+        token: token
+      },
+    }
+  );
   return res;
 }
