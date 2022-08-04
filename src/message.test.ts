@@ -1,4 +1,4 @@
-import { createBasicAccount, createBasicDm, dmSend, newReg, requestSendDm, sendDMMessage, createBasicAccount2, clear, /* sendMessage, */ shareMessage } from './helperFunctions';
+import { createBasicDm, dmSend, newReg, requestSendDm, sendDMMessage, clear, /* sendMessage, */ shareMessage } from './helperFunctions';
 import { createBasicChannel } from './channels.test';
 import { Response } from 'sync-request';
 import request from 'sync-request';

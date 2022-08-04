@@ -297,7 +297,7 @@ export function messagePin(token: string, messageId: number) {
   if (user.globalPermissionId !== 1) {
     throw HTTPError(403, 'user had no owner permissions');
   }
-  const msgs = getAllMessage(data, user.uId);
+  const msgs: messageTemplate[] = getAllMessage(data, user.uId);
   if (!msgs) {
     throw HTTPError(400, 'not is member of channel/dm');
   }
@@ -335,7 +335,7 @@ export function messageUnPin(token: string, messageId: number) {
   if (user.globalPermissionId !== 1) {
     throw HTTPError(403, 'user had no owner permissions');
   }
-  const msgs = getAllMessage(data, user.uId);
+  const msgs: messageTemplate[] = getAllMessage(data, user.uId);
   if (!msgs) {
     throw HTTPError(400, 'not is member of channel/dm');
   }
@@ -376,7 +376,7 @@ export function messagesReact(token: string, messageId: number, reactId: number)
     throw HTTPError(403, 'user not found');
   }
 
-  const msgs = getAllMessage(data, user.uId);
+  const msgs: messageTemplate[] = getAllMessage(data, user.uId);
   if (!msgs) {
     throw HTTPError(400, 'not is member of channel/dm');
   }
@@ -459,7 +459,7 @@ export function messagesUnReact(token: string, messageId: number, reactId: numbe
   if (reactId !== 1) {
     throw HTTPError(400, 'reactId is not a valid react ID');
   }
-  const msgs = getAllMessage(data, user.uId);
+  const msgs: messageTemplate[] = getAllMessage(data, user.uId);
   if (!msgs) {
     throw HTTPError(400, 'not is member of channel/dm');
   }
@@ -597,7 +597,7 @@ export function checkIsMember(data: dataTemplate, message: messageTemplate, user
 export function getAllMessage(data: dataTemplate, userId: number): messageTemplate[] {
   const dms = data.DMs;
   const channels = data.channels;
-  let msgs = [];
+  let msgs: messageTemplate[] = [];
 
   for (const dm of dms) {
     if (checkIsMemberOfDm(dm, userId)) {
