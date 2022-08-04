@@ -1,10 +1,40 @@
-import { getData } from './dataStore';
+import { getData, setData } from './dataStore';
 import request from 'sync-request';
 import config from './config.json';
 import { IUser, userTemplate } from './interface';
+import fs from 'fs';
 
 const port = config.port;
 const url = config.url;
+
+export function saveData(name: string) {
+  const data = getData();
+  if (!/^[0-9a-z]+$/i.test(name)) {
+    throw new Error(`Name '${name}' is not alphanumeric!`);
+  }
+
+  const filename = 'iter3_' + name + '.json';
+
+  if (fs.existsSync(filename)) {
+    throw new Error(`File '${filename}' already exists!`);
+  }
+
+  fs.writeFileSync(filename, JSON.stringify(data), { flag: 'w' });
+}
+
+export function loadData(name: string) {
+  if (!/^[0-9a-z]+$/i.test(name)) {
+    throw new Error(`Name '${name}' is not alphanumeric!`);
+  }
+  const filename = 'iter3_' + name + '.json';
+  if (!fs.existsSync(filename)) {
+    throw new Error(`No such file '${filename}'!`);
+  }
+
+  const data = JSON.parse(fs.readFileSync(filename, 'utf8'));
+  setData(data);
+}
+
 
 // checks for duplicates in arrays
 export function containsDuplicates(array: number[]): boolean {

@@ -11,6 +11,7 @@ import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } 
 import { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats } from './users';
 import { userRemove, userPermissionChange } from './admin';
 import { messageSendV1, messageEditV1, messageRemoveV1, messagesShareV1 } from './message';
+import { saveData, loadData } from './helperFunctions';
 // import { notificationGetV1 } from './notifications';
 import errorHandler from 'middleware-http-errors';
 // import fs from 'fs';
@@ -277,6 +278,10 @@ app.use(morgan('dev'));
 
 // for handling errors
 app.use(errorHandler());
+
+// persistence
+const data = getData();
+loadData(JSON.parse(String(data)));
 
 // start server
 const server = app.listen(PORT, HOST, () => {
