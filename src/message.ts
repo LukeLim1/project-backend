@@ -216,54 +216,60 @@ export function messageRemoveV1 (token: string, messageId: number) {
  * 403 error when:
  *               channelId and dmid are valid but authorised user isnt apart of the channel/dm of intention
  */
-export function messagesShareV1(ogMessageId: number, message: string, channelId: number, dmId: number) {
-//   const data = getData();
-//   // case 1 400 error: length of message is > 1000
+export function messagesShareV1(token: string, ogMessageId: number, message: string, channelId: number, dmId: number) {
   if (message.length > 1000) {
     throw HTTPError(400, 'Error, message must not exceed 1000 chars');
   }
-  //   let oldMessage;
-  //   // dm route
-  //   if (channelId === -1) {
-  //     oldMessage = data.DMs.find(dms => dms.dmId === dmId);
-  //   }
-  //   // channelRoute
-  //   if (dmId === -1) {
-  //     oldMessage = data.channels.find(channels => channels.channelId === channelId);
-  //   }
+  const data = getData();
+  const user = data.users.find(u => u.token.includes(token) === true);
+  // case 1 400 error: length of message is > 1000
+  let oldMessage;
+  // dm route
+  if (channelId === -1) {
+    oldMessage = data.DMs.find(dms => dms.dmId === dmId);
+  }
+  // channelRoute
+  if (dmId === -1) {
+    oldMessage = data.channels.find(channels => channels.channelId === channelId);
+  }
 
-  //   // Error cases 400 ERROR
-  //   // case 2 : neither channelId nor dmId are -1
-  //   if (channelId !== -1 && dmId !== -1) {
-  //     throw HTTPError(400, 'Error, both channelId and dmId cannot be -1');
-  //   }
-  //   // case 3 : channelId and dmId are invalid
-  //   if (oldMessage === undefined) {
-  //     throw HTTPError(400, 'Error, channelId or dmId are invalid');
-  //   }
-  //   // case 4 : ogMessageId does not refer to a valid message
-  //   //          with channel/dm an authorised user is in
-  //   // find the specific message by id
-  //   const messageArray: messageArray = oldMessage.messages.find((mess: { messageId: any; }) => mess.messageId === ogMessageId);
-  //   if (messageArray === undefined) {
-  //     throw HTTPError(400, 'Error, ogMessageId doesnt refer to a valid message');
-  //   }
+  // Error cases 400 ERROR
+  // case 2 : neither channelId nor dmId are -1
+  if (channelId !== -1 && dmId !== -1) {
+    throw HTTPError(400, 'Error, both channelId and dmId cannot be -1');
+  }
+  // case 3 : channelId and dmId are invalid
+  if (oldMessage === undefined) {
+    throw HTTPError(400, 'Error, channelId or dmId are invalid');
+  }
+  // case 4 : ogMessageId does not refer to a valid message
+  //          with channel/dm an authorised user is in
+  // find the specific message by id
+  const messageArray: any = oldMessage.messages.find((mess: { messageId: any; }) => mess.messageId === ogMessageId);
+  if (messageArray === undefined) {
+    throw HTTPError(400, 'Error, ogMessageId doesnt refer to a valid message');
+  }
 
-  //   // Error cases 403 ERROR
-  //   // case 1 : channelId and dmId args are valid (one is -1 other is valid)
-  //   //          but the authorised user is not apart of channel or dm they are messaging
+  // Error cases 403 ERROR
+  // case 1 : channelId and dmId args are valid (one is -1 other is valid)
+  //          but the authorised user is not apart of channel or dm they are messaging
 
-  //   const concatNew = messageArray.messages + ' ' + message;
-  //   // index message id by +1
-  //   const sharedMessageId = oldMessage.messages[oldMessage.messages.length - 1].messageId + 1;
+  const concatNew = messageArray.message + ' ' + message;
 
-  //   // old message is the array to push to
-  //   oldMessage.messages.push({
-  //     messageId: sharedMessageId,
-  //     text: concatNew
-  //   });
-  //   data.numMsgs++;
+  // index message id by +1
+  const sharedMessageId = oldMessage.messages[oldMessage.messages.length - 1].messageId + 1;
 
-//   // console.log(data.channels[0].messages)
-//   return { sharedMessageId: sharedMessageId };
+  // old message is the array to push to
+  oldMessage.messages.push({
+    messageId: sharedMessageId,
+    uId: user.uId,
+    message: concatNew,
+    timeSent: Date.now(),
+    reacts: [],
+    isPinned: false
+  });
+  data.numMsgs++;
+
+  // console.log(data.channels[0].messages)
+  return { sharedMessageId: sharedMessageId };
 }

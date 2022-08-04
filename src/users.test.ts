@@ -2,7 +2,7 @@
 import { createBasicChannel } from './channels.test';
 // import { url, port } from './config.json';
 import {
-  createBasicAccount, createBasicAccount2, clear, changeName, changeEmail, newReg, requestUsersAll, requestUserProfile, /* changeHandle, */
+  createBasicAccount, createBasicAccount2, clear, changeName, changeEmail, newReg, requestUsersAll, requestUserProfile, changeHandle,
   requestUploadPhoto, requestUserStats, requestUsersStats, requestUserRemove, createBasicDm, requestSendDm,
 } from './helperFunctions';
 
@@ -132,16 +132,10 @@ describe('update name', () => {
     createBasicAccount2();
     // calling the setname route with bad nameFirst
     const res = changeName(newUser.token, '', 'zachary');
-
-    const bodyObj = JSON.parse(String(res.getBody()));
-
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(res).toHaveProperty('statusCode', 400);
     // calling the setname route with bad nameLast
     const res2 = changeName(newUser.token, 'zachary', '');
-    const bodyObj2 = JSON.parse(String(res.getBody()));
-    expect(res2.statusCode).toBe(OK);
-    expect(bodyObj2).toMatchObject({ error: expect.any(String) });
+    expect(res2).toHaveProperty('statusCode', 400);
   });
 });
 
@@ -183,9 +177,7 @@ describe('SetEmail http route tests', () => {
     // user1
     createBasicAccount2();
     const res = changeEmail(newUser.token, 'newemail');
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(res).toHaveProperty('statusCode', 400);
   });
   test('email already being used', () => {
     // owner
@@ -194,45 +186,57 @@ describe('SetEmail http route tests', () => {
     // user1
     newReg('zachary1234@gmail.com', 'password', 'aaazach', 'aaachan');
     const res = changeEmail(newUser.token, 'zachary1234@gmail.com');
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(res).toHaveProperty('statusCode', 400);
   });
 });
 
-// describe('setHandle http route tests', () => {
-//   test('Changing handle', () => {
-//     clear();
-//     const basic = newReg('zachary@gmail.com', 'password', 'Zachary', 'Chan');
-//     const newUser = JSON.parse(String(basic.getBody()));
-//     // user1
-//     newReg('zachary1234@gmail.com', 'password', 'aaazach', 'aaachan');
-//     const res = changeHandle(newUser.token, 'newhandle');
-//     const bodyObj = JSON.parse(String(res.getBody()));
-//     expect(res.statusCode).toBe(OK);
-//     expect(bodyObj).toMatchObject({});
-//     const res2 = requestUsersAll(newUser.token);
+describe('setHandle http route tests', () => {
+  test('Changing handle', () => {
+    clear();
+    const basic = newReg('zachary@gmail.com', 'password', 'Zachary', 'Chan');
+    const newUser = JSON.parse(String(basic.getBody()));
+    // user1
+    newReg('zachary1234@gmail.com', 'password', 'aaazach', 'aaachan');
+    const res = changeHandle(newUser.token, 'newhandle');
+    const bodyObj = JSON.parse(String(res.getBody()));
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({});
+    const res2 = requestUsersAll(newUser.token);
 
-//     const userBody = JSON.parse(String(res2.getBody()));
-//     expect(res2.statusCode).toBe(OK);
-//     expect(userBody).toStrictEqual({
-//       users: [{
-//         uId: 1,
-//         email: 'zachary@gmail.com',
-//         nameFirst: 'Zachary',
-//         nameLast: 'Chan',
-//         handleStr: 'zacharychan',
-//       },
-//       {
-//         uId: 2,
-//         email: 'zachary1234@gmail.com',
-//         nameFirst: 'aaazach',
-//         nameLast: 'aaachan',
-//         handleStr: 'newhandle',
-//       }]
-//     });
-//   });
-// });
+    const userBody = JSON.parse(String(res2.getBody()));
+    expect(res2.statusCode).toBe(OK);
+    expect(userBody).toStrictEqual({
+      users: [{
+        uId: 1,
+        email: 'zachary@gmail.com',
+        nameFirst: 'Zachary',
+        nameLast: 'Chan',
+        handleStr: 'newhandle',
+      },
+      {
+        uId: 2,
+        email: 'zachary1234@gmail.com',
+        nameFirst: 'aaazach',
+        nameLast: 'aaachan',
+        handleStr: 'aaazachaaachan',
+      }]
+    });
+  });
+  test('Changing handle error cases', () => {
+    clear();
+    const basic = newReg('zachary@gmail.com', 'password', 'Zachary', 'Chan');
+    const newUser = JSON.parse(String(basic.getBody()));
+    // handleStr not between 3-20 chars
+    const res = changeHandle(newUser.token, 'n');
+    expect(res).toHaveProperty('statusCode', 400);
+    // handleStr contains nonalphanumeric stuff
+    const res1 = changeHandle(newUser.token, '🤣');
+    expect(res1).toHaveProperty('statusCode', 400);
+    // handle already in use
+    const res2 = changeHandle(newUser.token, 'zacharychan');
+    expect(res2).toHaveProperty('statusCode', 400);
+  });
+});
 
 describe('uploadPhoto tests using Jest', () => {
   test('Test successful uploadPhoto', () => {

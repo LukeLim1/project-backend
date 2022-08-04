@@ -5,12 +5,12 @@ import HTTPError from 'http-errors';
 
 export function dmCreateV1(token: string, uIds: number[]) {
   if (containsDuplicates(uIds) === true) {
-    return { error: 'error' };
+    throw HTTPError(400, 'Error, duplicates in uIds');
   }
   const data = getData();
   // test for a valid token
   if (checkToken(token) === false) {
-    return { error: 'error' };
+    throw HTTPError(400, 'Error, bad token');
   }
 
   // create an array with everybodies userIds
@@ -24,7 +24,7 @@ export function dmCreateV1(token: string, uIds: number[]) {
   // check if uIds is a subset of arrayUserId
   const allFounded = uIds.every(ai => arrayUserId.includes(ai));
   if (allFounded === false) {
-    return { error: 'error' };
+    throw HTTPError(400, 'Error, 1 or more uIds in uId parameter doesnt refer to valid user');
   }
   // find owner
   const user = data.users.find(u => u.token.includes(token) === true);
@@ -62,8 +62,8 @@ export function dmCreateV1(token: string, uIds: number[]) {
 
   // getting dmId
   let identifier = 1;
-  if (data.usedTokenNums.length !== 0) {
-    identifier += data.usedTokenNums[data.usedTokenNums.length - 1];
+  if (data.usedDmNums.length !== 0) {
+    identifier += data.usedDmNums[data.usedDmNums.length - 1];
   }
 
   const owner = {
@@ -73,13 +73,19 @@ export function dmCreateV1(token: string, uIds: number[]) {
     nameLast: user.lastname,
     handleStr: user.handle
   };
-
+  // notification to all uIds
   for (const uId of uIds) {
     const u = data.users.find(u => u.uId === uId);
+    u.notifications.push({
+      channelId: -1,
+      dmId: identifier,
+      notificationMessage: `${user.handle} added you to ${name}`
+
+    });
     u.numDmsJoined++;
   }
   data.numDms++;
-
+  data.usedDmNums.push(identifier);
   data.DMs.push({
     dmId: identifier,
     dmOwner: owner,
@@ -87,6 +93,7 @@ export function dmCreateV1(token: string, uIds: number[]) {
     messages: [],
     members: memberArray,
   });
+
   setData(data);
   return { dmId: identifier };
 }

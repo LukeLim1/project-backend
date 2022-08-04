@@ -13,6 +13,7 @@ function clearV1() {
   data.usedNums = [];
   data.usedTokenNums = [];
   data.usedChannelNums = [];
+  data.usedDmNums = [];
   data.DMs = [];
   data.messages = [];
   data.passwordRequest = [];

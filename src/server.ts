@@ -11,7 +11,7 @@ import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } 
 import { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats } from './users';
 import { userRemove, userPermissionChange } from './admin';
 import { messageSendV1, messageEditV1, messageRemoveV1, messagesShareV1 } from './message';
-// import { notificationGetV1 } from './notifications';
+import { notificationGetV1 } from './notifications';
 import errorHandler from 'middleware-http-errors';
 // import fs from 'fs';
 
@@ -256,9 +256,10 @@ app.put('/message/edit', (req, res) => {
 
 app.post('/message/share/v1', (req, res) => {
   console.log('message/share/v1');
+  const token = req.header('token');
   const { ogMessageId, message, channelId, dmId } = req.body;
   // returns {}
-  res.json(messagesShareV1(ogMessageId, message, channelId, dmId));
+  res.json(messagesShareV1(token, ogMessageId, message, channelId, dmId));
 });
 
 app.delete('/message/remove', (req, res) => {
@@ -267,10 +268,10 @@ app.delete('/message/remove', (req, res) => {
   res.json(messageRemoveV1(token, messageId));
 });
 
-// app.get('/notifications/get/v1', (req, res) => {
-//   const token = req.header('token');
-//   res.json(notificationGetV1(token))
-// });
+app.get('/notifications/get/v1', (req, res) => {
+  const token = req.header('token');
+  res.json(notificationGetV1(token));
+});
 
 // for logging errors
 app.use(morgan('dev'));

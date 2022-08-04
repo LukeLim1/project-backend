@@ -21,38 +21,26 @@ describe('authRegisterV2', () => {
   test('Length of either nameFirst or nameLast not between 1-50 chars', () => {
     clear();
     const res = newReg('zachary-chan@gmail.com', 'z5312386', '', '');
-
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(res).toHaveProperty('statusCode', 400);
   });
 
   test('invalid email', () => {
     clear();
     const res = newReg('57', 'z5312386', 'zachary', 'chan');
-
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(res).toHaveProperty('statusCode', 400);
   });
   test('email already used', () => {
     clear();
-    const res = newReg('zachary-chan@gmail.com', 'z5312386', 'zachary', 'chan');
+    newReg('zachary-chan@gmail.com', 'z5312386', 'zachary', 'chan');
     const res2 = newReg('zachary-chan@gmail.com', 'z5312386', 'zachary', 'chan');
 
-    const bodyObj = JSON.parse(String(res2.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(res2.statusCode).toBe(OK);
-
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(res2).toHaveProperty('statusCode', 400);
   });
   test('password length < 6', () => {
     clear();
 
     const res = newReg('zachary-chan@gmail.com', 'z5', 'Zach', 'Chan');
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(res).toHaveProperty('statusCode', 400);
   });
 
   describe('authLoginV2', () => {
@@ -72,11 +60,26 @@ describe('authRegisterV2', () => {
         },
       }
       );
-
-      const bodyObj = JSON.parse(String(res.getBody()));
       expect(res.statusCode).toBe(OK);
-      expect(bodyObj).toMatchObject({
-        token: [expect.any(String), expect.any(String)]
+      // login 2
+      const res2 = request(
+        'POST',
+      `${url}:${port}/auth/login/v2`,
+      {
+        body: JSON.stringify({
+          email: 'zachary-chan@gmail.com',
+          password: 'z5312386',
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+      );
+
+      const bodyObj2 = JSON.parse(String(res2.getBody()));
+      expect(res2.statusCode).toBe(OK);
+      expect(bodyObj2).toMatchObject({
+        token: [expect.any(String), expect.any(String), expect.any(String)]
       });
     });
 
@@ -96,9 +99,10 @@ describe('authRegisterV2', () => {
         },
       }
       );
-      const bodyObj = JSON.parse(String(res.getBody()));
-      expect(res.statusCode).toBe(OK);
-      expect(bodyObj).toMatchObject({ error: expect.any(String) });
+      expect(res).toHaveProperty('statusCode', 400);
+      // const bodyObj = JSON.parse(String(res.getBody()));
+      // expect(res.statusCode).toBe(OK);
+      // expect(bodyObj).toMatchObject({ error: expect.any(String) });
     });
   });
 
@@ -118,9 +122,7 @@ describe('authRegisterV2', () => {
       },
     }
     );
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(res).toHaveProperty('statusCode', 400);
   });
 
   describe('authLogout', () => {
@@ -153,7 +155,7 @@ describe('request password reset', () => {
       }),
       headers: {
         'Content-type': 'application/json',
-        token: newUser.token[0],
+        token: newUser.token,
       },
     }
     );
