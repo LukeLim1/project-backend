@@ -2,14 +2,17 @@ import { getData, setData } from './dataStore';
 // import { userTemplate } from './interface';
 // import { checkToken } from './helperFunctions';
 
+import { userTemplate, IUser, messageTemplate, dataTemplate, IReact, dmTemplate, channelTemplate } from './interface';
+import { checkToken } from './helperFunctions';
+
 import HTTPError from 'http-errors';
 
-export interface messageTemplate {
-  channelId: number;
-  messageId: number;
-  message: string;
-  token: string;
-}
+// export interface messageTemplate {
+//   channelId: number;
+//   messageId: number;
+//   message: string;
+//   token: string;
+// }
 export interface messageArray {
   time: number;
   messageId: number;
@@ -31,10 +34,10 @@ export interface messageArray {
  * @param {*} message
  * @returns {} unless it is error case, in which case it will return { error: 'error' }
  */
-export function messageSendV1 (token: string, channelId: number, message: string) {
-//   const data = getData();
-//   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
-//   const channel = data.channels.find(channel => channel.channelId === channelId);
+export function messageSendV1(token: string, channelId: number, message: string) {
+  //   const data = getData();
+  //   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
+  //   const channel = data.channels.find(channel => channel.channelId === channelId);
 
   //   // Checking if the token passed in is valid
   //   if (checkToken(token) === false) {
@@ -155,11 +158,11 @@ export function messageEditV1(token: string, messageId: number, message: string)
   return {};
 }
 
-export function messageRemoveV1 (token: string, messageId: number) {
-//   const data = getData();
-//   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
-//   const messageObj = data.messages.find(message => message.messageId === messageId);
-//   const channelOwner = data.channels.find(channel => channel.ownerMembers === user.userId);
+export function messageRemoveV1(token: string, messageId: number) {
+  //   const data = getData();
+  //   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
+  //   const messageObj = data.messages.find(message => message.messageId === messageId);
+  //   const channelOwner = data.channels.find(channel => channel.ownerMembers === user.userId);
 
   //   if (checkToken(token) === false) {
   //     return { error: 'error' };
@@ -272,4 +275,412 @@ export function messagesShareV1(token: string, ogMessageId: number, message: str
 
   // console.log(data.channels[0].messages)
   return { sharedMessageId: sharedMessageId };
+}
+
+/**
+ * pin the message
+ * @param token ticket of current user
+ * @param messageId message id
+ * @returns result
+ */
+export function messagePin(token: string, messageId: number) {
+  // Check if token is valid
+  if (!checkToken(token)) {
+    throw HTTPError(403, 'user not found');
+  }
+  const data = getData();
+  const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
+  // Case 1: Not a valid user as indicated by invalid uID
+  if (!user) {
+    throw HTTPError(403, 'user not found');
+  }
+  // if (user.permissions !== 1) {
+  //   throw HTTPError(403, 'user had no owner permissions');
+  // }
+  const msgs = getAllMessage(data, user.uId);
+  if (!msgs) {
+    throw HTTPError(400, 'not is member of channel/dm');
+  }
+
+  const message: messageTemplate = msgs.find(msg => msg.messageId === messageId);
+  if (!message) {
+    throw HTTPError(400, 'message not found');
+  }
+  if (message.isPinned) {
+    throw HTTPError(400, 'message had pinned');
+  }
+
+  message.isPinned = true;
+  setData(data);
+  return {};
+}
+
+/**
+ * unPin the message
+ * @param token ticket of current user
+ * @param messageId message id
+ * @returns result
+ */
+export function messageUnPin(token: string, messageId: number) {
+  // Check if token is valid
+  if (!checkToken(token)) {
+    throw HTTPError(403, 'user not found');
+  }
+  const data = getData();
+  const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
+  // Case 1: Not a valid user as indicated by invalid uID
+  if (!user) {
+    throw HTTPError(403, 'user not found');
+  }
+
+  const msgs = getAllMessage(data, user.uId);
+  if (!msgs) {
+    throw HTTPError(400, 'not is member of channel/dm');
+  }
+
+  const message: messageTemplate = msgs.find(msg => msg.messageId === messageId);
+
+  if (!message) {
+    throw HTTPError(400, 'message not found');
+  }
+  if (!message.isPinned) {
+    throw HTTPError(400, 'message had not pinned');
+  }
+
+  message.isPinned = false;
+  setData(data);
+  return {};
+}
+
+/**
+ * rect message
+ * @param token ticket of user
+ * @param messageId message id
+ * @param reactId react id currently, the only valid react ID the frontend has is 1
+ * @returns result
+ */
+export function messagesReact(token: string, messageId: number, reactId: number) {
+  // Check if token is valid
+  if (!checkToken(token)) {
+    throw HTTPError(403, 'user not found');
+  }
+  if (reactId !== 1) {
+    throw HTTPError(400, 'reactId is not a valid react ID');
+  }
+  const data = getData();
+  const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
+  // check user as indicated by invalid uID
+  if (!user) {
+    throw HTTPError(403, 'user not found');
+  }
+
+  const msgs = getAllMessage(data, user.uId);
+  if (!msgs) {
+    throw HTTPError(400, 'not is member of channel/dm');
+  }
+  const message: messageTemplate = msgs.find(msg => msg.messageId === messageId);
+
+  // check message
+  if (!message) {
+    throw HTTPError(400, 'message not found');
+  }
+
+  // check message react
+  const reacts = message.reacts;
+  for (const item of reacts) {
+    if (item.uIds.includes(user.uId)) {
+      throw HTTPError(400, 'message had react by the user');
+    }
+  }
+
+  // check member
+  const isMember = checkIsMember(data, message, user.uId);
+  if (!isMember) {
+    throw HTTPError(400, 'not is member of channel/dm');
+  }
+
+  // create react
+  if (reacts.length > 0) {
+    const react = message.reacts.find(react => react.reactId === reactId);
+    react.uIds.push(user.uId);
+  } else {
+    const react = {
+      reactId: reactId,
+      uIds: [user.uId],
+      isThisUserReacted: false
+    };
+    message.reacts.push(react);
+  }
+
+  // send notifications
+  // "{User’s handle} reacted to your message in {channel/DM name}"
+  const map: Map<string, object> = getDMOrChannelNameByMessageId(data, messageId);
+
+  const name = map.get('name');
+  const channelId = map.get('channelId');
+  const dmId = map.get('dmId');
+  const noticeMsg = user.handle + ' reacted to your message in ' + name;
+
+  for (const theUser of data.users) {
+    if (theUser.uId === message.uId) {
+      theUser.notifications.push({
+        channelId: Number(channelId),
+        dmId: Number(dmId),
+        notificationMessage: noticeMsg,
+      });
+      break;
+    }
+  }
+
+  return {};
+}
+
+/**
+ * unRect message
+ * @param token ticket of user
+ * @param messageId message id
+ * @param reactId react id currently, the only valid react ID the frontend has is 1
+ * @returns result
+ */
+export function messagesUnReact(token: string, messageId: number, reactId: number) {
+  // Check if token is valid
+  if (!checkToken(token)) {
+    throw HTTPError(403, 'user not found');
+  }
+
+  const data = getData();
+  const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
+  // check user as indicated by invalid uID
+  if (!user) {
+    throw HTTPError(403, 'user not found');
+  }
+  if (reactId !== 1) {
+    throw HTTPError(400, 'reactId is not a valid react ID');
+  }
+  const msgs = getAllMessage(data, user.uId);
+  if (!msgs) {
+    throw HTTPError(400, 'not is member of channel/dm');
+  }
+  const message: messageTemplate = msgs.find(msg => msg.messageId === messageId);
+
+  // check message
+  if (!message) {
+    throw HTTPError(400, 'message not found');
+  }
+  const reacts = message.reacts;
+  // check valid react
+  let theReact: IReact;
+  for (let i = 0; i < reacts.length; i++) {
+    const item = reacts[i];
+    if (item.reactId === reactId) {
+      theReact = item;
+      reacts.splice(i, 1);
+    }
+  }
+  if (!theReact) {
+    throw HTTPError(400, 'message had no react by the user');
+  }
+
+  // check react uIds
+  if (!theReact.uIds.includes(user.uId)) {
+    throw HTTPError(400, 'message had no react by the user');
+  }
+
+  // check member
+  const isMember = checkIsMember(data, message, user.uId);
+  if (!isMember) {
+    throw HTTPError(400, 'not is member of channel/dm');
+  }
+
+  const uIds = theReact.uIds;
+  for (let i = 0; i < theReact.uIds.length; i++) {
+    const uId = theReact.uIds[i];
+    if (uId === user.uId) {
+      uIds.splice(i, 1);
+    }
+  }
+
+  // update react
+  if (uIds.length > 0) {
+    theReact.uIds = uIds;
+    message.reacts.push(theReact);
+  }
+  return {};
+}
+
+/**
+ * message search
+ * @param token ticket of user
+ * @param queryStr query str
+ */
+export function messagesSearch(token: string, queryStr: string) {
+  // Check if token is valid
+  if (!checkToken(token)) {
+    throw HTTPError(403, 'user not found');
+  }
+  // check query str length
+  if (queryStr === undefined || queryStr.length < 1 || queryStr.length > 1000) {
+    throw HTTPError(400, 'queryStr length is error');
+  }
+
+  const data = getData();
+  const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
+  // check user as indicated by invalid uID
+  if (!user) {
+    throw HTTPError(403, 'user not found');
+  }
+
+  let isMember = false;
+  for (const dm of data.DMs) {
+    isMember = checkIsMemberOfDm(dm, user.uId);
+    if (isMember) {
+      break;
+    }
+  }
+
+  if (!isMember) {
+    for (const channel of data.channels) {
+      isMember = checkIsMemberOfChannel(channel, user.uId);
+      if (isMember) {
+        break;
+      }
+    }
+  }
+  if (!isMember) {
+    throw HTTPError(403, 'user are not of channel/dm member');
+  }
+
+  const allMessages = getAllMessage(data, user.uId);
+  const myMessage: messageTemplate[] = [];
+  for (const msg of allMessages) {
+    if (msg.message.indexOf(queryStr) > -1) {
+      myMessage.push(msg);
+    }
+  }
+
+  return { messages: myMessage };
+}
+
+/**
+ * check user is not member of channel/dm
+ * @param data data
+ * @param message message
+ * @param uId current user id
+ * @returns boolean
+ */
+export function checkIsMember(data: dataTemplate, message: messageTemplate, userId: number): boolean {
+  let isMember = false;
+
+  for (const channel of data.channels) {
+    isMember = checkIsMemberOfChannel(channel, userId);
+    if (isMember) {
+      break;
+    }
+  }
+
+  if (isMember) {
+    return true;
+  }
+
+  for (const dm of data.DMs) {
+    isMember = checkIsMemberOfDm(dm, userId);
+    if (isMember) {
+      break;
+    }
+  }
+
+  return isMember;
+}
+
+export function getAllMessage(data: dataTemplate, userId: number): messageTemplate[] {
+  const dms = data.DMs;
+  const channels = data.channels;
+  let msgs = [];
+
+  for (const dm of dms) {
+    if (checkIsMemberOfDm(dm, userId)) {
+      msgs = msgs.concat(dm.messages);
+    }
+  }
+
+  for (const channel of channels) {
+    if (checkIsMemberOfChannel(channel, userId)) {
+      msgs = msgs.concat(channel.messages);
+    }
+  }
+
+  return msgs;
+}
+
+/**
+ * get name of dm or channel by message id
+ * @param data data
+ * @param msgId message id
+ * @returns name,dmID,channelId
+ */
+export function getDMOrChannelNameByMessageId(data: dataTemplate, msgId: number): Map<string, object> {
+  const dms = data.DMs;
+  const channels = data.channels;
+  let name = '';
+  let dmId = -1;
+  let channelId = -1;
+  for (const dm of dms) {
+    for (const msg of dm.messages) {
+      if (msg.messageId === msgId) {
+        name = dm.name;
+        dmId = dm.dmId;
+        break;
+      }
+    }
+    if (name !== '') {
+      break;
+    }
+  }
+
+  if (name === '') {
+    for (const channel of channels) {
+      for (const msg of channel.messages) {
+        if (msg.messageId === msgId) {
+          name = channel.name;
+          channelId = channel.channelId;
+          break;
+        }
+      }
+      if (name !== '') {
+        break;
+      }
+    }
+  }
+
+  const map = new Map();
+  map.set('name', name);
+  map.set('dmId', dmId);
+  map.set('channelId', channelId);
+
+  return map;
+}
+
+export function checkIsMemberOfChannel(channel: channelTemplate, userId: number): boolean {
+  let isMember = false;
+  const members: IUser[] = channel.allMembers;
+  for (const member of members) {
+    if (member.uId === userId) {
+      isMember = true;
+      break;
+    }
+  }
+  return isMember;
+}
+
+export function checkIsMemberOfDm(dm: dmTemplate, userId: number): boolean {
+  let isMember = false;
+  const members: IUser[] = dm.members;
+  for (const member of members) {
+    if (member.uId === userId) {
+      isMember = true;
+      break;
+    }
+  }
+
+  return isMember;
 }
