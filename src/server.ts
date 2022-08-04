@@ -10,7 +10,10 @@ import { channelLeaveV1, channelDetails, channelJoin, channelInviteV2, channelAd
 import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } from './dm';
 import { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats } from './users';
 import { userRemove, userPermissionChange } from './admin';
-import { messageSendV1, messageEditV1, messageRemoveV1, messagesShareV1 } from './message';
+import {
+  messageSendV1, messageEditV1, messageRemoveV1, messagesShareV1,
+  messagesSearch, messagesUnReact, messagesReact, messageUnPin, messagePin
+} from './message';
 import { notificationGetV1 } from './notifications';
 import errorHandler from 'middleware-http-errors';
 // import fs from 'fs';
@@ -266,6 +269,36 @@ app.delete('/message/remove', (req, res) => {
   const { token, messageId } = req.body;
   // returns {}
   res.json(messageRemoveV1(token, messageId));
+});
+
+app.get('/search/v1', (req, res) => {
+  const token = req.header('token');
+  const queryStr = req.query.queryStr as string;
+  res.json(messagesSearch(token, queryStr));
+});
+
+app.post('/message/react/v1', (req, res) => {
+  const token = req.header('token');
+  const { messageId, reactId } = req.body;
+  res.json(messagesReact(token, messageId, reactId));
+});
+
+app.post('/message/unreact/v1', (req, res) => {
+  const token = req.header('token');
+  const { messageId, reactId } = req.body;
+  res.json(messagesUnReact(token, messageId, reactId));
+});
+
+app.post('/message/pin/v1', (req, res) => {
+  const token = req.header('token');
+  const { messageId } = req.body;
+  res.json(messagePin(token, messageId));
+});
+
+app.post('/message/unpin/v1', (req, res) => {
+  const token = req.header('token');
+  const { messageId } = req.body;
+  res.json(messageUnPin(token, messageId));
 });
 
 app.get('/notifications/get/v1', (req, res) => {

@@ -231,9 +231,9 @@ export function authPasswordResetRequest(token: string, email: string) {
   const data = getData();
   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
 
-  if (!user) return { error: 'user not found' };
+  if (!user) return {};
   if (!data.users.find(u => u.emailAddress === email)) {
-    return { error: 'email not found' };
+    return {};
   }
 
   const rand = makeid(6);
