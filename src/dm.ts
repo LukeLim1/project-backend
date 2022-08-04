@@ -109,7 +109,7 @@ export function dmCreateV1(token: string, uIds: number[]) {
 //              throws 400 error when dmId does not refer to a valid DM (when DM is not found)
 //              throws 403 error when dmId is valid but the authorised user is not a member of DM shown by dmId
 
-export function dmLeave (token: string, dmId: number) : object | Error {
+export function dmLeave(token: string, dmId: number): object | Error {
   if (checkToken(token) === false) {
     throw HTTPError(403, 'invalid token');
   }
@@ -154,7 +154,7 @@ export function dmLeave (token: string, dmId: number) : object | Error {
 //              throws 400 error when start is greater than total number of messages in that DM
 //              throws 403 error when dmId is valid but the authorised user is not a member of DM shown by dmId
 
-export function dmMessages (token: string, dmId: number, start: number): IDmMessages | Error {
+export function dmMessages(token: string, dmId: number, start: number): IDmMessages | Error {
   if (checkToken(token) === false) {
     throw HTTPError(403, 'invalid token');
   }
@@ -259,6 +259,22 @@ export function senddm(token: string, dmId: number, message: string) {
     reacts: [],
     isPinned: false
   });
+
+  // check tagged in message
+  // {User’s handle} tagged you in {channel/DM name}: {first 20 characters of the message}
+  const noticeMsg = user.handle + ' tagged you in ' + dm.name + ': ' + message.substring(0, 19);
+  const taggedUId: number[] = [];
+  for (const theUser of data.users) {
+    const tagged = '@' + theUser.handle;
+    if (message.indexOf(tagged) !== -1 && !taggedUId.includes(theUser.uId)) {
+      taggedUId.push(theUser.uId);
+      theUser.notifications.push({
+        channelId: -1,
+        dmId: dm.dmId,
+        notificationMessage: noticeMsg,
+      });
+    }
+  }
 
   user.numMessagesSent++;
   data.numMsgs++;
