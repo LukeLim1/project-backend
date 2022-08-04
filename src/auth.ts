@@ -14,7 +14,7 @@ function getHashOf(plaintext: string) {
   // Calling createHash method
   const hash = crypto.createHash('sha256', secret)
     // updating data
-    .update('How are you?')
+    .update(plaintext)
     // Encoding to be used
     .digest('hex');
   return hash;
@@ -274,7 +274,7 @@ export function authPasswordResetRequest(token: string, email: string) {
  * @param {*} newPassword
  * @returns {} 400 error when resetCode is invalid or password entered is less than 6 chars long
  */
-export function authPasswordReset (resetCode: any, newPassword: string) {
+export function authPasswordReset(resetCode: any, newPassword: string) {
   // error case 1 : 400 error new password arguement.length < 6
   if (newPassword.length < 6) {
     throw createHttpError(400, 'new password must be 6 characters or longer');
