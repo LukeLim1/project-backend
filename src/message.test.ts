@@ -1,14 +1,19 @@
-import { /* createBasicAccount, */ createBasicDm, dmSend, newReg, requestSendDm, /* sendMessage, */ shareMessage } from './helperFunctions';
+import { createBasicDm, dmSend, newReg, requestSendDm, sendDMMessage, clear, /* sendMessage, */ shareMessage } from './helperFunctions';
 import { createBasicChannel } from './channels.test';
 import { Response } from 'sync-request';
+import request from 'sync-request';
+import { url, port } from './config.json';
 
 // import { Response } from 'sync-request';
+
+const OK = 200;
+const error400 = 400;
+const error403 = 403;
 
 test('placeholder', () => {
   expect(1).toBe(1);
 });
 
-const OK = 200;
 describe('messageShareV1', () => {
   let user1: Response, user1Body: { token: string; authUserId: number; },
     chan1: Response, chan1Body: { channelId: number; }, dm1: Response,
@@ -428,3 +433,451 @@ describe('messageId does not refer to a valid message within a channel/DM that t
   });
 });
 */
+
+describe('test for message for search/react/unreact/pin/unpin', () => {
+  let userA: any, userB: any;
+  let userBMemberOfDMId: number, messageId: number;
+  let userBToken: string;
+  beforeEach(() => {
+    clear();
+    // register user A
+    const basicA = newReg('zach@gmail.com', '123456', 'zach', 'chan');
+    userA = JSON.parse(String(basicA.getBody()));
+
+    // register user B
+    const basicB = newReg('111zach@gmail.com', '123456', '1zach', '1chan');
+    userB = JSON.parse(String(basicB.getBody()));
+    userBToken = userB.token;
+
+    // create dm
+    const dm = createBasicDm(userA.token, [userA.authUserId, userB.authUserId]);
+    userBMemberOfDMId = JSON.parse(String(dm.getBody())).dmId;
+
+    // send dm message
+    const message = sendDMMessage(userBToken, userBMemberOfDMId, 'hello everyone,i am tony.');
+    messageId = JSON.parse(String(message.getBody())).messageId;
+  });
+
+  test('message search success', () => {
+    const res = request(
+      'GET',
+      `${url}:${port}/search/v1`,
+      {
+        headers: { token: userBToken },
+        qs: { queryStr: 'hello' }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ messages: expect.any(Object) });
+  });
+
+  test('message search fail 400, length of queryStr is less than 1 or over 1000 characters', () => {
+    const res = request(
+      'GET',
+      `${url}:${port}/search/v1`,
+      {
+        headers: { token: userBToken },
+        qs: { queryStr: '' }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'queryStr length is error' } });
+  });
+
+  test('message react success', () => {
+    const param = {
+      messageId: messageId,
+      reactId: 1,
+    };
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/react/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({});
+  });
+
+  test('message react fail 400, messageId is not a valid message within a channel or DM that the authorised user has joined', () => {
+    const param = {
+      messageId: -1,
+      reactId: 1,
+    };
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/react/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'message not found' } });
+  });
+
+  test('message react fail 400,reactId is not a valid react ID', () => {
+    const param = {
+      messageId: messageId,
+      reactId: 2,
+    };
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/react/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'reactId is not a valid react ID' } });
+  });
+
+  test('message react fail 400,the message already contains a react with ID reactId from the authorised user', () => {
+    const param = {
+      messageId: messageId,
+      reactId: 1,
+    };
+
+    request(
+      'POST',
+      `${url}:${port}/message/react/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/react/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'message had react by the user' } });
+  });
+
+  test('message unreact success', () => {
+    const param = {
+      messageId: messageId,
+      reactId: 1,
+    };
+
+    request(
+      'POST',
+      `${url}:${port}/message/react/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/unreact/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({});
+  });
+
+  test('message unreact fail 400,messageId is not a valid message within a channel or DM that the authorised user has joined', () => {
+    const param = {
+      messageId: -1,
+      reactId: 1,
+    };
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/unreact/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'message not found' } });
+  });
+
+  test('message unreact fail 400,reactId is not a valid react ID', () => {
+    const param = {
+      messageId: messageId,
+      reactId: 2,
+    };
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/unreact/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'reactId is not a valid react ID' } });
+  });
+
+  test('message unreact fail 400,the message does not contain a react with ID reactId from the authorised user', () => {
+    const param = {
+      messageId: messageId,
+      reactId: 1,
+    };
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/unreact/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'message had no react by the user' } });
+  });
+
+  // test for message/pin/v1
+  test('message pin success', () => {
+    const param = {
+      messageId: messageId
+    };
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/pin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({});
+  });
+
+  test('message pin fail 400,messageId is not a valid message within a channel or DM that the authorised user has joined', () => {
+    const param = {
+      messageId: -1,
+    };
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/pin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'message not found' } });
+  });
+
+  test('message pin fail 400, the message is already pinned', () => {
+    const param = {
+      messageId: messageId
+    };
+
+    request(
+      'POST',
+      `${url}:${port}/message/pin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/pin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'message had pinned' } });
+  });
+
+  test('message pin fail 403, messageId refers to a valid message in a joined channel/DM and the authorised user does not have owner permissions in the channel/DM', () => {
+    const param = {
+      messageId: messageId
+    };
+
+    request(
+      'POST',
+      `${url}:${port}/message/pin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/pin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error403);
+    expect(bodyObj).toMatchObject({ error: { message: 'user had no owner permissions' } });
+  });
+
+  // test for message/unpin/v1
+  test('message unpin success', () => {
+    const param = {
+      messageId: messageId
+    };
+
+    request(
+      'POST',
+      `${url}:${port}/message/pin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/unpin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({});
+  });
+
+  test('message unpin fail 400,messageId is not a valid message within a channel or DM that the authorised user has joined', () => {
+    const param = {
+      messageId: -1,
+    };
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/unpin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'message not found' } });
+  });
+
+  test('message unpin fail 400, the message is not already pinned', () => {
+    const param = {
+      messageId: messageId
+    };
+
+    const res = request(
+      'POST',
+      `${url}:${port}/message/unpin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error400);
+    expect(bodyObj).toMatchObject({ error: { message: 'message had not pinned' } });
+  });
+
+  test('message unpin fail 403, messageId refers to a valid message in a joined channel/DM and the authorised user does not have owner permissions in the channel/DM', () => {
+    const param = {
+      messageId: messageId
+    };
+
+    request(
+      'POST',
+      `${url}:${port}/message/pin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userA.token
+        },
+      });
+    const res = request(
+      'POST',
+      `${url}:${port}/message/unpin/v1`,
+      {
+        body: JSON.stringify(param),
+        headers: {
+          'Content-type': 'application/json',
+          token: userBToken
+        },
+      });
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(error403);
+    expect(bodyObj).toMatchObject({ error: { message: 'user had no owner permissions' } });
+  });
+});
