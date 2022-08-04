@@ -11,28 +11,13 @@ export function containsDuplicates(array: number[]): boolean {
   return array.length !== new Set(array).size;
 }
 
-// removes a certain item completely from that array
-export function removeItemAll (arr: number[] | string[], item: number | string): number[] | string[] {
-  let i = 0;
-  while (i < arr.length) {
-    if (arr[i] === item) {
-      arr.splice(i, 1);
-    } else {
-      ++i;
-    }
-  }
-  return arr;
-}
-
 // test for a valid token
 export function checkToken(token: string): boolean | undefined {
-  console.log('printing token');
   const data = getData();
   const tokenArray: string[] = [];
   Object.values(data.users).forEach(element => {
     tokenArray.push(...element.token);
   });
-  console.log(tokenArray);
 
   for (const i of tokenArray) {
     if (token === i) {
@@ -112,6 +97,21 @@ export function createBasicAccount3() {
         nameLast: 'Chan3'
       }),
       headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+// log out
+export function requestAuthLogout(token: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/auth/logout/v2`,
+    {
+      headers: {
+        token: token,
         'Content-type': 'application/json',
       },
     }
@@ -206,17 +206,214 @@ export function leaveChannel(token: string, channelId: number) {
   );
   return res;
 }
+
+// channel details
+export function requestChannelDetails (token: string, channelId: number) {
+  const res = request(
+    'GET',
+    `${url}:${port}/channel/details/v3`,
+    {
+      qs: {
+        channelId: channelId,
+      },
+      headers: {
+        token: token,
+      }
+    }
+  );
+
+  return res;
+}
+
 // join a channel
-export function joinChannel(token: string, channelId: number) {
+export function requestJoinChannel(token: string, channelId: number) {
   const res = request(
     'POST',
-    `${url}:${port}/channel/join/v2`,
+    `${url}:${port}/channel/join/v3`,
     {
       body: JSON.stringify({
-        token: token,
         channelId: channelId,
       }),
       headers: {
+        token: token,
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+export function requestDmDetails(token: string, dmId: number) {
+  const res = request(
+    'GET',
+    `${url}:${port}/dm/details/v2`,
+    {
+      qs: {
+        dmId: dmId,
+      },
+      headers: {
+        token: token,
+      },
+    }
+  );
+  return res;
+}
+
+export function requestDmLeave(token: string, dmId: number) {
+  const res = request(
+    'POST',
+    `${url}:${port}/dm/leave/v2`,
+    {
+      body: JSON.stringify({
+        dmId: dmId,
+      }),
+      headers: {
+        token: token,
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+export function requestDmMessages(token: string, dmId: number, start: number) {
+  const res = request(
+    'GET',
+    `${url}:${port}/dm/messages/v2`,
+    {
+      qs: {
+        dmId: dmId,
+        start: start,
+      },
+      headers: {
+        token: token,
+      },
+    }
+  );
+  return res;
+}
+
+export function requestSendDm(token: string, dmId: number, message: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/message/senddm/v2`,
+    {
+      body: JSON.stringify({
+        dmId: dmId,
+        message: message,
+      }),
+      headers: {
+        token: token,
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+// user profile
+export function requestUserProfile (token: string, uId: number) {
+  const res = request(
+    'GET',
+    `${url}:${port}/user/profile/v3`,
+    {
+      qs: {
+        uId: uId,
+      },
+      headers: {
+        token: token,
+      }
+    }
+  );
+  return res;
+}
+
+export function requestUsersAll (token: string) {
+  const res = request(
+    'GET',
+    `${url}:${port}/users/all/v2`,
+    {
+      headers: {
+        token: token,
+      }
+    }
+  );
+
+  return res;
+}
+
+// upload a photo
+export function requestUploadPhoto(imgUrl: string, xStart: number, yStart: number, xEnd: number, yEnd: number) {
+  return request(
+    'POST',
+    `${url}:${port}/user/profile/uploadphoto/v1`,
+    {
+      body: JSON.stringify({
+        imgUrl: imgUrl,
+        xStart: xStart,
+        yStart: yStart,
+        xEnd: xEnd,
+        yEnd: yEnd,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+}
+
+// Fetches required statistics about this user's use of UNSW Treats
+export function requestUserStats (token: string) {
+  const res = request(
+    'GET',
+    `${url}:${port}/user/stats/v1`,
+    {
+      headers: {
+        token: token,
+      }
+    }
+  );
+
+  return res;
+}
+
+// Fetches required statistics about the workspace's use of UNSW Treats
+export function requestUsersStats () {
+  const res = request(
+    'GET',
+    `${url}:${port}/users/stats/v1`
+  );
+
+  return res;
+}
+
+export function requestUserRemove (token: string, uId: number) {
+  const res = request(
+    'DELETE',
+    `${url}:${port}/admin/user/remove/v1`,
+    {
+      qs: {
+        uId: uId,
+      },
+      headers: {
+        token: token,
+      },
+    }
+  );
+  return res;
+}
+
+export function requestUserPermissionChange(token: string, uId: number, permissionId: number) {
+  const res = request(
+    'POST',
+    `${url}:${port}/admin/userpermission/change/v1`,
+    {
+      body: JSON.stringify({
+        uId: uId,
+        permissionId: permissionId,
+      }),
+      headers: {
+        token: token,
         'Content-type': 'application/json',
       },
     }
@@ -230,11 +427,11 @@ export function sendMessage(token: string, channelId: number, message: string) {
     `${url}:${port}/message/send/v2`,
     {
       body: JSON.stringify({
-        token: token,
         channelId: channelId,
         message: message
       }),
       headers: {
+        token: token,
         'Content-type': 'application/json',
       },
     }
@@ -299,7 +496,7 @@ export function resetPassword(resetCode: string, newPassword: string) {
 export function findResetCode(userId: number) {
   const data = getData();
 
-  const user = data.users.find(u => u.userId === userId);
+  const user = data.users.find(u => u.uId === userId);
   console.log(user);
   const resetObject = data.passwordRequest.find(u => u.email === user.emailAddress);
   console.log(resetObject);
@@ -318,7 +515,7 @@ export function clear() {
 
 export function convertUserTemplateToIUser (temp: userTemplate): IUser {
   const res:IUser = {
-    uId: temp.userId,
+    uId: temp.uId,
     email: temp.emailAddress,
     nameFirst: temp.firstName,
     nameLast: temp.lastname,

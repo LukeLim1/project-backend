@@ -10,7 +10,11 @@ let data: dataTemplate = {
   usedChannelNums: [],
   DMs: [],
   messages: [],
+  numChannels: 0,
+  numDms: 0,
+  numMsgs: 0,
   passwordRequest: [],
+  notifications: [],
 };
 
 // YOU SHOULDNT NEED TO MODIFY THE FUNCTIONS BELOW IN ITERATION 1

@@ -1,6 +1,7 @@
 import { getData, setData } from './dataStore';
 import validator from 'validator';
 import { checkToken } from './helperFunctions';
+import HTTPError from 'http-errors';
 import { Error, userTemplate } from './interface';
 import createHttpError from 'http-errors';
 // import HTTPError from 'http-errors';
@@ -14,7 +15,7 @@ function getHashOf(plaintext: string) {
   // Calling createHash method
   const hash = crypto.createHash('sha256', secret)
     // updating data
-    .update('How are you?')
+    .update(plaintext)
     // Encoding to be used
     .digest('hex');
   return hash;
@@ -107,17 +108,22 @@ function authRegisterV1(email: string, password: string, nameFirst: string, name
   }
   const tokenStr = token.toString();
   const tokenHashed = getHashOf(tokenStr);
+
+  const globalPermissionId = (data.users.length === 0) ? 1 : 2;
   data.usedNums.push(randomNumber);
   data.usedTokenNums.push(token);
   data.users.push({
     emailAddress: email,
-    userId: randomNumber,
+    uId: randomNumber,
     password: password,
     firstName: nameFirst,
     lastname: nameLast,
     handle: `${userHandle}`,
-    permissions: 2,
+    globalPermissionId: globalPermissionId,
     token: [tokenHashed],
+    numChannelsJoined: 0,
+    numDmsJoined: 0,
+    numMessagesSent: 0,
   });
   setData(data);
   return {
@@ -171,20 +177,24 @@ function authLoginV1(email: string, password: string) {
   const tokenHashed = getHashOf(tokenStr);
   user.token.push(tokenHashed);
   setData(data);
-  return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
+  return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].uId };
 }
+
+// authLogout
+// Removes token that is given in the parameter from the corresponding user
+
+// Parameters: token: string - token of a user that is to be logged out
+
+// Return type: object {}
+//              throws 403 error when token is invalid
 
 function authLogout(token: string): object | Error {
   if (checkToken(token) === false) {
-    return { error: 'error' };
+    throw HTTPError(403, 'invalid token');
   }
 
   const data = getData();
   const user = data.users.find(u => u.token.includes(token));
-
-  if (!user) {
-    return { error: 'error' };
-  }
 
   const index = user.token.indexOf(token);
   user.token.splice(index, 1);
