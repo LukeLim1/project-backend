@@ -214,9 +214,9 @@ export function channelMessagesV2 (token: string, channelId: number, start: numb
   //   return { error: 'error' };
   // }
 
-  if (!user) {
-    return { error: 'error' };
-  }
+  // if (!user) {
+  //   return { error: 'error' };
+  // }
 
   // // Checking for invalid case
   // // Case 1: Invalid channelId
