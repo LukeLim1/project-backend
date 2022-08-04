@@ -40,7 +40,7 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
     nameFirst: user.firstName,
     nameLast: user.lastname,
     handleStr: user.handle
-}
+  };
 
   user.numChannelsJoined++;
   data.numChannels++;
