@@ -15,6 +15,10 @@ function clearV1() {
   data.usedChannelNums = [];
   data.DMs = [];
   data.messages = [];
+  data.passwordRequest = [];
+  data.numChannels = 0;
+  data.numDms = 0;
+  data.numMsgs = 0;
   setData(data);
   return {};
 }

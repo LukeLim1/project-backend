@@ -1,9 +1,25 @@
 import { getData, setData } from './dataStore';
 import validator from 'validator';
 import { checkToken } from './helperFunctions';
-import { Error } from './interface';
 import HTTPError from 'http-errors';
+import { Error, userTemplate } from './interface';
+import createHttpError from 'http-errors';
+// import HTTPError from 'http-errors';
+// import crypto from 'crypto';
 
+function getHashOf(plaintext: string) {
+  const crypto = require('crypto');
+
+  // Defining key
+  const secret = 'Hi';
+  // Calling createHash method
+  const hash = crypto.createHash('sha256', secret)
+    // updating data
+    .update(plaintext)
+    // Encoding to be used
+    .digest('hex');
+  return hash;
+}
 // Given user information from parameters, create a new account for them (as an object inside an array)
 // and return a new unique 'authUserId'
 // Generate a handle as past of the object that will be the concatenation of nameFirst and nameLast
@@ -24,7 +40,7 @@ import HTTPError from 'http-errors';
 //              - nameFirst.length not between 1 - 50
 //              - nameLast.length not between 1 - 50
 
-function authRegisterV1 (email: string, password: string, nameFirst: string, nameLast: string) {
+function authRegisterV1(email: string, password: string, nameFirst: string, nameLast: string) {
   const data = getData();
   // error cases //
 
@@ -46,7 +62,7 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
   // case 3 : password less than 6 chars
   if (password.length < 6) {
     return { error: 'error' };
-  // case 4 : length of nameFirst not between 1 - 50 inclusive
+    // case 4 : length of nameFirst not between 1 - 50 inclusive
   } else if (nameFirst.length <= 1 || nameFirst.length >= 50) {
     return { error: 'error' };
     // case 5 : length of nameLast not between 1 - 50 inclusive
@@ -91,24 +107,27 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
     token += data.usedTokenNums[data.usedTokenNums.length - 1];
   }
   const tokenStr = token.toString();
+  const tokenHashed = getHashOf(tokenStr);
+
+  const globalPermissionId = (data.users.length === 0) ? 1 : 2;
   data.usedNums.push(randomNumber);
   data.usedTokenNums.push(token);
   data.users.push({
     emailAddress: email,
-    userId: randomNumber,
+    uId: randomNumber,
     password: password,
     firstName: nameFirst,
     lastname: nameLast,
     handle: `${userHandle}`,
-    permissions: 2,
-    token: [tokenStr],
+    globalPermissionId: globalPermissionId,
+    token: [tokenHashed],
     numChannelsJoined: 0,
     numDmsJoined: 0,
     numMessagesSent: 0,
   });
   setData(data);
   return {
-    token: tokenStr,
+    token: tokenHashed,
     authUserId: randomNumber
   };
 }
@@ -124,7 +143,7 @@ function authRegisterV1 (email: string, password: string, nameFirst: string, nam
 //              - email doesnt belong to a user
 //              - password is incorrect for the corresponding email
 
-function authLoginV1 (email: string, password: string) {
+function authLoginV1(email: string, password: string) {
   const data = getData();
 
   // put every email into an array to check against
@@ -155,14 +174,23 @@ function authLoginV1 (email: string, password: string) {
     token += data.usedTokenNums[data.usedTokenNums.length - 1];
   }
   const tokenStr = token.toString();
-  user.token.push(tokenStr);
+  const tokenHashed = getHashOf(tokenStr);
+  user.token.push(tokenHashed);
   setData(data);
-  return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].userId };
+  return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].uId };
 }
 
-function authLogout (token: string): object | Error {
+// authLogout
+// Removes token that is given in the parameter from the corresponding user
+
+// Parameters: token: string - token of a user that is to be logged out
+
+// Return type: object {}
+//              throws 403 error when token is invalid
+
+function authLogout(token: string): object | Error {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    throw HTTPError(403, 'invalid token');
   }
 
   const data = getData();
@@ -175,46 +203,120 @@ function authLogout (token: string): object | Error {
   return {};
 }
 
-// export function authPasswordResetRequest (email: string) {
-//   var nodemailer = require('nodemailer');
-//       let transporter = nodemailer.createTransport({
-//              host: 'smtp.mailtrap.io',
-//              port: 2525,
-//              auth: {
-//                  user: "be9ec5b31bc99d",
-//                  pass: "9910b7b64cee1c"
-//              }
-//      })
+function makeid(length: number) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() *
+      charactersLength));
+  }
+  return result;
+}
+/**
+ * Given an email send a secret reset password code to users email,
+ * that when used for auth/password/reset shows user trying to reset the password is
+ * who got the email.
+ * No errors are displayed when invalid email or user not found as it presents
+ * a security risk.
+ * A user is logged out of all sessions (tokens invalidated) when requesting reset
+ * @param {*} token
+ * @param {*} email
+ * @returns {}
+ */
+export function authPasswordResetRequest(token: string, email: string) {
+  const data = getData();
+  const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
 
-//      const mailOptions = {
-//         from: 'youremail@gmail.com',
-//         to: 'myfriend@yahoo.com',
-//         subject: 'Sending Email using Node.js',
-//         text: 'That was easy!'
-//       };
+  if (!user) return { error: 'user not found' };
+  if (!data.users.find(u => u.emailAddress === email)) {
+    return { error: 'email not found' };
+  }
 
-//       transporter.sendMail(mailOptions, function(error, info){
-//         if (error) {
-//           console.log(error);
-//         } else {
-//           console.log('Email sent: ' + info.response);
-//         }
-//       });
-//   return {}
-// }
+  const rand = makeid(6);
 
-// export function authPasswordReset (resetCode: any, newPassword: string) {
-//   const data = getData();
-//   const user = data.users.find(u => u.token.includes(token) === true);
+  data.passwordRequest.push(
+    {
+      email: email,
+      passReq: rand
+    });
 
-//   if (!user) {
-//     return { error: 'error' };
-//   }
-//   // main code
-//   user.password = newPassword;
-//   setData(data);
+  const nodemailer = require('nodemailer');
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.mailtrap.io',
+    port: 2525,
+    auth: {
+      user: 'be9ec5b31bc99d',
+      pass: '9910b7b64cee1c'
+    }
+  });
 
-//   return {}
-// }
+  const mailOptions = {
+    from: 'crunchieDevelopment@gmail.com',
+    to: email,
+    subject: 'Code to reset password is found below',
+    text: rand
+  };
+  let worked = 0;
+  transporter.sendMail(mailOptions, function (error: any, info: any) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+      worked = 1;
+    }
+  });
+
+  // log user out of all current sessions
+  if (worked === 1) {
+    user.token = [];
+  }
+
+  return {};
+}
+
+/**
+ * Given a reset code for a user, change that users password to the
+ * newPassword provided in the arguement
+ * A reset code is invalidated once used
+ * Once
+ * @param {*} resetCode
+ * @param {*} newPassword
+ * @returns {} 400 error when resetCode is invalid or password entered is less than 6 chars long
+ */
+export function authPasswordReset(resetCode: any, newPassword: string) {
+  // error case 1 : 400 error new password arguement.length < 6
+  if (newPassword.length < 6) {
+    throw createHttpError(400, 'new password must be 6 characters or longer');
+  }
+  const data = getData();
+  // error case 2 : 400 error resetCode is not a valid activated resetCode
+  if (!data.passwordRequest.some(u => u.passReq === resetCode)) {
+    throw createHttpError(400, 'resetCode is not a valid reset code');
+  }
+  const findEmail = data.passwordRequest.find(u => u.passReq === resetCode);
+  // console.log(findEmail)
+  const user = data.users.find(u => u.emailAddress === findEmail.email);
+  // console.log('printing user below')
+  // console.log(user)
+  // console.log('printing data.passwordRequest array below')
+  // console.log(data.passwordRequest)
+
+  // error case 3 : when the user was unable to be found
+  if (!user) {
+    throw createHttpError(400, 'user was not found');
+  }
+
+  // console.log('printing userCheck below')
+  // console.log(userCheck)
+
+  // main code
+  user.password = newPassword;
+  setData(data);
+
+  data.passwordRequest = [];
+
+  return {};
+}
 
 export { authLoginV1, authRegisterV1, authLogout };

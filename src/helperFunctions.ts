@@ -8,25 +8,7 @@ const url = config.url;
 
 // checks for duplicates in arrays
 export function containsDuplicates(array: number[]): boolean {
-  const result = Array.from(new Set(array));
-  if (array.length === result.length) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-// removes a certain item completely from that array
-export function removeItemAll (arr: any[], item: any) {
-  let i = 0;
-  while (i < arr.length) {
-    if (arr[i] === item) {
-      arr.splice(i, 1);
-    } else {
-      ++i;
-    }
-  }
-  return arr;
+  return array.length !== new Set(array).size;
 }
 
 // test for a valid token
@@ -37,16 +19,12 @@ export function checkToken(token: string): boolean | undefined {
     tokenArray.push(...element.token);
   });
 
-  let trigger = 0;
   for (const i of tokenArray) {
     if (token === i) {
-      trigger = 1;
       return true;
     }
   }
-  if (trigger === 0) {
-    return false;
-  }
+  return false;
 }
 
 // create new account
@@ -126,6 +104,21 @@ export function createBasicAccount3() {
   return res;
 }
 
+// log out
+export function requestAuthLogout(token: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/auth/logout/v2`,
+    {
+      headers: {
+        token: token,
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
 // change name
 export function changeName(token: string, nameFirst: string, nameLast: string) {
   const res = request(
@@ -133,12 +126,12 @@ export function changeName(token: string, nameFirst: string, nameLast: string) {
     `${url}:${port}/user/profile/setname/v1`,
     {
       body: JSON.stringify({
-        token: token,
         nameFirst: nameFirst,
         nameLast: nameLast
       }),
       headers: {
         'Content-type': 'application/json',
+        token: token,
       },
     }
   );
@@ -151,11 +144,11 @@ export function changeEmail(token: string, email: string) {
     `${url}:${port}/user/profile/setemail/v1`,
     {
       body: JSON.stringify({
-        token: token,
         email: email,
       }),
       headers: {
         'Content-type': 'application/json',
+        token: token,
       },
     }
   );
@@ -165,16 +158,16 @@ export function changeEmail(token: string, email: string) {
 export function changeHandle(token: string, handle: string) {
   const res = request(
     'PUT',
-      `${url}:${port}/user/profile/sethandle/v1`,
-      {
-        body: JSON.stringify({
-          token: '2',
-          handle: 'newhandle',
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
+    `${url}:${port}/user/profile/sethandle/v1`,
+    {
+      body: JSON.stringify({
+        handle: 'newhandle',
+      }),
+      headers: {
+        'Content-type': 'application/json',
+        token: token,
+      },
+    }
   );
   return res;
 }
@@ -185,11 +178,11 @@ export function createBasicDm(token: string, uIds: number[]) {
     `${url}:${port}/dm/create/v1`,
     {
       body: JSON.stringify({
-        token: token,
         uIds: uIds,
       }),
       headers: {
         'Content-type': 'application/json',
+        token: token
       },
     }
   );
@@ -213,17 +206,36 @@ export function leaveChannel(token: string, channelId: number) {
   );
   return res;
 }
+
+// channel details
+export function requestChannelDetails (token: string, channelId: number) {
+  const res = request(
+    'GET',
+    `${url}:${port}/channel/details/v3`,
+    {
+      qs: {
+        channelId: channelId,
+      },
+      headers: {
+        token: token,
+      }
+    }
+  );
+
+  return res;
+}
+
 // join a channel
 export function requestJoinChannel(token: string, channelId: number) {
   const res = request(
     'POST',
-    `${url}:${port}/channel/join/v2`,
+    `${url}:${port}/channel/join/v3`,
     {
       body: JSON.stringify({
-        token: token,
         channelId: channelId,
       }),
       headers: {
+        token: token,
         'Content-type': 'application/json',
       },
     }
@@ -231,8 +243,107 @@ export function requestJoinChannel(token: string, channelId: number) {
   return res;
 }
 
+export function requestDmDetails(token: string, dmId: number) {
+  const res = request(
+    'GET',
+    `${url}:${port}/dm/details/v2`,
+    {
+      qs: {
+        dmId: dmId,
+      },
+      headers: {
+        token: token,
+      },
+    }
+  );
+  return res;
+}
+
+export function requestDmLeave(token: string, dmId: number) {
+  const res = request(
+    'POST',
+    `${url}:${port}/dm/leave/v2`,
+    {
+      body: JSON.stringify({
+        dmId: dmId,
+      }),
+      headers: {
+        token: token,
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+export function requestDmMessages(token: string, dmId: number, start: number) {
+  const res = request(
+    'GET',
+    `${url}:${port}/dm/messages/v2`,
+    {
+      qs: {
+        dmId: dmId,
+        start: start,
+      },
+      headers: {
+        token: token,
+      },
+    }
+  );
+  return res;
+}
+
+export function requestSendDm(token: string, dmId: number, message: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/message/senddm/v2`,
+    {
+      body: JSON.stringify({
+        dmId: dmId,
+        message: message,
+      }),
+      headers: {
+        token: token,
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+// user profile
+export function requestUserProfile (token: string, uId: number) {
+  const res = request(
+    'GET',
+    `${url}:${port}/user/profile/v3`,
+    {
+      qs: {
+        uId: uId,
+      },
+      headers: {
+        token: token,
+      }
+    }
+  );
+  return res;
+}
+
+export function requestUsersAll (token: string) {
+  const res = request(
+    'GET',
+    `${url}:${port}/users/all/v2`,
+    {
+      headers: {
+        token: token,
+      }
+    }
+  );
+
+  return res;
+}
+
 // upload a photo
-export function uploadPhoto(imgUrl: string, xStart: number, yStart: number, xEnd: number, yEnd: number) {
+export function requestUploadPhoto(imgUrl: string, xStart: number, yStart: number, xEnd: number, yEnd: number) {
   return request(
     'POST',
     `${url}:${port}/user/profile/uploadphoto/v1`,
@@ -266,33 +377,33 @@ export function requestUserStats (token: string) {
   return res;
 }
 
-// Fetches required statistics about the workspace's use of UNSW Treats 
+// Fetches required statistics about the workspace's use of UNSW Treats
 export function requestUsersStats () {
   const res = request(
     'GET',
-    `${url}:${port}/users/stats/v1`,
+    `${url}:${port}/users/stats/v1`
   );
 
   return res;
 }
 
-export function userRemove (uId: number) {
+export function requestUserRemove (token: string, uId: number) {
   const res = request(
     'DELETE',
     `${url}:${port}/admin/user/remove/v1`,
     {
-      body: JSON.stringify({
+      qs: {
         uId: uId,
-      }),
+      },
       headers: {
-        'Content-type': 'application/json',
+        token: token,
       },
     }
   );
   return res;
 }
 
-export function userPermissionChange(uId: number, permissionId: number) {
+export function requestUserPermissionChange(token: string, uId: number, permissionId: number) {
   const res = request(
     'POST',
     `${url}:${port}/admin/userpermission/change/v1`,
@@ -302,6 +413,7 @@ export function userPermissionChange(uId: number, permissionId: number) {
         permissionId: permissionId,
       }),
       headers: {
+        token: token,
         'Content-type': 'application/json',
       },
     }
@@ -309,18 +421,17 @@ export function userPermissionChange(uId: number, permissionId: number) {
   return res;
 }
 
-
 export function sendMessage(token: string, channelId: number, message: string) {
   const res = request(
     'POST',
     `${url}:${port}/message/send/v2`,
     {
       body: JSON.stringify({
-        token: token,
         channelId: channelId,
         message: message
       }),
       headers: {
+        token: token,
         'Content-type': 'application/json',
       },
     }
@@ -365,6 +476,33 @@ export function shareMessage(ogMessageId: number, message: string, channelId: nu
   return res;
 }
 
+export function resetPassword(resetCode: string, newPassword: string) {
+  const res = request(
+    'POST',
+    `${url}:${port}/auth/passwordreset/v1`,
+    {
+      body: JSON.stringify({
+        resetCode: resetCode,
+        newPassword: newPassword
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  );
+  return res;
+}
+
+export function findResetCode(userId: number) {
+  const data = getData();
+
+  const user = data.users.find(u => u.uId === userId);
+  console.log(user);
+  const resetObject = data.passwordRequest.find(u => u.email === user.emailAddress);
+  console.log(resetObject);
+  return resetObject.passReq;
+}
+
 // clear everything
 export function clear() {
   const res = request(
@@ -375,13 +513,33 @@ export function clear() {
   array.slice(0);
 }
 
-export function convertUserTemplateToIUser (temp: userTemplate): IUser {
-  const res:IUser = {
-    uId: temp.userId,
+export function convertUserTemplateToIUser(temp: userTemplate): IUser {
+  const res: IUser = {
+    uId: temp.uId,
     email: temp.emailAddress,
     nameFirst: temp.firstName,
     nameLast: temp.lastname,
     handleStr: temp.handle,
   };
+  return res;
+}
+
+export function sendDMMessage(token: string, dmId: number, message: string) {
+  const param = JSON.stringify({
+    dmId: dmId,
+    message: message
+  });
+
+  const res = request(
+    'POST',
+    `${url}:${port}/message/senddm/v2`,
+    {
+      body: param,
+      headers: {
+        'Content-type': 'application/json',
+        token: token
+      },
+    }
+  );
   return res;
 }

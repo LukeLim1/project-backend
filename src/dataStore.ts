@@ -12,7 +12,9 @@ let data: dataTemplate = {
   messages: [],
   numChannels: 0,
   numDms: 0,
-  numMsgs: 0,  // still have to count for the case of standup/send
+  numMsgs: 0,
+  passwordRequest: [],
+  notifications: [],
 };
 
 // YOU SHOULDNT NEED TO MODIFY THE FUNCTIONS BELOW IN ITERATION 1

@@ -1,5 +1,8 @@
 import { getData, setData } from './dataStore';
 import { checkToken } from './helperFunctions';
+import HTTPError from 'http-errors';
+
+// import { IUser } from './interface';
 
 // Given a name create a channel that can either be public or private
 // User who created a channel is automatically a memeber of the channel and the owner
@@ -13,10 +16,10 @@ import { checkToken } from './helperFunctions';
 //               - name.length is not between 1 and 20 chars
 
 function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
-  // checkToken(token);
-  // if (checkToken(token) === false) {
-  //   return { error: 'error bad token' };
-  // }
+  checkToken(token);
+  if (checkToken(token) === false) {
+    return { error: 'error bad token' };
+  }
 
   const data = getData();
   let randomNumber = 1;
@@ -30,86 +33,110 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
     return { error: 'error' };
   }
   const user = data.users.find(u => u.token.includes(token) === true);
+
+  const userPush = {
+    uId: user.uId,
+    email: user.emailAddress,
+    nameFirst: user.firstName,
+    nameLast: user.lastname,
+    handleStr: user.handle
+  };
+
   user.numChannelsJoined++;
   data.numChannels++;
 
   data.channels.push({
     name: `${name}`,
     isPublic: isPublic,
-    ownerMembers: [user.userId],
-    allMembers: [user.userId],
+    ownerMembers: [userPush],
+    allMembers: [userPush],
     channelId: randomNumber,
     messages: [],
+    standup: []
   });
   setData(data);
   return { channelId: randomNumber };
 }
 
-// Given an authorised user id and create an array of all channels including channels ids and names
-// that the authorised user is a member of
+/**
+ * list for channel
+ * @param token ticket of current user
+ * @returns channel list
+ */
+export function channelsListV1(token: string) {
+  // check token
+  if (checkToken(token) === false) {
+    throw HTTPError(403, 'user not found');
+  }
 
-// Parameters : authUserId: integer - used to identify which account will be used to create relative channels
+  const data = getData();
+  // check channels length
+  if (data.channels.length === 0) {
+    return { channels: [] };
+  }
 
-// Return type : { channelId },
-
-function channelsListV1 (token: string) {
-  // checkToken(token);
-  // // if (checkToken(token) === false) {
-  // //   return { error: 'error bad token' };
-  // // }
-
-  // const data = getData();
-
-  // if (data.channels.length === 0) {
-  //   return { channels: [] };
-  // }
-
-  // const objectArray = [];
-  // const user = data.users.find(u => u.token.includes(token) === true);
-  // for (const channel of data.channels) {
-  //   if (channel.allMembers.includes(user.userId)) {
-  //     const channelsObject = {
-  //       channelId: channel.channelId,
-  //       name: channel.name,
-  //     };
-
-  //     objectArray.push(channelsObject);
-  //   }
-  // }
-
-  // return { channels: objectArray };
+  // find is member of and public
+  const objectArray = [];
+  const user = data.users.find(u => u.token.includes(token) === true);
+  for (const channel of data.channels) {
+    // check public
+    if (!channel.isPublic) {
+      continue;
+    }
+    // check member
+    for (const member of channel.allMembers) {
+      if (member.uId === user.uId) {
+        const channelsObject = {
+          channelId: channel.channelId,
+          name: channel.name,
+          ownerMembers: channel.ownerMembers,
+          allMembers: channel.allMembers
+        };
+        objectArray.push(channelsObject);
+        break;
+      }
+    }
+  }
+  return { channels: objectArray };
 }
 
-// Given an authorised user id and create an array of all channels including channels ids and names
-// that includs private channels
-
-// Parameters : authUserId: integer - used to identify which account will be used
-
-// Return type : { channelId },
-
-function channelsListallV1 (token: string) {
-  // checkToken(token);
-  // if (checkToken(token) === false) {
-  //   return { error: 'error' };
-  // }
+/**
+ * list for all user
+ * @param token ticket of current user
+ * @returns including private channels
+ */
+export function channelsListallV1(token: string) {
+  // check token
+  if (checkToken(token) === false) {
+    throw HTTPError(403, 'user not found');
+  }
   const data = getData();
 
+  // check channels length
   if (data.channels.length === 0) {
     return { channels: [] };
   }
 
   const objectArray = [];
+  const user = data.users.find(u => u.token.includes(token) === true);
 
-  for (const element of data.channels) {
-    const channelsObject = {
-      channelId: element.channelId,
-      name: element.name,
-    };
-
-    objectArray.push(channelsObject);
+  for (const channel of data.channels) {
+    // check member
+    for (const member of channel.allMembers) {
+      if (member.uId === user.uId) {
+        const channelsObject = {
+          channelId: channel.channelId,
+          name: channel.name,
+          ownerMembers: channel.ownerMembers,
+          allMembers: channel.allMembers
+        };
+        objectArray.push(channelsObject);
+        break;
+      }
+    }
   }
 
   return { channels: objectArray };
 }
 
-export { channelsListV1, channelsListallV1, channelsCreateV1 };
+export { channelsCreateV1 };
