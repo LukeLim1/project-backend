@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 // import { channelsListV1 } from './channels';
 import { createBasicAccount, clear, createBasicAccount2 } from './helperFunctions';
+=======
+import { newReg, createBasicAccount, clear } from './helperFunctions';
+>>>>>>> ad72230918a09054e076d0e077b30d8549f0468a
 import request from 'sync-request';
 import config from './config.json';
 import { channelsListV1 } from './channels';
@@ -7,9 +11,6 @@ import { channelsListV1 } from './channels';
 const OK = 200;
 const port = config.port;
 const url = config.url;
-beforeEach(() => {
-  clear();
-});
 
 export function createBasicChannel(token: string, name: string, isPublic: boolean) {
   const res = request(
@@ -29,6 +30,10 @@ export function createBasicChannel(token: string, name: string, isPublic: boolea
   return res;
 }
 
+beforeEach(() => {
+  clear();
+});
+
 describe('ChannelsCreateV1 returns correct data information', () => {
   test('Channel is created', () => {
     const user = createBasicAccount();
@@ -42,6 +47,7 @@ describe('ChannelsCreateV1 returns correct data information', () => {
       channelId: expect.any(Number),
     });
   });
+
   test('Error', () => {
     const user = createBasicAccount();
     const userBody = JSON.parse(String(user.getBody()));
@@ -53,6 +59,7 @@ describe('ChannelsCreateV1 returns correct data information', () => {
   });
 });
 
+<<<<<<< HEAD
 describe('Functionality tests of channelsListV1', () => {
   test('test if it lists all authorised users that is part of', () => {
     clear();
@@ -130,5 +137,64 @@ describe('Functionality tests of channelsListallV1', () => {
 
   //   expect(channelsListallV1(1)).toEqual({ channels: [] });
   // });
+=======
+describe('test for channel for list/listall', () => {
+  let userA: any;
+  let userAToken: string;
+
+  test('channels list test success', () => {
+    // register user A
+    const basicA = newReg('zachary-chan@gmail.com', 'z5312386', 'Zach', 'Chan');
+    userA = JSON.parse(String(basicA.getBody()));
+    userAToken = userA.token;
+
+    // create public channel
+    const nameA = 'rick-public-channel';
+    createBasicChannel(userA.token, nameA, true);
+    // publicChannelId = JSON.parse(String(channel.getBody())).channelId;
+
+    // create public channel
+    const nameB = 'rick-private-channel';
+    createBasicChannel(userA.token, nameB, false);
+    // privateChannelId = JSON.parse(String(channel2.getBody())).channelId;
+    const res = request(
+      'GET',
+      `${url}:${port}/channels/list/v3`,
+      {
+        headers: { token: userAToken }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ channels: expect.any(Object) });
+  });
+
+  test('channels listall test success', () => {
+    // register user A
+    const basicA = newReg('zachary-chan@gmail.com', 'z5312386', 'Zach', 'Chan');
+    userA = JSON.parse(String(basicA.getBody()));
+    userAToken = userA.token;
+
+    // create public channel
+    const nameA = 'rick-public-channel';
+    createBasicChannel(userA.token, nameA, true);
+    // publicChannelId = JSON.parse(String(channel.getBody())).channelId;
+
+    // create public channel
+    const nameB = 'rick-private-channel';
+    createBasicChannel(userA.token, nameB, false);
+    // privateChannelId = JSON.parse(String(channel2.getBody())).channelId;
+
+    const res = request(
+      'GET',
+      `${url}:${port}/channels/listall/v3`,
+      {
+        headers: { token: userAToken }
+      }
+    );
+    const bodyObj = JSON.parse(res.body as string);
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ channels: expect.any(Object) });
+>>>>>>> ad72230918a09054e076d0e077b30d8549f0468a
   });
 });

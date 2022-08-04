@@ -93,16 +93,13 @@ app.post('/channels/create/v2', (req, res) => {
   res.json(channelsCreateV1(token, name, isPublic));
 });
 
-app.get('/channels/list/v2', (req, res) => {
-  // console.log('channels/create/V2');
-  const token = req.query.token as string;
-  // returns channelId
+app.get('/channels/list/v3', (req, res) => {
+  const token = req.header('token');
   res.json(channelsListV1(token));
 });
-app.get('/channels/listall/v2', (req, res) => {
-  // console.log('channels/create/V2');
-  const token = req.query.token as string;
-  // returns channelId
+
+app.get('/channels/listall/v3', (req, res) => {
+  const token = req.header('token');
   res.json(channelsListallV1(token));
 });
 
