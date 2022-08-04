@@ -1,14 +1,15 @@
-import { createBasicDm, dmSend, newReg, shareMessage } from './helperFunctions';
-import { createBasicChannel } from './channels.test';
-import { Response } from 'sync-request';
+// import { createBasicAccount, createBasicDm, dmSend, newReg, requestSendDm, sendMessage, shareMessage } from './helperFunctions';
+// import { createBasicChannel } from './channels.test';
+// import { Response } from 'sync-request';
 
 test('placeholder', () => {
-  expect(2).toBe(2);
-})
+  expect(1).toBe(1);
+});
+
 /*
 const OK = 200;
 describe('messageShareV1', () => {
-  let user1: Response, user1Body: { token: string[]; authUserId: number; },
+  let user1: Response, user1Body: { token: string; authUserId: number; },
     chan1: Response, chan1Body: { channelId: number; }, dm1: Response,
     dm1Body: {
     dmId: number
@@ -21,28 +22,28 @@ describe('messageShareV1', () => {
     expect(user1Body).toMatchObject({ token: expect.any(String), authUserId: expect.any(Number) });
 
     // new channel
-    chan1 = createBasicChannel(user1Body.token[0], 'Channel 1', true);
+    chan1 = createBasicChannel(user1Body.token, 'Channel 1', true);
     chan1Body = JSON.parse(String(chan1.getBody()));
     expect(chan1Body).toMatchObject({ channelId: expect.any(Number) });
 
     // new dm
-    dm1 = createBasicDm(user1Body.token[0], [user1Body.authUserId]);
+    dm1 = createBasicDm(user1Body.token, [user1Body.authUserId]);
     dm1Body = JSON.parse(String(dm1.getBody()));
     expect(dm1Body).toMatchObject({ dmId: expect.any(Number) });
 
     // send message to channel
-    // send1 = sendMessage(user1Body.token[0], chan1Body.channelId, 'chan1 message');
+    // send1 = sendMessage(user1Body.token, chan1Body.channelId, 'chan1 message');
     // send1Body = JSON.parse(String(send1.getBody()));
     // expect(send1Body).toMatchObject({ messageId: expect.any(Number) });
     // expect(send1.statusCode).toBe(OK);
 
     // send message to dm
-    dmMessage1 = dmSend(user1Body.token[0], dm1Body.dmId, 'DM 1 message 1 ahaha');
+    dmMessage1 = requestSendDm(user1Body.token, dm1Body.dmId, 'DM 1 message 1 ahaha');
     dmMessage1Body = JSON.parse(String(dmMessage1.getBody()));
     expect(dmMessage1Body).toMatchObject({ messageId: expect.any(Number) });
   });
   test('Testing successful messageShare 200 status code', () => {
-    dmSend(user1Body.token[0], dm1Body.dmId, 'DM 1 message 2 beheheh');
+    dmSend(user1Body.token, dm1Body.dmId, 'DM 1 message 2 beheheh');
     // new message in dm that is concatenation of first dm and new dm
     const res = shareMessage(dmMessage1Body.messageId, 'new message ahahah', -1, dm1Body.dmId);
     const resBody = JSON.parse(String(res.getBody()));
@@ -126,49 +127,14 @@ beforeEach(() => {
 // Tests for messageSendV1
 describe('channelId does not refer to a valid channel,return {error:"error"}', () => {
   test('If it returns {messageId:} successfully, otherwise {error:"error"}', () => {
-    const res = request(
-      'POST',
-      'http://localhost:3200/auth/register/v2',
-      {
-        json: {
-          email: 'uniquepeterrabbit222@gmail.com',
-          password: 'qgi6dt',
-          nameFirst: 'Peter',
-          nameLast: 'Rabbit'
-        },
-      }
-    );
+    const newUser = JSON.parse(String(createBasicAccount().getBody()));
+    const basicC = createBasicChannel(newUser.token, 'channel1', true);
+    const newChannel = JSON.parse(String(basicC.getBody()));
+    const res = sendMessage(newUser.token, newChannel.channelId + 100, 'Hi');
     const bodyObj = JSON.parse(String(res.getBody()));
-    // const bodyuID = bodyObj.authUserId;
-    const bodyToken = bodyObj.token;
 
-    const res2 = request(
-      'POST',
-      'http://localhost:3200/channels/create/v2',
-      {
-        json: {
-          token: String(bodyToken),
-          name: 'channel001',
-          isPublic: true
-        },
-      }
-    );
-    const bodyObj2 = JSON.parse(String(res2.getBody()));
-    const channelID2 = bodyObj2.channelId;
-
-    const res4 = request(
-      'POST',
-      'http://localhost:3200/message/send',
-      {
-        json: {
-          token: String(bodyToken),
-          channelId: channelID2 + 100,
-          message: 'hello,world2'
-        },
-      }
-    );
-    const bodyObj4 = JSON.parse(String(res4.getBody()));
-    expect(bodyObj4).toMatchObject({ error: 'error' });
+    expect(res.statusCode).toBe(OK);
+    expect(bodyObj).toMatchObject({ error: 'error' });
   });
 });
 

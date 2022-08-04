@@ -18,12 +18,12 @@ import request from 'sync-request';
 
 function userProfileV1(token: string, uId: number): IUser | Error {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    throw HTTPError(403, 'invalid token');
   }
   const data = getData();
   const user = data.users.find(u => u.uId === uId);
   if (!user) {
-    throw HTTPError(400, "uId does not refer to a valid user");
+    throw HTTPError(400, 'uId does not refer to a valid user');
   } else {
     return {
       uId: uId,
@@ -114,7 +114,7 @@ function setHandleV1(token: string, handleStr: string): object {
 
 function usersAll (token: string) {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    throw HTTPError(403, 'invalid token');
   }
 
   const users = [];
@@ -129,9 +129,9 @@ function usersAll (token: string) {
         nameFirst: user.firstName,
         nameLast: user.lastname,
         handleStr: user.handle,
-      }
+      };
       users.push(obj);
-    };
+    }
   }
 
   return { users };
@@ -158,30 +158,27 @@ function uploadPhoto (imgUrl: string, xStart: number, yStart: number, xEnd: numb
   );
 
   if (res.statusCode !== 200) {
-    throw HTTPError(400, "status code is not 200");
+    throw HTTPError(400, 'status code is not 200');
   }
 
   if (!res) {
-    throw HTTPError(400, "res is not defined");
+    throw HTTPError(400, 'res is not defined');
   }
-  
+
   // check if any coordinates are not within dimensions of the image
-  if (1) {
-    
-  }
-  
+
   if (xEnd <= xStart) {
-    throw HTTPError(400, "xEnd is greater than xStart");
+    throw HTTPError(400, 'xEnd is greater than xStart');
   }
-  
+
   if (yEnd <= yStart) {
-    throw HTTPError(400, "yEnd is greater than yStart");
+    throw HTTPError(400, 'yEnd is greater than yStart');
   }
-  
+
   if (!imgUrl.endsWith('jpg')) {
-    throw HTTPError(400, "image uploaded is not JPG");
+    throw HTTPError(400, 'image uploaded is not JPG');
   }
-  
+
   // do something related to image size?
   const bodyObj = res.getBody();
   fs.writeFileSync('test.jpg', bodyObj, { flag: 'w' });
@@ -196,29 +193,29 @@ function uploadPhoto (imgUrl: string, xStart: number, yStart: number, xEnd: numb
 
 // Return type: userStats: {
 //                channelsJoined: [{numChannelsJoined, timeStamp}],
-//                dmsJoined: [{numDmsJoined, timeStamp}], 
-//                messagesSent: [{numMessagesSent, timeStamp}], 
-//                involvementRate
+//                dmsJoined: [{numDmsJoined, timeStamp}],
+//                messagesSent: [{numMessagesSent, timeStamp}],
+//                involvementRate
 //              }
 // Return type: workspaceStats: {
-//                channelsExist: [{numChannelsExist, timeStamp}], 
-//                dmsExist: [{numDmsExist, timeStamp}], 
-//                messagesExist: [{numMessagesExist, timeStamp}], 
-//                utilizationRate
+//                channelsExist: [{numChannelsExist, timeStamp}],
+//                dmsExist: [{numDmsExist, timeStamp}],
+//                messagesExist: [{numMessagesExist, timeStamp}],
+//                utilizationRate
 //              }
 //              throws 403 error when token is invalid
 
 function userStats (token: string) {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    throw HTTPError(403, 'invalid token');
   }
 
   const data = getData();
   const user = data.users.find(u => u.token.includes(token));
   const time = Math.floor((new Date()).getTime() / 1000);
 
-  let involvementRate = (user.numChannelsJoined + user.numDmsJoined + user.numMessagesSent)
-        / (data.numChannels + data.numDms + data.numMsgs);
+  let involvementRate = (user.numChannelsJoined + user.numDmsJoined + user.numMessagesSent) /
+        (data.numChannels + data.numDms + data.numMsgs);
   if (data.numChannels + data.numDms + data.numMsgs === 0) involvementRate = 0;
   else if (involvementRate > 1) involvementRate = 1;
 
@@ -236,7 +233,7 @@ function userStats (token: string) {
       timeStamp: time,
     }],
     involvementRate: involvementRate,
-  }
+  };
 }
 
 function usersStats () {
@@ -262,7 +259,7 @@ function usersStats () {
       }
     }
   }
-  
+
   const numUsersJoined = usersJoined.length;
   let utilizationRate = numUsersJoined / (data.users.length);
   if (data.users.length === 0) utilizationRate = 0;
@@ -282,7 +279,7 @@ function usersStats () {
       timeStamp: time,
     }],
     utilizationRate: utilizationRate,
-  }
+  };
 }
 
 export { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats };

@@ -72,14 +72,11 @@ describe('authRegisterV2', () => {
         },
       }
       );
-      const expectedNum = [1, 2];
-      const expectedStr = expectedNum.map(num => {
-        return String(num);
-      });
+
       const bodyObj = JSON.parse(String(res.getBody()));
       expect(res.statusCode).toBe(OK);
       expect(bodyObj).toMatchObject({
-        token: expectedStr
+        token: [expect.any(String), expect.any(String)]
       });
     });
 

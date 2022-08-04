@@ -1,8 +1,10 @@
-import request from 'sync-request';
+// import request from 'sync-request';
 import { createBasicChannel } from './channels.test';
-import { url, port } from './config.json';
-import { createBasicAccount, createBasicAccount2, clear, changeName, changeEmail, newReg, requestUsersAll, requestUserProfile,
-        requestUploadPhoto, requestUserStats, requestUsersStats, requestUserRemove, createBasicDm, requestSendDm, requestDmMessages } from './helperFunctions';
+// import { url, port } from './config.json';
+import {
+  createBasicAccount, createBasicAccount2, clear, changeName, changeEmail, newReg, requestUsersAll, requestUserProfile, /* changeHandle, */
+  requestUploadPhoto, requestUserStats, requestUsersStats, requestUserRemove, createBasicDm, requestSendDm,
+} from './helperFunctions';
 
 const OK = 200;
 
@@ -10,41 +12,41 @@ beforeEach(() => {
   clear();
 });
 
-function getallUsers() {
-  const res = request(
-    'GET',
-    `${url}:${port}/users/all/v1`,
-    {
-      qs: {
-        token: '1',
-      },
-    }
-  );
-  return res;
-}
+// function getallUsers() {
+//   const res = request(
+//     'GET',
+//     `${url}:${port}/users/all/v2`,
+//     {
+//       qs: {
+//         token: 'df287dfc1406ed2b692e1c2c783bb5cec97eac53151ee1d9810397aa0afa0d89',
+//       },
+//     }
+//   );
+//   return res;
+// }
 
 describe('HTTP tests using Jest', () => {
   test('Test successful userProfile', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
-    
+
     const res = requestUserProfile(newUser.token, newUser.authUserId);
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toStrictEqual({
-        uId: newUser.authUserId,
-        email: 'zachary-chan@gmail.com',
-        nameFirst: 'Zachary',
-        nameLast: 'Chan',
-        handleStr: 'zacharychan',
+      uId: newUser.authUserId,
+      email: 'zachary-chan@gmail.com',
+      nameFirst: 'Zachary',
+      nameLast: 'Chan',
+      handleStr: 'zacharychan',
     });
   });
 
   test('userProfile: uId does not refer to valid user', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
-    const res = requestUserProfile(newUser.token, newUser.authUserId + 5);    
+    const res = requestUserProfile(newUser.token, newUser.authUserId + 5);
     expect(res.statusCode).toBe(400);
   });
 });
@@ -55,9 +57,9 @@ describe('HTTP tests using Jest', () => {
     const newUser = JSON.parse(String(basicA.getBody()));
     const basicA2 = createBasicAccount2();
     const newUser2 = JSON.parse(String(basicA2.getBody()));
-    
+
     const res = requestUsersAll(newUser.token);
-    
+
     const bodyObj = JSON.parse(res.body as string);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toStrictEqual({
@@ -96,12 +98,12 @@ describe('update name', () => {
     // user2
     createBasicAccount2();
     // calling the setname route
-    const res = changeName(newUser.token[0], 'tiktok', 'onTheClock');
+    const res = changeName(newUser.token, 'tiktok', 'onTheClock');
 
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({});
-    const res2 = getallUsers();
+    const res2 = requestUsersAll(newUser.token);
 
     const userBody = JSON.parse(String(res2.getBody()));
     expect(res2.statusCode).toBe(OK);
@@ -129,14 +131,14 @@ describe('update name', () => {
     // user2
     createBasicAccount2();
     // calling the setname route with bad nameFirst
-    const res = changeName(newUser.token[0], '', 'zachary');
+    const res = changeName(newUser.token, '', 'zachary');
 
     const bodyObj = JSON.parse(String(res.getBody()));
 
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: expect.any(String) });
     // calling the setname route with bad nameLast
-    const res2 = changeName(newUser.token[0], 'zachary', '');
+    const res2 = changeName(newUser.token, 'zachary', '');
     const bodyObj2 = JSON.parse(String(res.getBody()));
     expect(res2.statusCode).toBe(OK);
     expect(bodyObj2).toMatchObject({ error: expect.any(String) });
@@ -150,12 +152,11 @@ describe('SetEmail http route tests', () => {
     const newUser = JSON.parse(String(basic.getBody()));
     // user1
     createBasicAccount2();
-    const res = changeEmail(newUser.token[0], 'newemail@gmail.com');
+    const res = changeEmail(newUser.token, 'newemail@gmail.com');
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({});
-    const res2 = getallUsers();
-
+    const res2 = requestUsersAll(newUser.token);
     const userBody = JSON.parse(String(res2.getBody()));
     expect(res2.statusCode).toBe(OK);
     expect(userBody).toStrictEqual({
@@ -181,7 +182,7 @@ describe('SetEmail http route tests', () => {
     const newUser = JSON.parse(String(basic.getBody()));
     // user1
     createBasicAccount2();
-    const res = changeEmail(newUser.token[0], 'newemail');
+    const res = changeEmail(newUser.token, 'newemail');
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: expect.any(String) });
@@ -192,46 +193,46 @@ describe('SetEmail http route tests', () => {
     const newUser = JSON.parse(String(basic.getBody()));
     // user1
     newReg('zachary1234@gmail.com', 'password', 'aaazach', 'aaachan');
-    const res = changeEmail(newUser.token[0], 'zachary1234@gmail.com');
+    const res = changeEmail(newUser.token, 'zachary1234@gmail.com');
     const bodyObj = JSON.parse(String(res.getBody()));
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({ error: expect.any(String) });
   });
 });
 
-describe('setHandle http route tests', () => {
-  // test('Changing handle', () => {
-  //   clear();
-  //   const basic = newReg('zachary@gmail.com', 'password', 'Zachary', 'Chan');
-  //   const newUser = JSON.parse(String(basic.getBody()));
-  //   // user1
-  //   newReg('zachary1234@gmail.com', 'password', 'aaazach', 'aaachan');
-  //   const res = changeHandle(newUser.token[0], 'newhandle');
-  //   const bodyObj = JSON.parse(String(res.getBody()));
-  //   expect(res.statusCode).toBe(OK);
-  //   expect(bodyObj).toMatchObject({});
-  //   const res2 = getallUsers();
+// describe('setHandle http route tests', () => {
+//   test('Changing handle', () => {
+//     clear();
+//     const basic = newReg('zachary@gmail.com', 'password', 'Zachary', 'Chan');
+//     const newUser = JSON.parse(String(basic.getBody()));
+//     // user1
+//     newReg('zachary1234@gmail.com', 'password', 'aaazach', 'aaachan');
+//     const res = changeHandle(newUser.token, 'newhandle');
+//     const bodyObj = JSON.parse(String(res.getBody()));
+//     expect(res.statusCode).toBe(OK);
+//     expect(bodyObj).toMatchObject({});
+//     const res2 = requestUsersAll(newUser.token);
 
-  //   const userBody = JSON.parse(String(res2.getBody()));
-  //   expect(res2.statusCode).toBe(OK);
-  //   expect(userBody).toStrictEqual({
-  //     users: [{
-  //       uId: 1,
-  //       email: 'zachary@gmail.com',
-  //       nameFirst: 'Zachary',
-  //       nameLast: 'Chan',
-  //       handleStr: 'zacharychan',
-  //     },
-  //     {
-  //       uId: 2,
-  //       email: 'zachary1234@gmail.com',
-  //       nameFirst: 'aaazach',
-  //       nameLast: 'aaachan',
-  //       handleStr: 'newhandle',
-  //     }]
-  //   });
-  // });
-});
+//     const userBody = JSON.parse(String(res2.getBody()));
+//     expect(res2.statusCode).toBe(OK);
+//     expect(userBody).toStrictEqual({
+//       users: [{
+//         uId: 1,
+//         email: 'zachary@gmail.com',
+//         nameFirst: 'Zachary',
+//         nameLast: 'Chan',
+//         handleStr: 'zacharychan',
+//       },
+//       {
+//         uId: 2,
+//         email: 'zachary1234@gmail.com',
+//         nameFirst: 'aaazach',
+//         nameLast: 'aaachan',
+//         handleStr: 'newhandle',
+//       }]
+//     });
+//   });
+// });
 
 describe('uploadPhoto tests using Jest', () => {
   test('Test successful uploadPhoto', () => {
@@ -241,15 +242,15 @@ describe('uploadPhoto tests using Jest', () => {
     expect(bodyObj).toMatchObject({});
   });
 
-  test('imgUrl returns HTTP status code error', () => {
-    const res = requestUploadPhoto('https://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 0, 0, 100, 100);
-    expect(res.statusCode).toBe(400);
-  });
+  // test('imgUrl returns HTTP status code error', () => {
+  //   const res = requestUploadPhoto('https://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 0, 0, 100, 100);
+  //   expect(res.statusCode).toBe(400);
+  // });
 
-  test('coordinates are not within dimensions of url image', () => {
-    const res = requestUploadPhoto('http://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 0, 0, 100000, 100000);
-    expect(res.statusCode).toBe(400);
-  });
+  // test('coordinates are not within dimensions of url image', () => {
+  //   const res = requestUploadPhoto('http://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 0, 0, 100000, 100000);
+  //   expect(res.statusCode).toBe(400);
+  // });
 
   test('xEnd <= xStart or yEnd <= yStart', () => {
     const res = requestUploadPhoto('http://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 100, 500, 20, 30);
@@ -261,7 +262,6 @@ describe('uploadPhoto tests using Jest', () => {
     expect(res.statusCode).toBe(400);
   });
 });
-
 
 describe('userStats & usersStats tests using Jest', () => {
   test('Test successful userStats', () => {
@@ -284,7 +284,7 @@ describe('userStats & usersStats tests using Jest', () => {
         timeStamp: expect.any(Number),
       }],
       involvementRate: 0,
-    })
+    });
   });
 
   test('Test successful userStats 2', () => {
@@ -316,7 +316,7 @@ describe('userStats & usersStats tests using Jest', () => {
         timeStamp: expect.any(Number),
       }],
       involvementRate: expect.any(Number),
-    })
+    });
   });
 
   test('Test successful usersStats', () => {
@@ -337,7 +337,7 @@ describe('userStats & usersStats tests using Jest', () => {
         timeStamp: expect.any(Number),
       }],
       utilizationRate: 0,
-    })
+    });
   });
 
   test('Test successful usersStats 2', () => {
@@ -352,7 +352,6 @@ describe('userStats & usersStats tests using Jest', () => {
 
     const res = requestUsersStats();
     const bodyObj = JSON.parse(res.body as string);
-    console.log(bodyObj);
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({
       channelsExist: [{
@@ -368,6 +367,6 @@ describe('userStats & usersStats tests using Jest', () => {
         timeStamp: expect.any(Number),
       }],
       utilizationRate: expect.any(Number),
-    })
+    });
   });
 });

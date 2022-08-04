@@ -104,7 +104,7 @@ export function dmCreateV1 (token: string, uIds: number[]) {
 
 export function dmLeave (token: string, dmId: number) : object | Error {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    throw HTTPError(403, 'invalid token');
   }
 
   const data = getData();
@@ -125,7 +125,7 @@ export function dmLeave (token: string, dmId: number) : object | Error {
     }
   }
 
-  if (!isMember) throw HTTPError(403, "authorised user is not a member of DM");
+  if (!isMember) throw HTTPError(403, 'authorised user is not a member of DM');
 
   user.numDmsJoined--;
 
@@ -149,7 +149,7 @@ export function dmLeave (token: string, dmId: number) : object | Error {
 
 export function dmMessages (token: string, dmId: number, start: number): IDmMessages | Error {
   if (checkToken(token) === false) {
-    throw HTTPError(403, "invalid token");
+    throw HTTPError(403, 'invalid token');
   }
 
   const data = getData();
@@ -165,7 +165,7 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
   const messagesCopy = dm.messages;
 
   if (start > messagesCopy.length) {
-    throw HTTPError(400, "start is greater than total messages in DM");
+    throw HTTPError(400, 'start is greater than total messages in DM');
   }
 
   let isMember = false;
@@ -175,7 +175,7 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
     }
   }
 
-  if (!isMember) throw HTTPError(403, "authorised user is not member of DM");
+  if (!isMember) throw HTTPError(403, 'authorised user is not member of DM');
 
   for (let i = start; i < length; i++) {
     messagesRestructured.push(dm.messages[i]);
@@ -194,25 +194,25 @@ export function dmMessages (token: string, dmId: number, start: number): IDmMess
 export function senddm(token: string, dmId: number, message: string) {
   // Check if token is valid
   if (!checkToken(token)) {
-    return { error: 'error invalid token' };
+    throw HTTPError(403, 'user not found');
   }
 
   // Case 0: if length of message is less than 1 or greater than 1000
   if (message.length < 1 || message.length > 1000) {
-    return { error: 'error message length' };
+    throw HTTPError(400, 'length of message is error');
   }
   const data = getData();
 
   // Case 1: dmId does not refer to a valid DM
   const dm = data.DMs.find(d => d.dmId === dmId);
   if (!dm) {
-    return { error: 'error cant find dm' };
+    throw HTTPError(400, 'dm not exit');
   }
 
   // case 2: check user
   const user = data.users.find(u => u.token.includes(token));
   if (!user) {
-    return { error: 'error cant find user' };
+    throw HTTPError(403, 'user not found');
   }
 
   // case 3: check member of dm
@@ -225,7 +225,7 @@ export function senddm(token: string, dmId: number, message: string) {
   }
 
   if (!isMember) {
-    return { error: 'error not a member' };
+    throw HTTPError(403, 'user is not member');
   }
 
   let random: number = Math.floor(Math.random() * 10000);
@@ -241,7 +241,9 @@ export function senddm(token: string, dmId: number, message: string) {
     messageId: random,
     uId: user.uId,
     message: message,
-    timeSent: timeSent
+    timeSent: timeSent,
+    reacts: [],
+    isPinned: false
   });
 
   user.numMessagesSent++;

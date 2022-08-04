@@ -11,6 +11,7 @@ import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } 
 import { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats } from './users';
 import { userRemove, userPermissionChange } from './admin';
 import { messageSendV1, messageEditV1, messageRemoveV1, messagesShareV1 } from './message';
+// import { notificationGetV1 } from './notifications';
 import errorHandler from 'middleware-http-errors';
 // import fs from 'fs';
 
@@ -92,16 +93,13 @@ app.post('/channels/create/v2', (req, res) => {
   res.json(channelsCreateV1(token, name, isPublic));
 });
 
-app.get('/channels/list/v2', (req, res) => {
-  // console.log('channels/create/V2');
-  const token = req.query.token as string;
-  // returns channelId
+app.get('/channels/list/v3', (req, res) => {
+  const token = req.header('token');
   res.json(channelsListV1(token));
 });
-app.get('/channels/listall/v2', (req, res) => {
-  // console.log('channels/create/V2');
-  const token = req.query.token as string;
-  // returns channelId
+
+app.get('/channels/listall/v3', (req, res) => {
+  const token = req.header('token');
   res.json(channelsListallV1(token));
 });
 
@@ -127,7 +125,6 @@ app.post('/dm/create/v1', (req, res) => {
   const token = req.header('token');
   res.json(dmCreateV1(token, uIds));
 });
-
 
 app.delete('/clear/v1', (req, res) => {
   res.json(clearV1());
@@ -248,7 +245,6 @@ app.post('/channel/removeowner', (req, res) => {
 
 app.post('/message/send', (req, res) => {
   const { token, channelId, message } = req.body;
-  // returns {}
   res.json(messageSendV1(token, channelId, message));
 });
 
@@ -270,6 +266,11 @@ app.delete('/message/remove', (req, res) => {
   // returns {}
   res.json(messageRemoveV1(token, messageId));
 });
+
+// app.get('/notifications/get/v1', (req, res) => {
+//   const token = req.header('token');
+//   res.json(notificationGetV1(token))
+// });
 
 // for logging errors
 app.use(morgan('dev'));
