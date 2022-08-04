@@ -197,8 +197,8 @@ export function channelMessagesV2 (token: string, channelId: number, start: numb
     throw HTTPError(403, 'invalid token');
   }
 
-  const data = getData();
-  const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
+  // const data = getData();
+  // const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
   // const channel = data.channels.find(channel => channel.channelId === channelId);
   // // Setting a new index "end" to be the value of "start + 50"
   // // and a new array to store the restructured messages
