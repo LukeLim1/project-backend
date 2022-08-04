@@ -21,12 +21,12 @@ export function channelDetails(token: string, channelId: number): IChannelDetail
   }
 
   const data = getData();
-  const user = data.users.find(u => u.token.includes(token));
   const channel = data.channels.find(channel => channel.channelId === channelId);
-
+  // error case
   if (!channel) {
     throw HTTPError(400, "channelId doesn't refer to valid channel");
   }
+  const user = data.users.find(u => u.token.includes(token));
   // check if user with token belongs to channel with channelId
   let isMember = false;
   for (const member of channel.allMembers) {
@@ -86,11 +86,11 @@ export function channelJoin(token: string, channelId: number): object | Error {
 
   const data = getData();
   const channel = data.channels.find(channel => channel.channelId === channelId);
-  const user = data.users.find(u => u.token.includes(token));
 
   if (!channel) {
     throw HTTPError(400, "channelId doesn't refer to valid channel");
   }
+  const user = data.users.find(u => u.token.includes(token));
 
   let isMember = false;
   for (const member of channel.allMembers) {

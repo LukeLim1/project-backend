@@ -71,6 +71,7 @@ export interface userTemplate {
     numChannelsJoined: number;
     numDmsJoined: number;
     numMessagesSent: number;
+    notifications: notifications[]
 }
 
 export interface Error {
@@ -108,6 +109,7 @@ export interface dataTemplate {
     usedNums: number[];
     usedTokenNums: number[];
     usedChannelNums: number[];
+    usedDmNums: number[];
     DMs: dmTemplate[];
     messages: messageTemplate[];
     numChannels: number;

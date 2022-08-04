@@ -18,7 +18,11 @@ import HTTPError from 'http-errors';
 function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
   checkToken(token);
   if (checkToken(token) === false) {
-    return { error: 'error bad token' };
+    throw HTTPError(400, 'Error, bad token');
+  }
+  // error case
+  if (name.length < 1 || name.length > 20) {
+    throw HTTPError(400, 'Error, length must be between 1 - 20 chars');
   }
 
   const data = getData();
@@ -28,10 +32,6 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
   }
   data.usedChannelNums.push(randomNumber);
 
-  // error case
-  if (name.length < 1 || name.length > 20) {
-    return { error: 'error' };
-  }
   const user = data.users.find(u => u.token.includes(token) === true);
 
   const userPush = {
