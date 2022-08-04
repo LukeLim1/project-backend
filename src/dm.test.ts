@@ -37,20 +37,16 @@ describe('HTTP tests for dm/create/v1', () => {
     const newUser = JSON.parse(String(create1.getBody()));
     // call the dm function
     const res = createBasicDm(newUser.token, [9999]);
-
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(res).toHaveProperty('statusCode', error400);
   });
   test('uid duplicates in arguement', () => {
     const create1 = newReg('zachary@gmail.com', '123455gf', 'zachary', 'chan');
     const newUser = JSON.parse(String(create1.getBody()));
     // call the dm function
     const res = createBasicDm(newUser.token, [newUser.authUserId, newUser.authUserId]);
+    expect(res).toHaveProperty('statusCode', error400);
 
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(createBasicDm('99999', [newUser.authUserId])).toHaveProperty('statusCode', error400);
   });
 });
 

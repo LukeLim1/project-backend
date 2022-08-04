@@ -161,7 +161,7 @@ export function changeHandle(token: string, handle: string) {
     `${url}:${port}/user/profile/sethandle/v1`,
     {
       body: JSON.stringify({
-        handle: 'newhandle',
+        handleStr: handle,
       }),
       headers: {
         'Content-type': 'application/json',
@@ -457,7 +457,7 @@ export function dmSend(token: string, dmId: number, message: string) {
   return res;
 }
 
-export function shareMessage(ogMessageId: number, message: string, channelId: number, dmId: number) {
+export function shareMessage(token: string, ogMessageId: number, message: string, channelId: number, dmId: number) {
   const res = request(
     'POST',
     `${url}:${port}/message/share/v1`,
@@ -470,6 +470,7 @@ export function shareMessage(ogMessageId: number, message: string, channelId: nu
       }),
       headers: {
         'Content-type': 'application/json',
+        token: token
       },
     }
   );
@@ -497,9 +498,9 @@ export function findResetCode(userId: number) {
   const data = getData();
 
   const user = data.users.find(u => u.uId === userId);
-  console.log(user);
+  // console.log(user);
   const resetObject = data.passwordRequest.find(u => u.email === user.emailAddress);
-  console.log(resetObject);
+  // console.log(resetObject);
   return resetObject.passReq;
 }
 
