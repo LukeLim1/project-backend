@@ -1,11 +1,31 @@
-import { getData } from './dataStore';
+import { getData, setData } from './dataStore';
 import request, { HttpVerb } from 'sync-request';
 import config from './config.json';
 import { IUser, userTemplate } from './interface';
+import fs from 'fs';
+
 import HTTPError from 'http-errors';
 
 const port = config.port;
 const url = config.url;
+
+export function saveData() {
+  const data = getData();
+
+  const filename = 'data.json';
+
+  fs.writeFileSync(filename, JSON.stringify(data), { flag: 'w' });
+}
+
+export function loadData() {
+  const filename = 'data.json';
+  if (!fs.existsSync(filename)) {
+    return;
+  }
+
+  const data = JSON.parse(fs.readFileSync(filename, 'utf8'));
+  setData(data);
+}
 
 // checks for duplicates in arrays
 export function containsDuplicates(array: number[]): boolean {
