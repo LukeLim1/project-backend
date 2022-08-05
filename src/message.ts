@@ -3,7 +3,7 @@ import { getData, setData } from './dataStore';
 // import { checkToken } from './helperFunctions';
 
 import { userTemplate, IUser, messageTemplate, dataTemplate, IReact, dmTemplate, channelTemplate } from './interface';
-import { checkToken } from './helperFunctions';
+import { checkToken, getAuthUser } from './helperFunctions';
 
 import HTTPError from 'http-errors';
 
@@ -34,71 +34,49 @@ export interface messageArray {
  * @param {*} message
  * @returns {} unless it is error case, in which case it will return { error: 'error' }
  */
-export function messageSendV1(token: string, channelId: number, message: string) {
-  //   const data = getData();
-  //   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
-  //   const channel = data.channels.find(channel => channel.channelId === channelId);
+export function messageSendV2(token: string, channelId: number, message: string) {
+  const data = getData();
+  const user: userTemplate = getAuthUser(token);
+  const channel = data.channels.find(channel => channel.channelId === channelId);
 
-  //   // Checking if the token passed in is valid
-  //   if (checkToken(token) === false) {
-  //     return { error: 'error' };
-  //   }
+  // Checking for invalid cases
+  // Case 2: Not a valid channel as indicated by invalid channelID
+  if (!channel) {
+    throw HTTPError(400, 'channelId does not refer to a valid channel');
+  }
 
-  //   // Checking for invalid cases
-  //   // Case 1: Not a valid user as indicated by invalid uID
-  //   if (!user) {
-  //     return { error: 'error' };
-  //   }
-  //   // Case 2: Not a valid channel as indicated by invalid channelID
-  //   if (!channel) {
-  //     return { error: 'error' };
-  //   }
+  // Case 3 : length of message is less than 1 or over 1000 characters
+  if (message.length < 1 || message.length > 1000) {
+    throw HTTPError(400, 'length of message is less than 1 or over 1000 characters');
+  }
 
-  //   if (channel === undefined) {
-  //     return { error: 'error' };
-  //   }
+  // Case 4: The authorised user is not a member of the valid channel
+  if (!channel.allMembers.find(x => x.uId === user.uId)) {
+    throw HTTPError(403, 'channelId is valid and the authorised user is not a member of the channel');
+  }
 
-  //   // Case 3 : length of message is less than 1 or over 1000 characters
-  //   if (!message || message.length < 1 || message.length > 1000) {
-  //     return { error: 'error' };
-  //   }
+  let randomNumber = Math.floor(Math.random() * 1000);
+  if (data.usedNums.length !== 0) {
+    randomNumber += data.usedNums[data.usedNums.length - 1];
+  }
+  data.usedNums.push(randomNumber);
 
-  //   // Case 4: The authorised user is not a member of the valid channel
-  //   // if (!channel.allMembers.includes(user.userId)) {
-  //   //   return { error: 'error' };
-  //   // }
+  const messageRes: messageTemplate = {
+    uId: user.uId,
+    timeSent: Math.floor(new Date().getTime() / 1000),
+    reacts: [],
+    isPinned: false,
+    messageId: randomNumber,
+    message: `${message}`
+  };
 
-  //   const arrayUserId: number[] = [];
-  //   Object.values(data.channels).forEach(element => {
-  //     let toPush;
-  //     for (const i in element.allMembers) {
-  //       toPush = element.allMembers[i].userId;
-  //       arrayUserId.push(toPush);
-  //     }
-  //   });
-  //   console.log(arrayUserId);
-  //   console.log(user.userId);
-  //   if (!arrayUserId.includes(user.userId)) {
-  //     return { error: 'error' };
-  //   }
-
-  const randomNumber = Math.floor(Math.random() * 1000);
-  //   if (data.usedNums.length !== 0) {
-  //     randomNumber += data.usedNums[data.usedNums.length - 1];
-  //   }
-  //   data.usedNums.push(randomNumber);
-
-  //   data.messages.push({
-  //     channelId: channelId,
-  //     messageId: randomNumber,
-  //     message: `${message}`,
-  //     token: String(token),
-  //   });
-  //   user.numMessagesSent++;
-  //   data.numMsgs++;
-  //   setData(data);
+  data.messages.push(messageRes);
+  channel.messages.push(messageRes);
+  data.numMsgs++;
+  setData(data);
   return { messageId: randomNumber };
 }
+
 /**
  * Given a message, update its text with new
 text. If the new message is an empty
@@ -108,94 +86,67 @@ string, the message is deleted.
  * @param {*} message
  * @returns {messages, start, end} unless it is error case, in which case it will return { error: 'error' }
  */
-export function messageEditV1(token: string, messageId: number, message: string) {
+export function messageEditV2(token: string, messageId: number, message: string) {
   const data = getData();
-  //   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
-  //   const messageObj = data.messages.find(message => message.messageId === messageId);
-  //   const channelOwner = data.channels.find(channel => channel.ownerMembers === user.userId);
+  const user: userTemplate = getAuthUser(token);
 
-  //   if (checkToken(token) === false) {
-  //     return { error: 'error' };
-  //   }
+  // Checking for invalid case
+  // Case 1: length of message is over 1000 characters
+  if (message.length > 1000) {
+    throw HTTPError(400, 'length of message is over 1000 characters');
+  }
 
-  //   // Checking for invalid case
-  //   // Case 1: Invalid messageId or token
-  //   if (!messageObj || !user) {
-  //     return { error: 'error' };
-  //   }
+  // Case 2: messageId does not refer to a valid message within a channel/DM that the authorised user has joined
+  let findChannel;
+  let existMessage;
+  for (const channel of data.channels) {
+    existMessage = channel.messages.find(message => message.messageId === messageId);
+    if (existMessage) {
+      findChannel = channel;
+    }
+  }
 
-  //   if (message.length > 1000) {
-  //     return { error: 'error' };
-  //   }
+  let findDm;
+  for (const dm of data.DMs) {
+    existMessage = dm.messages.find(message => message.messageId === messageId);
+    if (existMessage) {
+      findDm = dm;
+    }
+  }
 
-  // Case 2: Message was not sent by the user making this request
-  // if (messageObj.token !== token) {
-  //   return { error: 'error' };
-  // }
+  if (!(findChannel || findDm)) {
+    throw HTTPError(400, 'messageId does not refer to a valid message within a channel/DM that the authorised user has joined');
+  }
 
-  //   // Case 3: The authorised owner is not an owner of the channel
-  //   if (!channelOwner) {
-  //     return { error: 'error' };
-  //   }
+  // Case 3: The authorised owner is not an owner of the channel
+  if (findChannel) {
+    if (!findChannel.ownerMembers.find(x => x.uId === user.uId)) {
+      throw HTTPError(403, 'If the authorised user does not have owner permissions, and the message was not sent by them');
+    }
+  }
 
-  //   if (channelOwner === undefined) {
-  //     return { error: 'error' };
-  //   }
+  if (findDm) {
+    if (findDm.dmOwner.uId !== user.uId) {
+      throw HTTPError(403, 'If the authorised user does not have owner permissions, and the message was not sent by them');
+    }
+  }
 
-  //   messageObj.message = message;
-  //   const index = data.messages.findIndex(message => message.messageId === messageId);
-  //   if (index !== -1) {
-  //     data.messages.splice(index - 1, 1);
-  //   } else {
-  //     return { error: 'error' };
-  //   }
+  if (message !== '') {
+    existMessage.message = message;
+  } else {
+    if (findChannel) {
+      findChannel.messages = findChannel.messages.filter(x => x.messageId !== messageId);
+    }
+    if (findDm) {
+      findDm.messages = findDm.messages.filter(x => x.messageId !== messageId);
+    }
+  }
 
-  //   if (message) {
-  //     data.messages.push(messageObj);
-  //   }
-
-  setData(data);
   return {};
 }
 
-export function messageRemoveV1(token: string, messageId: number) {
-  //   const data = getData();
-  //   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
-  //   const messageObj = data.messages.find(message => message.messageId === messageId);
-  //   const channelOwner = data.channels.find(channel => channel.ownerMembers === user.userId);
-
-  //   if (checkToken(token) === false) {
-  //     return { error: 'error' };
-  //   }
-
-  //   // Checking for invalid case
-  //   // Case 1: Invalid messageId or token
-  //   if (!messageObj || !user) {
-  //     return { error: 'error' };
-  //   }
-
-  // Case 2: Message was not sent by the user making this request
-  // if (messageObj.token !== token) {
-  //   return { error: 'error' };
-  // }
-
-  //   // Case 3: The authorised owner is not an owner of the channel
-  //   if (!channelOwner) {
-  //     return { error: 'error' };
-  //   }
-
-  //   if (channelOwner === undefined) {
-  //     return { error: 'error' };
-  //   }
-
-  //   const index = data.messages.findIndex(message => message.messageId === messageId);
-  //   if (index !== -1) {
-  //     data.messages.splice(index - 1, 1);
-  //   } else {
-  //     return { error: 'error' };
-  //   }
-  //   data.numMsgs--;
-  //   setData(data);
+export function messageRemoveV2(token: string, messageId: number) {
+  messageEditV2(token, messageId, '');
   return {};
 }
 

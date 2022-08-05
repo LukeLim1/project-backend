@@ -35,10 +35,10 @@ export interface messageTemplate {
 }
 
 export interface standup {
-    active: false;
-    start: null;
-    timeFinish: null;
-    message: messageTemplate[];
+    active: boolean;
+    start: number;
+    timeFinish: number;
+    message: string[];
 }
 
 export interface channelTemplate {
@@ -48,7 +48,7 @@ export interface channelTemplate {
     allMembers: IUser[];
     channelId: number;
     messages: messageTemplate[];
-    standup: standup[];
+    standup: standup;
 }
 
 export interface dmTemplate {

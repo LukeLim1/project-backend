@@ -6,16 +6,18 @@ import { authLoginV1, authRegisterV1, authLogout, authPasswordResetRequest, auth
 import { channelsListV1, channelsListallV1, channelsCreateV1 } from './channels';
 import { clearV1 } from './other';
 import { getData } from './dataStore';
-import { channelLeaveV1, channelDetails, channelJoin, channelInviteV2, channelAddownerV1, channelRemoveownerV1, channelMessagesV2 } from './channel';
+import { channelLeaveV1, channelDetails, channelJoin, channelInviteV3, channelAddownerV2, channelRemoveownerV2, channelMessagesV3 } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } from './dm';
 import { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats } from './users';
 import { userRemove, userPermissionChange } from './admin';
 import {
-  messageSendV1, messageEditV1, messageRemoveV1, messagesShareV1,
+  messageSendV2, messageEditV2, messageRemoveV2, messagesShareV1,
   messagesSearch, messagesUnReact, messagesReact, messageUnPin, messagePin
 } from './message';
 import { notificationGetV1 } from './notifications';
 import errorHandler from 'middleware-http-errors';
+import { standupActiveV1, standupSendV1, standupStartV1 } from './standup';
+
 // import fs from 'fs';
 
 // Set up web app, use JSON
@@ -223,38 +225,40 @@ app.post('/admin/userpermission/change/v1', (req, res) => {
   res.json(userPermissionChange(token, uId, permissionId));
 });
 
-app.post('/channel/invite/v2', (req, res) => {
-  const { token, channelId, uId } = req.body;
-  res.json(channelInviteV2(token, channelId, uId));
+app.post('/channel/invite/v3', (req, res) => {
+  const token = req.header('token');
+  const { channelId, uId } = req.body;
+  res.json(channelInviteV3(token, channelId, uId));
 });
 
-app.get('/channel/messages/v2', (req, res) => {
-  const { token, channelId, start } = req.body;
-  // returns {messages,start,end}
-  res.json(channelMessagesV2(token, channelId, start));
+app.get('/channel/messages/v3', (req, res) => {
+  const token = req.header('token');
+  const { channelId, start } = req.query;
+  res.json(channelMessagesV3(token, Number(channelId), Number(start)));
 });
 
-app.post('/channel/addowner', (req, res) => {
-  const { token, channelId, uId } = req.body;
-  // returns {}
-  res.json(channelAddownerV1(token, channelId, uId));
+app.post('/channel/addowner/v2', (req, res) => {
+  const token = req.header('token');
+  const { channelId, uId } = req.body;
+  res.json(channelAddownerV2(token, channelId, uId));
 });
 
-app.post('/channel/removeowner', (req, res) => {
-  const { token, channelId, uId } = req.body;
-  // returns {}
-  res.json(channelRemoveownerV1(token, channelId, uId));
+app.post('/channel/removeowner/v2', (req, res) => {
+  const token = req.header('token');
+  const { channelId, uId } = req.body;
+  res.json(channelRemoveownerV2(token, channelId, uId));
 });
 
-app.post('/message/send', (req, res) => {
-  const { token, channelId, message } = req.body;
-  res.json(messageSendV1(token, channelId, message));
+app.post('/message/send/v2', (req, res) => {
+  const token = req.header('token');
+  const { channelId, message } = req.body;
+  res.json(messageSendV2(token, channelId, message));
 });
 
-app.put('/message/edit', (req, res) => {
-  const { token, messageId, message } = req.body;
-  // returns {}
-  res.json(messageEditV1(token, messageId, message));
+app.put('/message/edit/v2', (req, res) => {
+  const token = req.header('token');
+  const { messageId, message } = req.body;
+  res.json(messageEditV2(token, messageId, message));
 });
 
 app.post('/message/share/v1', (req, res) => {
@@ -265,10 +269,10 @@ app.post('/message/share/v1', (req, res) => {
   res.json(messagesShareV1(token, ogMessageId, message, channelId, dmId));
 });
 
-app.delete('/message/remove', (req, res) => {
-  const { token, messageId } = req.body;
-  // returns {}
-  res.json(messageRemoveV1(token, messageId));
+app.delete('/message/remove/v2', (req, res) => {
+  const token = req.header('token');
+  const { messageId } = req.query;
+  res.json(messageRemoveV2(token, Number(messageId)));
 });
 
 app.get('/search/v1', (req, res) => {
@@ -304,6 +308,24 @@ app.post('/message/unpin/v1', (req, res) => {
 app.get('/notifications/get/v1', (req, res) => {
   const token = req.header('token');
   res.json(notificationGetV1(token));
+});
+
+app.post('/standup/start/v1', (req, res) => {
+  const token = req.header('token');
+  const { channelId, length } = req.body;
+  res.json(standupStartV1(token, channelId, length));
+});
+
+app.get('/standup/active/v1', (req, res) => {
+  const token = req.header('token');
+  const { channelId } = req.query;
+  res.json(standupActiveV1(token, Number(channelId)));
+});
+
+app.post('/standup/send/v1', (req, res) => {
+  const token = req.header('token');
+  const { channelId, message } = req.body;
+  res.json(standupSendV1(token, channelId, message));
 });
 
 // for logging errors
