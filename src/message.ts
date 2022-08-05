@@ -72,6 +72,7 @@ export function messageSendV2(token: string, channelId: number, message: string)
 
   data.messages.push(messageRes);
   channel.messages.push(messageRes);
+  data.numMsgs++;
   setData(data);
   return { messageId: randomNumber };
 }

@@ -16,6 +16,8 @@ import {
 } from './message';
 import { notificationGetV1 } from './notifications';
 import errorHandler from 'middleware-http-errors';
+import { standupActiveV1, standupSendV1, standupStartV1 } from './standup';
+
 // import fs from 'fs';
 
 // Set up web app, use JSON
@@ -306,6 +308,24 @@ app.post('/message/unpin/v1', (req, res) => {
 app.get('/notifications/get/v1', (req, res) => {
   const token = req.header('token');
   res.json(notificationGetV1(token));
+});
+
+app.post('/standup/start/v1', (req, res) => {
+  const token = req.header('token');
+  const { channelId, length } = req.body;
+  res.json(standupStartV1(token, channelId, length));
+});
+
+app.get('/standup/active/v1', (req, res) => {
+  const token = req.header('token');
+  const { channelId } = req.query;
+  res.json(standupActiveV1(token, Number(channelId)));
+});
+
+app.post('/standup/send/v1', (req, res) => {
+  const token = req.header('token');
+  const { channelId, message } = req.body;
+  res.json(standupSendV1(token, channelId, message));
 });
 
 // for logging errors
