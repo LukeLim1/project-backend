@@ -78,6 +78,11 @@ describe('HTTP tests using Jest', () => {
     });
   });
 
+  test('channelDetails: invalid token', () => {
+    const res = requestChannelDetails('1', 1);
+    expect(res.statusCode).toBe(403);
+  });
+
   test('channelDetails: channelId does not refer to valid channel', () => {
     const newUser = JSON.parse(String(createBasicAccount().getBody()));
     const basicC = createBasicChannel(newUser.token, 'channel1', true);
@@ -94,6 +99,11 @@ describe('HTTP tests using Jest', () => {
     const newChannel = JSON.parse(String(basicC.getBody()));
     const res = requestChannelDetails(newUser2.token, newChannel.channelId);
 
+    expect(res.statusCode).toBe(403);
+  });
+
+  test('channelJoin: invalid token', () => {
+    const res = requestJoinChannel('1', 1);
     expect(res.statusCode).toBe(403);
   });
 
