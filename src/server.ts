@@ -296,7 +296,7 @@ app.use(errorHandler());
 loadData();
 
 // start server
-const server = app.listen(parseInt(process.env.PORT || config.port), () => {
+const server = app.listen(PORT, HOST, () => {
   console.log(`⚡️ Server listening on port ${PORT} at ${HOST}`);
 });
 
