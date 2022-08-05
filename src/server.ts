@@ -126,7 +126,8 @@ app.post('/channel/join/v3', (req, res) => {
 });
 
 app.post('/channel/leave/v1', (req, res) => {
-  const { token, channelId } = req.body;
+  const token = req.header('token');
+  const { channelId } = req.body;
   res.json(channelLeaveV1(token, channelId));
 });
 

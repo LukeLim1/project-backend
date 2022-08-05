@@ -116,29 +116,48 @@ export function channelJoin(token: string, channelId: number): object | Error {
   setData(data);
   return {};
 }
-
+/**
+ * Given a channel ID check if authorised user is a member
+ * and remove them from the channel if they are.
+ * Their messages should be unaffected
+ * If the only owner leaves the channel will remain
+ * @param channelId refers to a channel
+ * @returns empty object or an error
+ *          Errors 400 when
+ *                         channelId does not refer to a valid channel
+ *                         authorised user is the starter of an active standup
+ *          Errors 403 when
+ *                         channelId is valid and the authorised user is not a member of the channel
+ *
+ */
 export function channelLeaveV1(token: string, channelId: number): object {
-  // const data = getData();
-  // const channel = data.channels.find(channel => channel.channelId === channelId);
+  const data = getData();
+  const channel = data.channels.find(channel => channel.channelId === channelId);
   // const getUser = data.users.find(u => u.token.includes(token));
+  const authUser: userTemplate = getAuthUser(token);
 
-  // if (channel === undefined) {
-  //   return { error: 'error' };
-  // }
+  if (!channel) {
+    throw HTTPError(400, 'channelId does not refer to a valid channel');
+  }
 
-  // if (!channel.allMembers.includes(getUser.userId)) {
-  //   return { error: 'error' };
-  // }
+  let isMember = false;
+  for (const member of channel.allMembers) {
+    if (authUser.uId === member.uId) {
+      isMember = true;
+    }
+  }
+  if (!isMember) throw HTTPError(403, 'authorised user is not a member of the channel');
 
-  // const indexAll = channel.allMembers.indexOf(getUser.userId);
-  // channel.allMembers.splice(indexAll, 1);
-  // if (channel.ownerMembers.includes(getUser.userId)) {
-  //   const indexOwner = channel.ownerMembers.indexOf(getUser.userId);
-  //   channel.allMembers.splice(indexOwner, 1);
-  // }
+  const index = channel.allMembers.findIndex(ob => ob.uId === authUser.uId);
 
-  // getUser.numChannelsJoined--;
-  // setData(data);
+  channel.allMembers.splice(index, 1);
+  if (channel.ownerMembers.findIndex(ob => ob.uId === authUser.uId) !== -1) {
+    const indexOwner = channel.ownerMembers.findIndex(ob => ob.uId === authUser.uId);
+    channel.ownerMembers.splice(indexOwner, 1);
+  }
+
+  authUser.numChannelsJoined--;
+  setData(data);
 
   return {};
 }
