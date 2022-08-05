@@ -137,6 +137,12 @@ describe('authRegisterV2', () => {
       expect(res.statusCode).toBe(OK);
       expect(bodyObj).toMatchObject({});
     });
+
+    test('authLogout: invalid token', () => {
+      clear();
+      const res = requestAuthLogout('1');
+      expect(res.statusCode).toBe(403);
+    });
   });
 });
 

@@ -49,6 +49,11 @@ describe('HTTP tests using Jest', () => {
     const res = requestUserProfile(newUser.token, newUser.authUserId + 5);
     expect(res.statusCode).toBe(400);
   });
+
+  test('userProfile: invalid token', () => {
+    const res = requestUserProfile('1', 1);
+    expect(res.statusCode).toBe(403);
+  });
 });
 
 describe('HTTP tests using Jest', () => {
@@ -322,6 +327,11 @@ describe('userStats & usersStats tests using Jest', () => {
       }],
       involvementRate: expect.any(Number),
     });
+  });
+
+  test('userStats: invalid token', () => {
+    const res = requestUserStats('1');
+    expect(res.statusCode).toBe(403);
   });
 
   test('Test successful usersStats', () => {
