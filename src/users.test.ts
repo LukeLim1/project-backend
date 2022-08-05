@@ -3,7 +3,7 @@ import { createBasicChannel } from './channels.test';
 // import { url, port } from './config.json';
 import {
   createBasicAccount, createBasicAccount2, clear, changeName, changeEmail, newReg, requestUsersAll, requestUserProfile, changeHandle,
-  requestUploadPhoto, requestUserStats, requestUsersStats, requestUserRemove, createBasicDm, requestSendDm,
+  /* requestUploadPhoto, */ requestUserStats, requestUsersStats, requestUserRemove, createBasicDm, requestSendDm,
 } from './helperFunctions';
 
 const OK = 200;
@@ -238,7 +238,7 @@ describe('setHandle http route tests', () => {
   });
 });
 
-describe('uploadPhoto tests using Jest', () => {
+/* describe('uploadPhoto tests using Jest', () => {
   test('Test successful uploadPhoto', () => {
     const res = requestUploadPhoto('http://images.all-free-download.com/images/graphiclarge/landscapes_landscape_see_263354.jpg', 0, 0, 100, 100);
     const bodyObj = JSON.parse(String(res.getBody()));
@@ -266,6 +266,7 @@ describe('uploadPhoto tests using Jest', () => {
     expect(res.statusCode).toBe(400);
   });
 });
+*/
 
 describe('userStats & usersStats tests using Jest', () => {
   test('Test successful userStats', () => {
