@@ -95,6 +95,30 @@ function messageRemoveV2(token: string, messageId: number) {
   );
 }
 
+function messageSendlaterV1(token: string,
+  channelId: number, message: string, timeSent: number) {
+  return getRequest(
+    'POST',
+    '/message/sendlater/v1',
+    {
+      channelId, message, timeSent
+    },
+    { token }
+  );
+}
+
+function messageSendlaterdmV1(token: string,
+  dmId: number, message: string, timeSent: number) {
+  return getRequest(
+    'POST',
+    '/message/sendlaterdm/v1',
+    {
+      dmId, message, timeSent
+    },
+    { token }
+  );
+}
+
 describe('test for messageSendV2', () => {
   let token: string,
     token2: string,
@@ -253,6 +277,132 @@ describe('test for messageRemoveV2', () => {
   describe('No errors', () => {
     test('message removal successful', () => {
       expect(messageRemoveV2(token, messageId)).toStrictEqual({});
+    });
+  });
+});
+
+describe('test for messageSendlaterV1', () => {
+  let token: string,
+    token2: string,
+    channelId: number,
+    timeSent: number;
+  beforeEach(() => {
+    clear();
+    const regist1 = newReg(
+      'gabriella.gook@gmail.com',
+      'G1gook897',
+      'Gabriella',
+      'Gook'
+    );
+    const registerRes1 = JSON.parse(String(regist1.getBody()));
+    const regist2 = newReg(
+      'bob.destiny@gmail.com',
+      'Why1456url',
+      'Bob',
+      'Destiny'
+    );
+    const registerRes2 = JSON.parse(String(regist2.getBody()));
+    token = registerRes1.token;
+    token2 = registerRes2.token;
+    const channelRes = createBasicChannel(token, 'star', true);
+    channelId = JSON.parse(String(channelRes.getBody())).channelId;
+    messageSendV2(token, channelId, '123123');
+  });
+  describe('error case', () => {
+    test('channelId does not refer to a valid channel', () => {
+      timeSent = Math.floor(new Date().getTime() / 1000) + 10;
+      expect(messageSendlaterV1(token, channelId + 99, '123', timeSent).statusCode).toStrictEqual(400);
+    });
+
+    test('length of message is less than 1 or over 1000', () => {
+      let message = '123';
+      for (let i = 0; i < 1000; i++) {
+        message += '1';
+      }
+      timeSent = Math.floor(new Date().getTime() / 1000) + 10;
+      expect(messageSendlaterV1(token, channelId, message, timeSent).statusCode).toStrictEqual(400);
+    });
+
+    test('timeSent is a time in the past', () => {
+      expect(messageSendlaterV1(token, channelId, '123', Math.floor(new Date().getTime() / 1000) - 10).statusCode).toStrictEqual(400);
+    });
+
+    test('channelId is valid and the authorised user is not a member of the channel they are trying to post to', () => {
+      timeSent = Math.floor(new Date().getTime() / 1000) + 10;
+      expect(messageSendlaterV1(token2, channelId, '123', timeSent).statusCode).toStrictEqual(403);
+    });
+  });
+
+  describe('No errors', () => {
+    test('send message later successfully', () => {
+      timeSent = Math.floor(new Date().getTime() / 1000) + 10;
+      expect(messageSendlaterV1(token, channelId, '123123', timeSent)).toStrictEqual({ messageId: expect.any(Number) });
+    });
+  });
+});
+
+describe('test for messageSendlaterdmV1', () => {
+  let token: string,
+    timeSent: number,
+    dmId: number,
+    token3:string;
+  beforeEach(() => {
+    clear();
+    const regist1 = newReg(
+      'gabriella.gook@gmail.com',
+      'G1gook897',
+      'Gabriella',
+      'Gook'
+    );
+    const registerRes1 = JSON.parse(String(regist1.getBody()));
+    const regist2 = newReg(
+      'bob.destiny@gmail.com',
+      'Why1456url',
+      'Bob',
+      'Destiny'
+    );
+    const registerRes2 = JSON.parse(String(regist2.getBody()));
+    const regist3 = newReg(
+      'ab1c.ef@mal.com',
+      '123a3141234',
+      'Aasheigh',
+      'Garabw'
+    );
+    const registerRes3 = JSON.parse(String(regist3.getBody()));
+    token = registerRes1.token;
+    token3 = registerRes3.token;
+    const basicD = createBasicDm(token, [registerRes1.authUserId, registerRes2.authUserId]);
+    dmId = JSON.parse(String(basicD.getBody())).dmId;
+  });
+  describe('error case', () => {
+    test('dmId does not refer to a valid DM', () => {
+      timeSent = Math.floor(new Date().getTime() / 1000) + 10;
+      expect(messageSendlaterdmV1(token, dmId + 99, '123', timeSent).statusCode).toStrictEqual(400);
+    });
+
+    test('length of message is less than 1 or over 1000 characters', () => {
+      let message = '123';
+      for (let i = 0; i < 1000; i++) {
+        message += '1';
+      }
+      timeSent = Math.floor(new Date().getTime() / 1000) + 10;
+      expect(messageSendlaterdmV1(token, dmId, message, timeSent).statusCode).toStrictEqual(400);
+    });
+
+    test('timeSent is a time in the past', () => {
+      expect(messageSendlaterdmV1(token, dmId, '123', Math.floor(new Date().getTime() / 1000) - 10).statusCode).toStrictEqual(400);
+    });
+
+    test('dmId is valid and the authorised user is not a member of the DM they are trying to post to', () => {
+      timeSent = Math.floor(new Date().getTime() / 1000) + 10;
+      expect(messageSendlaterdmV1(token3, dmId, '123', timeSent).statusCode).toStrictEqual(403);
+    });
+  });
+
+  describe('No errors', () => {
+    test('send dm message later successfully', () => {
+      timeSent = Math.floor(new Date().getTime() / 1000) + 10;
+      expect(messageSendlaterdmV1(token, dmId, '123123', timeSent)).toStrictEqual({ messageId: expect.any(Number) });
     });
   });
 });
