@@ -162,7 +162,41 @@ function channelInviteV3(token: string, channelId: number, uId: number) {
     { token }
   );
 }
+/*
+function channelMessagesV3(token: string, channelId: number, start: number) {
+  return getRequest(
+    'GET',
+    '/channel/messages/v3',
+    {
+      channelId,
+      start,
+    },
+    { token }
+  );
+}
 
+function channelAddownerV2(token: string, channelId: number, uId: number) {
+  return getRequest(
+    'POST',
+    '/channel/addowner/v2',
+    {
+      channelId, uId
+    },
+    { token }
+  );
+}
+
+function channelRemoveownerV2(token: string, channelId: number, uId: number) {
+  return getRequest(
+    'POST',
+    '/channel/removeowner/v2',
+    {
+      channelId, uId
+    },
+    { token }
+  );
+}
+*/
 describe('test for channelInviteV3', () => {
   let token: string,
     authUserId: number,
@@ -172,14 +206,14 @@ describe('test for channelInviteV3', () => {
   beforeEach(() => {
     clear();
     const regist1 = newReg(
-      'gabriella.gook@mail.com',
+      'gabriella.gook@gmail.com',
       'G1gook897',
       'Gabriella',
       'Gook'
     );
     const registerRes1 = JSON.parse(String(regist1.getBody()));
     const regist2 = newReg(
-      'Bob.destiny@mal.com',
+      'bob.destiny@gmail.com',
       'Why1456url',
       'Bob',
       'Destiny'
@@ -211,8 +245,138 @@ describe('test for channelInviteV3', () => {
   });
 
   describe('No errors', () => {
-    test('send message success', () => {
+    test('Invite successfully', () => {
       expect(channelInviteV3(token, channelId, uId)).toStrictEqual({});
     });
   });
 });
+/*
+describe('channelAddownerV2', () => {
+  let token: string,
+    uId: number,
+    token2: string,
+    channelId: number,
+    authUserId:number;
+  beforeEach(() => {
+    clear();
+    const regist1 = newReg(
+      'gabriella.gook@gmail.com',
+      'G1gook897',
+      'Gabriella',
+      'Gook'
+    );
+    const registerRes1 = JSON.parse(String(regist1.getBody()));
+    const regist2 = newReg(
+      'bob.destiny@gmail.com',
+      'Why1456url',
+      'Bob',
+      'Destiny'
+    );
+    const registerRes2 = JSON.parse(String(regist2.getBody()));
+    token = registerRes1.token;
+    token2 = registerRes2.token;
+    authUserId = registerRes2.authUserId;
+    uId = registerRes2.authUserId;
+    const channelRes = createBasicChannel(token, 'star', true);
+    channelId = JSON.parse(String(channelRes.getBody())).channelId;
+  });
+  describe('error case', () => {
+    test('channelId does not refer to a valid channel', () => {
+      expect(channelAddownerV2(token, channelId + 999, uId).statusCode).toStrictEqual(400);
+    });
+
+    test('uId does not refer to a valid user', () => {
+      expect(channelAddownerV2(token, channelId, uId + 123).statusCode).toStrictEqual(400);
+    });
+
+    test('uId refers to a user who is not a member of the channel', () => {
+      expect(channelAddownerV2(token, channelId, uId).statusCode).toStrictEqual(400);
+    });
+
+    test('uId refers to a user who is already an owner of the channel', () => {
+      expect(channelAddownerV2(token, channelId, authUserId).statusCode).toStrictEqual(400);
+    });
+
+    test('channelId is valid and the authorised user does not have owner permissions in the channel', () => {
+      channelInviteV3(token, channelId, uId);
+      expect(channelAddownerV2(token2, channelId, uId).statusCode).toStrictEqual(403);
+    });
+  });
+  describe('No errors', () => {
+    test('send message success', () => {
+      channelInviteV3(token, channelId, uId);
+      expect(channelAddownerV2(token, channelId, uId)).toStrictEqual({});
+    });
+  });
+});
+
+describe('channelRemoveownerV2', () => {
+  let token: string,
+    uId: number,
+    token2: string,
+    token3:string,
+    channelId: number,
+    authUserId:number;
+  beforeEach(() => {
+    clear();
+    const regist1 = newReg(
+      'gabriella.gook@gmail.com',
+      'G1gook897',
+      'Gabriella',
+      'Gook'
+    );
+    const registerRes1 = JSON.parse(String(regist1.getBody()));
+    const regist2 = newReg(
+      'bob.destiny@gmail.com',
+      'Why1456url',
+      'Bob',
+      'Destiny'
+    );
+    const regist3 = newReg(
+      'oldsoul0912@gmail.com',
+      'hithisbob14',
+      'Doctor',
+      'Who'
+    );
+    const registerRes3 = JSON.parse(String(regist3.getBody()));
+    const registerRes2 = JSON.parse(String(regist2.getBody()));
+    token = registerRes1.token;
+    token2 = registerRes2.token;
+    token3 = registerRes3.token;
+    authUserId = registerRes2.authUserId;
+    uId = registerRes2.authUserId;
+    const channelRes = createBasicChannel(token, 'star', true);
+    channelId = JSON.parse(String(channelRes.getBody())).channelId;
+  });
+  describe('error case', () => {
+    test('channelId does not refer to a valid channel', () => {
+      expect(channelRemoveownerV2(token, channelId + 999, uId).statusCode).toStrictEqual(400);
+    });
+
+    test('uId does not refer to a valid user', () => {
+      expect(channelRemoveownerV2(token, channelId, uId + 123).statusCode).toStrictEqual(400);
+    });
+
+    test('uId refers to a user who is not an owner of the channel', () => {
+      expect(channelRemoveownerV2(token, channelId, uId).statusCode).toStrictEqual(400);
+    });
+
+    test('uId refers to a user who is currently the only owner of the channel', () => {
+      expect(channelRemoveownerV2(token, channelId, authUserId).statusCode).toStrictEqual(400);
+    });
+
+    test('channelId is valid and the authorised user does not have owner permissions in the channel', () => {
+      channelInviteV3(token, channelId, uId);
+      channelAddownerV2(token, channelId, uId);
+      expect(channelRemoveownerV2(token3, channelId, uId).statusCode).toStrictEqual(403);
+    });
+  });
+  describe('No errors', () => {
+    test('send message success', () => {
+      channelInviteV3(token, channelId, uId);
+      channelAddownerV2(token, channelId, uId);
+      expect(channelRemoveownerV2(token, channelId, uId)).toStrictEqual({});
+    });
+  });
+});
+*/
