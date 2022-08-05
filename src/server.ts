@@ -10,6 +10,8 @@ import { channelLeaveV1, channelDetails, channelJoin, channelInviteV3, channelAd
 import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } from './dm';
 import { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats } from './users';
 import { userRemove, userPermissionChange } from './admin';
+import { saveData, loadData } from './helperFunctions';
+// import { notificationGetV1 } from './notifications';
 import {
   messageSendV2, messageEditV2, messageRemoveV2, messagesShareV1,
   messagesSearch, messagesUnReact, messagesReact, messageUnPin, messagePin
@@ -70,6 +72,7 @@ app.post('/auth/login/v2', (req, res) => {
 app.post('/auth/logout/v2', (req, res) => {
   const token = req.header('token');
   res.json(authLogout(token));
+  saveData();
 });
 
 app.post('/auth/passwordreset/request/v1', (req, res) => {
@@ -112,12 +115,14 @@ app.get('/channel/details/v3', (req, res) => {
   const token = req.header('token');
   const channelId = parseInt(req.query.channelId as string);
   res.json(channelDetails(token, channelId));
+  saveData();
 });
 
 app.post('/channel/join/v3', (req, res) => {
   const token = req.header('token');
   const { channelId } = req.body;
   res.json(channelJoin(token, channelId));
+  saveData();
 });
 
 app.post('/channel/leave/v1', (req, res) => {
@@ -133,12 +138,14 @@ app.post('/dm/create/v1', (req, res) => {
 
 app.delete('/clear/v1', (req, res) => {
   res.json(clearV1());
+  saveData();
 });
 
 app.post('/dm/leave/v2', (req, res) => {
   const token = req.header('token');
   const { dmId } = req.body;
   res.json(dmLeave(token, dmId));
+  saveData();
 });
 
 app.get('/dm/messages/v2', (req, res) => {
@@ -146,6 +153,7 @@ app.get('/dm/messages/v2', (req, res) => {
   const dmId = parseInt(req.query.dmId as string);
   const start = parseInt(req.query.start as string);
   res.json(dmMessages(token, dmId, start));
+  saveData();
 });
 
 app.post('/message/senddm/v2', (req, res) => {
@@ -175,11 +183,13 @@ app.get('/user/profile/v3', (req, res) => {
   const token = req.header('token');
   const uId = parseInt(req.query.uId as string);
   res.json(userProfileV1(token, uId));
+  saveData();
 });
 
 app.get('/users/all/v2', (req, res) => {
   const token = req.header('token');
   res.json(usersAll(token));
+  saveData();
 });
 app.put('/user/profile/setname/v1', (req, res) => {
   const token = req.header('token');
@@ -202,27 +212,32 @@ app.put('/user/profile/sethandle/v1', (req, res) => {
 app.post('/user/profile/uploadphoto/v1', (req, res) => {
   const { imgUrl, xStart, yStart, xEnd, yEnd } = req.body;
   res.json(uploadPhoto(imgUrl, xStart, yStart, xEnd, yEnd));
+  saveData();
 });
 
 app.get('/user/stats/v1', (req, res) => {
   const token = req.header('token');
   res.json(userStats(token));
+  saveData();
 });
 
 app.get('/users/stats/v1', (req, res) => {
   res.json(usersStats());
+  saveData();
 });
 
 app.delete('/admin/user/remove/v1', (req, res) => {
   const token = req.header('token');
   const uId = parseInt(req.query.uId as string);
   res.json(userRemove(token, uId));
+  saveData();
 });
 
 app.post('/admin/userpermission/change/v1', (req, res) => {
   const token = req.header('token');
   const { uId, permissionId } = req.body;
   res.json(userPermissionChange(token, uId, permissionId));
+  saveData();
 });
 
 app.post('/channel/invite/v3', (req, res) => {
@@ -333,6 +348,9 @@ app.use(morgan('dev'));
 
 // for handling errors
 app.use(errorHandler());
+
+// persistence
+loadData();
 
 // start server
 const server = app.listen(PORT, HOST, () => {
