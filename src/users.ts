@@ -36,17 +36,17 @@ function userProfileV1(token: string, uId: number): IUser | Error {
 }
 
 function setNameV1(token: string, nameFirst: string, nameLast: string): object {
-  const data = getData();
-  const user = data.users.find(u => u.token.includes(token) === true);
   // Error Cases
   if (nameFirst.length <= 1 || nameFirst.length >= 50) {
-    return { error: 'error' };
+    throw HTTPError(400, 'Error, length of nameFirst must be between 1 - 50');
   }
   if (nameLast.length <= 1 || nameLast.length >= 50) {
-    return { error: 'error' };
+    throw HTTPError(400, 'Error, length of nameLast must be between 1 - 50');
   }
+  const data = getData();
+  const user = data.users.find(u => u.token.includes(token) === true);
   if (!user) {
-    return { error: 'error' };
+    throw HTTPError(400, 'Error, User not found');
   } else {
   // main code
     user.firstName = nameFirst;
@@ -56,15 +56,15 @@ function setNameV1(token: string, nameFirst: string, nameLast: string): object {
   return {};
 }
 function setEmailV1(token: string, email: string): object {
-  const data = getData();
-  const user = data.users.find(u => u.token.includes(token) === true);
   // error cases
   if (!(validator.isEmail(email))) {
-    return { error: 'error' };
+    throw HTTPError(400, 'Error, email is invalid');
   }
+  const data = getData();
+  const user = data.users.find(u => u.token.includes(token) === true);
 
   if (!user) {
-    return { error: 'error' };
+    throw HTTPError(400, 'Error, User not found');
   } else {
   // email used already
     const arrayOfEmails: string[] = [];
@@ -74,7 +74,7 @@ function setEmailV1(token: string, email: string): object {
     });
     for (const i in arrayOfEmails) {
       if (arrayOfEmails[i] === email) {
-        return { error: 'error email in use' };
+        throw HTTPError(400, 'Error, Email already in use');
       }
     }
     // main code
@@ -86,17 +86,28 @@ function setEmailV1(token: string, email: string): object {
 function setHandleV1(token: string, handleStr: string): object {
   // error cases
   if (handleStr.length <= 3 || handleStr.length >= 20) {
-    return { error: 'error' };
+    throw HTTPError(400, 'Error, handleStr must be between 3 - 20 chars');
   }
   const Exp = /^[0-9a-z]+$/;
   if (!handleStr.match(Exp)) {
-    return { error: 'error' };
+    throw HTTPError(400, 'Error, handleStr contains non-alphanumeric chars');
   }
   const data = getData();
+  // email used already
+  const arrayofHandles: string[] = [];
+  Object.values(data.users).forEach(element => {
+    const toPush = element.handle;
+    arrayofHandles.push(toPush);
+  });
+  for (const i in arrayofHandles) {
+    if (arrayofHandles[i] === handleStr) {
+      throw HTTPError(400, 'Error, handle already in use');
+    }
+  }
   const user = data.users.find(u => u.token.includes(token) === true);
 
   if (!user) {
-    return { error: 'error' };
+    throw HTTPError(400, 'Error, User not found');
   } else {
     user.handle = handleStr;
     setData(data);

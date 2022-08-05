@@ -35,10 +35,10 @@ export interface messageTemplate {
 }
 
 export interface standup {
-    active: false;
-    start: null;
-    timeFinish: null;
-    message: messageTemplate[];
+    active: boolean;
+    start: number;
+    timeFinish: number;
+    message: string[];
 }
 
 export interface channelTemplate {
@@ -48,7 +48,7 @@ export interface channelTemplate {
     allMembers: IUser[];
     channelId: number;
     messages: messageTemplate[];
-    standup: standup[];
+    standup: standup;
 }
 
 export interface dmTemplate {
@@ -71,6 +71,7 @@ export interface userTemplate {
     numChannelsJoined: number;
     numDmsJoined: number;
     numMessagesSent: number;
+    notifications: notifications[]
 }
 
 export interface Error {
@@ -108,6 +109,7 @@ export interface dataTemplate {
     usedNums: number[];
     usedTokenNums: number[];
     usedChannelNums: number[];
+    usedDmNums: number[];
     DMs: dmTemplate[];
     messages: messageTemplate[];
     numChannels: number;

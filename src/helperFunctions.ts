@@ -1,8 +1,10 @@
 import { getData, setData } from './dataStore';
-import request from 'sync-request';
+import request, { HttpVerb } from 'sync-request';
 import config from './config.json';
 import { IUser, userTemplate } from './interface';
 import fs from 'fs';
+
+import HTTPError from 'http-errors';
 
 const port = config.port;
 const url = config.url;
@@ -24,7 +26,6 @@ export function loadData() {
   const data = JSON.parse(fs.readFileSync(filename, 'utf8'));
   setData(data);
 }
-
 
 // checks for duplicates in arrays
 export function containsDuplicates(array: number[]): boolean {
@@ -181,7 +182,7 @@ export function changeHandle(token: string, handle: string) {
     `${url}:${port}/user/profile/sethandle/v1`,
     {
       body: JSON.stringify({
-        handle: 'newhandle',
+        handleStr: handle,
       }),
       headers: {
         'Content-type': 'application/json',
@@ -477,7 +478,7 @@ export function dmSend(token: string, dmId: number, message: string) {
   return res;
 }
 
-export function shareMessage(ogMessageId: number, message: string, channelId: number, dmId: number) {
+export function shareMessage(token: string, ogMessageId: number, message: string, channelId: number, dmId: number) {
   const res = request(
     'POST',
     `${url}:${port}/message/share/v1`,
@@ -490,6 +491,7 @@ export function shareMessage(ogMessageId: number, message: string, channelId: nu
       }),
       headers: {
         'Content-type': 'application/json',
+        token: token
       },
     }
   );
@@ -517,9 +519,9 @@ export function findResetCode(userId: number) {
   const data = getData();
 
   const user = data.users.find(u => u.uId === userId);
-  console.log(user);
+  // console.log(user);
   const resetObject = data.passwordRequest.find(u => u.email === user.emailAddress);
-  console.log(resetObject);
+  // console.log(resetObject);
   return resetObject.passReq;
 }
 
@@ -562,4 +564,61 @@ export function sendDMMessage(token: string, dmId: number, message: string) {
     }
   );
   return res;
+}
+
+export function getRequest(method: HttpVerb, path: string, payload: object, token?: object) {
+  let qs = {};
+  let json = {};
+  let headers = {};
+  if (['GET', 'DELETE'].includes(method)) {
+    qs = payload;
+  } else {
+    json = payload;
+  }
+  if (token != null) {
+    headers = token;
+  }
+  const res = request(method, `${url}:${port}` + path, { qs, json, headers });
+  if (res.statusCode !== 200) {
+    return res;
+  }
+  return JSON.parse(res.getBody() as string);
+}
+
+export function createBasicChannel(token: string, name: string, isPublic: boolean) {
+  const res = request(
+    'POST',
+        `${url}:${port}/channels/create/v2`,
+        {
+          body: JSON.stringify({
+            name: name,
+            isPublic: isPublic,
+          }),
+          headers: {
+            'Content-type': 'application/json',
+            token: token
+          },
+        }
+  );
+  return res;
+}
+
+export function getAuthUser(token: string) {
+  const data = getData();
+  const user: userTemplate = data.users.find(user => user.token.includes(token));
+  if (!user) {
+    throw HTTPError(403, 'can not find user token');
+  }
+  return user;
+}
+
+export function messageSendV2(token: string, channelId: number, message: string) {
+  return getRequest(
+    'POST',
+    '/message/send/v2',
+    {
+      channelId, message,
+    },
+    { token }
+  );
 }

@@ -46,10 +46,8 @@ describe('ChannelsCreateV1 returns correct data information', () => {
     const user = createBasicAccount();
     const userBody = JSON.parse(String(user.getBody()));
     const res = createBasicChannel(userBody.token, '', true);
-
-    const bodyObj = JSON.parse(String(res.getBody()));
-    expect(res.statusCode).toBe(OK);
-    expect(bodyObj).toMatchObject({ error: expect.any(String) });
+    expect(res).toHaveProperty('statusCode', 400);
+    expect(createBasicChannel('9999', 'hello', true)).toHaveProperty('statusCode', 400);
   });
 });
 

@@ -41,14 +41,26 @@ function getHashOf(plaintext: string) {
 //              - nameLast.length not between 1 - 50
 
 function authRegisterV1(email: string, password: string, nameFirst: string, nameLast: string) {
-  const data = getData();
   // error cases //
+  // case 1 : password less than 6 chars
+  if (password.length < 6) {
+    throw HTTPError(400, 'Error, password must be longer than 6 chars');
 
-  // case 1 : invalid email
-  if (!(validator.isEmail(email))) {
-    return { error: 'error' };
+    // case 2 : length of nameFirst not between 1 - 50 inclusive
+  } else if (nameFirst.length <= 1 || nameFirst.length >= 50) {
+    throw HTTPError(400, 'Error, nameFirst must be between 1-50 chars');
+
+    // case 3 : length of nameLast not between 1 - 50 inclusive
+  } else if (nameLast.length <= 1 || nameLast.length >= 50) {
+    throw HTTPError(400, 'Error, nameLast must be between 1-50 chars');
   }
-  // case 2 : email used already
+
+  // case 4 : invalid email
+  if (!(validator.isEmail(email))) {
+    throw HTTPError(400, 'Error, email is invalid');
+  }
+  const data = getData();
+  // case 5 : email used already
   const arrayOfEmails: string[] = [];
   Object.values(data.users).forEach(element => {
     const toPush = element.emailAddress;
@@ -56,18 +68,8 @@ function authRegisterV1(email: string, password: string, nameFirst: string, name
   });
   for (const i in arrayOfEmails) {
     if (arrayOfEmails[i] === email) {
-      return { error: 'error' };
+      throw HTTPError(400, 'Error, email in use already');
     }
-  }
-  // case 3 : password less than 6 chars
-  if (password.length < 6) {
-    return { error: 'error' };
-    // case 4 : length of nameFirst not between 1 - 50 inclusive
-  } else if (nameFirst.length <= 1 || nameFirst.length >= 50) {
-    return { error: 'error' };
-    // case 5 : length of nameLast not between 1 - 50 inclusive
-  } else if (nameLast.length <= 1 || nameLast.length >= 50) {
-    return { error: 'error' };
   }
   // End of error cases
 
@@ -124,6 +126,7 @@ function authRegisterV1(email: string, password: string, nameFirst: string, name
     numChannelsJoined: 0,
     numDmsJoined: 0,
     numMessagesSent: 0,
+    notifications: []
   });
   setData(data);
   return {
@@ -159,13 +162,12 @@ function authLoginV1(email: string, password: string) {
     arrayOfPasswords.push(toPush);
   });
   if (arrayOfEmails.indexOf(email) === -1) {
-    return { error: 'error' };
+    throw HTTPError(400, 'Error, Email entered doesnt belong to a user');
   } else {
     if (arrayOfPasswords.indexOf(password) === -1) {
-      return { error: 'error' };
+      throw HTTPError(400, 'Error, Password entered is incorrect');
     }
   }
-
   // setting new token
   const user = data.users.find(u => u.password === password);
   // main code
@@ -176,6 +178,7 @@ function authLoginV1(email: string, password: string) {
   const tokenStr = token.toString();
   const tokenHashed = getHashOf(tokenStr);
   user.token.push(tokenHashed);
+  data.usedTokenNums.push(token);
   setData(data);
   return { token: data.users[arrayOfEmails.indexOf(email)].token, authUserId: data.users[arrayOfEmails.indexOf(email)].uId };
 }
@@ -228,9 +231,9 @@ export function authPasswordResetRequest(token: string, email: string) {
   const data = getData();
   const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
 
-  if (!user) return { error: 'user not found' };
+  if (!user) return {};
   if (!data.users.find(u => u.emailAddress === email)) {
-    return { error: 'email not found' };
+    return {};
   }
 
   const rand = makeid(6);
@@ -295,20 +298,12 @@ export function authPasswordReset(resetCode: any, newPassword: string) {
     throw createHttpError(400, 'resetCode is not a valid reset code');
   }
   const findEmail = data.passwordRequest.find(u => u.passReq === resetCode);
-  // console.log(findEmail)
   const user = data.users.find(u => u.emailAddress === findEmail.email);
-  // console.log('printing user below')
-  // console.log(user)
-  // console.log('printing data.passwordRequest array below')
-  // console.log(data.passwordRequest)
 
   // error case 3 : when the user was unable to be found
   if (!user) {
     throw createHttpError(400, 'user was not found');
   }
-
-  // console.log('printing userCheck below')
-  // console.log(userCheck)
 
   // main code
   user.password = newPassword;
