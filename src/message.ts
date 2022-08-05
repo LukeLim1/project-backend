@@ -1,18 +1,9 @@
 import { getData, setData } from './dataStore';
-// import { userTemplate } from './interface';
-// import { checkToken } from './helperFunctions';
-
 import { userTemplate, IUser, messageTemplate, dataTemplate, IReact, dmTemplate, channelTemplate } from './interface';
 import { checkToken, getAuthUser } from './helperFunctions';
 
 import HTTPError from 'http-errors';
 
-// export interface messageTemplate {
-//   channelId: number;
-//   messageId: number;
-//   message: string;
-//   token: string;
-// }
 export interface messageArray {
   time: number;
   messageId: number;
@@ -20,13 +11,6 @@ export interface messageArray {
   token: string;
 }
 
-/**
- * Send a message from the authorised user to the channel specified by channelId.
- * @param {*} token
- * @param {*} channelId
- * @param {*} message
- * @returns {} unless it is error case, in which case it will return { error: 'error' }
- */
 /**
  * Send a message from the authorised user to the channel specified by channelId.
  * @param {*} token
@@ -73,6 +57,7 @@ export function messageSendV2(token: string, channelId: number, message: string)
   data.messages.push(messageRes);
   channel.messages.push(messageRes);
   data.numMsgs++;
+  user.numMessagesSent++;
   setData(data);
   return { messageId: randomNumber };
 }
