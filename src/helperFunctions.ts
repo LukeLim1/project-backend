@@ -1,7 +1,8 @@
 import { getData } from './dataStore';
-import request from 'sync-request';
+import request, { HttpVerb } from 'sync-request';
 import config from './config.json';
 import { IUser, userTemplate } from './interface';
+import HTTPError from 'http-errors';
 
 const port = config.port;
 const url = config.url;
@@ -543,4 +544,50 @@ export function sendDMMessage(token: string, dmId: number, message: string) {
     }
   );
   return res;
+}
+
+export function getRequest(method: HttpVerb, path: string, payload: object, token?: object) {
+  let qs = {};
+  let json = {};
+  let headers = {};
+  if (['GET', 'DELETE'].includes(method)) {
+    qs = payload;
+  } else {
+    json = payload;
+  }
+  if (token != null) {
+    headers = token;
+  }
+  const res = request(method, `${url}:${port}` + path, { qs, json, headers });
+  if (res.statusCode !== 200) {
+    return res;
+  }
+  return JSON.parse(res.getBody() as string);
+}
+
+export function createBasicChannel(token: string, name: string, isPublic: boolean) {
+  const res = request(
+    'POST',
+        `${url}:${port}/channels/create/v2`,
+        {
+          body: JSON.stringify({
+            name: name,
+            isPublic: isPublic,
+          }),
+          headers: {
+            'Content-type': 'application/json',
+            token: token
+          },
+        }
+  );
+  return res;
+}
+
+export function getAuthUser(token: string) {
+  const data = getData();
+  const user: userTemplate = data.users.find(user => user.token.includes(token));
+  if (!user) {
+    throw HTTPError(403, 'can not find user token');
+  }
+  return user;
 }
