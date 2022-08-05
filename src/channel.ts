@@ -162,6 +162,23 @@ export function channelLeaveV1(token: string, channelId: number): object {
   return {};
 }
 
+/**
+ * Invites a user with ID uId to join a channel with ID channelId. 
+ * Once invited, the user is added to the channel immediately. 
+ * In both public and private channels, all members are able to invite users.
+ * 
+ * @param token: string -- token of a user to check if this user is authorised
+ * @param channelId:  number -- the Id number of a channel 
+ * @param uId: number -- id of user to be invited 
+ * @returns {} if no error
+ *          Or the following error codes for error cases:
+ *          400
+ *          1. channelId does not refer to a valid channel
+ *          2. uId does not refer to a valid user
+ *          2. uId refers to a user who is already a member of the channel
+ *          403
+ *          1. channelId is valid and the authorised user is not a member of the channel
+ */
 export function channelInviteV3(token: string, channelId: number, uId: number) {
   const data = getData();
   // Checking if the token passed in is valid
@@ -205,6 +222,25 @@ export function channelInviteV3(token: string, channelId: number, uId: number) {
   return {};
 }
 
+/**
+ * Given a channel with ID channelId that the authorised user is a member of, 
+ * return up to 50 messages between index "start" and "start + 50".
+ * Message with index 0 is the most recent message in the channel. 
+ * 
+ * @param token: string -- token of a user to check if this user is authorised
+ * @param channelId: number -- the Id number of a channel 
+ * @param start: number 
+ * @returns a new index "end" which is the value of "start + 50", or 
+ *          -1 in "end" to indicate there are no more messages to load after this return 
+ *          if the least recent messages has been returned.
+ * 
+ *          Or the following error codes for error cases:
+ *          400
+ *          1. channelId does not refer to a valid channel
+ *          2. start is greater than the total number of messages in the channel
+ *          403
+ *          1. channelId is valid and the authorised user is not a member of the channel
+ */
 export function channelMessagesV3(token: string, channelId: number, start: number) {
   const user: userTemplate = getAuthUser(token);
   const data = getData();
@@ -249,6 +285,21 @@ export function channelMessagesV3(token: string, channelId: number, start: numbe
   return { messages: messagesRestructured, start, end };
 }
 
+/**
+ * 
+ * @param token: string -- token of a user to check if this user is authorised
+ * @param channelId:  number -- the Id number of a channel 
+ * @param uId: number -- id of user to be invited 
+ * @returns {} if no error
+ *          Or the following error codes for error cases:
+ *          400
+ *          1. channelId does not refer to a valid channel
+ *          2. uId does not refer to a valid user
+ *          3. uId refers to a user who is not a member of the channel
+ *          4. uId refers to a user who is already an owner of the channel
+ *          403
+ *          1. channelId is valid and the authorised user does not have owner permissions in the channel
+ */
 export function channelAddownerV2(token: string, channelId: number, uId: number) {
   const data = getData();
   const authUser = getAuthUser(token);
@@ -292,6 +343,21 @@ export function channelAddownerV2(token: string, channelId: number, uId: number)
   return {};
 }
 
+/**
+ * 
+ * @param token: string -- token of a user to check if this user is authorised
+ * @param channelId:  number -- the Id number of a channel 
+ * @param uId: number -- id of user to be invited 
+ * @returns {} if no error
+ *          Or the following error codes for error cases:
+ *          400
+ *          1. channelId does not refer to a valid channel
+ *          2. uId does not refer to a valid user
+ *          3. uId refers to a user who is not an owner of the channel
+ *          4. uId refers to a user who is currently the only owner of the channel
+ *          403
+ *          1. channelId is valid and the authorised user does not have owner permissions in the channel
+ */
 export function channelRemoveownerV2(token: string, channelId: number, uId: number): object {
   const data = getData();
   const authUser = getAuthUser(token);

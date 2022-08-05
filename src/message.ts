@@ -13,10 +13,16 @@ export interface messageArray {
 
 /**
  * Send a message from the authorised user to the channel specified by channelId.
- * @param {*} token
- * @param {*} channelId
- * @param {*} message
- * @returns {} unless it is error case, in which case it will return { error: 'error' }
+ * @param {*} token: string -- token of a user to check if this user is authorised
+ * @param {*} channelId:  number -- the Id number of a channel 
+ * @param {*} message: string 
+ * @returns {} if no error
+ *          Or the following error codes for error cases:
+ *          400
+ *          1. channelId does not refer to a valid channel
+ *          2. length of message is less than 1 or over 1000 characters
+ *          403
+ *          1. channelId is valid and the authorised user is not a member of the channel
  */
 export function messageSendV2(token: string, channelId: number, message: string) {
   const data = getData();
@@ -63,13 +69,18 @@ export function messageSendV2(token: string, channelId: number, message: string)
 }
 
 /**
- * Given a message, update its text with new
-text. If the new message is an empty
-string, the message is deleted.
- * @param {*} token
- * @param {*} messageId
- * @param {*} message
- * @returns {messages, start, end} unless it is error case, in which case it will return { error: 'error' }
+ * Given a message, update its text with new text. 
+ * If the new message is an empty string, the message is deleted.
+ * @param {*} token: string -- token of a user to check if this user is authorised
+ * @param {*} messageId: number -- the unique id of a message
+ * @param {*} message: string 
+ * @returns {} if no error
+ *          Or the following error codes for error cases:
+ *          400
+ *          1. length of message is over 1000 characters
+ *          2. messageId does not refer to a valid message within a channel/DM that the authorised user has joined
+ *          403
+ *          1. If the authorised user does not have owner permissions, and the message was not sent by them
  */
 export function messageEditV2(token: string, messageId: number, message: string) {
   const data = getData();
@@ -134,11 +145,38 @@ export function messageEditV2(token: string, messageId: number, message: string)
   return {};
 }
 
+/**
+ * Given a messageId for a message, this message is removed from the channel/DM
+ * 
+ * @param token: string -- token of a user to check if this user is authorised
+ * @param messageId: number -- the unique id of a message
+ * @returns {} if no error
+ *          Or the following error codes for error cases:
+ *          400
+ *          1. messageId does not refer to a valid message within a channel/DM that the authorised user has joined
+ *          403
+ *          1. If the authorised user does not have owner permissions, and the message was not sent by them
+ */
 export function messageRemoveV2(token: string, messageId: number) {
   messageEditV2(token, messageId, '');
   return {};
 }
 
+/**
+ * 
+ * @param token: string -- token of a user to check if this user is authorised 
+ * @param channelId: number -- the unique id of a channel 
+ * @param message: string 
+ * @param timeSent: number -- the time of the message when it is sent
+ * @returns { messageID } if no error
+*          Or the following error codes for error cases:
+ *          400
+ *          1. channelId does not refer to a valid channel
+ *          2. length of message is over 1000 characters
+ *          3. timeSent is a time in the past
+ *          403
+ *          1. channelId is valid and the authorised user is not a member of the channel they are trying to post to
+ */
 export function messageSendlaterV1(token: string, channelId: number, message: string, timeSent: number) {
   const data = getData();
   const user: userTemplate = getAuthUser(token);
@@ -191,6 +229,21 @@ export function messageSendlaterV1(token: string, channelId: number, message: st
   return { messageId: randomNumber };
 }
 
+/**
+ * 
+ * @param token: string -- token of a user to check if this user is authorised 
+ * @param channelId: number -- the unique id of a channel 
+ * @param message: string 
+ * @param timeSent: number -- the time of the message when it is sent
+ * @returns { messageID } if no error
+*          Or the following error codes for error cases:
+ *          400
+ *          1. dmlId does not refer to a valid DM
+ *          2. length of message is over 1000 characters
+ *          3. timeSent is a time in the past
+ *          403
+ *          1. dmId is valid and the authorised user is not a member of the DM they are trying to post to
+ */
 export function messageSendlaterdmV1(token: string, dmId: number, message: string, timeSent: number) {
   const data = getData();
   const user: userTemplate = getAuthUser(token);
