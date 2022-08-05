@@ -1,4 +1,4 @@
-import { createBasicDm, dmSend, newReg, requestSendDm, sendDMMessage, clear, /* sendMessage, */ shareMessage } from './helperFunctions';
+import { createBasicDm, dmSend, newReg, requestSendDm, sendDMMessage, clear, /* sendMessage, */ shareMessage, messageSendV2, getRequest } from './helperFunctions';
 import { createBasicChannel } from './channels.test';
 import { Response } from 'sync-request';
 import request from 'sync-request';
@@ -72,6 +72,191 @@ describe('messageShareV1', () => {
   //     expect(shareMessage(dmMessage1Body.messageId + 99, 'any message', -1, dm1Body.identifier)).toHaveProperty('statusCode', 400)
   // });
 });
+
+function messageEditV2(token: string, messageId: number, message: string) {
+  return getRequest(
+    'PUT',
+    '/message/edit/v2',
+    {
+      messageId, message
+    },
+    { token }
+  );
+}
+
+function messageRemoveV2(token: string, messageId: number) {
+  return getRequest(
+    'DELETE',
+    '/message/remove/v2',
+    {
+      messageId
+    },
+    { token }
+  );
+}
+
+describe('test for messageSendV2', () => {
+  let token: string,
+    token2: string,
+    channelId: number;
+  beforeEach(() => {
+    clear();
+    const regist1 = newReg(
+      'gabriella.gook@gmail.com',
+      'G1gook897',
+      'Gabriella',
+      'Gook'
+    );
+    const registerRes1 = JSON.parse(String(regist1.getBody()));
+    const regist2 = newReg(
+      'bob.destiny@gmail.com',
+      'Why1456url',
+      'Bob',
+      'Destiny'
+    );
+    const registerRes2 = JSON.parse(String(regist2.getBody()));
+    token = registerRes1.token;
+    token2 = registerRes2.token;
+    const channelRes = createBasicChannel(token, 'star', true);
+    channelId = JSON.parse(String(channelRes.getBody())).channelId;
+  });
+  describe('error case', () => {
+    test('channelId does not refer to a valid channel', () => {
+      const message = '123';
+      expect(messageSendV2(token, channelId + 999, message).statusCode).toStrictEqual(400);
+    });
+
+    test('length of message is less than 1 ', () => {
+      const message = '';
+
+      expect(messageSendV2(token, channelId, message).statusCode).toStrictEqual(400);
+    });
+
+    test('length of message is over 1000 characters', () => {
+      let message = '123';
+      for (let i = 0; i < 1001; i++) {
+        message += '1';
+      }
+
+      expect(messageSendV2(token, channelId, message).statusCode).toStrictEqual(400);
+    });
+
+    test('channelId is valid and the authorised user is not a member of the channel', () => {
+      const message = '123';
+
+      expect(messageSendV2(token2, channelId, message).statusCode).toStrictEqual(403);
+    });
+  });
+
+  describe('No errors', () => {
+    test('message is sent successfully', () => {
+      const message = '123';
+      expect(messageSendV2(token, channelId, message)).toStrictEqual({ messageId: expect.any(Number) });
+    });
+  });
+});
+
+describe('test for messageEditV2', () => {
+  let token: string,
+    token2: string,
+    channelId: number,
+    messageId:number;
+  beforeEach(() => {
+    clear();
+    const regist1 = newReg(
+      'gabriella.gook@gmail.com',
+      'G1gook897',
+      'Gabriella',
+      'Gook'
+    );
+    const registerRes1 = JSON.parse(String(regist1.getBody()));
+    const regist2 = newReg(
+      'bob.destiny@gmail.com',
+      'Why1456url',
+      'Bob',
+      'Destiny'
+    );
+    const registerRes2 = JSON.parse(String(regist2.getBody()));
+    token = registerRes1.token;
+    token2 = registerRes2.token;
+    const channelRes = createBasicChannel(token, 'star', true);
+    channelId = JSON.parse(String(channelRes.getBody())).channelId;
+    messageId = messageSendV2(token, channelId, '123123').messageId;
+  });
+  describe('error case', () => {
+    test('length of message is over 1000 characters', () => {
+      let message = '123';
+      for (let i = 0; i < 1001; i++) {
+        message += '1';
+      }
+      expect(messageEditV2(token, messageId, message).statusCode).toStrictEqual(400);
+    });
+
+    test('messageId does not refer to a valid message within a channel/DM that the authorised user has joined', () => {
+      const message = '1234';
+
+      expect(messageEditV2(token, messageId + 999, message).statusCode).toStrictEqual(400);
+    });
+
+    test('If the authorised user does not have owner permissions, and the message was not sent by them', () => {
+      const message = '123';
+
+      expect(messageEditV2(token2, messageId, message).statusCode).toStrictEqual(403);
+    });
+  });
+
+  describe('No errors', () => {
+    test('edit message successfully', () => {
+      const message = '123';
+      expect(messageEditV2(token, messageId, message)).toStrictEqual({});
+    });
+  });
+});
+
+describe('test for messageRemoveV2', () => {
+  let token: string,
+    token2: string,
+    channelId: number,
+    messageId: number;
+  beforeEach(() => {
+    clear();
+    const regist1 = newReg(
+      'gabriella.gook@gmail.com',
+      'G1gook897',
+      'Gabriella',
+      'Gook'
+    );
+    const registerRes1 = JSON.parse(String(regist1.getBody()));
+    const regist2 = newReg(
+      'bob.destiny@gmail.com',
+      'Why1456url',
+      'Bob',
+      'Destiny'
+    );
+    const registerRes2 = JSON.parse(String(regist2.getBody()));
+    token = registerRes1.token;
+    token2 = registerRes2.token;
+    const channelRes = createBasicChannel(token, 'star', true);
+    channelId = JSON.parse(String(channelRes.getBody())).channelId;
+    messageId = messageSendV2(token, channelId, '123123').messageId;
+  });
+  describe('error case', () => {
+    test('messageId does not refer to a valid message within a channel/DM that the authorised user has joined', () => {
+      expect(messageRemoveV2(token, messageId + 999).statusCode).toStrictEqual(400);
+    });
+
+    test('If the authorised user does not have owner permissions, and the message was not sent by them', () => {
+      expect(messageRemoveV2(token2, messageId).statusCode).toStrictEqual(403);
+    });
+  });
+
+  describe('No errors', () => {
+    test('message removal successful', () => {
+      expect(messageRemoveV2(token, messageId)).toStrictEqual({});
+    });
+  });
+});
+
 /*
 import request from 'sync-request';
 import { clearV1 } from './other';

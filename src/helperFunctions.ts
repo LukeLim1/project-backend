@@ -591,3 +591,14 @@ export function getAuthUser(token: string) {
   }
   return user;
 }
+
+export function messageSendV2(token: string, channelId: number, message: string) {
+  return getRequest(
+    'POST',
+    '/message/send/v2',
+    {
+      channelId, message,
+    },
+    { token }
+  );
+}
