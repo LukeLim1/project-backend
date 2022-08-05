@@ -85,6 +85,12 @@ describe('HTTP tests using Jest', () => {
     });
   });
 
+  test('dmLeave: invalid token', () => {
+    clear();
+    const res = requestDmLeave('1', 1);
+    expect(res.statusCode).toBe(403);
+  });
+
   test('dmLeave: dmId does not refer to valid DM', () => {
     const basicA = createBasicAccount();
     const newUser = JSON.parse(String(basicA.getBody()));
@@ -203,6 +209,12 @@ describe('HTTP tests using Jest', () => {
       message: 'Hi',
       timeSent: expect.any(Number),
     });
+  });
+
+  test('dmMessages: invalid token', () => {
+    clear();
+    const res = requestDmMessages('1', 1, 0);
+    expect(res.statusCode).toBe(403);
   });
 
   test('dmMessages: dmId does not refer to valid DM', () => {

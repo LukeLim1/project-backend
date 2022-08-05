@@ -53,6 +53,11 @@ describe('userRemove tests using Jest', () => {
     expect(bodyObj).toMatchObject({});
   });
 
+  test('userRemove: invalid token', () => {
+    const res = requestUserRemove('1', 1);
+    expect(res.statusCode).toBe(403);
+  });
+
   test('uId doesn\'t refer to valid user', () => {
     const newUser = JSON.parse(String(createBasicAccount().getBody()));
     const newUser2 = JSON.parse(String(createBasicAccount2().getBody()));
@@ -87,6 +92,11 @@ describe('userPermissionChange tests using Jest', () => {
 
     expect(res.statusCode).toBe(OK);
     expect(bodyObj).toMatchObject({});
+  });
+
+  test('userPermissionChange: invalid token', () => {
+    const res = requestUserPermissionChange('1', 1, 1);
+    expect(res.statusCode).toBe(403);
   });
 
   test('uId does not refer to a valid user', () => {
