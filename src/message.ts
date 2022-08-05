@@ -233,6 +233,11 @@ export function messagesShareV1(token: string, ogMessageId: number, message: str
  * @param token ticket of current user
  * @param messageId message id
  * @returns result
+ * 400 error when:
+ * 1. messageId is not a valid message within a channel or DM that the authorised user has joined
+ * 2. the message is already pinned
+ * 403 error when:
+ * messageId refers to a valid message in a joined channel/DM and the authorised user does not have owner permissions in the channel/DM
  */
 export function messagePin(token: string, messageId: number) {
   // Check if token is valid
@@ -271,6 +276,11 @@ export function messagePin(token: string, messageId: number) {
  * @param token ticket of current user
  * @param messageId message id
  * @returns result
+ * 400 error when:
+ * 1. messageId is not a valid message within a channel or DM that the authorised user has joined
+ * 2. the message is not already pinned
+ * 403 error when:
+ * messageId refers to a valid message in a joined channel/DM and the authorised user does not have owner permissions in the channel/DM
  */
 export function messageUnPin(token: string, messageId: number) {
   // Check if token is valid
@@ -311,6 +321,10 @@ export function messageUnPin(token: string, messageId: number) {
  * @param messageId message id
  * @param reactId react id currently, the only valid react ID the frontend has is 1
  * @returns result
+ * 400 Error when:
+ * 1. messageId is not a valid message within a channel or DM that the authorised user has joined
+ * 2. reactId is not a valid react ID - currently, the only valid react ID the frontend has is 1
+ * 3. the message already contains a react with ID reactId from the authorised user
  */
 export function messagesReact(token: string, messageId: number, reactId: number) {
   // Check if token is valid
@@ -389,11 +403,15 @@ export function messagesReact(token: string, messageId: number, reactId: number)
 }
 
 /**
- * unRect message
+ * unReact message
  * @param token ticket of user
  * @param messageId message id
  * @param reactId react id currently, the only valid react ID the frontend has is 1
  * @returns result
+ * 400 error when:
+ * 1. messageId is not a valid message within a channel or DM that the authorised user has joined
+ * 2. reactId is not a valid react ID
+ * 3. the message does not contain a react with ID reactId from the authorised user
  */
 export function messagesUnReact(token: string, messageId: number, reactId: number) {
   // Check if token is valid
@@ -465,6 +483,8 @@ export function messagesUnReact(token: string, messageId: number, reactId: numbe
  * message search
  * @param token ticket of user
  * @param queryStr query str
+ * @returns {messages}
+ * 400 Error when length of queryStr is less than 1 or over 1000 characters
  */
 export function messagesSearch(token: string, queryStr: string) {
   // Check if token is valid
