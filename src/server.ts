@@ -11,7 +11,7 @@ import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } 
 import { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats } from './users';
 import { userRemove, userPermissionChange } from './admin';
 import {
-  messageSendV1, messageEditV1, messageRemoveV1, messagesShareV1,
+  messageSendV2, messageEditV2, messageRemoveV2, messagesShareV1,
   messagesSearch, messagesUnReact, messagesReact, messageUnPin, messagePin
 } from './message';
 import { notificationGetV1 } from './notifications';
@@ -231,8 +231,8 @@ app.post('/channel/invite/v3', (req, res) => {
 
 app.get('/channel/messages/v3', (req, res) => {
   const token = req.header('token');
-  const { channelId, start } = req.body;
-  res.json(channelMessagesV3(token, channelId, start));
+  const { channelId, start } = req.query;
+  res.json(channelMessagesV3(token, Number(channelId), Number(start)));
 });
 
 app.post('/channel/addowner/v2', (req, res) => {
@@ -247,15 +247,16 @@ app.post('/channel/removeowner/v2', (req, res) => {
   res.json(channelRemoveownerV2(token, channelId, uId));
 });
 
-app.post('/message/send', (req, res) => {
-  const { token, channelId, message } = req.body;
-  res.json(messageSendV1(token, channelId, message));
+app.post('/message/send/v2', (req, res) => {
+  const token = req.header('token');
+  const { channelId, message } = req.body;
+  res.json(messageSendV2(token, channelId, message));
 });
 
-app.put('/message/edit', (req, res) => {
-  const { token, messageId, message } = req.body;
-  // returns {}
-  res.json(messageEditV1(token, messageId, message));
+app.put('/message/edit/v2', (req, res) => {
+  const token = req.header('token');
+  const { messageId, message } = req.body;
+  res.json(messageEditV2(token, messageId, message));
 });
 
 app.post('/message/share/v1', (req, res) => {
@@ -266,10 +267,10 @@ app.post('/message/share/v1', (req, res) => {
   res.json(messagesShareV1(token, ogMessageId, message, channelId, dmId));
 });
 
-app.delete('/message/remove', (req, res) => {
-  const { token, messageId } = req.body;
-  // returns {}
-  res.json(messageRemoveV1(token, messageId));
+app.delete('/message/remove/v2', (req, res) => {
+  const token = req.header('token');
+  const { messageId } = req.query;
+  res.json(messageRemoveV2(token, Number(messageId)));
 });
 
 app.get('/search/v1', (req, res) => {
