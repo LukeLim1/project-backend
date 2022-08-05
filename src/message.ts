@@ -103,12 +103,12 @@ export function messageEditV2(token: string, messageId: number, message: string)
     throw HTTPError(400, 'messageId does not refer to a valid message within a channel/DM that the authorised user has joined');
   }
 
-  // Case 3: The authorised owner does not have owner permissions(i.e.not owner of channel or globalPermission Id != 1) 
+  // Case 3: The authorised owner does not have owner permissions(i.e.not owner of channel or globalPermission Id != 1)
   //         and the message was not sent by them
   if (findChannel) {
-    if (!(findChannel.ownerMembers.find(x => x.uId === user.uId) || user.globalPermissionId === 1) 
-        && existMessage.uId !== user.uId) {
-    throw HTTPError(403, 'If the authorised user does not have owner permissions, and the message was not sent by them');
+    if (!(findChannel.ownerMembers.find(x => x.uId === user.uId) || user.globalPermissionId === 1) &&
+        existMessage.uId !== user.uId) {
+      throw HTTPError(403, 'If the authorised user does not have owner permissions, and the message was not sent by them');
     }
   }
 

@@ -1,5 +1,5 @@
 // import request from 'sync-request';
-import { newReg, createBasicAccount, createBasicAccount2, /* leaveChannel, */ requestJoinChannel, clear, requestChannelDetails, createBasicChannel, getRequest } from './helperFunctions';
+import { newReg, createBasicAccount, createBasicAccount2, /* leaveChannel, */ requestJoinChannel, clear, requestChannelDetails, createBasicChannel, getRequest, messageSendV2 } from './helperFunctions';
 // import { join } from 'path';
 
 const OK = 200;
@@ -247,6 +247,65 @@ describe('test for channelInviteV3', () => {
   describe('No errors', () => {
     test('Invite successfully', () => {
       expect(channelInviteV3(token, channelId, uId)).toStrictEqual({});
+    });
+  });
+});
+
+describe('channelMessagesV3', () => {
+  let token: string,
+    token2: string,
+    channelId: number;
+  beforeEach(() => {
+    clear();
+    const regist1 = newReg(
+      'gabriella.gook@gmail.com',
+      'G1gook897',
+      'Gabriella',
+      'Gook'
+    );
+    const registerRes1 = JSON.parse(String(regist1.getBody()));
+    const regist2 = newReg(
+      'bob.destiny@gmail.com',
+      'Why1456url',
+      'Bob',
+      'Destiny'
+    );
+    const registerRes2 = JSON.parse(String(regist2.getBody()));
+    token = registerRes1.token;
+    token2 = registerRes2.token;
+    const channelRes = createBasicChannel(token, 'star', true);
+    channelId = JSON.parse(String(channelRes.getBody())).channelId;
+    messageSendV2(token, channelId, '123123');
+  });
+  describe('error case', () => {
+    test('channelId does not refer to a valid channel', () => {
+      expect(channelMessagesV3(token, channelId + 999, 0).statusCode).toStrictEqual(400);
+    });
+
+    test('start is greater than the total number of messages in the channel', () => {
+      expect(channelMessagesV3(token, channelId, 100).statusCode).toStrictEqual(400);
+    });
+
+    test('channelId is valid and the authorised user is not a member of the channel', () => {
+      expect(channelMessagesV3(token2, channelId, 0).statusCode).toStrictEqual(403);
+    });
+  });
+  describe('No errors', () => {
+    test('send message success', () => {
+      expect(channelMessagesV3(token, channelId, 0)).toStrictEqual({
+        end: -1,
+        messages: [
+          {
+            isPinned: false,
+            message: '123123',
+            messageId: expect.any(Number),
+            reacts: [],
+            timeSent: expect.any(Number),
+            uId: 1,
+          },
+        ],
+        start: 0,
+      });
     });
   });
 });

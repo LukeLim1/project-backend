@@ -177,6 +177,12 @@ export function channelInviteV3(token: string, channelId: number, uId: number) {
     nameLast: user.lastname,
     handleStr: user.handle
   });
+  user.numChannelsJoined++;
+  user.notifications.push({
+    channelId: channel.channelId,
+    dmId: -1,
+    notificationMessage: `${authUser.handle} added you to ${channel.name}`
+  });
   return {};
 }
 
