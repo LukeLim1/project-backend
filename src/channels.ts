@@ -52,7 +52,7 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
     allMembers: [userPush],
     channelId: randomNumber,
     messages: [],
-    standup: []
+    standup: undefined
   });
   setData(data);
   return { channelId: randomNumber };
