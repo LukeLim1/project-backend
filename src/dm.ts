@@ -204,6 +204,11 @@ export function dmMessages(token: string, dmId: number, start: number): IDmMessa
  * @param dmId dm id
  * @param message message
  * @returns result
+ * 400 error when:
+ * 1. dmId does not refer to a valid DM
+ * 2. length of message is less than 1 or over 1000 characters
+ * 403 error when:
+ * dmId is valid and the authorised user is not a member of the DM
  */
 export function senddm(token: string, dmId: number, message: string) {
   // Check if token is valid
@@ -286,6 +291,7 @@ export function senddm(token: string, dmId: number, message: string) {
  * select list dms that the user is a member of
  * @param token the ticket of the user
  * @returns list dm
+ * 403 error when token is not valid
  */
 export function dmList(token: string) {
   // Check if token is valid
@@ -319,6 +325,11 @@ export function dmList(token: string) {
  * @param token  the ticket of the user
  * @param dmId dm id
  * @returns
+ * 400 error when:
+ * dmId does not refer to a valid DM
+ * 403 error when:
+ * 1. dmId is valid and the authorised user is not the original DM creator
+ * 2. dmId is valid and the authorised user is no longer in the DM
  */
 export function dmRemove(token: string, dmId: number): object | Error {
   // Check if token is valid
@@ -366,6 +377,10 @@ export function dmRemove(token: string, dmId: number): object | Error {
  * @param token the ticket of the user
  * @param dmId id of dm
  * @returns dm detail
+ * 400 error when:
+ * dmId does not refer to a valid DM
+ * 403 error when:
+ * dmId is valid and the authorised user is not a member of the DM
  */
 export function dmDetails(token: string, dmId: number): object | Error {
   // Check if token is valid
