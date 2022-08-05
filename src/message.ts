@@ -107,7 +107,7 @@ export function messageEditV2(token: string, messageId: number, message: string)
   //         and the message was not sent by them
   if (findChannel) {
     if (!(findChannel.ownerMembers.find(x => x.uId === user.uId) || user.globalPermissionId === 1) &&
-        existMessage.uId !== user.uId) {
+      existMessage.uId !== user.uId) {
       throw HTTPError(403, 'If the authorised user does not have owner permissions, and the message was not sent by them');
     }
   }
@@ -233,7 +233,7 @@ export function messageSendlaterdmV1(token: string, dmId: number, message: strin
 
   data.usedNums.push(random);
 
-  const messageRes:messageTemplate = {
+  const messageRes: messageTemplate = {
     messageId: random,
     uId: user.uId,
     message: '',

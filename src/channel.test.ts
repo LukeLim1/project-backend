@@ -1,5 +1,5 @@
 // import request from 'sync-request';
-import { newReg, createBasicAccount, createBasicAccount2, /* leaveChannel, */ requestJoinChannel, clear, requestChannelDetails, createBasicChannel, getRequest, messageSendV2 } from './helperFunctions';
+import { newReg, createBasicAccount, createBasicAccount2, leaveChannel, requestJoinChannel, clear, requestChannelDetails, createBasicChannel, getRequest, messageSendV2 } from './helperFunctions';
 // import { join } from 'path';
 
 const OK = 200;
@@ -366,6 +366,69 @@ describe('channelAddownerV2', () => {
       channelInviteV3(token, channelId, uId);
       expect(channelAddownerV2(token, channelId, uId)).toStrictEqual({});
     });
+  });
+});
+
+describe('channelLeaveV1 tests', () => {
+  test('Channel successfully left', () => {
+    // account 1
+    const basicA = newReg('zachary-chan@gmail.com', 'z5312386', 'Zach', 'Chan');
+    const newUser = JSON.parse(String(basicA.getBody()));
+    //  account 2
+    const res2 = newReg('hello@gmail.com', 'z5312386', 'Taylor', 'Swift');
+    const res2Body = JSON.parse(String(res2.getBody()));
+
+    expect(res2.statusCode).toBe(OK);
+
+    const basicC = createBasicChannel(newUser.token, 'channel1', true);
+    const newChannel = JSON.parse(String(basicC.getBody()));
+
+    // join a channel
+    const res4 = requestJoinChannel(res2Body.token, newChannel.channelId);
+
+    const bodyObj1 = JSON.parse(String(res4.getBody()));
+    expect(res4.statusCode).toBe(OK);
+    expect(bodyObj1).toMatchObject({});
+    // channel leave test
+    const res5 = leaveChannel(newUser.token, newChannel.channelId);
+
+    const bodyObj2 = JSON.parse(String(res5.getBody()));
+    expect(res5.statusCode).toBe(OK);
+    expect(bodyObj2).toMatchObject({});
+  });
+
+  test('Channel leave failed', () => {
+    // account 1
+    const basicA = newReg('zachary-chan@gmail.com', 'z5312386', 'Zach', 'Chan');
+    const newUser = JSON.parse(String(basicA.getBody()));
+    //  account 2
+    const res2 = newReg('hello@gmail.com', 'z5312386', 'Taylor', 'Swift');
+    const res2Body = JSON.parse(String(res2.getBody()));
+    // account 3 not apart of the channel
+    const new1 = newReg('test@gmail.com', 'fail1234', 'failure', 'ofATest');
+    const failUser = JSON.parse(String(new1.getBody()));
+
+    expect(res2.statusCode).toBe(OK);
+
+    const basicC = createBasicChannel(newUser.token, 'channel1', true);
+    const newChannel = JSON.parse(String(basicC.getBody()));
+
+    // join a channel
+    const res4 = requestJoinChannel(res2Body.token, newChannel.channelId);
+
+    const bodyObj1 = JSON.parse(String(res4.getBody()));
+    expect(res4.statusCode).toBe(OK);
+    expect(bodyObj1).toMatchObject({});
+
+    // channel leave  'CHANNELID DOES NOT REFER TO A VALID CHANNEL'
+    const res5 = leaveChannel(newUser.token, newChannel.channelId + 99999);
+    expect(res5).toHaveProperty('statusCode', 400);
+
+    // channel leave 'AUTHORISED USER NOT A MEMBER OF A VALID CHANNEL
+    // account not part of channel
+    // channel leave
+    const res6 = leaveChannel(failUser.token[0], newChannel.channelId);
+    expect(res6).toHaveProperty('statusCode', 403);
   });
 });
 

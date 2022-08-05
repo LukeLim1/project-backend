@@ -217,11 +217,11 @@ export function leaveChannel(token: string, channelId: number) {
     `${url}:${port}/channel/leave/v1`,
     {
       body: JSON.stringify({
-        token: token,
         channelId: channelId
       }),
       headers: {
         'Content-type': 'application/json',
+        token: token,
       },
     }
   );
