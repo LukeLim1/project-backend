@@ -14,8 +14,8 @@ export interface messageArray {
 /**
  * Send a message from the authorised user to the channel specified by channelId.
  * @param {*} token: string -- token of a user to check if this user is authorised
- * @param {*} channelId:  number -- the Id number of a channel 
- * @param {*} message: string 
+ * @param {*} channelId:  number -- the Id number of a channel
+ * @param {*} message: string
  * @returns {} if no error
  *          Or the following error codes for error cases:
  *          400
@@ -69,11 +69,11 @@ export function messageSendV2(token: string, channelId: number, message: string)
 }
 
 /**
- * Given a message, update its text with new text. 
+ * Given a message, update its text with new text.
  * If the new message is an empty string, the message is deleted.
  * @param {*} token: string -- token of a user to check if this user is authorised
  * @param {*} messageId: number -- the unique id of a message
- * @param {*} message: string 
+ * @param {*} message: string
  * @returns {} if no error
  *          Or the following error codes for error cases:
  *          400
@@ -147,7 +147,7 @@ export function messageEditV2(token: string, messageId: number, message: string)
 
 /**
  * Given a messageId for a message, this message is removed from the channel/DM
- * 
+ *
  * @param token: string -- token of a user to check if this user is authorised
  * @param messageId: number -- the unique id of a message
  * @returns {} if no error
@@ -163,10 +163,10 @@ export function messageRemoveV2(token: string, messageId: number) {
 }
 
 /**
- * 
- * @param token: string -- token of a user to check if this user is authorised 
- * @param channelId: number -- the unique id of a channel 
- * @param message: string 
+ *
+ * @param token: string -- token of a user to check if this user is authorised
+ * @param channelId: number -- the unique id of a channel
+ * @param message: string
  * @param timeSent: number -- the time of the message when it is sent
  * @returns { messageID } if no error
 *          Or the following error codes for error cases:
@@ -230,10 +230,10 @@ export function messageSendlaterV1(token: string, channelId: number, message: st
 }
 
 /**
- * 
- * @param token: string -- token of a user to check if this user is authorised 
- * @param channelId: number -- the unique id of a channel 
- * @param message: string 
+ *
+ * @param token: string -- token of a user to check if this user is authorised
+ * @param channelId: number -- the unique id of a channel
+ * @param message: string
  * @param timeSent: number -- the time of the message when it is sent
  * @returns { messageID } if no error
 *          Or the following error codes for error cases:
