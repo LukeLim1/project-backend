@@ -135,6 +135,119 @@ export function messageRemoveV2(token: string, messageId: number) {
   return {};
 }
 
+export function messageSendlaterV1(token: string, channelId: number, message: string, timeSent: number) {
+  const data = getData();
+  const user: userTemplate = getAuthUser(token);
+  const channel = data.channels.find(channel => channel.channelId === channelId);
+
+  // Checking for invalid cases
+  // Case 2: Not a valid channel as indicated by invalid channelID
+  if (!channel) {
+    throw HTTPError(400, 'channelId does not refer to a valid channel');
+  }
+
+  // Case 3 : length of message is less than 1 or over 1000 characters
+  if (message.length < 1 || message.length > 1000) {
+    throw HTTPError(400, 'length of message is less than 1 or over 1000 characters');
+  }
+
+  const timeNow = Math.floor(new Date().getTime() / 1000);
+
+  if (timeSent < timeNow) {
+    throw HTTPError(400, 'timeSent is a time in the past');
+  }
+
+  if (!channel.allMembers.find(x => x.uId === user.uId)) {
+    throw HTTPError(403, 'channelId is valid and the authorised user is not a member of the channel');
+  }
+
+  let randomNumber = Math.floor(Math.random() * 1000);
+  if (data.usedNums.length !== 0) {
+    randomNumber += data.usedNums[data.usedNums.length - 1];
+  }
+  data.usedNums.push(randomNumber);
+  const messageRes: messageTemplate = {
+    uId: user.uId,
+    timeSent: timeSent,
+    reacts: [],
+    isPinned: false,
+    messageId: randomNumber,
+    message: ''
+  };
+  data.numMsgs++;
+  user.numMessagesSent++;
+
+  data.messages.push(messageRes);
+  channel.messages.push(messageRes);
+
+  setTimeout(() => {
+    messageRes.message = message;
+  }, (timeSent - timeNow) * 1000);
+
+  return { messageId: randomNumber };
+}
+
+export function messageSendlaterdmV1(token: string, dmId: number, message: string, timeSent: number) {
+  const data = getData();
+  const user: userTemplate = getAuthUser(token);
+
+  // Case 1: dmId does not refer to a valid DM
+  const dm = data.DMs.find(d => d.dmId === dmId);
+  if (!dm) {
+    throw HTTPError(400, 'dmId does not refer to a valid DM');
+  }
+
+  if (message.length < 1 || message.length > 1000) {
+    throw HTTPError(400, 'length of message is less than 1 or over 1000 characters');
+  }
+
+  const timeNow = Math.floor(new Date().getTime() / 1000);
+
+  if (timeSent < timeNow) {
+    throw HTTPError(400, 'timeSent is a time in the past');
+  }
+
+  // case 3: check member of dm
+  let isMember = false;
+  for (const member of dm.members) {
+    if (member.uId === user.uId) {
+      isMember = true;
+      break;
+    }
+  }
+
+  if (!isMember) {
+    throw HTTPError(403, 'dmId is valid and the authorised user is not a member of the DM they are trying to post to');
+  }
+
+  let random: number = Math.floor(Math.random() * 10000);
+  if (data.usedNums.length !== 0) {
+    random = random + data.usedNums[data.usedNums.length - 1];
+  }
+
+  data.usedNums.push(random);
+
+  const messageRes:messageTemplate = {
+    messageId: random,
+    uId: user.uId,
+    message: '',
+    timeSent: timeSent,
+    reacts: [],
+    isPinned: false
+  };
+
+  dm.messages.push(messageRes);
+
+  setTimeout(() => {
+    messageRes.message = message;
+  }, (timeSent - timeNow) * 1000);
+
+  user.numMessagesSent++;
+  data.numMsgs++;
+  setData(data);
+  return { messageId: random };
+}
+
 /**
  * find the message that has messageId, ogMessageId (in either channel or dm)
  * and concat it with new message (message)
