@@ -162,7 +162,7 @@ function channelInviteV3(token: string, channelId: number, uId: number) {
     { token }
   );
 }
-/*
+
 function channelMessagesV3(token: string, channelId: number, start: number) {
   return getRequest(
     'GET',
@@ -196,7 +196,7 @@ function channelRemoveownerV2(token: string, channelId: number, uId: number) {
     { token }
   );
 }
-*/
+
 describe('test for channelInviteV3', () => {
   let token: string,
     authUserId: number,
@@ -250,7 +250,7 @@ describe('test for channelInviteV3', () => {
     });
   });
 });
-/*
+
 describe('channelAddownerV2', () => {
   let token: string,
     uId: number,
@@ -313,7 +313,6 @@ describe('channelAddownerV2', () => {
 describe('channelRemoveownerV2', () => {
   let token: string,
     uId: number,
-    token2: string,
     token3:string,
     channelId: number,
     authUserId:number;
@@ -341,7 +340,6 @@ describe('channelRemoveownerV2', () => {
     const registerRes3 = JSON.parse(String(regist3.getBody()));
     const registerRes2 = JSON.parse(String(regist2.getBody()));
     token = registerRes1.token;
-    token2 = registerRes2.token;
     token3 = registerRes3.token;
     authUserId = registerRes2.authUserId;
     uId = registerRes2.authUserId;
@@ -379,4 +377,3 @@ describe('channelRemoveownerV2', () => {
     });
   });
 });
-*/

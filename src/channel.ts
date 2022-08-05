@@ -226,9 +226,9 @@ export function channelMessagesV3(token: string, channelId: number, start: numbe
 
 export function channelAddownerV2(token: string, channelId: number, uId: number) {
   const data = getData();
-  getAuthUser(token);
+  const authUser = getAuthUser(token);
   const channel = data.channels.find(channel => channel.channelId === channelId);
-  const user = data.users.find(u => u.uId === uId);
+  const user = data.users.find((u) => u.uId === uId);
 
   // Check if channelId is valid
   if (!channel) {
@@ -247,7 +247,12 @@ export function channelAddownerV2(token: string, channelId: number, uId: number)
 
   // Check if uId belongs to a user who is already an owner
   if (channel.ownerMembers.find(x => x.uId === user.uId)) {
-    throw HTTPError(400, 'uId refers to a user who is already an owner of the channel');
+    throw HTTPError(403, 'uId refers to a user who is already an owner of the channel');
+  }
+
+  // channelId is valid and the authorised user does not have owner permissions in the channel
+  if (!channel.ownerMembers.find(x => x.uId === authUser.uId)) {
+    throw HTTPError(403, 'channelId is valid and the authorised user does not have owner permissions in the channel');
   }
 
   // Otherwise add the user to the ownerMembers
@@ -264,7 +269,7 @@ export function channelAddownerV2(token: string, channelId: number, uId: number)
 
 export function channelRemoveownerV2(token: string, channelId: number, uId: number): object {
   const data = getData();
-  getAuthUser(token);
+  const authUser = getAuthUser(token);
   const channel = data.channels.find(channel => channel.channelId === channelId);
   const user = data.users.find(u => u.uId === uId);
 
@@ -278,11 +283,6 @@ export function channelRemoveownerV2(token: string, channelId: number, uId: numb
     throw HTTPError(400, 'uId does not refer to a valid user');
   }
 
-  // Check if uId refers to a user who is not a member of the channel
-  if (!channel.allMembers.find(x => x.uId === user.uId)) {
-    return { error: 'error' };
-  }
-
   // Check if uId refers to a user who is not an owner of the channel
   if (!channel.ownerMembers.find(x => x.uId === user.uId)) {
     throw HTTPError(400, 'uId refers to a user who is not an owner of the channel');
@@ -291,6 +291,11 @@ export function channelRemoveownerV2(token: string, channelId: number, uId: numb
   // Check if the channel only has 1 owner
   if (channel.ownerMembers.length === 1) {
     throw HTTPError(400, 'uId refers to a user who is currently the only owner of the channel');
+  }
+
+  // channelId is valid and the authorised user does not have owner permissions in the channel
+  if (!channel.ownerMembers.find(x => x.uId === authUser.uId)) {
+    throw HTTPError(403, 'uId refers to a user who is currently the only owner of the channel');
   }
 
   // Otherwise, kick the user out of the ownerMembers

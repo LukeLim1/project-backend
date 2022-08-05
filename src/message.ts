@@ -103,10 +103,12 @@ export function messageEditV2(token: string, messageId: number, message: string)
     throw HTTPError(400, 'messageId does not refer to a valid message within a channel/DM that the authorised user has joined');
   }
 
-  // Case 3: The authorised owner is not an owner of the channel
+  // Case 3: The authorised owner does not have owner permissions(i.e.not owner of channel or globalPermission Id != 1) 
+  //         and the message was not sent by them
   if (findChannel) {
-    if (!findChannel.ownerMembers.find(x => x.uId === user.uId)) {
-      throw HTTPError(403, 'If the authorised user does not have owner permissions, and the message was not sent by them');
+    if (!(findChannel.ownerMembers.find(x => x.uId === user.uId) || user.globalPermissionId === 1) 
+        && existMessage.uId !== user.uId) {
+    throw HTTPError(403, 'If the authorised user does not have owner permissions, and the message was not sent by them');
     }
   }
 
@@ -121,6 +123,8 @@ export function messageEditV2(token: string, messageId: number, message: string)
   } else {
     if (findChannel) {
       findChannel.messages = findChannel.messages.filter(x => x.messageId !== messageId);
+      data.numMsgs--;
+      user.numMessagesSent--;
     }
     if (findDm) {
       findDm.messages = findDm.messages.filter(x => x.messageId !== messageId);
@@ -141,22 +145,22 @@ export function messageSendlaterV1(token: string, channelId: number, message: st
   const channel = data.channels.find(channel => channel.channelId === channelId);
 
   // Checking for invalid cases
-  // Case 2: Not a valid channel as indicated by invalid channelID
+  // Case 1: Not a valid channel as indicated by invalid channelID
   if (!channel) {
     throw HTTPError(400, 'channelId does not refer to a valid channel');
   }
 
-  // Case 3 : length of message is less than 1 or over 1000 characters
+  // Case 2 : length of message is less than 1 or over 1000 characters
   if (message.length < 1 || message.length > 1000) {
     throw HTTPError(400, 'length of message is less than 1 or over 1000 characters');
   }
 
   const timeNow = Math.floor(new Date().getTime() / 1000);
-
+  // Case 3: timesent is a time in the past
   if (timeSent < timeNow) {
     throw HTTPError(400, 'timeSent is a time in the past');
   }
-
+  // Case 4: authorised user is not a member in this valid channel
   if (!channel.allMembers.find(x => x.uId === user.uId)) {
     throw HTTPError(403, 'channelId is valid and the authorised user is not a member of the channel');
   }
@@ -191,23 +195,26 @@ export function messageSendlaterdmV1(token: string, dmId: number, message: strin
   const data = getData();
   const user: userTemplate = getAuthUser(token);
 
+  // Check error cases
   // Case 1: dmId does not refer to a valid DM
   const dm = data.DMs.find(d => d.dmId === dmId);
   if (!dm) {
     throw HTTPError(400, 'dmId does not refer to a valid DM');
   }
 
+  // Case 2: length of message is less than 1 or over 1000 characters
   if (message.length < 1 || message.length > 1000) {
     throw HTTPError(400, 'length of message is less than 1 or over 1000 characters');
   }
 
   const timeNow = Math.floor(new Date().getTime() / 1000);
 
+  // Case 3: timeSent is a time in the past
   if (timeSent < timeNow) {
     throw HTTPError(400, 'timeSent is a time in the past');
   }
 
-  // case 3: check member of dm
+  // Case 4: check member of dm
   let isMember = false;
   for (const member of dm.members) {
     if (member.uId === user.uId) {
@@ -215,7 +222,6 @@ export function messageSendlaterdmV1(token: string, dmId: number, message: strin
       break;
     }
   }
-
   if (!isMember) {
     throw HTTPError(403, 'dmId is valid and the authorised user is not a member of the DM they are trying to post to');
   }
