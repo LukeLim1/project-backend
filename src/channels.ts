@@ -15,7 +15,7 @@ import HTTPError from 'http-errors';
 //               {error: 'error'} when
 //               - name.length is not between 1 and 20 chars
 
-function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
+function channelsCreateV1(token: string, name: string, isPublic: boolean) {
   checkToken(token);
   if (checkToken(token) === false) {
     throw HTTPError(400, 'Error, bad token');
@@ -62,6 +62,7 @@ function channelsCreateV1 (token: string, name: string, isPublic: boolean) {
  * list for channel
  * @param token ticket of current user
  * @returns channel list
+ * 403 error when token is not valid
  */
 export function channelsListV1(token: string) {
   // check token
@@ -104,6 +105,7 @@ export function channelsListV1(token: string) {
  * list for all user
  * @param token ticket of current user
  * @returns including private channels
+ * 403 error when token is not valid
  */
 export function channelsListallV1(token: string) {
   // check token
