@@ -6,7 +6,7 @@ import { authLoginV1, authRegisterV1, authLogout, authPasswordResetRequest, auth
 import { channelsListV1, channelsListallV1, channelsCreateV1 } from './channels';
 import { clearV1 } from './other';
 import { getData } from './dataStore';
-import { channelLeaveV1, channelDetails, channelJoin, channelInviteV2, channelAddownerV1, channelRemoveownerV1, channelMessagesV2 } from './channel';
+import { channelLeaveV1, channelDetails, channelJoin, channelInviteV3, channelAddownerV2, channelRemoveownerV2, channelMessagesV3 } from './channel';
 import { dmCreateV1, dmLeave, dmMessages, senddm, dmDetails, dmList, dmRemove } from './dm';
 import { userProfileV1, setNameV1, setEmailV1, setHandleV1, usersAll, uploadPhoto, userStats, usersStats } from './users';
 import { userRemove, userPermissionChange } from './admin';
@@ -223,27 +223,28 @@ app.post('/admin/userpermission/change/v1', (req, res) => {
   res.json(userPermissionChange(token, uId, permissionId));
 });
 
-app.post('/channel/invite/v2', (req, res) => {
-  const { token, channelId, uId } = req.body;
-  res.json(channelInviteV2(token, channelId, uId));
+app.post('/channel/invite/v3', (req, res) => {
+  const token = req.header('token');
+  const { channelId, uId } = req.body;
+  res.json(channelInviteV3(token, channelId, uId));
 });
 
-app.get('/channel/messages/v2', (req, res) => {
-  const { token, channelId, start } = req.body;
-  // returns {messages,start,end}
-  res.json(channelMessagesV2(token, channelId, start));
+app.get('/channel/messages/v3', (req, res) => {
+  const token = req.header('token');
+  const { channelId, start } = req.body;
+  res.json(channelMessagesV3(token, channelId, start));
 });
 
-app.post('/channel/addowner', (req, res) => {
-  const { token, channelId, uId } = req.body;
-  // returns {}
-  res.json(channelAddownerV1(token, channelId, uId));
+app.post('/channel/addowner/v2', (req, res) => {
+  const token = req.header('token');
+  const { channelId, uId } = req.body;
+  res.json(channelAddownerV2(token, channelId, uId));
 });
 
-app.post('/channel/removeowner', (req, res) => {
-  const { token, channelId, uId } = req.body;
-  // returns {}
-  res.json(channelRemoveownerV1(token, channelId, uId));
+app.post('/channel/removeowner/v2', (req, res) => {
+  const token = req.header('token');
+  const { channelId, uId } = req.body;
+  res.json(channelRemoveownerV2(token, channelId, uId));
 });
 
 app.post('/message/send', (req, res) => {

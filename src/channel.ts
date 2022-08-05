@@ -1,6 +1,6 @@
 import { getData, setData } from './dataStore';
 import { IChannelDetails, userTemplate } from './interface';
-import { checkToken } from './helperFunctions';
+import { checkToken, getAuthUser } from './helperFunctions';
 import { Error } from './interface';
 import HTTPError from 'http-errors';
 
@@ -143,208 +143,157 @@ export function channelLeaveV1(token: string, channelId: number): object {
   return {};
 }
 
-export function channelInviteV2(token: string, channelId: number, uId: number) {
+export function channelInviteV3(token: string, channelId: number, uId: number) {
   const data = getData();
+  // Checking if the token passed in is valid
+  const authUser: userTemplate = getAuthUser(token);
   const user: userTemplate = data.users.find(user => user.uId === uId);
-  // const channel = data.channels.find(channel => channel.channelId === channelId);
+  const channel = data.channels.find(channel => channel.channelId === channelId);
 
-  // // Checking if the token passed in is valid
-  // if (checkToken(token) === false) {
-  //   return { error: 'error' };
-  // }
-
-  // if (channel === undefined) {
-  //   return { error: 'error' };
-  // }
-
-  // // Checking for invalid cases
-  // // Case 1: Not a valid user as indicated by invalid uID
+  // Checking for invalid cases
+  // Case 1: Not a valid channel as indicated by invalid channelID
+  if (!channel) {
+    throw HTTPError(400, 'channelId does not refer to a valid channel');
+  }
+  // Case 2: Not a valid user as indicated by invalid uID
   if (!user) {
+    throw HTTPError(400, 'uId does not refer to a valid user');
+  }
+  // Case 3: Inviting a user who is already a channel member
+  if (channel.allMembers.find(x => x.uId === uId)) {
+    throw HTTPError(400, 'uId refers to a user who is already a member of the channel');
+  }
+
+  // Case 4: channelId is valid and the authorised user is not a member of the channel
+  if (!channel.allMembers.find(x => x.uId === authUser.uId)) {
+    throw HTTPError(403, 'channelId is valid and the authorised user is not a member of the channel');
+  }
+
+  // Otherwise, the invited member is added to the channel immediately
+  channel.allMembers.push({
+    uId: user.uId,
+    email: user.emailAddress,
+    nameFirst: user.firstName,
+    nameLast: user.lastname,
+    handleStr: user.handle
+  });
+  return {};
+}
+
+export function channelMessagesV3(token: string, channelId: number, start: number) {
+  const user: userTemplate = getAuthUser(token);
+  const data = getData();
+  const channel = data.channels.find(channel => channel.channelId === channelId);
+  // Setting a new index "end" to be the value of "start + 50"
+  // and a new array to store the restructured messages
+  let end = start + 50;
+  let messagesRestructured;
+
+  // Checking for invalid case
+  // Case 1: Invalid channelId
+  if (!channel) {
+    throw HTTPError(400, 'channelId does not refer to a valid channel');
+  }
+  const messagesCopy = channel.messages;
+
+  // Case 2: Start is greater than the total number of messages in the channel
+  if (start > messagesCopy.length) {
+    throw HTTPError(400, 'start is greater than the total number of messages in the channel');
+  }
+
+  // Case 3: ChannelId valid (already checked in case 1 previously) but the user is not a member of the valid channel
+  if (!channel.allMembers.find(x => x.uId === user.uId)) {
+    throw HTTPError(403, 'channelId is valid and the authorised user is not a member of the channel');
+  }
+
+  // Otherwise, it should be a "normal" case
+  // If the end index belongs to the most recent message
+  // returns -1 in "end"
+  if (end >= messagesCopy.length - 1) {
+    end = -1;
+    messagesRestructured = messagesCopy.slice(0, messagesCopy.length - start); // We want the older messages
+  } else {
+    messagesRestructured = messagesCopy.slice(
+      messagesCopy.length - end - 1,
+      messagesCopy.length - start
+    ); // We want the older messages
+  }
+
+  // Now flip the messages back so index 0 would be the most recent message when we retrive the selected messages
+  messagesRestructured.reverse();
+  return { messages: messagesRestructured, start, end };
+}
+
+export function channelAddownerV2(token: string, channelId: number, uId: number) {
+  const data = getData();
+  getAuthUser(token);
+  const channel = data.channels.find(channel => channel.channelId === channelId);
+  const user = data.users.find(u => u.uId === uId);
+
+  // Check if channelId is valid
+  if (!channel) {
+    throw HTTPError(400, 'channelId does not refer to a valid channel');
+  }
+
+  // Check if uId refers to a valid user
+  if (!user) {
+    throw HTTPError(400, 'uId does not refer to a valid user');
+  }
+
+  // Check if uId refers to a user who is not a member of the channel
+  if (!channel.allMembers.find(x => x.uId === user.uId)) {
+    throw HTTPError(400, 'uId refers to a user who is not a member of the channel');
+  }
+
+  // Check if uId belongs to a user who is already an owner
+  if (channel.ownerMembers.find(x => x.uId === user.uId)) {
+    throw HTTPError(400, 'uId refers to a user who is already an owner of the channel');
+  }
+
+  // Otherwise add the user to the ownerMembers
+  channel.ownerMembers.push({
+    uId: user.uId,
+    email: user.emailAddress,
+    nameFirst: user.firstName,
+    nameLast: user.lastname,
+    handleStr: user.handle
+  });
+  setData(data);
+  return {};
+}
+
+export function channelRemoveownerV2(token: string, channelId: number, uId: number): object {
+  const data = getData();
+  getAuthUser(token);
+  const channel = data.channels.find(channel => channel.channelId === channelId);
+  const user = data.users.find(u => u.uId === uId);
+
+  // Check if channelId is valid
+  if (!channel) {
+    throw HTTPError(400, 'channelId does not refer to a valid channel');
+  }
+
+  // Check if uId refers to a valid user
+  if (!user) {
+    throw HTTPError(400, 'uId does not refer to a valid user');
+  }
+
+  // Check if uId refers to a user who is not a member of the channel
+  if (!channel.allMembers.find(x => x.uId === user.uId)) {
     return { error: 'error' };
   }
-  // // Case 2: Not a valid channel as indicated by invalid channelID
-  // if (!channel) {
-  //   return { error: 'error' };
-  // }
-  // // Case 3: Inviting a user who is already a channel member
-  // // if (channel.allMembers.includes(uId)) {
-  // //   return { error: 'error' };
-  // // }
-  // const arrayUserId: number[] = [];
-  // Object.values(data.channels).forEach(element => {
-  //   let toPush;
-  //   for (const i in element.allMembers) { toPush = element.allMembers[i].uId; }
-  //   arrayUserId.push(toPush);
-  // });
 
-  // if (arrayUserId.includes(user.uId)) {
-  //   return { error: 'error' };
-  // }
-
-  // // Case 4: The user doesn't have a valid token
-  // // if (!user.token.includes(token)) {
-  // //  return { error: 'error' };
-  // // }
-
-  // // Otherwise, the invited member is added to the channel immediately
-  // channel.allMembers.push(uId);
-  // user.numChannelsJoined++;
-  return {};
-}
-
-export function channelMessagesV2 (token: string, channelId: number, start: number) {
-  if (checkToken(token) === false) {
-    throw HTTPError(403, 'invalid token');
+  // Check if uId refers to a user who is not an owner of the channel
+  if (!channel.ownerMembers.find(x => x.uId === user.uId)) {
+    throw HTTPError(400, 'uId refers to a user who is not an owner of the channel');
   }
 
-  // const data = getData();
-  // const user: userTemplate = data.users.find(u => u.token.includes(token) === true);
-  // const channel = data.channels.find(channel => channel.channelId === channelId);
-  // // Setting a new index "end" to be the value of "start + 50"
-  // // and a new array to store the restructured messages
-  // let end = start + 50;
-  // let messagesRestructured;
+  // Check if the channel only has 1 owner
+  if (channel.ownerMembers.length === 1) {
+    throw HTTPError(400, 'uId refers to a user who is currently the only owner of the channel');
+  }
 
-  // // Checking if the token passed in is valid
-  // if (checkToken(token) === false) {
-  //   return { error: 'error' };
-  // }
-
-  // if (channel === undefined) {
-  //   return { error: 'error' };
-  // }
-
-  // if (!user) {
-  //   return { error: 'error' };
-  // }
-
-  // // Checking for invalid case
-  // // Case 1: Invalid channelId
-  // if (!channel) {
-  //   return { error: 'error' };
-  // }
-  // const messagesCopy = channel.messages;
-
-  // // Case 2: Start is greater than the total number of messages in the channel
-  // if (start > messagesCopy.length) {
-  //   return { error: 'error' };
-  // }
-
-  // // Case 3: ChannelId valid (already checked in case 1 previously) but the user is not a member of the valid channel
-  // if (!channel.allMembers.includes(user.userId)) {
-  //   return { error: 'error' };
-  // }
-
-  // // Otherwise, it should be a "normal" case
-  // // If the end index belongs to the most recent message
-  // // returns -1 in "end"
-  // if (end >= messagesCopy.length - 1) {
-  //   end = -1;
-  //   messagesRestructured = messagesCopy.slice(0, messagesCopy.length - start); // We want the older messages
-  // } else {
-  //   messagesRestructured = messagesCopy.slice(messagesCopy.length - end - 1, messagesCopy.length - start); // We want the older messages
-  // }
-
-  // // Now flip the messages back so index 0 would be the most recent message when we retrive the selected messages
-  // messagesRestructured.reverse();
-  // return { messages: messagesRestructured, start, end };
-}
-
-export function channelAddownerV1(token: string, channelId: number, uId: number) {
-  // const data = getData();
-  // const channel = data.channels.find(channel => channel.channelId === channelId);
-  // const getUser = data.users.find(u => u.userId === uId);
-  // // const user = userProfileV1(token, uId);
-
-  // // Checking if the token passed in is valid
-  // if (checkToken(token) === false) {
-  //   return { error: 'error' };
-  // }
-  // if (channel === undefined) {
-  //   return { error: 'error' };
-  // }
-  // // Check if uId refers to a valid user
-  // if (!getUser) {
-  //   return { error: 'error' };
-  // }
-
-  // // Check if channelId is valid
-  // if (!channel) {
-  //   return { error: 'error' };
-  // }
-
-  // // Check if uId refers to a user who is not a member of the channel
-  // if (!channel.allMembers.includes(uId)) {
-  //   return { error: 'error' };
-  // }
-
-  // // Check if uId belongs to a user who is already an owner
-  // if (channel.ownerMembers.includes(uId)) {
-  //   return { error: 'error' };
-  // }
-
-  // // Otherwise add the user to the ownerMembers
-  // channel.ownerMembers.push(uId);
-  // setData(data);
-  return {};
-}
-
-export function channelRemoveownerV1(token: string, channelId: number, uId: number): object {
-  // const data = getData();
-  // const channel = data.channels.find(channel => channel.channelId === channelId);
-  // console.log(channel);
-  // const getUser = data.users.find(u => u.userId === uId);
-
-  // // Checking if the token passed in is valid
-  // if (checkToken(token) === false) {
-  //   return { error: 'error' };
-  // }
-  // if (channel === undefined) {
-  //   return { error: 'error' };
-  // }
-
-  // // Check if uId refers to a valid user
-  // if (!getUser) {
-  //   return { error: 'error' };
-  // }
-
-  // // Check if channelId is valid
-  // if (!channel) {
-  //   return { error: 'error' };
-  // }
-  // if (channel === undefined) {
-  //   return { error: 'error' };
-  // }
-
-  // // Check if uId refers to a user who is not a member of the channel
-  // // if (!channel.allMembers.includes(uId)) {
-  // //   return { error: 'error' };
-  // // }
-  // // const arrayUserId = []
-  // // Object.values(data.channels).forEach(element => {
-  // //   let toPush;
-  // //   for (const i in element.allMembers)
-  // //     toPush = element.allMembers[i].userId;
-  // //   arrayUserId.push(toPush);
-  // // });
-  // // console.log(arrayUserId)
-  // // console.log(uId)
-  // // if (!arrayUserId.includes(uId)) {
-  // //   return { error: 'error not a member' };
-  // // }
-
-  // // Check if uId refers to a user who is not an owner of the channel
-  // if (channel.ownerMembers[0].userId !== uId) {
-  //   return { error: 'error not an owner' };
-  // }
-
-  // // Check if the channel only has 1 owner
-  // if (channel.ownerMembers.length === 1) {
-  //   return { error: 'error only 1 owner' };
-  // }
-
-  // // Otherwise, kick the user out of the ownerMembers
-  // const indexOwner = channel.ownerMembers.indexOf(uId);
-  // channel.ownerMembers.splice(indexOwner, 1);
+  // Otherwise, kick the user out of the ownerMembers
+  channel.ownerMembers = channel.ownerMembers.filter(x => x.uId !== uId);
   return {};
 }
