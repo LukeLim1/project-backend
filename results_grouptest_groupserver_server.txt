@@ -1,0 +1,160 @@
+
+> ts-node-coverage
+> nyc --reporter=text --reporter=lcov ts-node src/server.ts
+
+⚡️ Server listening on port 48237 at localhost
+Error, length must be between 1 - 20 chars
+Error, bad token
+invalid token
+user not found
+uId refers to only global owner
+authorised user is not a global owner
+invalid token
+user not found
+uId refers to only global owner being demoted to user
+invalid permission ID
+user's permission is already set to given ID
+authorised user is not a global owner
+invalid token
+channelId doesn't refer to valid channel
+authorised user is not a member of the channel
+invalid token
+channelId doesn't refer to valid channel
+authorised user is already a member of the channel
+authorised user is already a member of the channel
+authorised user is not channel member & global owner
+channelId does not refer to a valid channel
+uId refers to a user who is already a member of the channel
+uId does not refer to a valid user
+channelId is valid and the authorised user is not a member of the channel
+channelId does not refer to a valid channel
+start is greater than the total number of messages in the channel
+channelId is valid and the authorised user is not a member of the channel
+channelId does not refer to a valid channel
+uId does not refer to a valid user
+uId refers to a user who is not a member of the channel
+uId refers to a user who is not a member of the channel
+channelId is valid and the authorised user does not have owner permissions in the channel
+channelId does not refer to a valid channel
+can not find user token
+channelId does not refer to a valid channel
+uId does not refer to a valid user
+uId refers to a user who is not an owner of the channel
+uId refers to a user who is not an owner of the channel
+uId refers to a user who is currently the only owner of the channel
+Error, nameFirst must be between 1-50 chars
+Error, email is invalid
+Error, email in use already
+Error, password must be longer than 6 chars
+Error, Email entered doesnt belong to a user
+Error, Password entered is incorrect
+invalid token
+resetCode is not a valid reset code
+new password must be 6 characters or longer
+Error, length must be between 1 - 20 chars
+Error, bad token
+Email sent: 250 2.0.0 Ok: queued
+Error, length must be between 1 - 20 chars
+Error, bad token
+uId does not refer to a valid user
+invalid token
+Error, length of nameFirst must be between 1 - 50
+Error, length of nameLast must be between 1 - 50
+Error, email is invalid
+Error, Email already in use
+Error, handleStr must be between 3 - 20 chars
+Error, handleStr must be between 3 - 20 chars
+Error, handle already in use
+invalid token
+Error, length must be between 1 - 20 chars
+Error, bad token
+[0mPOST /message/senddm/v1 [33m404[0m 3.090 ms - 157[0m
+message/share/v1
+message/share/v1
+Error, message must not exceed 1000 chars
+message/share/v1
+Error, channelId or dmId are invalid
+message/share/v1
+Error, channelId or dmId are invalid
+message/share/v1
+Error, both channelId and dmId cannot be -1
+channelId does not refer to a valid channel
+length of message is less than 1 or over 1000 characters
+length of message is less than 1 or over 1000 characters
+channelId is valid and the authorised user is not a member of the channel
+length of message is over 1000 characters
+messageId does not refer to a valid message within a channel/DM that the authorised user has joined
+If the authorised user does not have owner permissions, and the message was not sent by them
+messageId does not refer to a valid message within a channel/DM that the authorised user has joined
+If the authorised user does not have owner permissions, and the message was not sent by them
+channelId does not refer to a valid channel
+length of message is less than 1 or over 1000 characters
+timeSent is a time in the past
+channelId is valid and the authorised user is not a member of the channel
+dmId does not refer to a valid DM
+length of message is less than 1 or over 1000 characters
+timeSent is a time in the past
+dmId is valid and the authorised user is not a member of the DM they are trying to post to
+queryStr length is error
+message not found
+reactId is not a valid react ID
+message had react by the user
+message not found
+reactId is not a valid react ID
+message had no react by the user
+message not found
+message had pinned
+user had no owner permissions
+message not found
+message had not pinned
+user had no owner permissions
+channelId does not refer to a valid channel
+length is a negative integer
+an active standup is currently running in the channel
+channelId is valid and the authorised user is not a member of the channel
+channelId does not refer to a valid channel
+channelId is valid and the authorised user is not a member of the channel
+channelId does not refer to a valid channel
+length of message is over 1000 characters
+an active standup is not currently running in the channel
+channelId is valid and the authorised user is not a member of the channel
+Error, 1 or more uIds in uId parameter doesnt refer to valid user
+Error, duplicates in uIds
+Error, bad token
+user is not member of the dm
+invalid token
+dmId doesn't refer to valid DM
+authorised user is not a member of DM
+invalid token
+dmId doesn't refer to valid DM
+start is greater than total messages in DM
+authorised user is not member of DM
+user not found
+user is not member of the dm
+dm not exit
+dm not exit
+length of message is error
+user is not member
+dm not exit
+you are not the dm owner
+you are not the dm owner
+Shutting down server gracefully.
+--------------------|---------|----------|---------|---------|--------------------------------------
+File                | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                    
+--------------------|---------|----------|---------|---------|--------------------------------------
+All files           |   87.22 |    78.28 |   81.71 |   86.57 |                                      
+ admin.ts           |   94.05 |    90.69 |     100 |   92.42 | 52-53,57-58,66                       
+ auth.ts            |    85.5 |       76 |   84.21 |      88 | 55,82-83,96,236,266,275,300-314      
+ channel.ts         |   97.68 |    92.18 |     100 |   97.72 | 277,326,384                          
+ channels.ts        |   94.11 |    72.72 |     100 |   92.45 | 70,76,113,119                        
+ dataStore.ts       |     100 |      100 |     100 |     100 |                                      
+ dm.ts              |    96.9 |    89.47 |     100 |      96 | 216,234,275-276,337,343,388          
+ echo.ts            |      80 |       50 |     100 |      80 | 6                                    
+ helperFunctions.ts |   45.75 |    41.66 |   16.27 |   45.27 | ...9-546,550-566,570-585,589-603,616 
+ message.ts         |   83.09 |    69.72 |   90.47 |   84.21 | ...5-707,712,737-738,771-780,794-802 
+ notifications.ts   |     100 |      100 |     100 |     100 |                                      
+ other.ts           |     100 |      100 |     100 |     100 |                                      
+ server.ts          |   95.08 |      100 |   94.44 |   96.13 | 39,44-45,51-53,214-216               
+ standup.ts         |     100 |    96.66 |     100 |     100 | 60                                   
+ users.ts           |   84.72 |    68.33 |   93.33 |    82.3 | 49,67,93,110,128,167-197,269         
+--------------------|---------|----------|---------|---------|--------------------------------------
