@@ -55,14 +55,14 @@ app.get('/data', (req, res) => {
   });
 });
 
-app.post('/auth/register/v2', (req, res) => {
+app.post('/auth/register/v3', (req, res) => {
   // console.log('auth/register/V2');
   const { email, password, nameFirst, nameLast } = req.body;
   res.json(authRegisterV1(email, password, nameFirst, nameLast));
   // const data = getData();
   // fs.writeFileSync(__dirname + "/express.json".JSON.stringify(data,null,2))
 });
-app.post('/auth/login/v2', (req, res) => {
+app.post('/auth/login/v3', (req, res) => {
   // console.log('auth/login/V2');
   const { email, password } = req.body;
   // returns { token, authUserid }
@@ -93,7 +93,7 @@ app.post('/auth/passwordreset/v1', (req, res) => {
 //   res.json(channelsCreateV1(token, name, isPublic));
 // });
 
-app.post('/channels/create/v2', (req, res) => {
+app.post('/channels/create/v3', (req, res) => {
   // console.log('channels/create/V2');
   const { name, isPublic } = req.body;
   const token = req.header('token');
@@ -125,13 +125,13 @@ app.post('/channel/join/v3', (req, res) => {
   saveData();
 });
 
-app.post('/channel/leave/v1', (req, res) => {
+app.post('/channel/leave/v2', (req, res) => {
   const token = req.header('token');
   const { channelId } = req.body;
   res.json(channelLeaveV1(token, channelId));
 });
 
-app.post('/dm/create/v1', (req, res) => {
+app.post('/dm/create/v2', (req, res) => {
   const { uIds } = req.body;
   const token = req.header('token');
   res.json(dmCreateV1(token, uIds));
@@ -192,19 +192,19 @@ app.get('/users/all/v2', (req, res) => {
   res.json(usersAll(token));
   saveData();
 });
-app.put('/user/profile/setname/v1', (req, res) => {
+app.put('/user/profile/setname/v2', (req, res) => {
   const token = req.header('token');
   const { nameFirst, nameLast } = req.body;
   res.json(setNameV1(token, nameFirst, nameLast));
 });
 
-app.put('/user/profile/setemail/v1', (req, res) => {
+app.put('/user/profile/setemail/v2', (req, res) => {
   const token = req.header('token');
   const { email } = req.body;
   res.json(setEmailV1(token, email));
 });
 
-app.put('/user/profile/sethandle/v1', (req, res) => {
+app.put('/user/profile/sethandle/v2', (req, res) => {
   const token = req.header('token');
   const { handleStr } = req.body;
   res.json(setHandleV1(token, handleStr));

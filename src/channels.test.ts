@@ -9,7 +9,7 @@ const url = config.url;
 export function createBasicChannel(token: string, name: string, isPublic: boolean) {
   const res = request(
     'POST',
-        `${url}:${port}/channels/create/v2`,
+        `${url}:${port}/channels/create/v3`,
         {
           body: JSON.stringify({
             name: name,

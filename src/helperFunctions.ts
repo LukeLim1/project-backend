@@ -52,7 +52,7 @@ export function checkToken(token: string): boolean | undefined {
 export function newReg(email: string, password: string, nameFirst: string, nameLast: string) {
   const res = request(
     'POST',
-    `${url}:${port}/auth/register/v2`,
+    `${url}:${port}/auth/register/v3`,
     {
       body: JSON.stringify({
         email: email,
@@ -71,7 +71,7 @@ export function newReg(email: string, password: string, nameFirst: string, nameL
 export function createBasicAccount() {
   const res = request(
     'POST',
-    `${url}:${port}/auth/register/v2`,
+    `${url}:${port}/auth/register/v3`,
     {
       body: JSON.stringify({
         email: 'zachary-chan@gmail.com',
@@ -90,7 +90,7 @@ export function createBasicAccount() {
 export function createBasicAccount2() {
   const res = request(
     'POST',
-    `${url}:${port}/auth/register/v2`,
+    `${url}:${port}/auth/register/v3`,
     {
       body: JSON.stringify({
         email: 'zachary-chan2@gmail.com',
@@ -109,7 +109,7 @@ export function createBasicAccount2() {
 export function createBasicAccount3() {
   const res = request(
     'POST',
-    `${url}:${port}/auth/register/v2`,
+    `${url}:${port}/auth/register/v3`,
     {
       body: JSON.stringify({
         email: 'zachary-chan3@gmail.com',
@@ -144,7 +144,7 @@ export function requestAuthLogout(token: string) {
 export function changeName(token: string, nameFirst: string, nameLast: string) {
   const res = request(
     'PUT',
-    `${url}:${port}/user/profile/setname/v1`,
+    `${url}:${port}/user/profile/setname/v2`,
     {
       body: JSON.stringify({
         nameFirst: nameFirst,
@@ -162,7 +162,7 @@ export function changeName(token: string, nameFirst: string, nameLast: string) {
 export function changeEmail(token: string, email: string) {
   const res = request(
     'PUT',
-    `${url}:${port}/user/profile/setemail/v1`,
+    `${url}:${port}/user/profile/setemail/v2`,
     {
       body: JSON.stringify({
         email: email,
@@ -179,7 +179,7 @@ export function changeEmail(token: string, email: string) {
 export function changeHandle(token: string, handle: string) {
   const res = request(
     'PUT',
-    `${url}:${port}/user/profile/sethandle/v1`,
+    `${url}:${port}/user/profile/sethandle/v2`,
     {
       body: JSON.stringify({
         handleStr: handle,
@@ -196,7 +196,7 @@ export function changeHandle(token: string, handle: string) {
 export function createBasicDm(token: string, uIds: number[]) {
   const res = request(
     'POST',
-    `${url}:${port}/dm/create/v1`,
+    `${url}:${port}/dm/create/v2`,
     {
       body: JSON.stringify({
         uIds: uIds,
@@ -214,7 +214,7 @@ export function createBasicDm(token: string, uIds: number[]) {
 export function leaveChannel(token: string, channelId: number) {
   const res = request(
     'POST',
-    `${url}:${port}/channel/leave/v1`,
+    `${url}:${port}/channel/leave/v2`,
     {
       body: JSON.stringify({
         channelId: channelId
@@ -588,7 +588,7 @@ export function getRequest(method: HttpVerb, path: string, payload: object, toke
 export function createBasicChannel(token: string, name: string, isPublic: boolean) {
   const res = request(
     'POST',
-        `${url}:${port}/channels/create/v2`,
+        `${url}:${port}/channels/create/v3`,
         {
           body: JSON.stringify({
             name: name,

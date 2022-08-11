@@ -49,7 +49,7 @@ describe('authRegisterV2', () => {
       newReg('zachary-chan@gmail.com', 'z5312386', 'Zach', 'Chan');
       const res = request(
         'POST',
-      `${url}:${port}/auth/login/v2`,
+      `${url}:${port}/auth/login/v3`,
       {
         body: JSON.stringify({
           email: 'zachary-chan@gmail.com',
@@ -64,7 +64,7 @@ describe('authRegisterV2', () => {
       // login 2
       const res2 = request(
         'POST',
-      `${url}:${port}/auth/login/v2`,
+      `${url}:${port}/auth/login/v3`,
       {
         body: JSON.stringify({
           email: 'zachary-chan@gmail.com',
@@ -88,7 +88,7 @@ describe('authRegisterV2', () => {
       newReg('zachary-chan@gmail.com', 'z5312386', 'Zach', 'Chan');
       const res = request(
         'POST',
-      `${url}:${port}/auth/login/v2`,
+      `${url}:${port}/auth/login/v3`,
       {
         body: JSON.stringify({
           email: 'broken@gmail.com',
@@ -111,7 +111,7 @@ describe('authRegisterV2', () => {
     newReg('zachary-chan@gmail.com', 'z5312386', 'Zach', 'Chan');
     const res = request(
       'POST',
-    `${url}:${port}/auth/login/v2`,
+    `${url}:${port}/auth/login/v3`,
     {
       body: JSON.stringify({
         email: 'zachary-chan@gmail.com',
