@@ -1,0 +1,342 @@
+
+> start
+> ts-node src/server.ts
+
+⚡️ Server listening on port 48237 at 127.0.0.1
+invalid token
+invalid token
+invalid token
+invalid token
+user is not member of the dm
+invalid token
+invalid token
+invalid token
+invalid token
+invalid token
+invalid token
+invalid token
+invalid token
+invalid token
+invalid token
+invalid token
+invalid token
+invalid token
+invalid token
+invalid token
+Error, Email entered doesnt belong to a user
+Error, Password entered is incorrect
+Error, email is invalid
+Error, email is invalid
+Error, email is invalid
+Error, password must be longer than 6 chars
+Error, password must be longer than 6 chars
+Error, nameFirst must be between 1-50 chars
+Error, nameFirst must be between 1-50 chars
+Error, nameLast must be between 1-50 chars
+Error, nameLast must be between 1-50 chars
+Error, email in use already
+[0mPOST /auth/passwordreset/reset/v1 [33m404[0m 1.102 ms - 167[0m
+uId refers to a user who is not a member of the channel
+uId refers to a user who is not a member of the channel
+uId refers to a user who is not a member of the channel
+uId refers to a user who is not a member of the channel
+channelId is valid and the authorised user does not have owner permissions in the channel
+uId refers to a user who is already an owner of the channel
+uId does not refer to a valid user
+channelId does not refer to a valid channel
+can not find user token
+authorised user is not a member of the channel
+channelId doesn't refer to valid channel
+invalid token
+uId refers to a user who is already a member of the channel
+channelId is valid and the authorised user is not a member of the channel
+channelId does not refer to a valid channel
+uId does not refer to a valid user
+can not find user token
+authorised user is not channel member & global owner
+authorised user is already a member of the channel
+channelId doesn't refer to valid channel
+invalid token
+authorised user is not a member of the channel
+channelId does not refer to a valid channel
+can not find user token
+start is greater than the total number of messages in the channel
+channelId is valid and the authorised user is not a member of the channel
+channelId does not refer to a valid channel
+can not find user token
+uId refers to a user who is currently the only owner of the channel
+uId refers to a user who is currently the only owner of the channel
+uId refers to a user who is currently the only owner of the channel
+uId refers to a user who is currently the only owner of the channel
+uId refers to a user who is currently the only owner of the channel
+uId refers to a user who is currently the only owner of the channel
+uId refers to a user who is not an owner of the channel
+uId does not refer to a valid user
+channelId does not refer to a valid channel
+can not find user token
+authorised user is not channel member & global owner
+Error, length must be between 1 - 20 chars
+Error, length must be between 1 - 20 chars
+Error, length must be between 1 - 20 chars
+Error, length must be between 1 - 20 chars
+Error, bad token
+user not found
+user not found
+user is not member of the dm
+Error, 1 or more uIds in uId parameter doesnt refer to valid user
+Error, 1 or more uIds in uId parameter doesnt refer to valid user
+Error, duplicates in uIds
+Error, bad token
+user is not member of the dm
+user is not member of the dm
+user is not member of the dm
+dm not exit
+user is not member of the dm
+user not found
+user is not member of the dm
+user is not member of the dm
+user is not member of the dm
+authorised user is not a member of DM
+dmId doesn't refer to valid DM
+user is not member of the dm
+invalid token
+user is not member of the dm
+user is not member of the dm
+user is not member of the dm
+user is not member of the dm
+user not found
+user is not member of the dm
+user is not member
+user is not member of the dm
+user is not member
+user is not member of the dm
+user is not member
+user is not member of the dm
+user is not member
+user is not member of the dm
+start is greater than total messages in DM
+user is not member of the dm
+authorised user is not member of DM
+dmId doesn't refer to valid DM
+user is not member of the dm
+invalid token
+user is not member of the dm
+user is not member of the dm
+user is not member
+user is not member of the dm
+you are not the dm owner
+user is not member of the dm
+authorised user is not a member of DM
+user is not member of the dm
+dm not exit
+user is not member of the dm
+invalid token
+user is not member of the dm
+user is not member
+user is not member of the dm
+user is not member
+length of message is over 1000 characters
+messageId does not refer to a valid message within a channel/DM that the authorised user has joined
+If the authorised user does not have owner permissions, and the message was not sent by them
+can not find user token
+user is not member of the dm
+user is not member
+user is not member of the dm
+user is not member
+user is not member of the dm
+user is not member
+message not found
+message had pinned
+user had no owner permissions
+user is not member of the dm
+user is not member of the dm
+user is not member
+user had no owner permissions
+user not found
+user is not member of the dm
+user is not member
+message not found
+reactId is not a valid react ID
+message had react by the user
+message not found
+user not found
+user is not member of the dm
+user is not member
+messageId does not refer to a valid message within a channel/DM that the authorised user has joined
+If the authorised user does not have owner permissions, and the message was not sent by them
+can not find user token
+channelId is valid and the authorised user is not a member of the channel
+channelId does not refer to a valid channel
+length of message is less than 1 or over 1000 characters
+length of message is less than 1 or over 1000 characters
+can not find user token
+user is not member of the dm
+user is not member
+user is not member of the dm
+user is not member
+dm not exit
+user is not member of the dm
+length of message is error
+user is not member of the dm
+length of message is error
+user is not member of the dm
+user not found
+channelId is valid and the authorised user is not a member of the channel
+timeSent is a time in the past
+length of message is less than 1 or over 1000 characters
+length of message is less than 1 or over 1000 characters
+user is not member of the dm
+channelId does not refer to a valid channel
+can not find user token
+user is not member of the dm
+dmId is valid and the authorised user is not a member of the DM they are trying to post to
+user is not member of the dm
+dmId is valid and the authorised user is not a member of the DM they are trying to post to
+user is not member of the dm
+dmId is valid and the authorised user is not a member of the DM they are trying to post to
+user is not member of the dm
+dmId is valid and the authorised user is not a member of the DM they are trying to post to
+user is not member of the dm
+timeSent is a time in the past
+user is not member of the dm
+length of message is less than 1 or over 1000 characters
+user is not member of the dm
+length of message is less than 1 or over 1000 characters
+dmId does not refer to a valid DM
+user is not member of the dm
+can not find user token
+message/share/v1
+user is not member of the dm
+user is not member
+user is not member of the dm
+user is not member
+user is not member of the dm
+message/share/v1
+Error, ogMessageId doesnt refer to a valid message
+user is not member of the dm
+message/share/v1
+Error, ogMessageId doesnt refer to a valid message
+message/share/v1
+Error, ogMessageId doesnt refer to a valid message
+message/share/v1
+Error, ogMessageId doesnt refer to a valid message
+user is not member of the dm
+user is not member
+message/share/v1
+Error, ogMessageId doesnt refer to a valid message
+message/share/v1
+Error, message must not exceed 1000 chars
+user is not member of the dm
+user is not member
+message/share/v1
+Error, channelId or dmId are invalid
+message/share/v1
+TypeError: Cannot read properties of undefined (reading 'uId')
+    at messagesShareV1 (/home/nktnet/temp/project-automarking/tempstore/src/message.ts:376:15)
+    at /home/nktnet/temp/project-automarking/tempstore/src/server.ts:285:27
+    at Layer.handle [as handle_request] (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/layer.js:95:5)
+    at /home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/index.js:280:10)
+    at textParser (/home/nktnet/temp/project-automarking/tempstore/node_modules/body-parser/lib/types/text.js:60:7)
+user is not member of the dm
+user is not member
+user had no owner permissions
+message not found
+message had not pinned
+user had no owner permissions
+user is not member of the dm
+message not found
+user is not member of the dm
+user is not member
+user had no owner permissions
+user not found
+user is not member of the dm
+user is not member
+message not found
+reactId is not a valid react ID
+message had no react by the user
+message not found
+user not found
+invalid token
+user is not member of the dm
+message/share/v1
+user is not member of the dm
+user is not member of the dm
+user is not member of the dm
+user is not member
+user is not member of the dm
+TypeError: Cannot read properties of undefined (reading 'notifications')
+    at notificationGetV1 (/home/nktnet/temp/project-automarking/tempstore/src/notifications.ts:10:24)
+    at /home/nktnet/temp/project-automarking/tempstore/src/server.ts:338:29
+    at Layer.handle [as handle_request] (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/layer.js:95:5)
+    at /home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/nktnet/temp/project-automarking/tempstore/node_modules/express/lib/router/index.js:280:10)
+    at textParser (/home/nktnet/temp/project-automarking/tempstore/node_modules/body-parser/lib/types/text.js:69:7)
+user are not of channel/dm member
+user are not of channel/dm member
+queryStr length is error
+queryStr length is error
+user not found
+invalid token
+channelId does not refer to a valid channel
+can not find user token
+channelId is valid and the authorised user is not a member of the channel
+an active standup is not currently running in the channel
+length of message is over 1000 characters
+channelId does not refer to a valid channel
+can not find user token
+an active standup is currently running in the channel
+channelId is valid and the authorised user is not a member of the channel
+an active standup is currently running in the channel
+length is a negative integer
+channelId does not refer to a valid channel
+can not find user token
+user is not member of the dm
+message/share/v1
+invalid token
+user is not member of the dm
+user is not member of the dm
+user is not member of the dm
+user is not member
+user is not member of the dm
+dmId is valid and the authorised user is not a member of the DM they are trying to post to
+message/share/v1
+user is not member of the dm
+user is not member
+uId does not refer to a valid user
+invalid token
+Error, Email already in use
+Error, email is invalid
+Error, email is invalid
+Error, email is invalid
+Error, email is invalid
+Error, email is invalid
+Error, User not found
+Error, handleStr must be between 3 - 20 chars
+Error, handleStr must be between 3 - 20 chars
+Error, handleStr must be between 3 - 20 chars
+Error, handleStr must be between 3 - 20 chars
+Error, handleStr must be between 3 - 20 chars
+Error, handleStr must be between 3 - 20 chars
+Error, handleStr contains non-alphanumeric chars
+Error, handleStr contains non-alphanumeric chars
+Error, handleStr must be between 3 - 20 chars
+Error, length of nameFirst must be between 1 - 50
+Error, length of nameFirst must be between 1 - 50
+Error, length of nameFirst must be between 1 - 50
+Error, length of nameFirst must be between 1 - 50
+Error, User not found
+status code is not 200
+xEnd is greater than xStart
+yEnd is greater than yStart
+xEnd is greater than xStart
+yEnd is greater than yStart
+status code is not 200
